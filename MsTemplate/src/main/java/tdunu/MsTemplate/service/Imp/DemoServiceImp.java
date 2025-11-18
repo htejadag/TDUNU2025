@@ -17,6 +17,9 @@ public class DemoServiceImp implements DemoService {
 
   @Override
   public List<DemoModel> listar() {
+    if (true) {
+      throw new RuntimeException("Ocurrió un error en mi excepción Tejada");
+    }
     return demoRepository.findAll();
   }
 
