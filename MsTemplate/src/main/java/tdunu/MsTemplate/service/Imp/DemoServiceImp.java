@@ -1,12 +1,14 @@
 package tdunu.MsTemplate.service.Imp;
 
 import java.util.List;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tdunu.MsTemplate.model.DemoModel;
 import tdunu.MsTemplate.repository.DemoRepository;
 import tdunu.MsTemplate.service.DemoService;
 
+@Slf4j
 @Service
 public class DemoServiceImp implements DemoService {
 
@@ -25,6 +27,7 @@ public class DemoServiceImp implements DemoService {
 
   @Override
   public DemoModel guardar(DemoModel model) {
+    log.info("Iniciando guardar demoModel");
     return demoRepository.save(model);
   }
 
