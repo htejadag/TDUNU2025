@@ -11,30 +11,31 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import tdunu.MsTemplate.model.DemoModel;
 import tdunu.MsTemplate.service.DemoService;
+import tdunu.MsTemplate.util.ApiRoutes;
 
 @RestController
-@RequestMapping("/api/demo")
+@RequestMapping(ApiRoutes.Demo.BASE)
 public class DemoController {
 
   @Autowired
   DemoService demoService;
 
-  @GetMapping(value = "listar")
+  @GetMapping(value = ApiRoutes.Demo.LISTAR)
   public List<DemoModel> listar() {
     return demoService.listar();
   }
 
-  @GetMapping(value = "obtenerPorId")
+  @GetMapping(value = ApiRoutes.Demo.OBTENER_POR_ID)
   public DemoModel obtenerPorId(@RequestParam(value = "id") Integer id) {
     return demoService.obtenerPorId(id);
   }
 
-  @PostMapping(value = "guardar")
+  @PostMapping(value = ApiRoutes.Demo.GUARDAR)
   public DemoModel guardar(@RequestBody DemoModel model) {
     return demoService.guardar(model);
   }
 
-  @DeleteMapping(value = "eliminar")
+  @DeleteMapping(value = ApiRoutes.Demo.ELIMINAR)
   public DemoModel eliminar(@RequestParam(value = "id") Integer id) {
     demoService.eliminar(id);
     return null;
