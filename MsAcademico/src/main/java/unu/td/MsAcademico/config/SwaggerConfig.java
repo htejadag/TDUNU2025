@@ -12,8 +12,8 @@ public class SwaggerConfig {
     public OpenAPI customOpenAPI() {
         return new OpenAPI()
                 .info(new Info()
-                        .title("Mi API REST")
+                        .title("MsAcademico API REST")
                         .version("1.0")
-                        .description("Documentación de ejemplo usando Springdoc + OpenAPI"));
+                        .description("Documentación para el MsAcademico"));
     }
 }
