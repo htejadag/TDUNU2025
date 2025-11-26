@@ -1,13 +1,13 @@
-package com.example.MsCursos;
+package com.example.MsPersona;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class MsCursosApplication {
+public class MsPersonaApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(MsCursosApplication.class, args);
+		SpringApplication.run(MsPersonaApplication.class, args);
 	}
 
 }
