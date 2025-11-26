@@ -20,7 +20,7 @@ public class FacultadModel {
     @Column(nullable = false, updatable = false)
     private Integer id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 20)
     private String nombre;
 
     @Column(nullable = false)
