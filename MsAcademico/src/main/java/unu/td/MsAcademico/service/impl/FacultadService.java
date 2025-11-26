@@ -55,6 +55,10 @@ public class FacultadService implements IFacultadService {
     @Override
     public FacultadResponse update(Integer id, FacultadRequest request) {
         FacultadModel facultad = repository.findById(id).orElse(null);
+        if (facultad == null) {
+            throw new NotFoundException(Messages.NOT_FOUND_FACULTAD_BY_ID);
+        }
+
         FacultadModel byNombre = repository.findByNombre(request.getNombre());
         if (byNombre != null) {
             throw new AlreadyExistsException(Messages.ALREADY_EXISTS_FACULTAD_BY_NOMBRE);
