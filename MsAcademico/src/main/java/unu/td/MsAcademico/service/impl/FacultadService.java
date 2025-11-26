@@ -1,31 +1,47 @@
 package unu.td.MsAcademico.service.impl;
 
+import lombok.AllArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import unu.td.MsAcademico.model.entity.FacultadModel;
+import unu.td.MsAcademico.model.response.FacultadResponse;
 import unu.td.MsAcademico.model.request.FacultadRequest;
+import unu.td.MsAcademico.repository.IFacultadRepository;
 import unu.td.MsAcademico.service.IFacultadService;
 
 import java.util.List;
 
+@AllArgsConstructor
 @Service
 public class FacultadService implements IFacultadService {
+
+    private IFacultadRepository repository;
+    private ModelMapper mapper;
+
     @Override
-    public List<FacultadModel> getAll() {
+    public List<FacultadResponse> getAll() {
         return List.of();
     }
 
     @Override
-    public FacultadModel getById(Integer id) {
+    public FacultadResponse getById(Integer id) {
         return null;
     }
 
     @Override
-    public FacultadModel add(FacultadRequest request) {
-        return null;
+    public FacultadResponse add(FacultadRequest request) {
+        FacultadModel facultad = mapper.map(request, FacultadModel.class);
+        facultad.setUsuarioCreacion(1);
+
+        FacultadModel nuevaFacultad = repository.save(facultad);
+
+        FacultadResponse response = mapper.map(nuevaFacultad, FacultadResponse.class);
+
+        return response;
     }
 
     @Override
-    public FacultadModel edit(Integer id, FacultadRequest request) {
+    public FacultadResponse edit(Integer id, FacultadRequest request) {
         return null;
     }
 

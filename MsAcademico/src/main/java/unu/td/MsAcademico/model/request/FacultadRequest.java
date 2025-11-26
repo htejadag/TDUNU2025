@@ -1,20 +1,15 @@
 package unu.td.MsAcademico.model.request;
 
+import jakarta.validation.constraints.NotBlank;
+import lombok.Data;
+import org.hibernate.validator.constraints.Length;
+import unu.td.MsAcademico.utils.Messages;
 
-
-
-import java.time.LocalDate;
-
+@Data
 public class FacultadRequest {
 
-//    @NotBlank
+    @NotBlank(message = Messages.REQUIRED_NOMBRE)
+    @Length(message = Messages.MAX_LENGHT_NOMBRE)
     private String nombre;
 
-    private Integer usuarioCreacion;
-
-    private Integer usuarioModificacion;
-
-    private LocalDate fechaCreacion;
-
-    private LocalDate fechaModificacion;
 }

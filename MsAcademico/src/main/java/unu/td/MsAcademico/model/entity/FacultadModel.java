@@ -1,18 +1,17 @@
 package unu.td.MsAcademico.model.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Data;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDate;
 
 @Data
 @Entity
 @Table(name = "facultad")
+@EntityListeners(AuditingEntityListener.class)
 public class FacultadModel {
 
     @Id
@@ -24,17 +23,19 @@ public class FacultadModel {
     private String nombre;
 
     @Column(nullable = false)
-    private Boolean estado;
+    private Boolean estado = Boolean.TRUE;
 
     @Column(name = "usuarioCreacion", nullable = false, updatable = false)
     private Integer usuarioCreacion;
 
-    @Column(name = "usuarioModificacion", nullable = false)
+    @Column(name = "usuarioModificacion")
     private Integer usuarioModificacion;
 
+    @CreatedDate
     @Column(name = "fechaCreacion", nullable = false, updatable = false)
     private LocalDate fechaCreacion;
 
-    @Column(name = "fechaModificacion", nullable = false)
+    @LastModifiedDate
+    @Column(name = "fechaModificacion")
     private LocalDate fechaModificacion;
 }
