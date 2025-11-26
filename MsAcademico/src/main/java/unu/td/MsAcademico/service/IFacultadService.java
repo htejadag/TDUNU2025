@@ -13,7 +13,7 @@ public interface IFacultadService {
 
     public FacultadResponse add(FacultadRequest request);
 
-    public FacultadResponse edit(Integer id, FacultadRequest request);
+    public FacultadResponse update(Integer id, FacultadRequest request);
 
     public void delete(Integer id);
 

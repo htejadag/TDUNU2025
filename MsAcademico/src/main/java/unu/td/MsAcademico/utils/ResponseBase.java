@@ -34,4 +34,11 @@ public class ResponseBase<T> {
                 .build();
     }
 
+    public static <T> ResponseBase<T> notFound(String message) {
+        return ResponseBase.<T>builder()
+                .success(false)
+                .message(message)
+                .build();
+    }
+
 }

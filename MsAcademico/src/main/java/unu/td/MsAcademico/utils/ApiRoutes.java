@@ -8,7 +8,9 @@ public class ApiRoutes {
 
         public static final String BASE = "/api/facultades";
         public static final String add = "/add";
-        public static final String update = "/udpate";
+        public static final String update = "/udpate/{id}";
+        public static final String delete = "/delete/{id}";
+        public static final String byId = "/{id}";
 
     }
 }

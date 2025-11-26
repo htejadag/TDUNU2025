@@ -2,15 +2,14 @@ package unu.td.MsAcademico.controller;
 
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import unu.td.MsAcademico.model.request.FacultadRequest;
 import unu.td.MsAcademico.model.response.FacultadResponse;
 import unu.td.MsAcademico.service.IFacultadService;
 import unu.td.MsAcademico.utils.ApiRoutes;
 import unu.td.MsAcademico.utils.ResponseBase;
+
+import java.util.List;
 
 @AllArgsConstructor
 @RestController
@@ -23,5 +22,30 @@ public class FacultadController {
     public ResponseBase<FacultadResponse> add(@Valid @RequestBody FacultadRequest request) {
         FacultadResponse response = service.add(request);
         return ResponseBase.ok(response);
+    }
+
+    @GetMapping
+    public ResponseBase<List<FacultadResponse>> getAll() {
+        List<FacultadResponse> response = service.getAll();
+        return ResponseBase.ok(response);
+    }
+
+    @GetMapping(ApiRoutes.Facultad.byId)
+    public ResponseBase<FacultadResponse> getById(@PathVariable Integer id) {
+        FacultadResponse response = service.getById(id);
+        return ResponseBase.ok(response);
+    }
+
+    @PutMapping(ApiRoutes.Facultad.update)
+    public ResponseBase<FacultadResponse> update(@PathVariable Integer id, @Valid @RequestBody FacultadRequest request) {
+        FacultadResponse response = service.update(id, request);
+        return ResponseBase.ok(response);
+    }
+
+
+    @DeleteMapping(ApiRoutes.Facultad.delete)
+    public ResponseBase<FacultadResponse> delete(@PathVariable Integer id) {
+        service.delete(id);
+        return ResponseBase.ok(null);
     }
 }

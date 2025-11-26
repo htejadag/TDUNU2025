@@ -4,7 +4,13 @@ public class Messages {
 
     public static final String OPERACION_EXITOSA = "Operación exitosa";
 
+    public static final String ERROR_LOG = "Error procesando la petición";
+
     public static final String REQUIRED_NOMBRE = "El nombre es requerido";
 
     public static final String MAX_LENGHT_NOMBRE = "El nombre debe tener maximo 20 caracteres";
+
+    public static final String NOT_FOUND_FACULTAD_BY_ID = "No se encuentra una facultad por ese id";
+
+    public static final String ALREADY_EXISTS_FACULTAD_BY_NOMBRE = "Ya se encuentra una facultad con ese nombre";
 }
