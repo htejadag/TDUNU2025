@@ -1,3 +1,4 @@
+package tdunu.MsSolicitudes.config;
 // package tdunu.MsSolicitudes.config;
 
 // import org.slf4j.Logger;
