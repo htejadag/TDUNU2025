@@ -10,9 +10,9 @@
     <relativePath /> <!-- lookup parent from repository -->
   </parent>
   <groupId>tdunu</groupId>
-  <artifactId>MsTemplate</artifactId>
+  <artifactId>MsSolicitudes</artifactId>
   <version>0.0.1-SNAPSHOT</version>
-  <name>MsTemplate</name>
+  <name>MsSolicitudes</name>
   <description>Plantilla base</description>
   <url />
   <licenses>
