@@ -7,7 +7,6 @@ import unu.td.MsAcademico.model.entity.EscuelaProfesionalModel;
 import unu.td.MsAcademico.model.entity.FacultadModel;
 import unu.td.MsAcademico.model.request.EscuelaProfesionalRequest;
 import unu.td.MsAcademico.model.response.EscuelaProfesionalResponse;
-import unu.td.MsAcademico.model.response.FacultadResponse;
 import unu.td.MsAcademico.repository.IEscuelaProfesionalRepository;
 import unu.td.MsAcademico.repository.IFacultadRepository;
 import unu.td.MsAcademico.service.IEscuelaProfesionalService;
@@ -30,7 +29,7 @@ public class EscuelaProfesionalService implements IEscuelaProfesionalService {
     public List<EscuelaProfesionalResponse> getAll() {
         return repository.findAll()
                 .stream()
-                .map(escuela -> getResponse(escuela))
+                .map(this::getResponse)
                 .toList();
     }
 
@@ -72,6 +71,7 @@ public class EscuelaProfesionalService implements IEscuelaProfesionalService {
         }
 
         escuela.setNombre(request.getNombre());
+        escuela.setFacultad(getFacultad(request.getIdFacultad()));
         escuela = repository.save(escuela);
 
         return getResponse(escuela);
@@ -87,9 +87,7 @@ public class EscuelaProfesionalService implements IEscuelaProfesionalService {
     }
 
     private EscuelaProfesionalResponse getResponse(EscuelaProfesionalModel escuela) {
-        EscuelaProfesionalResponse response = mapper.map(escuela, EscuelaProfesionalResponse.class);
-//        response.setFacultad(mapper.map(facultad, FacultadResponse.class));
-        return response;
+        return mapper.map(escuela, EscuelaProfesionalResponse.class);
     }
 
     private FacultadModel getFacultad(Integer idFacultad) {

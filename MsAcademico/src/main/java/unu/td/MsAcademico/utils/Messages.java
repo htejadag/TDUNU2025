@@ -16,4 +16,7 @@ public class Messages {
 
     public static final String ALREADY_EXISTS_FACULTAD_BY_NOMBRE = "Ya se encuentra una facultad con ese nombre";
     public static final String ALREADY_EXISTS_ESCUELA_BY_NOMBRE = "Ya se encuentra una escuela con ese nombre";
+
+    public static final String MAX_DURACION = "La duracion minima debe ser de 1";
+    public static final String MIN_DURACION = "La duracion maxima debe ser de 10";
 }
