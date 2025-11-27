@@ -26,10 +26,10 @@ public class FacultadModel {
     private Boolean estado = Boolean.TRUE;
 
     @Column(name = "usuarioCreacion", nullable = false, updatable = false)
-    private Integer usuarioCreacion;
+    private String usuarioCreacion;
 
     @Column(name = "usuarioModificacion")
-    private Integer usuarioModificacion;
+    private String usuarioModificacion;
 
     @CreatedDate
     @Column(name = "fechaCreacion", nullable = false, updatable = false)

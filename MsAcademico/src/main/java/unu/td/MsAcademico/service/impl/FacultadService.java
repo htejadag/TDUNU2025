@@ -46,7 +46,7 @@ public class FacultadService implements IFacultadService {
         }
 
         FacultadModel facultad = mapper.map(request, FacultadModel.class);
-        facultad.setUsuarioCreacion(1);
+        facultad.setUsuarioCreacion("dbd2a268-a9b0-42ba-981d-3977361f11f5");
 
         facultad = repository.save(facultad);
         return mapper.map(facultad, FacultadResponse.class);

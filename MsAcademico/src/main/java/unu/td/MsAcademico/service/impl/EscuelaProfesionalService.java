@@ -52,7 +52,7 @@ public class EscuelaProfesionalService implements IEscuelaProfesionalService {
 
         EscuelaProfesionalModel escuela = Mapper.Escuela.requestToModel(request);
         escuela.setFacultad(getFacultad(request.getIdFacultad()));
-        escuela.setUsuarioCreacion(1);
+        escuela.setUsuarioCreacion("dbd2a268-a9b0-42ba-981d-3977361f11f5");
 
         escuela = repository.save(escuela);
         return getResponse(escuela);
