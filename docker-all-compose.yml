@@ -1,0 +1,90 @@
+version: "3.9"
+
+services:
+  # -------------------------------
+  # 🗄️ BASES DE DATOS
+  # -------------------------------
+
+  sql:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: db-mssql
+    restart: always
+    ports:
+      - "1434:1433"
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=Unu#2025
+    networks:
+      - ms-unu
+
+  mongo:
+    image: mongo:latest
+    container_name: db-mongo
+    restart: always
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=Unu#2025
+    ports:
+      - "27019:27017"
+    networks:
+      - ms-unu
+
+  mysql:
+    image: mysql:latest
+    container_name: db-mysql
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=Unu#2025
+    ports:
+      - "3309:3306"
+      - "33061:33060"
+    networks:
+      - ms-unu
+
+  postgres:
+    image: postgres:latest
+    container_name: db-postgres
+    restart: always
+    environment:
+      - POSTGRES_PASSWORD=Unu#2025
+    ports:
+      - "5439:5432"
+    networks:
+      - ms-unu
+
+  # -------------------------------
+  # 🔌 REDIS
+  # -------------------------------
+  redis:
+    image: redis:6.2.6
+    container_name: service-redis
+    restart: always
+    command: ["redis-server", "--requirepass", "Unu#2025"]
+    environment:
+      - REDIS_PASSWORD=Unu#2025
+    ports:
+      - "6379:6379"
+    networks:
+      - ms-unu
+
+  # -------------------------------
+  # 📨 KAFKA + ZOOKEEPER
+  # -------------------------------
+  broker:
+    image: johnnypark/kafka-zookeeper:2.6.0
+    container_name: service-broker
+    restart: always
+    ports:
+      - "2181:2181"
+      - "9092:9092"
+    environment:
+      - ADVERTISED_HOST=127.0.0.1
+      - NUM_PARTITIONS=3
+    networks:
+      - ms-unu
+
+# -------------------------------
+# 🌐 RED COMPARTIDA
+# -------------------------------
+networks:
+  ms-unu:
