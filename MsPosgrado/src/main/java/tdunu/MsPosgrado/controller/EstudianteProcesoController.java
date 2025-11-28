@@ -6,12 +6,14 @@ import org.springframework.web.bind.annotation.*;
 
 import tdunu.MsPosgrado.model.EstudianteProceso;
 import tdunu.MsPosgrado.service.EstudianteProcesoService;
+// Importamos tu nueva clase de constantes (Asegúrate que ApiConstants esté en este paquete)
+import tdunu.MsPosgrado.constant.ApiConstants;
 
 import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/estudiante-proceso")
+@RequestMapping(ApiConstants.ESTUDIANTE_PROCESO_URI) // <--- CAMBIO 1: Ruta base centralizada
 public class EstudianteProcesoController {
 
     @Autowired
@@ -24,7 +26,7 @@ public class EstudianteProcesoController {
     }
 
     // 2. Buscar por ID
-    @GetMapping("/{id}")
+    @GetMapping(ApiConstants.ID_PARAM) // <--- CAMBIO 2: Usando constante para "/{id}"
     public ResponseEntity<EstudianteProceso> buscarPorId(@PathVariable Long id) {
         Optional<EstudianteProceso> proceso = service.buscarPorId(id);
         // Si existe devuelve OK (200), si no, devuelve Not Found (404)
@@ -40,7 +42,7 @@ public class EstudianteProcesoController {
     }
 
     // 4. Actualizar
-    @PutMapping("/{id}")
+    @PutMapping(ApiConstants.ID_PARAM) // <--- CAMBIO 3: Usando constante
     public ResponseEntity<EstudianteProceso> actualizar(@PathVariable Long id, @RequestBody EstudianteProceso proceso) {
         // Primero verificamos si existe
         Optional<EstudianteProceso> existente = service.buscarPorId(id);
@@ -54,7 +56,7 @@ public class EstudianteProcesoController {
     }
 
     // 5. Eliminar
-    @DeleteMapping("/{id}")
+    @DeleteMapping(ApiConstants.ID_PARAM) // <--- CAMBIO 4: Usando constante
     public ResponseEntity<Void> eliminar(@PathVariable Long id) {
         Optional<EstudianteProceso> existente = service.buscarPorId(id);
         if (existente.isPresent()) {
