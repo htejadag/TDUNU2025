@@ -1,20 +1,25 @@
 package com.unu.ms.MsGradosTitulos.model.entity;
 
-import jakarta.persistence.*;
-import lombok.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 
+import lombok.Data;
 
 @Entity
 @Table(name = "resolucion_articulo")
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 public class ResolucionArticuloModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_articulo")
-    private Integer id;
+    private Integer idArticulo;
 
     @ManyToOne
     @JoinColumn(name = "id_resolucion")
@@ -23,7 +28,10 @@ public class ResolucionArticuloModel {
     @Column(name = "numero_articulo")
     private Integer numeroArticulo;
 
+    @Column(name = "titulo")
     private String titulo;
 
+    @Column(name = "contenido")
     private String contenido;
+    
 }

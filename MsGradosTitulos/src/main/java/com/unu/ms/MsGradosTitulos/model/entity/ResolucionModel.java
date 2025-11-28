@@ -1,23 +1,30 @@
 package com.unu.ms.MsGradosTitulos.model.entity;
 
-import jakarta.persistence.*;
-import lombok.*;
-import lombok.NoArgsConstructor;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
+
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.util.List;
 
+import lombok.Data;
+
 @Entity
 @Table(name = "resolucion")
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 public class ResolucionModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_resolucion")
-    private Integer id;
+    private Integer idResolucion;
 
     @Column(name = "numero_resolucion")
     private String numeroResolucion;
@@ -38,8 +45,10 @@ public class ResolucionModel {
     @Column(name = "fecha_emision")
     private LocalDate fechaEmision;
 
+    @Column(name = "resumen")
     private String resumen;
 
+    @Column(name = "fundamento")
     private String fundamento;
 
     @Column(name = "articulado_general")
@@ -56,5 +65,5 @@ public class ResolucionModel {
 
     @OneToMany(mappedBy = "resolucion")
     private List<ResolucionArticuloModel> articulos;
+    
 }
-

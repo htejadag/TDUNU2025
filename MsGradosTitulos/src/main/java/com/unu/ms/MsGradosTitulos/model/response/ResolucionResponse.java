@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class ResolucionResponse {
     
-    private Integer id;
+    private Integer idResolucion;
     private String numeroResolucion;
     // private ExpedienteModel expediente;
     private Integer idSolicitud;
@@ -25,5 +25,6 @@ public class ResolucionResponse {
     private Integer usuarioCreo;
     // private Timestamp fechaCreacion;
     // private List<ResolucionArticuloModel> articulos;
+    
 }
 

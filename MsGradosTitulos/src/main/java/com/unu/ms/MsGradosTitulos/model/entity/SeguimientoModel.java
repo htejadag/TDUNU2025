@@ -1,21 +1,25 @@
 package com.unu.ms.MsGradosTitulos.model.entity;
 
-import lombok.*;
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
 import java.sql.Timestamp;
 
+import lombok.Data;
 
 @Entity
 @Table(name = "seguimiento")
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 public class SeguimientoModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_seguimiento")
-    private Integer id;
+    private Integer idSeguimiento;
 
     @Column(name = "id_entidad_catalogo")
     private Integer idEntidadCatalogo;
@@ -26,6 +30,7 @@ public class SeguimientoModel {
     @Column(name = "id_estado")
     private Integer idEstado;
 
+    @Column(name = "comentario")
     private String comentario;
 
     @Column(name = "id_usuario")
@@ -33,4 +38,5 @@ public class SeguimientoModel {
 
     @Column(name = "fecha_registro")
     private Timestamp fechaRegistro;
+    
 }

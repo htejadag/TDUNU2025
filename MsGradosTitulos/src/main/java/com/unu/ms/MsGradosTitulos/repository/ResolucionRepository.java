@@ -1,10 +1,11 @@
 package com.unu.ms.MsGradosTitulos.repository;
  
 import org.springframework.stereotype.Repository;
+import org.springframework.data.jpa.repository.JpaRepository;
+
 import com.unu.ms.MsGradosTitulos.model.entity.ResolucionModel;
-import org.springframework.data.repository.CrudRepository;
 
 @Repository
-public interface ResolucionRepository extends CrudRepository<ResolucionModel, Integer> {
+public interface ResolucionRepository extends JpaRepository<ResolucionModel, Integer> {
   
 }
