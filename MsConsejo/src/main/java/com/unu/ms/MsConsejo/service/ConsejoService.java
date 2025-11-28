@@ -9,8 +9,9 @@ public interface ConsejoService {
     
         public List<ConsejoResponse> listar();
         public ConsejoResponse obtenerPorId(Integer id);
-        public ConsejoResponse crear(ConsejoRequest consejo);
+        public ConsejoResponse crear(ConsejoRequest consejoRequest);
         public void eliminar(Integer id);
         public ConsejoResponse actualizar(Integer id, ConsejoRequest consejoActualizado);
         public boolean existePorId(Integer id);
+        
 }

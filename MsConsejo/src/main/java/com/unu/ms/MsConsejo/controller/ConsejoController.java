@@ -26,7 +26,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RestController
 @RequestMapping(ApiRoutes.Consejo.BASE)
-@Tag(name = "Consejo Controller", description = "Endpoints para gestionar los consejos")
+@Tag(name = "Consejo Controller", description = "Endpoints para gestionar los consejos.")
 public class ConsejoController {
 
     @Autowired
@@ -34,44 +34,46 @@ public class ConsejoController {
 
     @GetMapping(value = ApiRoutes.Consejo.LISTAR)
     public ResponseBase<List<ConsejoResponse>> ListarConsejos() {
-        log.info("Solicitud recibida: Listar todos los consejos");
+        log.info("Iniciando proceso: Listar consejos");
         List<ConsejoResponse> consejos = consejoService.listar();
-        log.info("Consejos obtenidos: {}", consejos.size());
+        log.info("Proceso finalizado: {} consejos encontrados", consejos.size());
         return ResponseBase.ok(Mensajes.LISTAR_OK, consejos);
     }
 
     @PostMapping(value = ApiRoutes.Consejo.CREAR)
     public ResponseBase<ConsejoResponse> CrearConsejo(@RequestBody ConsejoRequest request) {
-        log.info("Solicitud recibida: Crear consejo");
-        log.debug("Payload recibido: {}", request);
+        log.info("Iniciando proceso: Crear nuevo consejo");
+        log.debug("Datos recibidos para creación: {}", request);
         ConsejoResponse response = consejoService.crear(request);
-        log.info("Consejo creado con ID: {}", response.getIdConsejo());
-        return ResponseBase.ok(Mensajes.CREADO_OK,response);
+        log.info("Consejo creado exitosamente. ID generado: {}", response.getIdConsejo());
+        return ResponseBase.ok(Mensajes.CREADO_OK, response);
     }
 
     @DeleteMapping(value = ApiRoutes.Consejo.ELIMINAR)
     public ResponseBase<?> EliminarConsejo(@RequestParam(value = "id") Integer id) {
-        log.warn("Solicitud recibida: Eliminar consejo ID {}", id);
+        log.warn("Solicitud recibida: Eliminación de consejo. ID={}", id);
         consejoService.eliminar(id);
-        log.info("Consejo eliminado: ID {}", id);
+        log.info("Consejo eliminado exitosamente. ID={}", id);
         return ResponseBase.ok(Mensajes.ELIMINADO_OK);
     }
 
     @PutMapping(value = ApiRoutes.Consejo.ACTUALIZAR)
-    public ResponseBase<ConsejoResponse> ActualizarMovimiento(
+    public ResponseBase<ConsejoResponse> ActualizarConsejo(
             @RequestParam(value = "id") Integer id,
             @RequestBody ConsejoRequest request) {
-        log.info("Solicitud recibida: Actualizar consejo ID {}", id);
-        log.debug("Payload de actualización: {}", request);
+        log.info("Iniciando proceso: Actualización de consejo. ID={}", id);
+        log.debug("Datos recibidos para actualización: {}", request);
         ConsejoResponse response = consejoService.actualizar(id, request);
-        log.info("Consejo actualizado correctamente: ID {}", id);
+        log.info("Consejo actualizado correctamente. ID={}", id);
         return ResponseBase.ok(Mensajes.ACTUALIZADO_OK, response);
     }
 
     @GetMapping(value = ApiRoutes.Consejo.OBTENER_POR_ID)
-    public ResponseBase<ConsejoResponse> obtenerPorId(@RequestParam(value = "id") Integer id) {
-        return ResponseBase.ok(Mensajes.OBTENER_POR_ID_OK, consejoService.obtenerPorId(id));
+    public ResponseBase<ConsejoResponse> ObtenerConsejoPorId(@RequestParam(value = "id") Integer id) {
+        log.info("Iniciando proceso: Obtener consejo por ID. ID={}", id);
+        ConsejoResponse response = consejoService.obtenerPorId(id);
+        log.info("Consejo obtenido correctamente. ID={}", id);
+        return ResponseBase.ok(Mensajes.OBTENER_POR_ID_OK, response);
     }
 
-   
 }

@@ -36,8 +36,8 @@ public class ConsejoServiceImp implements ConsejoService {
 
     @Override
     public ConsejoResponse crear(ConsejoRequest consejoRequest) {
-        ConsejoModel consejoModel = mapper.toEntity(consejoRequest);
-        return mapper.toResponse(consejoRepository.save(consejoModel));
+        ConsejoModel model = mapper.toEntity(consejoRequest);
+        return mapper.toResponse(consejoRepository.save(model));
     }
 
     @Override
@@ -47,10 +47,10 @@ public class ConsejoServiceImp implements ConsejoService {
 
     @Override
     public ConsejoResponse actualizar(Integer id, ConsejoRequest consejoActualizado) {
-        ConsejoModel consejoExistente = consejoRepository.findById(id)
+        ConsejoModel model = consejoRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Consejo no encontrado con id: " + id));
-        mapper.updateEntityFromRequest(consejoActualizado, consejoExistente);
-        return mapper.toResponse(consejoRepository.save(consejoExistente));
+        mapper.updateEntityFromRequest(consejoActualizado, model);
+        return mapper.toResponse(consejoRepository.save(model));
     }
 
     @Override

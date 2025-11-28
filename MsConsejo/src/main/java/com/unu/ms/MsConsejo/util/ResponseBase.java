@@ -6,6 +6,7 @@ import lombok.Data;
 @Data
 @Builder
 public class ResponseBase<T> {
+  
   private boolean success;
   private String message;
   private T data;

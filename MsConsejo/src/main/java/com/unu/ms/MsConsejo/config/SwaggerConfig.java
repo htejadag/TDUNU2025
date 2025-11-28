@@ -16,4 +16,5 @@ public class SwaggerConfig {
             .version("1.0")
             .description("Documentación de la API del Microservicio Consejo"));
   }
+
 }
