@@ -12,7 +12,7 @@ public class AsesorModel implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_asesor")
-    private Integer id_asesor;
+    private int id_asesor;
 
     @Column(name = "dni_asesor")
     private String dni_asesor;
@@ -39,13 +39,13 @@ public class AsesorModel implements Serializable{
     private String fecha_creacion_asesor;
 
     @Column(name = "estado_asesor")
-    private Integer estado_asesor;
+    private int estado_asesor;
 
-    public Integer getId_asesor() {
+    public int getId_asesor() {
         return id_asesor;
     }
 
-    public void setId_asesor(Integer id_asesor) {
+    public void setId_asesor(int id_asesor) {
         this.id_asesor = id_asesor;
     }
 
@@ -113,11 +113,11 @@ public class AsesorModel implements Serializable{
         this.fecha_creacion_asesor = fecha_creacion_asesor;
     }
 
-    public Integer getEstado_asesor() {
+    public int getEstado_asesor() {
         return estado_asesor;
     }
 
-    public void setEstado_asesor(Integer estado_asesor) {
+    public void setEstado_asesor(int estado_asesor) {
         this.estado_asesor = estado_asesor;
     }
 }
