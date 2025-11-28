@@ -1,6 +1,8 @@
 package com.example.demo.Entity;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
+
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.*;
@@ -24,7 +26,7 @@ public class AperturaCierreCaja {
 
     @Column(name = "fecha", nullable = false)
     @NotNull(message = "La fecha no puede ser nula")
-    private String fecha;
+    private LocalDate fecha;
 
     @Column(name = "monto_inicial", precision = 8, scale = 2)
     @NotNull(message = "El monto inicial no puede ser nulo")
