@@ -25,7 +25,7 @@ ______________________________________________________________
                             (10, 'Consejo de Vinculación', 'Coordina la interacción institucional con la sociedad.', 1, NOW());
 
 ______________________________________________________________
-MsGradosTitulos
+MsGradosTitulos                                 port_ms: 82
 ______________________________________________________________
 	SQLServer
 		port: 		        1434
