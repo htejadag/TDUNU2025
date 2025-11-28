@@ -18,27 +18,31 @@ public class Transaccion {
     @Column(name = "Fecha_Hora", nullable = false)
     private LocalDateTime fechaHora;
 
-    @Column(name = "Correlativo", length = 50, nullable = false)
+    @Column(name = "Correlativo", nullable = false, length = 50)
     private String correlativo;
 
-    @Column(name = "MontoTotal", precision = 8, scale = 2, nullable = false)
+    @Column(name = "MontoTotal", nullable = false, precision = 8, scale = 2)
     private BigDecimal montoTotal;
 
-    @Column(name = "Descuento", precision = 8, scale = 2, nullable = false)
+    @Column(name = "Descuento", nullable = false, precision = 8, scale = 2)
     private BigDecimal descuento;
 
     @Column(name = "Observaciones", length = 100)
     private String observaciones;
 
-    @Column(name = "ID_Cajero", nullable = false)
-    private Integer idCajero;
+    @ManyToOne
+    @JoinColumn(name = "ID_Cajero", nullable = false)
+    private Cajero cajero;
 
-    @Column(name = "ID_CatalogoTO", nullable = false)
-    private Integer idCatalogoTO;
+    @ManyToOne
+    @JoinColumn(name = "ID_Cliente", nullable = false)
+    private Cliente cliente;
 
-    @Column(name = "ID_Cliente", nullable = false)
-    private Integer idCliente;
+    @ManyToOne
+    @JoinColumn(name = "ID_CatalogoTO", nullable = false)
+    private TipoOperacion tipoOperacion;
 
-    @Column(name = "ID_CatalogoTP", nullable = false)
-    private Integer idCatalogoTP;
+    @ManyToOne
+    @JoinColumn(name = "ID_CatalogoTP", nullable = false)
+    private TipoPago tipoPago;
 }
