@@ -8,6 +8,21 @@ ______________________________________________________________
 		user:		        root
 		password: 	        Unu#2025
 
+    - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    Inserts Tabla: Consejo
+   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+       INSERT INTO consejo (id_consejo, nombre, descripcion, id_estado, fecha_creacion) VALUES
+                            (1, 'Consejo Académico', 'Encargado de decisiones académicas institucionales.', 1, NOW()),
+                            (2, 'Consejo Directivo', 'Máxima autoridad de decisión administrativa.', 1, NOW()),
+                            (3, 'Consejo de Investigación', 'Supervisa y regula proyectos de investigación.', 1, NOW()),
+                            (4, 'Consejo de Facultad de Ingeniería', 'Dirige las políticas académicas de la facultad.', 1, NOW()),
+                            (5, 'Consejo de Facultad de Medicina', 'Órgano colegiado de decisiones en la facultad.', 1, NOW()),
+                            (6, 'Consejo de Postgrado', 'Administra programas de maestrías y doctorados.', 1, NOW()),
+                            (7, 'Consejo Universitario Estudiantil', 'Representación de los estudiantes ante la universidad.', 1, NOW()),
+                            (8, 'Consejo Administrativo Financiero', 'Órgano encargado de temas presupuestales y financieros.', 1, NOW()),
+                            (9, 'Consejo de Ética', 'Evalúa temas disciplinarios y éticos.', 1, NOW()),
+                            (10, 'Consejo de Vinculación', 'Coordina la interacción institucional con la sociedad.', 1, NOW());
 
 ______________________________________________________________
 MsGradosTitulos
