@@ -36,7 +36,7 @@ public class AsesorModel implements Serializable{
     private String usuario_creacion_asesor;
 
     @Column(name = "fecha_creacion_asesor")
-    private String fecha_creacion_asesor;
+    private LocalDate fecha_creacion_asesor;
 
     @Column(name = "estado_asesor")
     private int estado_asesor;
@@ -105,11 +105,11 @@ public class AsesorModel implements Serializable{
         this.usuario_creacion_asesor = usuario_creacion_asesor;
     }
 
-    public String getFecha_creacion_asesor() {
+    public LocalDate getFecha_creacion_asesor() {
         return fecha_creacion_asesor;
     }
 
-    public void setFecha_creacion_asesor(String fecha_creacion_asesor) {
+    public void setFecha_creacion_asesor(LocalDate fecha_creacion_asesor) {
         this.fecha_creacion_asesor = fecha_creacion_asesor;
     }
 
