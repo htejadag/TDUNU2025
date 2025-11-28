@@ -53,7 +53,7 @@ public class ConsejoController {
         return ResponseEntity.ok("Registro eliminado"); 
     }   
 
-    @PostMapping(ApiRoutes.Consejo.ACTUALIZAR)
+    @PutMapping(ApiRoutes.Consejo.ACTUALIZAR)
     public ResponseEntity<ConsejoResponse> ActualizarMovimiento(
         @PathVariable Integer idConsejo,
         @RequestBody ConsejoRequest request) {
