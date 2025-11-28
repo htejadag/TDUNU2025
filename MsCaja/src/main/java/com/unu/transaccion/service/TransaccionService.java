@@ -8,7 +8,6 @@ public interface TransaccionService {
     List<Transaccion> listarTodas();
     Optional<Transaccion> obtenerPorId(Integer id);
     Transaccion guardar(TransaccionRequest request);
-    Transaccion actualizar(Integer id, Transaccion transaccion);
-
+    Transaccion actualizar(Integer id, TransaccionRequest request);
     void eliminar(Integer id);
 }

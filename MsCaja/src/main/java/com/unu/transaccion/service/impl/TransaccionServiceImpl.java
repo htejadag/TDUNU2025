@@ -17,7 +17,6 @@ import java.util.Optional;
 public class TransaccionServiceImpl implements TransaccionService {
 
     private final TransaccionRepository transaccionRepository;
-    // Inyectamos los repositorios auxiliares
     private final CajeroRepository cajeroRepository;
     private final ClienteRepository clienteRepository;
     private final TipoOperacionRepository tipoOperacionRepository;
@@ -37,14 +36,11 @@ public class TransaccionServiceImpl implements TransaccionService {
     public Transaccion guardar(TransaccionRequest request) {
         Transaccion transaccion = new Transaccion();
 
-        // Mapear datos simples
-        transaccion.setFechaHora(LocalDateTime.now()); // Asignamos fecha actual automática
+        transaccion.setFechaHora(LocalDateTime.now());
         transaccion.setCorrelativo(request.getCorrelativo());
         transaccion.setMontoTotal(request.getMontoTotal());
         transaccion.setDescuento(request.getDescuento());
         transaccion.setObservaciones(request.getObservaciones());
-
-        // Buscar y asignar entidades relacionadas (lanzamos error si no existen)
         transaccion.setCajero(cajeroRepository.findById(request.getIdCajero())
                 .orElseThrow(() -> new EntityNotFoundException("Cajero no encontrado")));
 
@@ -61,8 +57,28 @@ public class TransaccionServiceImpl implements TransaccionService {
     }
 
     @Override
-    public Transaccion actualizar(Integer id, Transaccion transaccion) {
-        return null;
+    public Transaccion actualizar(Integer id, TransaccionRequest request) {
+        Transaccion transaccion = transaccionRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Transacción no encontrada"));
+
+        transaccion.setCorrelativo(request.getCorrelativo());
+        transaccion.setMontoTotal(request.getMontoTotal());
+        transaccion.setDescuento(request.getDescuento());
+        transaccion.setObservaciones(request.getObservaciones());
+
+        transaccion.setCajero(cajeroRepository.findById(request.getIdCajero())
+                .orElseThrow(() -> new EntityNotFoundException("Cajero no encontrado")));
+
+        transaccion.setCliente(clienteRepository.findById(request.getIdCliente())
+                .orElseThrow(() -> new EntityNotFoundException("Cliente no encontrado")));
+
+        transaccion.setTipoOperacion(tipoOperacionRepository.findById(request.getIdTipoOperacion())
+                .orElseThrow(() -> new EntityNotFoundException("Tipo Operación no encontrado")));
+
+        transaccion.setTipoPago(tipoPagoRepository.findById(request.getIdTipoPago())
+                .orElseThrow(() -> new EntityNotFoundException("Tipo Pago no encontrado")));
+
+        return transaccionRepository.save(transaccion);
     }
 
     @Override
