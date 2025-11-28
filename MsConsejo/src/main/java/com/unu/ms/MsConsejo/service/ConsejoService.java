@@ -1,12 +1,13 @@
 package com.unu.ms.MsConsejo.service;
 
-import com.unu.ms.MsConsejo.model.entity.ConsejoModel;
+import java.util.List;
+
 import com.unu.ms.MsConsejo.model.request.ConsejoRequest;
 import com.unu.ms.MsConsejo.model.response.ConsejoResponse;
 
 public interface ConsejoService {
     
-        public Iterable<ConsejoModel> listar();
+        public List<ConsejoResponse> listar();
         public ConsejoResponse obtenerPorId(Integer id);
         public ConsejoResponse crear(ConsejoRequest consejo);
         public void eliminar(Integer id);

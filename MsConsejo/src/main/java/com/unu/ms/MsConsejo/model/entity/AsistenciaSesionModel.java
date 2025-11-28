@@ -1,7 +1,9 @@
 package com.unu.ms.MsConsejo.model.entity;
 
 import java.sql.Timestamp;
+
 import jakarta.persistence.*;
+
 import lombok.Data;
 
 @Entity
@@ -12,7 +14,7 @@ public class AsistenciaSesionModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_asistencia")
-    private Integer id;
+    private Integer idAsistencia;
 
     @ManyToOne
     @JoinColumn(name = "id_sesion")
@@ -23,7 +25,7 @@ public class AsistenciaSesionModel {
     private MiembroConsejoModel miembro;
 
     @Column(name = "id_estado_asistencia")
-    private Integer estadoAsistencia;
+    private Integer idEstadoAsistencia;
 
     @Column(name = "id_usuario_registro")
     private Integer usuarioRegistro;

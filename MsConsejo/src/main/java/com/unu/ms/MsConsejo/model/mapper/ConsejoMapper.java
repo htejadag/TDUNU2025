@@ -11,15 +11,14 @@ public interface ConsejoMapper {
  
     ConsejoResponse toResponse(ConsejoModel model);
     
-    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "idConsejo", ignore = true)
     @Mapping(target = "fechaCreacion", ignore = true)
     @Mapping(target = "miembros", ignore = true)
     @Mapping(target = "sesiones", ignore = true)
     ConsejoModel toEntity(ConsejoRequest request);
 
-
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "idConsejo", ignore = true)
     @Mapping(target = "fechaCreacion", ignore = true)
     @Mapping(target = "miembros", ignore = true)
     @Mapping(target = "sesiones", ignore = true)

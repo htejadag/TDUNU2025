@@ -13,14 +13,16 @@ public class ConsejoModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_consejo")
-    private Integer id;
+    private Integer idConsejo;
 
+    @Column(name = "nombre")
     private String nombre;
 
+    @Column(name = "descripcion")
     private String descripcion;
 
     @Column(name = "id_estado")
-    private Integer estado;
+    private Integer idEstado;
 
     @Column(name = "fecha_creacion")
     private Timestamp fechaCreacion;

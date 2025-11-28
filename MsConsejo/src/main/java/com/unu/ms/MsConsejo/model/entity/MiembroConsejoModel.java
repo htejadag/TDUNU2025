@@ -2,7 +2,9 @@ package com.unu.ms.MsConsejo.model.entity;
 
 import java.time.LocalDate;
 import java.util.List;
+
 import jakarta.persistence.*;
+
 import lombok.Data;
 
 @Entity
@@ -13,7 +15,7 @@ public class MiembroConsejoModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_miembro")
-    private Integer id;
+    private Integer idMiembro;
 
     @ManyToOne
     @JoinColumn(name = "id_consejo")
@@ -33,4 +35,5 @@ public class MiembroConsejoModel {
 
     @OneToMany(mappedBy = "miembro")
     private List<AsistenciaSesionModel> asistencias;
+
 }

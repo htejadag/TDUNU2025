@@ -1,0 +1,27 @@
+package com.unu.ms.MsConsejo.model.response;
+
+import java.time.LocalDate;
+
+import com.unu.ms.MsConsejo.model.entity.ConsejoModel;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class SesionConsejoResponse {
+    
+    public Integer idSesion;
+    public ConsejoModel idConsejo;
+    public String numeroSesion;
+    public LocalDate fechaSesion;
+    public Integer idTipoSesion;
+    public String descripcion;
+    public Integer idEstado;
+    public Integer usuarioRegistro;
+    // public Timestamp fechaCreacion;
+    // public List<AsistenciaSesionModel> asistencias;
+
+}

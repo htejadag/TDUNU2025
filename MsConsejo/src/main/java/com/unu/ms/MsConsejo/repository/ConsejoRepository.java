@@ -2,9 +2,9 @@ package com.unu.ms.MsConsejo.repository;
 
 import com.unu.ms.MsConsejo.model.entity.ConsejoModel;  
 import org.springframework.stereotype.Repository;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 @Repository
-public interface ConsejoRepository extends CrudRepository<ConsejoModel, Integer> {
+public interface ConsejoRepository extends JpaRepository<ConsejoModel, Integer> {
   
 }

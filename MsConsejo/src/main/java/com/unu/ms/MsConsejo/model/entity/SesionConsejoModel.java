@@ -3,7 +3,9 @@ package com.unu.ms.MsConsejo.model.entity;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.util.List;
+
 import jakarta.persistence.*;
+
 import lombok.Data;
 
 @Entity
@@ -14,7 +16,7 @@ public class SesionConsejoModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_sesion")
-    private Integer id;
+    private Integer idSesion;
 
     @ManyToOne
     @JoinColumn(name = "id_consejo")
@@ -29,10 +31,11 @@ public class SesionConsejoModel {
     @Column(name = "id_tipo_sesion")
     private Integer idTipoSesion;
 
+    @Column(name = "descripcion")
     private String descripcion;
 
     @Column(name = "id_estado")
-    private Integer estado;
+    private Integer idEstado;
 
     @Column(name = "id_usuario_registro")
     private Integer usuarioRegistro;
@@ -42,5 +45,6 @@ public class SesionConsejoModel {
 
     @OneToMany(mappedBy = "sesion")
     private List<AsistenciaSesionModel> asistencias;
+
 }
 
