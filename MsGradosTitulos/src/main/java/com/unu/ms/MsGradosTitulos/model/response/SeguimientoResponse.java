@@ -15,6 +15,6 @@ public class SeguimientoResponse{
     public Integer idEstado;
     public String comentario;
     public Integer idUsuario;
-    // private Timestamp fechaRegistro;
+    // public Timestamp fechaRegistro;
     
 }

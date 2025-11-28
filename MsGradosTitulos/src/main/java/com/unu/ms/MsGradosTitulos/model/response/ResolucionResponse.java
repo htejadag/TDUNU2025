@@ -11,20 +11,20 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class ResolucionResponse {
     
-    private Integer idResolucion;
-    private String numeroResolucion;
-    // private ExpedienteModel expediente;
-    private Integer idSolicitud;
-    private Integer idEstado;
-    private Integer idTipoResolucion;
-    private LocalDate fechaEmision;
-    private String resumen;
-    private String fundamento;
-    private String articuladoGeneral;
-    private Boolean aprobadoEnSesion;
-    private Integer usuarioCreo;
-    // private Timestamp fechaCreacion;
-    // private List<ResolucionArticuloModel> articulos;
+    public Integer idResolucion;
+    public String numeroResolucion;
+    // public ExpedienteModel expediente;
+    public Integer idSolicitud;
+    public Integer idEstado;
+    public Integer idTipoResolucion;
+    public LocalDate fechaEmision;
+    public String resumen;
+    public String fundamento;
+    public String articuladoGeneral;
+    public Boolean aprobadoEnSesion;
+    public Integer usuarioCreo;
+    // public Timestamp fechaCreacion;
+    // public List<ResolucionArticuloModel> articulos;
     
 }
 

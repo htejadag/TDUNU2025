@@ -1,0 +1,17 @@
+package com.unu.ms.MsGradosTitulos.service;
+
+import java.util.List;
+
+import com.unu.ms.MsGradosTitulos.model.request.ExpedienteRequest;
+import com.unu.ms.MsGradosTitulos.model.response.ExpedienteResponse;
+
+public interface ExpedienteService {
+
+    public List<ExpedienteResponse> listar();
+    public ExpedienteResponse obtenerPorId(Integer id);
+    public ExpedienteResponse crear(ExpedienteRequest expedienteRequest);
+    public void eliminar(Integer id);
+    public ExpedienteResponse actualizar(Integer id, ExpedienteRequest expedienteActualizado);
+    public boolean existePorId(Integer id);
+
+}
