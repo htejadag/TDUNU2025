@@ -7,21 +7,31 @@
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
     <version>4.0.0</version>
-    <relativePath />
+    <relativePath /> <!-- lookup parent from repository -->
   </parent>
   <groupId>tdunu</groupId>
   <artifactId>MsTemplate</artifactId>
   <version>0.0.1-SNAPSHOT</version>
-  <!-- Packaging WAR para despliegues tradicionales o contenedores específicos -->
-  <packaging>war</packaging>
   <name>MsTemplate</name>
   <description>Plantilla base</description>
-
+  <url />
+  <licenses>
+    <license />
+  </licenses>
+  <developers>
+    <developer />
+  </developers>
+  <scm>
+    <connection />
+    <developerConnection />
+    <tag />
+    <url />
+  </scm>
   <properties>
-    <java.version>21</java.version>
+    <java.version>25</java.version>
   </properties>
-
   <dependencies>
+    <!-- Spring Boot -->
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-web</artifactId>
@@ -32,35 +42,43 @@
     </dependency>
     <dependency>
       <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-web</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-test</artifactId>
       <scope>test</scope>
     </dependency>
+
+    <!-- Mapper -->
     <dependency>
       <groupId>org.modelmapper</groupId>
       <artifactId>modelmapper</artifactId>
       <version>3.2.0</version>
     </dependency>
+
+    <!-- Swagger -->
     <dependency>
       <groupId>org.springdoc</groupId>
       <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
-      <version>2.6.0</version>
+      <version>3.0.0</version>
     </dependency>
+
+    <!-- Lombok -->
     <dependency>
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok</artifactId>
-      <optional>true</optional>
+      <version>1.18.34</version>
+      <scope>provided</scope>
     </dependency>
+
+    <!-- POSTGRES  -->
     <dependency>
       <groupId>org.postgresql</groupId>
       <artifactId>postgresql</artifactId>
       <scope>runtime</scope>
     </dependency>
-    <!-- Dependencia Tomcat necesaria para empaquetado WAR -->
-    <dependency>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-tomcat</artifactId>
-        <scope>provided</scope>
-    </dependency>
+
   </dependencies>
 
   <build>
@@ -71,4 +89,5 @@
       </plugin>
     </plugins>
   </build>
+
 </project>
