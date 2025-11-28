@@ -65,6 +65,7 @@ public class FacultadService implements IFacultadService {
         }
 
         facultad.setNombre(request.getNombre());
+        facultad.setUsuarioModificacion("a74c0747-1151-455c-87e2-2298e554521f");
         facultad = repository.save(facultad);
 
         return mapper.map(facultad, FacultadResponse.class);

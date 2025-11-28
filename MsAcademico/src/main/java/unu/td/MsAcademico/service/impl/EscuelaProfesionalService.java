@@ -72,6 +72,7 @@ public class EscuelaProfesionalService implements IEscuelaProfesionalService {
 
         escuela.setNombre(request.getNombre());
         escuela.setFacultad(getFacultad(request.getIdFacultad()));
+        escuela.setUsuarioModificacion("a74c0747-1151-455c-87e2-2298e554521f");
         escuela = repository.save(escuela);
 
         return getResponse(escuela);

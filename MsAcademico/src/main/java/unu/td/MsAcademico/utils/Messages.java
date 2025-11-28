@@ -8,6 +8,7 @@ public class Messages {
 
     public static final String REQUIRED_NOMBRE = "El nombre es requerido";
     public static final String REQUIRED_ID_FACULTAD = "El id de la facultad es requerido";
+    public static final String REQUIRED_DURACION_ESCUELA = "El duracion de la carrera de la escuela profesional es requerida";
 
     public static final String MAX_LENGHT_NOMBRE = "El nombre debe tener maximo 20 caracteres";
 

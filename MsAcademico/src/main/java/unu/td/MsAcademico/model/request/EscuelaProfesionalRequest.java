@@ -16,6 +16,7 @@ public class EscuelaProfesionalRequest {
 
     @Min(value = 1, message = Messages.MAX_DURACION)
     @Max(value = 10, message = Messages.MIN_DURACION)
+    @NotNull(message = Messages.REQUIRED_DURACION_ESCUELA)
     private Integer duracionCarrera;
 
 }

@@ -6,7 +6,7 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
 @Entity
@@ -40,9 +40,9 @@ public class EscuelaProfesionalModel {
 
     @CreatedDate
     @Column(name = "fechaCreacion", nullable = false, updatable = false)
-    private LocalDate fechaCreacion;
+    private LocalDateTime fechaCreacion;
 
     @LastModifiedDate
     @Column(name = "fechaModificacion")
-    private LocalDate fechaModificacion;
+    private LocalDateTime fechaModificacion;
 }
