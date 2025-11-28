@@ -5,7 +5,7 @@
     <springProperty scope="context" name="logPath" source="app.log.path"/>
 
     <!-- ==== VARIABLES ==== -->
-    <property name="APP_NAME" value="MICROSERVICIO-CONSEJO"/>
+    <property name="APP_NAME" value="MICROSERVICIO-GRADOS-TITULOS"/>
 
     <!-- ==== PATRÓN PARA ARCHIVOS ==== -->
     <property name="FILE_PATTERN"
