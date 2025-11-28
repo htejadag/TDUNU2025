@@ -35,7 +35,7 @@ CREATE TABLE `asesor` (
   `estado_asesor` int DEFAULT '1',
   PRIMARY KEY (`id_asesor`),
   UNIQUE KEY `uc_dni_asesor` (`dni_asesor`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -44,6 +44,7 @@ CREATE TABLE `asesor` (
 
 LOCK TABLES `asesor` WRITE;
 /*!40000 ALTER TABLE `asesor` DISABLE KEYS */;
+INSERT INTO `asesor` VALUES (1,'10203040','Dra. Elvira Martínez Solís','Doctora en Ciencias','files/cv/elvira.pdf','files/dj/elvira_dj.pdf','2025-10-15','SYS_ADM','2025-10-01',1),(2,'50607080','Mg. Juan Carlos Díaz P.','Maestro en Ingeniería','files/cv/juan_carlos.pdf','files/dj/juan_carlos_dj.pdf',NULL,'SYS_ADM','2025-11-20',1),(3,'90010203','Dr. Rodrigo Vidal Paz','Doctor en Economía','files/cv/rodrigo.pdf','files/dj/rodrigo_dj.pdf','2024-05-10','SYS_ADM','2024-05-01',0),(4,'66778899','Dr. Fabián García López','Doctor','files/cv/fabian_garcia.pdf','files/dj/fabian_garcia_dj.pdf',NULL,'ADMIN_POS','2025-11-27',1);
 /*!40000 ALTER TABLE `asesor` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -56,4 +57,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-11-27 22:00:10
+-- Dump completed on 2025-11-27 22:13:09
