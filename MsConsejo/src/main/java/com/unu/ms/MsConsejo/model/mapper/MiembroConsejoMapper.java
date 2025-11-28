@@ -17,11 +17,13 @@ public interface MiembroConsejoMapper {
     
     @Mapping(target = "idMiembro", ignore = true)
     @Mapping(target = "asistencias", ignore = true)
+    @Mapping(target = "consejo", ignore = true)
     MiembroConsejoModel toEntity(MiembroConsejoRequest request);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     @Mapping(target = "idMiembro", ignore = true)
     @Mapping(target = "asistencias", ignore = true)
+    @Mapping(target = "consejo", ignore = true)
     void updateEntityFromRequest(MiembroConsejoRequest request, @MappingTarget MiembroConsejoModel entity);
 
 }

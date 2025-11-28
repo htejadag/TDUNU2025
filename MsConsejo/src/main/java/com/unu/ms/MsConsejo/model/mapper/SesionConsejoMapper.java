@@ -18,12 +18,14 @@ public interface SesionConsejoMapper {
     @Mapping(target = "idSesion", ignore = true)
     @Mapping(target = "fechaCreacion", ignore = true)
     @Mapping(target = "asistencias", ignore = true)
+    @Mapping(target = "consejo", ignore = true)
     SesionConsejoModel toEntity(SesionConsejoRequest request);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     @Mapping(target = "idSesion", ignore = true)
     @Mapping(target = "fechaCreacion", ignore = true)
     @Mapping(target = "asistencias", ignore = true)
+    @Mapping(target = "consejo", ignore = true)
     void updateEntityFromRequest(SesionConsejoRequest request, @MappingTarget SesionConsejoModel entity);
 
 }
