@@ -11,22 +11,20 @@ public class EstudianteProceso {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_estudiante_proceso") 
     private Long id;
 
-    // Relación con el estudiante (guardamos el ID para simplificar)
+    // --- Relaciones ---
     @Column(name = "id_estudiante", nullable = false)
     private Long idEstudiante;
 
-    // Relación con el programa
     @Column(name = "id_programa")
     private Long idPrograma;
 
-    // Estado general (Ej: EN_PROYECTO, EN_TESIS)
     @Column(nullable = false)
     private String estadoGeneral;
 
-    // --- Campos específicos de tu MS (Gestión Académica) ---
-    
+    // --- Campos de Gestión Académica (MS1) ---
     @Column(name = "estado_proyecto")
     private String estadoProyecto; 
 
@@ -45,7 +43,8 @@ public class EstudianteProceso {
     @Column(name = "fecha_cierre_academico")
     private LocalDate fechaCierreAcademico; 
     
-    @PrePersist //  Auditoría y Ciclo de Vida (JPA Callbacks) 
+    // --- Auditoría y Ciclo de Vida ---
+    @PrePersist
     public void prePersist() {
         this.fechaInicio = LocalDate.now();
         if (this.listoParaExpedito == null) {
