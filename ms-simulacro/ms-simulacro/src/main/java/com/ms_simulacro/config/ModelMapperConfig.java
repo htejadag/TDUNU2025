@@ -1,11 +1,13 @@
-package com.ms_simulacro.config.mapper;
+package com.ms_simulacro.config;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class ModelMapper {
-    @Bean 
+public class ModelMapperConfig {
+
+    @Bean
     public ModelMapper modelMapper() {
         return new ModelMapper();
     }
