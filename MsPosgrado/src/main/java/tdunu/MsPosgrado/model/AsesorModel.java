@@ -6,7 +6,7 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "asesor")
-public class AsesorModel implements Serializable{
+public class AsesorModel implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id

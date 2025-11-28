@@ -29,7 +29,7 @@ public class EstudianteProcesoController {
         Optional<EstudianteProceso> proceso = service.buscarPorId(id);
         // Si existe devuelve OK (200), si no, devuelve Not Found (404)
         return proceso.map(ResponseEntity::ok)
-                      .orElseGet(() -> ResponseEntity.notFound().build());
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     // 3. Guardar (Crear)
@@ -44,7 +44,7 @@ public class EstudianteProcesoController {
     public ResponseEntity<EstudianteProceso> actualizar(@PathVariable Long id, @RequestBody EstudianteProceso proceso) {
         // Primero verificamos si existe
         Optional<EstudianteProceso> existente = service.buscarPorId(id);
-        
+
         if (existente.isPresent()) {
             proceso.setId(id); // Aseguramos que el ID sea el de la URL
             return ResponseEntity.ok(service.guardar(proceso));
