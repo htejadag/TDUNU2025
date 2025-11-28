@@ -1,13 +1,13 @@
-package com.unu.TDUNU2025.Msbiblioteca;
+package com.unu.MsBiblioteca;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class MsbibliotecaApplication {
+public class MsBibliotecaApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(MsbibliotecaApplication.class, args);
+		SpringApplication.run(MsBibliotecaApplication.class, args);
 	}
 
 }

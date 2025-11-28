@@ -1,10 +1,10 @@
-package com.unu.TDUNU2025.Msbiblioteca;
+package com.unu.MsBiblioteca;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class MsbibliotecaApplicationTests {
+class MsBibliotecaApplicationTests {
 
 	@Test
 	void contextLoads() {

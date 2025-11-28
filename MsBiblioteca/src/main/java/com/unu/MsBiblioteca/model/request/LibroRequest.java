@@ -1,4 +1,4 @@
-package main.java.com.unu.TDUNU2025.Msbiblioteca.model.request;
+package com.unu.MsBiblioteca.model.request;
 
 import lombok.Data;
 

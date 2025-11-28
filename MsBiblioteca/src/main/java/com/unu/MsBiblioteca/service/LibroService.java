@@ -1,9 +1,7 @@
+package com.unu.MsBiblioteca.service;
 
-package main.java.com.unu.TDUNU2025.Msbiblioteca.service;
-
-import com.unu.TDUNU2025.Msbiblioteca.model.request.LibroRequest;
-import com.unu.TDUNU2025.Msbiblioteca.model.response.LibroResponse;
-
+import com.unu.MsBiblioteca.model.request.LibroRequest;
+import com.unu.MsBiblioteca.model.LibroResponse;
 import java.util.List;
 
 public interface LibroService {

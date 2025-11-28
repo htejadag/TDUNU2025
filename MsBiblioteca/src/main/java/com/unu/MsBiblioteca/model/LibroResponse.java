@@ -1,14 +1,10 @@
-package main.java.com.unu.TDUNU2025.Msbiblioteca.model.response;
+package com.unu.MsBiblioteca.model;
 
-import lombok.Builder;
 import lombok.Data;
-import java.time.LocalDateTime;
 
 @Data
-@Builder
 public class LibroResponse {
-
-    private Long idLibro;
+    private Long id;
     private String isbn;
     private String titulo;
     private String subtitulo;
@@ -22,5 +18,4 @@ public class LibroResponse {
     private String archivoDigitalUrl;
     private Long idEditorial;
     private Long idEstadoLibro;
-    private LocalDateTime fechaRegistro;
 }
