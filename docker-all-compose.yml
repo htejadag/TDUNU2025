@@ -1,9 +1,8 @@
 version: "3.9"
 
 services:
-  # -------------------------------
+  
   # 🗄️ BASES DE DATOS
-  # -------------------------------
 
   sql:
     image: mcr.microsoft.com/mssql/server:2022-latest
@@ -52,9 +51,9 @@ services:
     networks:
       - ms-unu
 
-  # -------------------------------
+  
   # 🔌 REDIS
-  # -------------------------------
+
   redis:
     image: redis:6.2.6
     container_name: service-redis
@@ -67,9 +66,9 @@ services:
     networks:
       - ms-unu
 
-  # -------------------------------
+  
   # 📨 KAFKA + ZOOKEEPER
-  # -------------------------------
+
   broker:
     image: johnnypark/kafka-zookeeper:2.6.0
     container_name: service-broker
@@ -83,8 +82,7 @@ services:
     networks:
       - ms-unu
 
-# -------------------------------
 # 🌐 RED COMPARTIDA
-# -------------------------------
+
 networks:
   ms-unu:
