@@ -1,4 +1,3 @@
-
 package main.java.com.unu.TDUNU2025.Msbiblioteca.controller;
 
 import com.unu.TDUNU2025.Msbiblioteca.model.request.LibroRequest;
@@ -41,4 +40,4 @@ public class LibroController {
     public void eliminar(@PathVariable Long id) {
         service.eliminar(id);
     }
-
+}
