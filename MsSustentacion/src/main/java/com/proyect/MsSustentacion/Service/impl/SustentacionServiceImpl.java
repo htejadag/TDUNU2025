@@ -3,6 +3,13 @@ package com.proyect.MsSustentacion.Service.impl;
 import com.proyect.MsSustentacion.Repository.SustentacionRepository;
 import com.proyect.MsSustentacion.Service.SustentacionService;
 import com.proyect.MsSustentacion.model.Entity.Sustentacion;
+import com.proyect.MsSustentacion.model.Error.BusinessRuleException;
+import com.proyect.MsSustentacion.model.Error.ResourceNotFoundException;
+import com.proyect.MsSustentacion.model.request.SustentacionRequest;
+import com.proyect.MsSustentacion.model.response.SustentacionResponse;
+
+import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.ModelMapper;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,61 +19,86 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
+@Slf4j
 public class SustentacionServiceImpl implements SustentacionService {
 
     @Autowired
     private SustentacionRepository repository;
 
+    @Autowired
+    private ModelMapper modelMapper;
+
     @Override
     @Transactional(readOnly = true)
-    public List<Sustentacion> findAll() {
-        return repository.findAll();
+    public List<SustentacionResponse> findAll() {
+        return repository.findAll()
+                .stream()
+                .map(entity -> modelMapper.map(entity, SustentacionResponse.class))
+                .toList();
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Sustentacion findById(Long id) {
+    public SustentacionResponse findById(Long id) {
         return repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("No se encontró la sustentación con el ID: " + id));
+                .map(entity -> modelMapper.map(entity, SustentacionResponse.class))
+                .orElseThrow(() -> new ResourceNotFoundException("No se encontró la sustentación con ID: " + id));
     }
 
     @Override
-    public Sustentacion save(Sustentacion sustentacion) {
+    @Transactional
+    public SustentacionResponse save(SustentacionRequest request) {
 
-        // --- LÓGICA COMPLEJA (Que @Valid no puede hacer sola) ---
+        log.info("Intentando guardar sustentación para tramiteId: {}", request.getTramiteId());
 
-        // 1. Validar unicidad de Acta (requiere ir a BD)
-        if (sustentacion.getActaNumero() != null && !sustentacion.getActaNumero().isEmpty()) {
-            boolean actaExiste = (sustentacion.getId() == null)
-                    ? repository.existsByActaNumero(sustentacion.getActaNumero())
-                    : repository.existsByActaNumeroAndIdNot(sustentacion.getActaNumero(), sustentacion.getId());
+        // 1. Request -> Entity
+        Sustentacion sustentacion = modelMapper.map(request, Sustentacion.class);
 
-            if (actaExiste) {
-                throw new RuntimeException("El número de acta ya existe.");
+        // --- 2. VALIDACIONES DE NEGOCIO ---
+
+        // A) Integridad (Opcional si ya usas @NotNull en el Request)
+        if (sustentacion.getTramiteId() == null) {
+            throw new BusinessRuleException("El ID del trámite es obligatorio.");
+        }
+
+        // B) Validar Fecha Futura (Solo creación)
+        if (sustentacion.getId() == null) {
+            LocalDateTime fechaProg = LocalDateTime.of(sustentacion.getFecha(), sustentacion.getHora());
+            if (fechaProg.isBefore(LocalDateTime.now())) {
+                throw new BusinessRuleException("La fecha y hora de sustentación no pueden ser en el pasado.");
             }
         }
 
-        // 2. Valores por defecto
+        // C) Unicidad de Acta
+        if (sustentacion.getActaNumero() != null && !sustentacion.getActaNumero().isEmpty()) {
+            boolean existe = (sustentacion.getId() == null)
+                    ? repository.existsByActaNumero(sustentacion.getActaNumero())
+                    : repository.existsByActaNumeroAndIdNot(sustentacion.getActaNumero(), sustentacion.getId());
+
+            if (existe) {
+                throw new BusinessRuleException("El número de acta '" + sustentacion.getActaNumero() + "' ya existe.");
+            }
+        }
+
+        // D) Valores por defecto
         if (sustentacion.getEstadoResulId() == null) {
             sustentacion.setEstadoResulId((short) 1);
         }
 
-        // 3. Validación fecha personalizada (Solo si es nuevo)
-        if (sustentacion.getId() == null) {
-            LocalDateTime fechaProg = LocalDateTime.of(sustentacion.getFecha(), sustentacion.getHora());
-            if (fechaProg.isBefore(LocalDateTime.now())) {
-                throw new RuntimeException("La fecha no puede ser en el pasado.");
-            }
-        }
+        // --- 3. Guardar ---
+        Sustentacion saved = repository.save(sustentacion);
 
-        return repository.save(sustentacion);
+        log.info("Sustentación guardada con éxito. ID: {}", saved.getId());
+
+        // --- 4. Entity -> Response ---
+        return modelMapper.map(saved, SustentacionResponse.class);
     }
 
     @Override
     @Transactional
     public void delete(Long id) {
         if (!repository.existsById(id)) {
-            throw new RuntimeException("No se puede eliminar. La sustentación con ID " + id + " no existe.");
+            throw new ResourceNotFoundException("No se puede eliminar. No existe el ID: " + id);
         }
         repository.deleteById(id);
     }

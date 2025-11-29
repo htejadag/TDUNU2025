@@ -1,61 +1,73 @@
 package com.proyect.MsSustentacion.Controller;
 
-import com.proyect.MsSustentacion.model.Entity.Sustentacion;
 import com.proyect.MsSustentacion.Service.SustentacionService;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
 import com.proyect.MsSustentacion.util.ApiRoutes;
+import com.proyect.MsSustentacion.model.request.SustentacionRequest;
+import com.proyect.MsSustentacion.model.response.SustentacionResponse;
 
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping(ApiRoutes.Sustentacion.BASE)
+@RequiredArgsConstructor // Lombok genera el constructor automáticamente (Inyección de dependencias)
 public class SustentacionController {
 
     private final SustentacionService service;
 
-    public SustentacionController(SustentacionService service) {
-        this.service = service;
-    }
-
+    // 1. LISTAR (Devuelve lista de DTOs)
     @GetMapping(ApiRoutes.Sustentacion.LISTAR)
-    public ResponseEntity<?> listar() {
+    public ResponseEntity<List<SustentacionResponse>> listar() {
         return ResponseEntity.ok(service.findAll());
     }
 
+    // 2. OBTENER POR ID
     @GetMapping(ApiRoutes.Sustentacion.OBTENER_POR_ID)
-    public ResponseEntity<?> obtener(@PathVariable Long id) {
-        Sustentacion sust = service.findById(id);
-        if (sust == null) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok(sust);
+    public ResponseEntity<SustentacionResponse> obtener(@PathVariable Long id) {
+        // NOTA: Ya no necesitamos validar 'if null'.
+        // Si no existe, el Service lanza ResourceNotFoundException y el GlobalHandler
+        // responde 404.
+        return ResponseEntity.ok(service.findById(id));
     }
 
+    // 3. GUARDAR (Crear)
     @PostMapping(ApiRoutes.Sustentacion.GUARDAR)
-    public ResponseEntity<Sustentacion> guardar(@Valid @RequestBody Sustentacion sustentacion) {
-        return ResponseEntity.ok(service.save(sustentacion));
+    public ResponseEntity<SustentacionResponse> guardar(@Valid @RequestBody SustentacionRequest request) {
+        // Aseguramos que sea una creación (ID nulo)
+        request.setId(null);
+        SustentacionResponse nuevo = service.save(request);
+        // Devolvemos 201 Created en lugar de 200 OK
+        return new ResponseEntity<>(nuevo, HttpStatus.CREATED);
     }
 
-    // @PutMapping(ApiRoutes.Sustentacion.ACTUALIZAR)
-    // public ResponseEntity<?> actualizar(@PathVariable Long id, @RequestBody
-    // @Valid Sustentacion sustentacion) {
-    // Sustentacion actualizado = service.update(id, sustentacion);
+    // 4. ACTUALIZAR (Put)
+    // Descomentado y adaptado
+    @PutMapping(ApiRoutes.Sustentacion.ACTUALIZAR) // Asumiendo que tienes una ruta /{id}
+    public ResponseEntity<SustentacionResponse> actualizar(
+            @PathVariable Long id,
+            @Valid @RequestBody SustentacionRequest request) {
 
-    // if (actualizado == null) {
-    // return ResponseEntity.notFound().build();
-    // }
-    // return ResponseEntity.ok(actualizado);
-    // }
+        // Forzamos el ID de la URL dentro del DTO para asegurar que actualice el
+        // correcto
+        request.setId(id);
 
+        // Reutilizamos el método save (tu lógica de Service ya maneja updates si viene
+        // con ID)
+        return ResponseEntity.ok(service.save(request));
+    }
+
+    // 5. ELIMINAR
     @DeleteMapping(ApiRoutes.Sustentacion.ELIMINAR)
-    public ResponseEntity<?> eliminar(@PathVariable Long id) {
-        Sustentacion existe = service.findById(id);
-        if (existe == null) {
-            return ResponseEntity.notFound().build();
-        }
-
+    public ResponseEntity<Void> eliminar(@PathVariable Long id) {
+        // Igual que obtener: Si no existe, el service lanza excepción.
         service.delete(id);
-        return ResponseEntity.ok("Sustentación eliminada correctamente");
+
+        // Devolvemos 204 No Content (Estándar para borrados exitosos)
+        return ResponseEntity.noContent().build();
     }
 }

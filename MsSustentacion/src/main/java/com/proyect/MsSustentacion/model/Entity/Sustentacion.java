@@ -39,7 +39,7 @@ public class Sustentacion {
 
     @NotNull(message = "El estado es obligatorio.")
     @Column(name = "estado_resul_id", nullable = false)
-    private Short estadoResulId;
+    private short estadoResulId;
 
     @NotNull(message = "El número de acta es obligatorio.")
     @Column(name = "acta_numero", length = 60, unique = true)
