@@ -5,7 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import tdunu.MsSolicitudes.model.entity.DemoModel;
+import tdunu.MsSolicitudes.model.entity.SolicitudesModel;
 import tdunu.MsSolicitudes.model.request.DemoRequest;
 import tdunu.MsSolicitudes.model.response.DemoResponse;
 import tdunu.MsSolicitudes.repository.DemoRepository;
@@ -39,10 +39,10 @@ public class DemoServiceImp implements DemoService {
   @Override
   public DemoResponse guardar(DemoRequest request) {
     // 1. Request -> Model
-    DemoModel model = modelMapper.map(request, DemoModel.class);
+    SolicitudesModel model = modelMapper.map(request, SolicitudesModel.class);
 
     // 2. Guardar en BD
-    DemoModel saved = demoRepository.save(model);
+    SolicitudesModel saved = demoRepository.save(model);
 
     // 3. Model -> Response
     DemoResponse response = modelMapper.map(saved, DemoResponse.class);

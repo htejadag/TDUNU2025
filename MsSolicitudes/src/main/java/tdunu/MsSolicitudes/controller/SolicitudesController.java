@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import tdunu.MsSolicitudes.model.entity.DemoModel;
+import tdunu.MsSolicitudes.model.entity.SolicitudesModel;
 import tdunu.MsSolicitudes.model.request.DemoRequest;
 import tdunu.MsSolicitudes.model.response.DemoResponse;
 import tdunu.MsSolicitudes.service.DemoService;
@@ -20,7 +20,7 @@ import tdunu.MsSolicitudes.util.ResponseBase;
 
 @RestController
 @RequestMapping(ApiRoutes.Demo.BASE)
-public class DemoController {
+public class SolicitudesController {
 
   @Autowired
   DemoService demoService;
