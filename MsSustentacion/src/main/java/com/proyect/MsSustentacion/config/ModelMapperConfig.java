@@ -1,4 +1,4 @@
-package tdunu.MsTemplate.config;
+package com.proyect.MsSustentacion.config;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;

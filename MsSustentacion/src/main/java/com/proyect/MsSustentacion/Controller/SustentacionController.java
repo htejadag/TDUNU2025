@@ -4,12 +4,12 @@ import com.proyect.MsSustentacion.model.Entity.Sustentacion;
 import com.proyect.MsSustentacion.Service.SustentacionService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import com.proyect.MsSustentacion.util.ApiRoutes;
 
 import java.net.URI;
-import java.util.List;
 
 @RestController
-@RequestMapping("/api/sustentaciones")
+@RequestMapping(ApiRoutes.Sustentacion.BASE)
 public class SustentacionController {
 
     private final SustentacionService service;
@@ -18,13 +18,13 @@ public class SustentacionController {
         this.service = service;
     }
 
-    @GetMapping
-    public ResponseEntity<List<Sustentacion>> listar() {
+    @GetMapping(ApiRoutes.Sustentacion.LISTAR)
+    public ResponseEntity<?> listar() {
         return ResponseEntity.ok(service.findAll());
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Sustentacion> obtener(@PathVariable Long id) {
+    @GetMapping(ApiRoutes.Sustentacion.OBTENER_POR_ID)
+    public ResponseEntity<?> obtener(@PathVariable Long id) {
         Sustentacion sust = service.findById(id);
         if (sust == null) {
             return ResponseEntity.notFound().build();
@@ -32,16 +32,16 @@ public class SustentacionController {
         return ResponseEntity.ok(sust);
     }
 
-    @PostMapping
-    public ResponseEntity<Sustentacion> crear(@RequestBody Sustentacion sustentacion) {
+    @PostMapping(ApiRoutes.Sustentacion.GUARDAR)
+    public ResponseEntity<?> crear(@RequestBody Sustentacion sustentacion) {
         Sustentacion nuevo = service.save(sustentacion);
         return ResponseEntity
-                .created(URI.create("/api/sustentaciones/" + nuevo.getId()))
+                .created(URI.create(ApiRoutes.Sustentacion.BASE + "/" + nuevo.getId()))
                 .body(nuevo);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Sustentacion> actualizar(@PathVariable Long id, @RequestBody Sustentacion sustentacion) {
+    @PutMapping(ApiRoutes.Sustentacion.ACTUALIZAR)
+    public ResponseEntity<?> actualizar(@PathVariable Long id, @RequestBody Sustentacion sustentacion) {
         Sustentacion actualizado = service.update(id, sustentacion);
 
         if (actualizado == null) {
@@ -50,14 +50,14 @@ public class SustentacionController {
         return ResponseEntity.ok(actualizado);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> eliminar(@PathVariable Long id) {
+    @DeleteMapping(ApiRoutes.Sustentacion.ELIMINAR)
+    public ResponseEntity<?> eliminar(@PathVariable Long id) {
         Sustentacion existe = service.findById(id);
         if (existe == null) {
             return ResponseEntity.notFound().build();
         }
 
         service.delete(id);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok().build();
     }
 }

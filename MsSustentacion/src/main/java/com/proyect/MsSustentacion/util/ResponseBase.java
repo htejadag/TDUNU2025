@@ -1,4 +1,4 @@
-package tdunu.MsTemplate.util;
+package com.proyect.MsSustentacion.util;
 
 import lombok.Builder;
 import lombok.Data;
