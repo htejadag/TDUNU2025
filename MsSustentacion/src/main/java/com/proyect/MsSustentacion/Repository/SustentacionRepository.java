@@ -6,4 +6,10 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface SustentacionRepository extends JpaRepository<Sustentacion, Long> {
+    // Validar si existe acta al crear
+    boolean existsByActaNumero(String actaNumero);
+
+    // Validar si existe acta al editar (excluyendo el propio ID para no bloquearse
+    // a sí mismo)
+    boolean existsByActaNumeroAndIdNot(String actaNumero, Long id);
 }

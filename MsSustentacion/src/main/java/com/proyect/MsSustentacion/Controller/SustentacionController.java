@@ -8,8 +8,6 @@ import com.proyect.MsSustentacion.util.ApiRoutes;
 
 import jakarta.validation.Valid;
 
-import java.net.URI;
-
 @RestController
 @RequestMapping(ApiRoutes.Sustentacion.BASE)
 public class SustentacionController {
@@ -35,22 +33,20 @@ public class SustentacionController {
     }
 
     @PostMapping(ApiRoutes.Sustentacion.GUARDAR)
-    public ResponseEntity<?> crear(@RequestBody @Valid Sustentacion sustentacion) {
-        Sustentacion nuevo = service.save(sustentacion);
-        return ResponseEntity
-                .created(URI.create(ApiRoutes.Sustentacion.BASE + "/" + nuevo.getId()))
-                .body(nuevo);
+    public ResponseEntity<Sustentacion> guardar(@Valid @RequestBody Sustentacion sustentacion) {
+        return ResponseEntity.ok(service.save(sustentacion));
     }
 
-    @PutMapping(ApiRoutes.Sustentacion.ACTUALIZAR)
-    public ResponseEntity<?> actualizar(@PathVariable Long id, @RequestBody @Valid Sustentacion sustentacion) {
-        Sustentacion actualizado = service.update(id, sustentacion);
+    // @PutMapping(ApiRoutes.Sustentacion.ACTUALIZAR)
+    // public ResponseEntity<?> actualizar(@PathVariable Long id, @RequestBody
+    // @Valid Sustentacion sustentacion) {
+    // Sustentacion actualizado = service.update(id, sustentacion);
 
-        if (actualizado == null) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok(actualizado);
-    }
+    // if (actualizado == null) {
+    // return ResponseEntity.notFound().build();
+    // }
+    // return ResponseEntity.ok(actualizado);
+    // }
 
     @DeleteMapping(ApiRoutes.Sustentacion.ELIMINAR)
     public ResponseEntity<?> eliminar(@PathVariable Long id) {
