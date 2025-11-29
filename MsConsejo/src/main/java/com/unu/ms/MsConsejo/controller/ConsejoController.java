@@ -26,7 +26,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RestController
 @RequestMapping(ApiRoutes.Consejo.BASE)
-@Tag(name = "Consejo Controller", description = "Endpoints para gestionar los consejos.")
+@Tag(name = "Consejo Controller")
 public class ConsejoController {
 
     @Autowired
@@ -35,9 +35,9 @@ public class ConsejoController {
     @GetMapping(value = ApiRoutes.Consejo.LISTAR)
     public ResponseBase<List<ConsejoResponse>> ListarConsejos() {
         log.info("Iniciando proceso: Listar consejos");
-        List<ConsejoResponse> consejos = consejoService.listar();
-        log.info("Proceso finalizado: {} consejos encontrados", consejos.size());
-        return ResponseBase.ok(Mensajes.LISTAR_OK, consejos);
+        List<ConsejoResponse> listaResponse = consejoService.listar();
+        log.info("Proceso finalizado: {} consejos encontrados", listaResponse.size());
+        return ResponseBase.ok(Mensajes.LISTAR_OK, listaResponse);
     }
 
     @PostMapping(value = ApiRoutes.Consejo.CREAR)
