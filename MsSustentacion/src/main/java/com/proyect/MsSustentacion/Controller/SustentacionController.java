@@ -6,6 +6,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.proyect.MsSustentacion.util.ApiRoutes;
 
+import jakarta.validation.Valid;
+
 import java.net.URI;
 
 @RestController
@@ -33,7 +35,7 @@ public class SustentacionController {
     }
 
     @PostMapping(ApiRoutes.Sustentacion.GUARDAR)
-    public ResponseEntity<?> crear(@RequestBody Sustentacion sustentacion) {
+    public ResponseEntity<?> crear(@RequestBody @Valid Sustentacion sustentacion) {
         Sustentacion nuevo = service.save(sustentacion);
         return ResponseEntity
                 .created(URI.create(ApiRoutes.Sustentacion.BASE + "/" + nuevo.getId()))
@@ -41,7 +43,7 @@ public class SustentacionController {
     }
 
     @PutMapping(ApiRoutes.Sustentacion.ACTUALIZAR)
-    public ResponseEntity<?> actualizar(@PathVariable Long id, @RequestBody Sustentacion sustentacion) {
+    public ResponseEntity<?> actualizar(@PathVariable Long id, @RequestBody @Valid Sustentacion sustentacion) {
         Sustentacion actualizado = service.update(id, sustentacion);
 
         if (actualizado == null) {
@@ -58,6 +60,6 @@ public class SustentacionController {
         }
 
         service.delete(id);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok("Sustentación eliminada correctamente");
     }
 }

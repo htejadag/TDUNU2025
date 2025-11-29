@@ -1,7 +1,9 @@
 package com.proyect.MsSustentacion.config;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.proyect.MsSustentacion.model.Error.BusinessRuleException;
+import com.proyect.MsSustentacion.model.Error.ErrorResponse;
+import com.proyect.MsSustentacion.model.Error.ResourceNotFoundException;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -9,42 +11,52 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.Map;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    private static final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
+    // 1. Manejar una excepción específica (Ej: Recurso no encontrado)
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleResourceNotFoundException(
+            ResourceNotFoundException ex, WebRequest request) {
 
-    // Manejo de excepción general
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<Object> handleGeneralException(Exception ex, WebRequest request) {
-
-        String path = request.getDescription(false);
-        // Ignorar errores de Swagger
-        if (path.contains("swagger") || path.contains("api-docs")) {
-            return null; // Permite que Spring maneje esta excepción
-        }
-
-        Map<String, Object> body = new HashMap<>();
-        body.put("timestamp", LocalDateTime.now());
-        body.put("message", ex.getMessage());
-        body.put("path", request.getDescription(false));
-
-        logger.error("Error procesando la petición", ex);
-
-        return new ResponseEntity<>(body, HttpStatus.INTERNAL_SERVER_ERROR);
+        ErrorResponse error = new ErrorResponse(
+                LocalDateTime.now(),
+                HttpStatus.NOT_FOUND.value(),
+                HttpStatus.NOT_FOUND.getReasonPhrase(),
+                ex.getMessage(),
+                request.getDescription(false).replace("uri=", ""));
+        return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
     }
 
-    // // Manejo de excepciones personalizadas
-    // @ExceptionHandler(MiExcepcion.class)
-    // public ResponseEntity<Object> handleMiExcepcion(MiExcepcion ex, WebRequest
-    // request) {
-    // Map<String, Object> body = new HashMap<>();
-    // body.put("timestamp", LocalDateTime.now());
-    // body.put("message", ex.getMessage());
+    // 2. Manejar una excepción de Regla de Negocio (Ej: BadRequest)
+    @ExceptionHandler(BusinessRuleException.class)
+    public ResponseEntity<ErrorResponse> handleBusinessRuleException(
+            BusinessRuleException ex, WebRequest request) {
 
-    // return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
-    // }
+        ErrorResponse error = new ErrorResponse(
+                LocalDateTime.now(),
+                HttpStatus.BAD_REQUEST.value(),
+                HttpStatus.BAD_REQUEST.getReasonPhrase(),
+                ex.getMessage(),
+                request.getDescription(false).replace("uri=", ""));
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+    }
+
+    // 3. Manejar cualquier otra excepción no controlada (Error genérico 500)
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ErrorResponse> handleGlobalException(
+            Exception ex, WebRequest request) {
+
+        ErrorResponse error = new ErrorResponse(
+                LocalDateTime.now(),
+                HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase(),
+                "Ocurrió un error inesperado. Contacte al administrador.",
+                request.getDescription(false).replace("uri=", ""));
+        // Opcional: Imprimir el stacktrace en logs aquí
+        ex.printStackTrace();
+
+        return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 }

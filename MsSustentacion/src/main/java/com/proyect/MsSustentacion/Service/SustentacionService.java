@@ -11,7 +11,5 @@ public interface SustentacionService {
 
     Sustentacion save(Sustentacion sustentacion);
 
-    Sustentacion update(Long id, Sustentacion sustentacion);
-
     void delete(Long id);
 }
