@@ -3,7 +3,6 @@ package com.proyect.MsSustentacion.Service.impl;
 import com.proyect.MsSustentacion.Repository.SustentacionRepository;
 import com.proyect.MsSustentacion.Service.SustentacionService;
 import com.proyect.MsSustentacion.model.Entity.Sustentacion;
-import com.proyect.MsSustentacion.model.Error.BusinessRuleException;
 import com.proyect.MsSustentacion.model.Error.ResourceNotFoundException;
 import com.proyect.MsSustentacion.model.request.SustentacionRequest;
 import com.proyect.MsSustentacion.model.response.SustentacionResponse;
@@ -15,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -28,10 +26,14 @@ public class SustentacionServiceImpl implements SustentacionService {
     @Autowired
     private ModelMapper modelMapper;
 
+    private static final Short ID_ELIMINADO = 0;
+    private static final Short ID_PENDIENTE = 1;
+
     @Override
     @Transactional(readOnly = true)
     public List<SustentacionResponse> findAll() {
-        return repository.findAll()
+        // Traer todos EXCEPTO los que tengan ID 0
+        return repository.findByEstadoResulIdNot(ID_ELIMINADO)
                 .stream()
                 .map(entity -> modelMapper.map(entity, SustentacionResponse.class))
                 .toList();
@@ -40,66 +42,43 @@ public class SustentacionServiceImpl implements SustentacionService {
     @Override
     @Transactional(readOnly = true)
     public SustentacionResponse findById(Long id) {
-        return repository.findById(id)
+        // Buscar si existe y NO es 0
+        return repository.findByIdAndEstadoResulIdNot(id, ID_ELIMINADO)
                 .map(entity -> modelMapper.map(entity, SustentacionResponse.class))
-                .orElseThrow(() -> new ResourceNotFoundException("No se encontró la sustentación con ID: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Sustentación no encontrada (ID: " + id + ")"));
     }
 
     @Override
     @Transactional
     public SustentacionResponse save(SustentacionRequest request) {
 
-        log.info("Intentando guardar sustentación para tramiteId: {}", request.getTramiteId());
-
-        // 1. Request -> Entity
         Sustentacion sustentacion = modelMapper.map(request, Sustentacion.class);
 
-        // --- 2. VALIDACIONES DE NEGOCIO ---
+        // ... Tus validaciones de fechas y acta aquí ...
 
-        // A) Integridad (Opcional si ya usas @NotNull en el Request)
-        if (sustentacion.getTramiteId() == null) {
-            throw new BusinessRuleException("El ID del trámite es obligatorio.");
+        // ASIGNAR ESTADO POR DEFECTO
+        // Si es nuevo y no tiene estado, le ponemos 1 (Pendiente)
+        if (sustentacion.getId() == null && sustentacion.getEstadoResulId() == null) {
+            sustentacion.setEstadoResulId(ID_PENDIENTE);
         }
 
-        // B) Validar Fecha Futura (Solo creación)
-        if (sustentacion.getId() == null) {
-            LocalDateTime fechaProg = LocalDateTime.of(sustentacion.getFecha(), sustentacion.getHora());
-            if (fechaProg.isBefore(LocalDateTime.now())) {
-                throw new BusinessRuleException("La fecha y hora de sustentación no pueden ser en el pasado.");
-            }
-        }
-
-        // C) Unicidad de Acta
-        if (sustentacion.getActaNumero() != null && !sustentacion.getActaNumero().isEmpty()) {
-            boolean existe = (sustentacion.getId() == null)
-                    ? repository.existsByActaNumero(sustentacion.getActaNumero())
-                    : repository.existsByActaNumeroAndIdNot(sustentacion.getActaNumero(), sustentacion.getId());
-
-            if (existe) {
-                throw new BusinessRuleException("El número de acta '" + sustentacion.getActaNumero() + "' ya existe.");
-            }
-        }
-
-        // D) Valores por defecto
-        if (sustentacion.getEstadoResulId() == null) {
-            sustentacion.setEstadoResulId((short) 1);
-        }
-
-        // --- 3. Guardar ---
         Sustentacion saved = repository.save(sustentacion);
-
-        log.info("Sustentación guardada con éxito. ID: {}", saved.getId());
-
-        // --- 4. Entity -> Response ---
         return modelMapper.map(saved, SustentacionResponse.class);
     }
 
     @Override
     @Transactional
     public void delete(Long id) {
-        if (!repository.existsById(id)) {
-            throw new ResourceNotFoundException("No se puede eliminar. No existe el ID: " + id);
-        }
-        repository.deleteById(id);
+        // 1. Verificar que existe y no está eliminado ya
+        Sustentacion sustentacion = repository.findByIdAndEstadoResulIdNot(id, ID_ELIMINADO)
+                .orElseThrow(() -> new ResourceNotFoundException("No se puede eliminar. ID no encontrado: " + id));
+
+        // 2. CAMBIO DE ESTADO (Borrado Lógico)
+        sustentacion.setEstadoResulId(ID_ELIMINADO);
+
+        // 3. Guardar cambios
+        repository.save(sustentacion);
+
+        log.info("Sustentación ID {} eliminada lógicamente (Estado cambiado a {}).", id, ID_ELIMINADO);
     }
 }

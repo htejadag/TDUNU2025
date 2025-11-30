@@ -39,19 +39,19 @@ public class Sustentacion {
 
     @NotNull(message = "El estado es obligatorio.")
     @Column(name = "estado_resul_id", nullable = false)
-    private short estadoResulId;
+    private Short estadoResulId;
 
     @NotNull(message = "El número de acta es obligatorio.")
     @Column(name = "acta_numero", length = 60, unique = true)
     private String actaNumero;
 
-    @Column(name = "fecha_creacion", insertable = false, updatable = false)
+    @Column(name = "fecha_creacion")
     private LocalDateTime fechaCreacion;
 
     @Column(name = "usuario_creacion")
     private String usuarioCreacion;
 
-    @Column(name = "fecha_modificacion", insertable = false, updatable = false)
+    @Column(name = "fecha_modificacion")
     private LocalDateTime fechaModificacion;
 
     @Column(name = "usuario_modificacion")
