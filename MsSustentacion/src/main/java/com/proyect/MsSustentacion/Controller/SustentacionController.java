@@ -39,7 +39,6 @@ public class SustentacionController {
     @PostMapping(ApiRoutes.Sustentacion.GUARDAR)
     public ResponseEntity<SustentacionResponse> guardar(@Valid @RequestBody SustentacionRequest request) {
         // Aseguramos que sea una creación (ID nulo)
-        request.setId(null);
         SustentacionResponse nuevo = service.save(request);
         // Devolvemos 201 Created en lugar de 200 OK
         return new ResponseEntity<>(nuevo, HttpStatus.CREATED);

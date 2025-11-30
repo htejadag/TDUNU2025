@@ -1,6 +1,6 @@
 package com.proyect.MsSustentacion.model.response;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.time.LocalTime;
 
 import lombok.Data;
@@ -12,7 +12,7 @@ public class SustentacionResponse {
 
     public String lugar;
 
-    public LocalDateTime fecha;
+    public LocalDate fecha;
 
     public LocalTime hora;
 
