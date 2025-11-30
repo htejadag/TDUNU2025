@@ -17,7 +17,6 @@ import java.time.LocalDateTime;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-        // 1. Recurso No Encontrado (404)
         @ExceptionHandler(ResourceNotFoundException.class)
         public ResponseEntity<ErrorResponse> handleResourceNotFoundException(
                         ResourceNotFoundException ex, WebRequest request) {
@@ -31,7 +30,6 @@ public class GlobalExceptionHandler {
                 return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
         }
 
-        // 2. Regla de Negocio (400) - Validaciones manuales del Service
         @ExceptionHandler(BusinessRuleException.class)
         public ResponseEntity<ErrorResponse> handleBusinessRuleException(
                         BusinessRuleException ex, WebRequest request) {
@@ -45,14 +43,12 @@ public class GlobalExceptionHandler {
                 return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
         }
 
-        // 3. Validaciones de Annotaciones (@Valid, @NotNull) (400)
         @ExceptionHandler(MethodArgumentNotValidException.class)
         public ResponseEntity<ErrorResponse> handleValidationExceptions(
                         MethodArgumentNotValidException ex, WebRequest request) {
 
                 StringBuilder mensajesErrores = new StringBuilder();
 
-                // Recorremos los errores de los campos
                 ex.getBindingResult().getAllErrors().forEach(error -> {
                         String campo = ((FieldError) error).getField();
                         String mensaje = error.getDefaultMessage();
@@ -69,12 +65,11 @@ public class GlobalExceptionHandler {
                 return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
         }
 
-        // 4. Error General (500)
         @ExceptionHandler(Exception.class)
         public ResponseEntity<ErrorResponse> handleGlobalException(
                         Exception ex, WebRequest request) {
 
-                ex.printStackTrace(); // Imprime el error en consola para debug
+                ex.printStackTrace();
 
                 ErrorResponse error = new ErrorResponse(
                                 LocalDateTime.now(),

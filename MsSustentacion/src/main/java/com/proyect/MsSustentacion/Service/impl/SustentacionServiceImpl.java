@@ -32,7 +32,6 @@ public class SustentacionServiceImpl implements SustentacionService {
     @Override
     @Transactional(readOnly = true)
     public List<SustentacionResponse> findAll() {
-        // Traer todos EXCEPTO los que tengan ID 0
         return repository.findByEstadoResulIdNot(ID_ELIMINADO)
                 .stream()
                 .map(entity -> modelMapper.map(entity, SustentacionResponse.class))
@@ -42,7 +41,6 @@ public class SustentacionServiceImpl implements SustentacionService {
     @Override
     @Transactional(readOnly = true)
     public SustentacionResponse findById(Long id) {
-        // Buscar si existe y NO es 0
         return repository.findByIdAndEstadoResulIdNot(id, ID_ELIMINADO)
                 .map(entity -> modelMapper.map(entity, SustentacionResponse.class))
                 .orElseThrow(() -> new ResourceNotFoundException("Sustentación no encontrada (ID: " + id + ")"));
@@ -54,10 +52,6 @@ public class SustentacionServiceImpl implements SustentacionService {
 
         Sustentacion sustentacion = modelMapper.map(request, Sustentacion.class);
 
-        // ... Tus validaciones de fechas y acta aquí ...
-
-        // ASIGNAR ESTADO POR DEFECTO
-        // Si es nuevo y no tiene estado, le ponemos 1 (Pendiente)
         if (sustentacion.getId() == null && sustentacion.getEstadoResulId() == null) {
             sustentacion.setEstadoResulId(ID_PENDIENTE);
         }
@@ -69,14 +63,11 @@ public class SustentacionServiceImpl implements SustentacionService {
     @Override
     @Transactional
     public void delete(Long id) {
-        // 1. Verificar que existe y no está eliminado ya
         Sustentacion sustentacion = repository.findByIdAndEstadoResulIdNot(id, ID_ELIMINADO)
                 .orElseThrow(() -> new ResourceNotFoundException("No se puede eliminar. ID no encontrado: " + id));
 
-        // 2. CAMBIO DE ESTADO (Borrado Lógico)
         sustentacion.setEstadoResulId(ID_ELIMINADO);
 
-        // 3. Guardar cambios
         repository.save(sustentacion);
 
         log.info("Sustentación ID {} eliminada lógicamente (Estado cambiado a {}).", id, ID_ELIMINADO);

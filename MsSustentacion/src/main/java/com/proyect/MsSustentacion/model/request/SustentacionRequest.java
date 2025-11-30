@@ -1,6 +1,6 @@
 package com.proyect.MsSustentacion.model.request;
 
-import com.fasterxml.jackson.annotation.JsonFormat; // <--- IMPORTANTE
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
@@ -10,8 +10,6 @@ import java.time.LocalTime;
 @Data
 public class SustentacionRequest {
 
-    // 1. Usamos @Schema(hidden = true) si es Request, para que no pida ID al crear
-    // O le pones un ejemplo si es Response.
     @Schema(hidden = true)
     private Long id;
 
@@ -22,12 +20,11 @@ public class SustentacionRequest {
     private String lugar;
 
     @Schema(description = "Fecha (YYYY-MM-DD)", example = "2025-11-30", type = "string")
-    @JsonFormat(pattern = "yyyy-MM-dd") // <--- Asegura que Java lo lea como String
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate fecha;
 
-    // EL CAMBIO CLAVE PARA LA HORA:
     @Schema(description = "Hora (HH:mm:ss)", example = "10:30:00", type = "string")
-    @JsonFormat(pattern = "HH:mm:ss") // <--- Esto aplana el objeto a "10:30:00"
+    @JsonFormat(pattern = "HH:mm:ss")
     @NotNull
     private LocalTime hora;
 
