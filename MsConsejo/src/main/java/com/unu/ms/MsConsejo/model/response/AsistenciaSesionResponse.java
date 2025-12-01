@@ -1,7 +1,5 @@
 package com.unu.ms.MsConsejo.model.response;
 
-import java.sql.Timestamp;
-
 import com.unu.ms.MsConsejo.model.entity.MiembroConsejoModel;
 import com.unu.ms.MsConsejo.model.entity.SesionConsejoModel;
 
@@ -19,7 +17,7 @@ public class AsistenciaSesionResponse {
     public MiembroConsejoModel idMiembro;
     public Integer idEstadoAsistencia;
     public Integer usuarioRegistro;
-    public Timestamp fechaRegistro;
+    // public Timestamp fechaRegistro;
 
 }
 

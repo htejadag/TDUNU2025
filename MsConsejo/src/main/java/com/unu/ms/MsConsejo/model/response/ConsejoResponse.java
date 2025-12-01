@@ -1,7 +1,5 @@
 package com.unu.ms.MsConsejo.model.response;
 
-import java.sql.Timestamp;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,7 +13,7 @@ public class ConsejoResponse {
     public String nombre;
     public String descripcion;
     public Integer idEstado;
-    public Timestamp fechaCreacion;
+    // public Timestamp fechaCreacion;
     // public List<MiembroConsejoModel> miembros;
     // public List<SesionConsejoModel> sesiones;
     
