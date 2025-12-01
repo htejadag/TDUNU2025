@@ -23,7 +23,12 @@ public class PlanEstudiosController {
 
     @PostConstruct
     public void init() {
-        System.out.println(">>> CARGANDO EL CONTROLADOR REAL <<<"+ System.getProperty("user.dir"));
+        System.out.println(">>> CARGANDO EL CONTROLADOR REAL <<<" + System.getProperty("user.dir"));
+    }
+
+    @GetMapping("/error-prueba")
+    public String errorPrueba() {
+        throw new RuntimeException("Excepción de prueba desde el controller");
     }
 
     @Autowired
@@ -49,7 +54,7 @@ public class PlanEstudiosController {
 
     // MODIFICAR
     @PutMapping(value = "/modificar", produces = "application/json")
-    public PlanEstudiosModel modificar(@RequestParam(value ="id") Integer id, @RequestBody PlanEstudiosModel model) {
+    public PlanEstudiosModel modificar(@RequestParam(value = "id") Integer id, @RequestBody PlanEstudiosModel model) {
         model.setId(id); // asigna el id antes de actualizar
         return planestudiosService.guardar(model);
     }

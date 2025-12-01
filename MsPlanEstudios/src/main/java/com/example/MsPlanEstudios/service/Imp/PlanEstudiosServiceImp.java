@@ -1,6 +1,6 @@
 package com.example.MsPlanEstudios.service.Imp;
 
-import java.util.ArrayList;
+//import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +10,9 @@ import com.example.MsPlanEstudios.model.PlanEstudiosModel;
 import com.example.MsPlanEstudios.repository.PlanEstudiosRepository;
 import com.example.MsPlanEstudios.service.PlanEstudiosService;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Service
 public class PlanEstudiosServiceImp implements PlanEstudiosService {
 
