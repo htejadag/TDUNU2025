@@ -8,6 +8,7 @@ public class MsDocumentosApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(MsDocumentosApplication.class, args);
+		System.out.println("ya esta joven");
 	}
 
 }
