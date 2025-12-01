@@ -1,13 +1,17 @@
 package tdunu.MsSolicitudes.model.request;
 
+import java.time.LocalDate;
+
 import lombok.Data;
 
 @Data
 public class DemoRequest {
 
-  public String nombres;
-
-  public String apellidos;
-
-  public Integer edad;
+  private Integer idEstudiante;
+    private String procCodigo;
+    private LocalDate procFechaInicio;
+    private String procEstado; 
+    private String procFaseActual; 
+    private String procObservaciones;
+    private String usuarioCreacion;
 }

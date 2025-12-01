@@ -6,12 +6,22 @@ import tdunu.MsSolicitudes.model.response.DemoResponse;
 
 public interface DemoService {
 
-  List<DemoResponse> listar();
-
-  DemoResponse obtenerPorId(Integer id);
-
-  DemoResponse guardar(DemoRequest producto);
-
-  void eliminar(Integer id);
+  DemoResponse crear(DemoRequest request);
+    
+    DemoResponse obtenerPorId(Integer id);
+    
+    List<DemoResponse> listarTodos();
+    
+    DemoResponse actualizar(Integer id, DemoRequest request);
+    
+    void eliminar(Integer id);
+  
+    List<DemoResponse> listarPorEstudiante(Integer idEstudiante);
+    
+    List<DemoResponse> listarPorEstado(String estado);
+    
+    List<DemoResponse> listarPorFase(String fase);
+    
+    DemoResponse obtenerPorCodigo(String codigo);
 
 }
