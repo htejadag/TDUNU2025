@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.example.MsPlanEstudios.model.PlanEstudiosModel;
+import com.example.MsPlanEstudios.model.request.PlanEstudiosRequest;
+import com.example.MsPlanEstudios.model.response.PlanEstudiosResponse;
 import com.example.MsPlanEstudios.service.PlanEstudiosService;
 import com.example.MsPlanEstudios.util.ApiRoutes;
 
@@ -37,7 +37,7 @@ public class PlanEstudiosController {
 
     // LISTAR
     @GetMapping(value = ApiRoutes.PlanEstudios.LISTAR_PLAN)
-    public List<PlanEstudiosModel> listar() {
+    public List<PlanEstudiosResponse> listar() {
         /* 
         if(true){
             throw new RuntimeException("PROBANDOOOOOO");
@@ -48,21 +48,20 @@ public class PlanEstudiosController {
 
     // OBTENER
     @GetMapping(value = ApiRoutes.PlanEstudios.OBTENER_POR_ID_PLAN)
-    public PlanEstudiosModel obtenerPorId(@RequestParam(value = "id") Integer id) {
+    public PlanEstudiosResponse obtenerPorId(@RequestParam(value = "id") Integer id) {
         return planestudiosService.obtenerPorId(id);
     }
 
     // GUARDAR
     @PostMapping(value = ApiRoutes.PlanEstudios.GUARDAR_PLAN)
-    public PlanEstudiosModel guardar(@RequestBody PlanEstudiosModel model) {
+    public PlanEstudiosResponse guardar(@RequestBody PlanEstudiosRequest model) {
         return planestudiosService.guardar(model);
     }
 
     // MODIFICAR
     @PutMapping(value = ApiRoutes.PlanEstudios.MODIFICAR_PLAN, produces = "application/json")
-    public PlanEstudiosModel modificar(@RequestParam(value = "id") Integer id, @RequestBody PlanEstudiosModel model) {
-        model.setId(id); // asigna el id antes de actualizar
-        return planestudiosService.guardar(model);
+    public PlanEstudiosResponse modificar(@RequestParam(value = "id") Integer id, @RequestBody PlanEstudiosRequest model) {
+        return planestudiosService.modificar(id,model);
     }
 
     // ELMINAR
