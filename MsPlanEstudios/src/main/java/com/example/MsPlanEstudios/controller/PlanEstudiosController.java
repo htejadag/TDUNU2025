@@ -14,11 +14,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.MsPlanEstudios.model.PlanEstudiosModel;
 import com.example.MsPlanEstudios.service.PlanEstudiosService;
+import com.example.MsPlanEstudios.util.ApiRoutes;
 
 import jakarta.annotation.PostConstruct;
 
 @RestController
-@RequestMapping("/plan_estudios")
+@RequestMapping(ApiRoutes.PlanEstudios.BASE)
 public class PlanEstudiosController {
 
     @PostConstruct
@@ -35,32 +36,37 @@ public class PlanEstudiosController {
     PlanEstudiosService planestudiosService;
 
     // LISTAR
-    @GetMapping(value = "/listar")
+    @GetMapping(value = ApiRoutes.PlanEstudios.LISTAR_PLAN)
     public List<PlanEstudiosModel> listar() {
+        /* 
+        if(true){
+            throw new RuntimeException("PROBANDOOOOOO");
+        }
+        */
         return planestudiosService.listar();
     }
 
     // OBTENER
-    @GetMapping(value = "/obtenerPorId")
+    @GetMapping(value = ApiRoutes.PlanEstudios.OBTENER_POR_ID_PLAN)
     public PlanEstudiosModel obtenerPorId(@RequestParam(value = "id") Integer id) {
         return planestudiosService.obtenerPorId(id);
     }
 
     // GUARDAR
-    @PostMapping(value = "/guardar")
+    @PostMapping(value = ApiRoutes.PlanEstudios.GUARDAR_PLAN)
     public PlanEstudiosModel guardar(@RequestBody PlanEstudiosModel model) {
         return planestudiosService.guardar(model);
     }
 
     // MODIFICAR
-    @PutMapping(value = "/modificar", produces = "application/json")
+    @PutMapping(value = ApiRoutes.PlanEstudios.MODIFICAR_PLAN, produces = "application/json")
     public PlanEstudiosModel modificar(@RequestParam(value = "id") Integer id, @RequestBody PlanEstudiosModel model) {
         model.setId(id); // asigna el id antes de actualizar
         return planestudiosService.guardar(model);
     }
 
     // ELMINAR
-    @DeleteMapping(value = "/eliminar", produces = "application/json")
+    @DeleteMapping(value = ApiRoutes.PlanEstudios.ELIMINAR_PLAN, produces = "application/json")
     public String eliminar(@RequestParam(value = "id") Integer id) {
         planestudiosService.eliminar(id);
         return "Eliminado correctamente";
