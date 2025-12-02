@@ -3,10 +3,10 @@ package unu.MsGestionDocumental.MsExpediente.util;
 import lombok.Builder;
 import lombok.Data;
 
-@Data
 @Builder
+@Data
 
-public class ResponseBase {
+public class ResponseBase<T> {
 
   private boolean success;
   private String message;
