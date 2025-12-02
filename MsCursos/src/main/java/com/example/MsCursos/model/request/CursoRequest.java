@@ -1,10 +1,9 @@
-package com.example.MsCursos.model.response;
+package com.example.MsCursos.model.request;
 
 import lombok.Data;
 
 @Data
-public class CursoResponse {
-    private Integer id;
+public class CursoRequest {
     private String nombre;
     private String codigo;
     private Integer idCiclo;

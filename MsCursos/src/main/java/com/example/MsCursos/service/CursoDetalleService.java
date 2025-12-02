@@ -2,6 +2,7 @@ package com.example.MsCursos.service;
 
 import java.util.List;
 
+import com.example.MsCursos.model.request.CursoDetalleRequest;
 import com.example.MsCursos.model.response.CursoDetalleResponse;
 
 public interface CursoDetalleService {
@@ -10,7 +11,7 @@ public interface CursoDetalleService {
 
     CursoDetalleResponse obtenerPorId(Integer id);
 
-    CursoDetalleResponse guardar(CursoDetalleResponse producto);
+    CursoDetalleResponse guardar(CursoDetalleRequest request);
 
     void eliminar(Integer id);
 
