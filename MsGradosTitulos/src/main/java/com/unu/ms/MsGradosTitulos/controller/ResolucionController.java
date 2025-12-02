@@ -26,14 +26,14 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RestController
 @RequestMapping(ApiRoutes.GradosTitulos.BASE)
-@Tag(name = "Resolucion Controller", description = "Endpoints para gestionar las resoluciones.")
+@Tag(name = "Resolucion Controller")
 public class ResolucionController {
 
     @Autowired
     ResolucionService resolucionService;
 
     @GetMapping(value = ApiRoutes.GradosTitulos.LISTAR)
-    public ResponseBase<List<ResolucionResponse>> ListarResoluciones() {
+    public ResponseBase<List<ResolucionResponse>> Listar() {
         log.info("Iniciando proceso: Listar resoluciones");
         List<ResolucionResponse> resoluciones = resolucionService.listar();
         log.info("Proceso finalizado: {} resoluciones encontradas", resoluciones.size());
@@ -41,7 +41,7 @@ public class ResolucionController {
     }
 
     @PostMapping(value = ApiRoutes.GradosTitulos.CREAR)
-    public ResponseBase<ResolucionResponse> CrearResolucion(@RequestBody ResolucionRequest request) {
+    public ResponseBase<ResolucionResponse> Crear(@RequestBody ResolucionRequest request) {
         log.info("Iniciando proceso: Crear nueva resolución");
         log.debug("Datos recibidos para creación: {}", request);
         ResolucionResponse response = resolucionService.crear(request);
@@ -50,7 +50,7 @@ public class ResolucionController {
     }
 
     @DeleteMapping(value = ApiRoutes.GradosTitulos.ELIMINAR)
-    public ResponseBase<?> EliminarResolucion(@RequestParam(value = "id") Integer id) {
+    public ResponseBase<?> Eliminar(@RequestParam(value = "id") Integer id) {
         log.warn("Solicitud recibida: Eliminación de resolución. ID={}", id);
         resolucionService.eliminar(id);
         log.info("Resolución eliminada exitosamente. ID={}", id);
@@ -58,7 +58,7 @@ public class ResolucionController {
     }
 
     @PutMapping(value = ApiRoutes.GradosTitulos.ACTUALIZAR)
-    public ResponseBase<ResolucionResponse> ActualizarResolucion(
+    public ResponseBase<ResolucionResponse> Actualizar(
             @RequestParam(value = "id") Integer id,
             @RequestBody ResolucionRequest request) {
         log.info("Iniciando proceso: Actualización de resolución. ID={}", id);
@@ -69,7 +69,7 @@ public class ResolucionController {
     }
 
     @GetMapping(value = ApiRoutes.GradosTitulos.OBTENER_POR_ID)
-    public ResponseBase<ResolucionResponse> ObtenerResolucionPorId(@RequestParam(value = "id") Integer id) {
+    public ResponseBase<ResolucionResponse> ObtenerPorId(@RequestParam(value = "id") Integer id) {
         log.info("Iniciando proceso: Obtener resolución por ID. ID={}", id);
         ResolucionResponse resp = resolucionService.obtenerPorId(id);
         log.info("Resolución obtenida correctamente. ID={}", id);
