@@ -38,8 +38,8 @@ public class DemoController {
   }
 
   @PostMapping(value = ApiRoutes.Demo.GUARDAR)
-  public ResponseBase<DemoResponse> guardar(@RequestBody DemoRequest model) {
-    DemoResponse response = demoService.guardar(model);
+  public ResponseBase<DemoResponse> guardar(@RequestBody DemoRequest request) {
+    DemoResponse response = demoService.guardar(request);
     return ResponseBase.ok(response);
   }
 
