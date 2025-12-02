@@ -14,7 +14,7 @@ import lombok.Setter;
 
 public class UnidadOrganicaResponse {
 
-    private Short idUnidad;
+    private Short id;
     private String nombre;
     private String siglas;
 
