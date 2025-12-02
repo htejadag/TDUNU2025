@@ -5,7 +5,7 @@ import com.unu.MsDocumentos.model.request.DocumentoRequest;
 import com.unu.MsDocumentos.repository.IDocumentoRepository;
 import com.unu.MsDocumentos.service.IDocumentoService;
 import com.unu.MsDocumentos.utils.Mensajes;
-import com.unu.MsDocumentos.utils.exceptions.NotFoundException; // Asegúrate de que esta clase exista
+import com.unu.MsDocumentos.utils.exceptions.NotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -19,7 +19,6 @@ import java.util.UUID;
 @AllArgsConstructor
 public class DocumentoService implements IDocumentoService {
 
-    // Al usar @AllArgsConstructor, no necesitamos @Autowired si el campo es final
     private final IDocumentoRepository repository;
 
     @Override
@@ -29,7 +28,6 @@ public class DocumentoService implements IDocumentoService {
 
         Documento documento = new Documento();
 
-        // Mapeo manual de los datos correctos de tu entidad
         documento.setCorrelativo(request.getCorrelativo());
         documento.setFechaEmision(request.getFechaEmision());
         documento.setExpedienteId(request.getExpedienteId());
@@ -57,10 +55,8 @@ public class DocumentoService implements IDocumentoService {
     public Documento actualizar(UUID id, DocumentoRequest request) {
         log.info("Actualizando documento ID: {}", id);
 
-        // Reutilizamos buscarPorId para aprovechar la validación de excepción
         Documento documentoExistente = buscarPorId(id);
 
-        // Actualizamos los campos
         documentoExistente.setCorrelativo(request.getCorrelativo());
         documentoExistente.setFechaEmision(request.getFechaEmision());
         documentoExistente.setExpedienteId(request.getExpedienteId());
@@ -77,7 +73,6 @@ public class DocumentoService implements IDocumentoService {
     public void eliminar(UUID id) {
         log.info("Eliminando documento ID: {}", id);
 
-        // Verificamos si existe antes de borrar
         if (!repository.existsById(id)) {
             throw new NotFoundException(Mensajes.delete + id);
         }

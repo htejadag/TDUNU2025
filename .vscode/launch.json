@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "MsDocumentosApplication",
+            "request": "launch",
+            "mainClass": "com.unu.MsDocumentos.MsDocumentosApplication",
+            "projectName": "MsDocumentos"
+        },
+        {
+            "type": "java",
             "name": "Current File",
             "request": "launch",
             "mainClass": "${file}"
