@@ -1,4 +1,4 @@
-package main.java.unu.MsGestionDocumental.MsExpediente.model.request;
+package unu.MsGestionDocumental.MsExpediente.model.request;
 
 import lombok.Data;
 import jakarta.validation.constraints.NotBlank;
@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 
 @Data
 
-public class RequestExpediente {
+public class requestExpediente {
     
     @NotBlank(message = "El asunto es obligatorio")
     @Size(max = 255)

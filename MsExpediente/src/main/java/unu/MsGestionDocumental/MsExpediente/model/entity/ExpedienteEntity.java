@@ -1,4 +1,4 @@
-package unu.MsGestionDocumental.MsExpediente.model;
+package unu.MsGestionDocumental.MsExpediente.model.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "expediente")
-@Data 
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class ExpedienteEntity {
@@ -16,7 +16,7 @@ public class ExpedienteEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false, updatable = false)
     private Integer id;
-    
+
     @Column(name = "correlativo", nullable = true, length = 10)
     private String correlativo;
 
@@ -24,7 +24,7 @@ public class ExpedienteEntity {
     private String asunto;
 
     @Column(name = "usuarioId", nullable = false, updatable = false)
-    private Integer usuarioId; 
+    private Integer usuarioId;
 
     @Column(name = "fechaIngreso")
     private LocalDateTime fechaIngreso;
@@ -33,22 +33,22 @@ public class ExpedienteEntity {
     private LocalDateTime fechaCreacion;
 
     @Column(name = "creadoPor", nullable = true, updatable = false)
-    private Integer creadoPor; 
+    private Integer creadoPor;
 
     @Column(name = "fechaEdicion")
     private LocalDateTime fechaEdicion;
 
     @Column(name = "editadoPor")
-    private Integer editadoPor; 
+    private Integer editadoPor;
 
     @Column(name = "activo", nullable = false)
-    private Boolean activo = true;   
-    
+    private Boolean activo = true;
+
     @PrePersist
     protected void onCreate() {
         this.fechaCreacion = LocalDateTime.now();
     }
-    
+
     @PreUpdate
     protected void onUpdate() {
         this.fechaEdicion = LocalDateTime.now();

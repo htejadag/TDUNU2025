@@ -1,4 +1,4 @@
-package main.java.unu.MsGestionDocumental.MsExpediente.service;
+package unu.MsGestionDocumental.MsExpediente.service;
 
 import unu.MsGestionDocumental.MsExpediente.model.entity.ExpedienteEntity;
 import unu.MsGestionDocumental.MsExpediente.repository.ExpedienteRepository;
@@ -12,7 +12,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor 
 @Slf4j 
-public class ExpedienteService {
+public class expedienteService {
 
     private final ExpedienteRepository expedienteRepository;
 

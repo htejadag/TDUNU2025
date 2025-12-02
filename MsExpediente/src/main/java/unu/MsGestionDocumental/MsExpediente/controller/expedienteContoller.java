@@ -1,4 +1,4 @@
-package main.java.unu.MsGestionDocumental.MsExpediente.controller;
+package unu.MsGestionDocumental.MsExpediente.controller;
 
 public class expedienteContoller {
     
