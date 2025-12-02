@@ -1,5 +1,8 @@
 package tdunu.MsSeguridad.repository;
 
-public class UsuarioRepository {
-    
+import org.springframework.data.jpa.repository.JpaRepository;
+import tdunu.MsSeguridad.model.entity.UsuarioModel;
+
+public interface UsuarioRepository extends JpaRepository<UsuarioModel, Long> {
+
 }
