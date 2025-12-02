@@ -8,7 +8,6 @@ import unu.MsGestionDocumental.MsExpediente.repository.ExpedienteRepository;
 import lombok.extern.slf4j.Slf4j;
 
 import org.modelmapper.ModelMapper;
-import org.modelmapper.internal.bytebuddy.implementation.bytecode.constant.IntegerConstant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +23,6 @@ public class expedienteIService implements expedienteService{
     @Autowired
     private ModelMapper modelMapper;
     
-
     @Override
     public List<responseExpediente> listar() {
         return expedienteRepository.findAll()
@@ -36,20 +34,26 @@ public class expedienteIService implements expedienteService{
 
     @Override
     public responseExpediente obtenerPorId(Integer id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'obtenerPorId'");
+        return expedienteRepository.findById(id)            
+            .map(model -> modelMapper.map(model, responseExpediente.class))
+            .orElseThrow(()-> new ResourceNotFoundException("Expediente", "id", id));
     }
 
     @Override
     public responseExpediente guardar(requestExpediente producto) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'guardar'");
+        ExpedienteEntity model = modelMapper.map(producto, ExpedienteEntity.class);
+        ExpedienteEntity guadado = expedienteRepository.save(model);
+        responseExpediente vista = modelMapper.map(guadado, responseExpediente.class);
+        return vista;
     }
 
     @Override
     public void eliminar(Integer id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'eliminar'");
+        ExpedienteEntity repo = expedienteRepository.findAllByIDEliminado(id)
+         .orElseThrow(()-> new ResourceNotFoundException("Expediente", "id", id));
+
+         repo.setActivo(false);
+         expedienteRepository.save(repo);
     }
 
 }

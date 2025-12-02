@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 public class requestExpediente {
     
     @NotBlank(message = "El asunto es obligatorio")
-    @Size(max = 255)
+    @Size(max = 255, message = "El asunto no debe de pasar los 100 caracteres")
     public String asunto;
 
     @NotNull(message = "El usuario es obligatorio")

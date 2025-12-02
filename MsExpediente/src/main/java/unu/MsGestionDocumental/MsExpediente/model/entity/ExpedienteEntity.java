@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+
 public class ExpedienteEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
