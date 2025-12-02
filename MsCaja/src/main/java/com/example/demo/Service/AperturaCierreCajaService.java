@@ -20,7 +20,8 @@ public class AperturaCierreCajaService {
         if (accGuardada != null) {
             logger.info("Operación agregada exitosamente: {}", accGuardada.getIdAperturaCierreCaja());
         } else {
-            logger.error("Error al agregar la operación: {}", accGuardada.getIdAperturaCierreCaja());
+            // logger.error("Error al agregar la operación: {}",
+            // accGuardada.getIdAperturaCierreCaja());
         }
         return accGuardada;
     }

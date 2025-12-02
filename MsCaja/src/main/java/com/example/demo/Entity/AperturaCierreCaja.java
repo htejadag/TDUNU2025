@@ -28,13 +28,13 @@ public class AperturaCierreCaja {
     @NotNull(message = "La fecha no puede ser nula")
     private LocalDate fecha;
 
-    @Column(name = "monto_inicial", precision = 8, scale = 2)
+    @Column(name = "monto_inicial")
     @NotNull(message = "El monto inicial no puede ser nulo")
     @DecimalMin(value = "0.0", inclusive = true, message = "El monto inicial debe ser cero o positivo")
-    private BigDecimal montoInicial;
+    private double montoInicial;
 
-    @Column(name = "monto_final", precision = 8, scale = 2)
+    @Column(name = "monto_final")
     @DecimalMin(value = "0.0", inclusive = true, message = "El monto final debe ser cero o positivo")
-    private BigDecimal montoFinal;
+    private double montoFinal;
 
 }

@@ -23,19 +23,16 @@ public class AperturaCierreCajaController {
 
     @PostMapping(ApiRoutes.APERTURA_CIERRE_CAJA_C)
     public String crearAperturaCierreCaja(
+            @RequestParam("fecha") LocalDate fecha,
             @RequestParam("idCajero") int idCajero,
             @RequestParam("montoInicial") double montoInicial,
-            @RequestParam("fecha") String fechaStr) {
+            @RequestParam("montoFinal") double montoFinal) {
 
         AperturaCierreCaja apertura = new AperturaCierreCaja();
+        apertura.setFecha(fecha);
         apertura.setIdCajero(idCajero);
-        apertura.setMontoInicial(BigDecimal.valueOf(montoInicial));
-        try {
-            apertura.setFecha(LocalDate.parse(fechaStr, DateTimeFormatter.ISO_LOCAL_DATE));
-        } catch (DateTimeParseException e) {
-            return "Error: Formato de fecha inválido. Por favor, use el formato YYYY-MM-DD.";
-        }
-        apertura.setMontoFinal(null);
+        apertura.setMontoInicial(montoInicial);
+        apertura.setMontoFinal(montoFinal);
         aperturaCierreCajaService.guardarApertura(apertura);
         return "Apertura de Caja creada exitosamente para el Cajero: " + idCajero;
     }
