@@ -9,8 +9,6 @@ import org.springframework.web.context.request.WebRequest;
 
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 
-import unu.MsGestionDocumental.MsExpediente.config.ResourceNotFoundException;
-
 @ControllerAdvice
 public class GlobalExceptionHandler {
 

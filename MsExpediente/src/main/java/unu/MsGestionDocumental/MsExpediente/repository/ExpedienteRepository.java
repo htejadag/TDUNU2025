@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ExpedienteRepository extends JpaRepository<ExpedienteEntity, Integer> {
 
-    List<ExpedienteEntity> findAllByEliminadoLogic();
-    Optional<ExpedienteEntity> findAllByIDEliminado(Integer id);
+    List<ExpedienteEntity> findAllByActivoTrue();
+    Optional<ExpedienteEntity> findAllByAndActivoTrue(Integer id);
     
 }

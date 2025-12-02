@@ -25,7 +25,7 @@ public class expedienteIService implements expedienteService{
     
     @Override
     public List<responseExpediente> listar() {
-        return expedienteRepository.findAll()
+        return expedienteRepository.findAllByActivoTrue()
             .stream()
             .map(model-> modelMapper.map(model, responseExpediente.class))
             .toList();
@@ -49,7 +49,7 @@ public class expedienteIService implements expedienteService{
 
     @Override
     public void eliminar(Integer id) {
-        ExpedienteEntity repo = expedienteRepository.findAllByIDEliminado(id)
+        ExpedienteEntity repo = expedienteRepository.findAllByAndActivoTrue(id)
          .orElseThrow(()-> new ResourceNotFoundException("Expediente", "id", id));
 
          repo.setActivo(false);

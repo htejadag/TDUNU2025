@@ -17,11 +17,11 @@ public class requestExpediente {
     @NotNull(message = "El usuario es obligatorio")
     public Integer usuarioId;
 
+    public LocalDateTime fechaIngreso;
+
     public LocalDateTime fechaEdicion;
 
-    public Integer creadoPor;    
-
-    public LocalDateTime fechaIngreso;
+    public Integer editadoPor;        
 
     public boolean activo = true;
     
