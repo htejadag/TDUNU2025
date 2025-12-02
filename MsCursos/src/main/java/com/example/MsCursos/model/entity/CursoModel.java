@@ -1,4 +1,4 @@
-package com.example.MsCursos.model;
+package com.example.MsCursos.model.entity;
 
 import java.time.LocalDateTime;
 
