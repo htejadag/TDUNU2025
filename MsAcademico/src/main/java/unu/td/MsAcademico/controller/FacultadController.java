@@ -7,6 +7,7 @@ import unu.td.MsAcademico.model.request.FacultadRequest;
 import unu.td.MsAcademico.model.response.FacultadResponse;
 import unu.td.MsAcademico.service.IFacultadService;
 import unu.td.MsAcademico.utils.ApiRoutes;
+import unu.td.MsAcademico.utils.Messages;
 import unu.td.MsAcademico.utils.ResponseBase;
 
 import java.util.List;
@@ -18,7 +19,7 @@ public class FacultadController {
 
     private IFacultadService service;
 
-    @PostMapping(ApiRoutes.Facultad.add)
+    @PostMapping(ApiRoutes.General.add)
     public ResponseBase<FacultadResponse> add(@Valid @RequestBody FacultadRequest request) {
         FacultadResponse response = service.add(request);
         return ResponseBase.ok(response);
@@ -30,22 +31,28 @@ public class FacultadController {
         return ResponseBase.ok(response);
     }
 
-    @GetMapping(ApiRoutes.Facultad.byId)
+    @GetMapping(ApiRoutes.General.byId)
     public ResponseBase<FacultadResponse> getById(@PathVariable Integer id) {
         FacultadResponse response = service.getById(id);
         return ResponseBase.ok(response);
     }
 
-    @PutMapping(ApiRoutes.Facultad.update)
+    @PutMapping(ApiRoutes.General.update)
     public ResponseBase<FacultadResponse> update(@PathVariable Integer id, @Valid @RequestBody FacultadRequest request) {
         FacultadResponse response = service.update(id, request);
         return ResponseBase.ok(response);
     }
 
 
-    @DeleteMapping(ApiRoutes.Facultad.delete)
+    @DeleteMapping(ApiRoutes.General.delete)
     public ResponseBase<FacultadResponse> delete(@PathVariable Integer id) {
         service.delete(id);
-        return ResponseBase.ok(null);
+        return ResponseBase.ok(Messages.ELIMINACION_EXITOSA, null);
+    }
+
+    @PatchMapping(ApiRoutes.General.deactivate)
+    public ResponseBase<FacultadResponse> deactivate(@PathVariable Integer id) {
+        service.deactivate(id);
+        return ResponseBase.ok(Messages.DESACTIVACION_EXITOSA, null);
     }
 }

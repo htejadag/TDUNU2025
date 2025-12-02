@@ -3,6 +3,8 @@ package unu.td.MsAcademico.utils;
 public class Messages {
 
     public static final String OPERACION_EXITOSA = "Operación exitosa";
+    public static final String ELIMINACION_EXITOSA = "Eliminación exitosa";
+    public static final String DESACTIVACION_EXITOSA = "Desactivación exitosa";
 
     public static final String ERROR_LOG = "Error procesando la petición";
 
@@ -16,8 +18,11 @@ public class Messages {
     public static final String NOT_FOUND_ESCUELA_BY_ID = "No se encuentra una escuela por ese id";
 
     public static final String ALREADY_EXISTS_FACULTAD_BY_NOMBRE = "Ya se encuentra una facultad con ese nombre";
+    public static final String ALREADY_DEACTIVATE_FACULTAD = "La facultad ya se encuentra desactivada";
     public static final String ALREADY_EXISTS_ESCUELA_BY_NOMBRE = "Ya se encuentra una escuela con ese nombre";
+    public static final String ALREADY_DEACTIVATE_ESCUELA = "La escuela ya se encuentra desactivada";
 
-    public static final String MAX_DURACION = "La duracion minima debe ser de 1";
-    public static final String MIN_DURACION = "La duracion maxima debe ser de 10";
+    public static final String MAX_DURACION = "La duración mínima debe ser de 1";
+    public static final String MIN_DURACION = "La duración máxima debe ser de 10";
+
 }

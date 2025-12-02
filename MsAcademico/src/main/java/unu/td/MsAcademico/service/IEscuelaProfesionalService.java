@@ -17,4 +17,6 @@ public interface IEscuelaProfesionalService {
 
     public void delete(Integer id);
 
+    public void deactivate(Integer id);
+
 }

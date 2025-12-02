@@ -12,6 +12,7 @@ import unu.td.MsAcademico.repository.IFacultadRepository;
 import unu.td.MsAcademico.service.IEscuelaProfesionalService;
 import unu.td.MsAcademico.utils.Mapper;
 import unu.td.MsAcademico.utils.Messages;
+import unu.td.MsAcademico.utils.exceptions.AlreadyDeactivateException;
 import unu.td.MsAcademico.utils.exceptions.AlreadyExistsException;
 import unu.td.MsAcademico.utils.exceptions.NotFoundException;
 
@@ -85,6 +86,22 @@ public class EscuelaProfesionalService implements IEscuelaProfesionalService {
             throw new NotFoundException(Messages.NOT_FOUND_ESCUELA_BY_ID);
         }
         repository.deleteById(id);
+    }
+
+    @Override
+    public void deactivate(Integer id) {
+        EscuelaProfesionalModel escuela = repository.findById(id).orElse(null);
+        if (escuela == null) {
+            throw new NotFoundException(Messages.NOT_FOUND_ESCUELA_BY_ID);
+        }
+
+        if (!escuela.getEstado()) {
+            throw new AlreadyDeactivateException(Messages.ALREADY_DEACTIVATE_ESCUELA);
+        }
+
+        escuela.setEstado(Boolean.FALSE);
+        escuela.setUsuarioModificacion("a74c0747-1151-455c-87e2-2298e554521f");
+        repository.save(escuela);
     }
 
     private EscuelaProfesionalResponse getResponse(EscuelaProfesionalModel escuela) {

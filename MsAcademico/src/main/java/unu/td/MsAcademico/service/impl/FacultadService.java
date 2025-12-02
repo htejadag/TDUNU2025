@@ -9,6 +9,7 @@ import unu.td.MsAcademico.model.request.FacultadRequest;
 import unu.td.MsAcademico.repository.IFacultadRepository;
 import unu.td.MsAcademico.service.IFacultadService;
 import unu.td.MsAcademico.utils.Messages;
+import unu.td.MsAcademico.utils.exceptions.AlreadyDeactivateException;
 import unu.td.MsAcademico.utils.exceptions.AlreadyExistsException;
 import unu.td.MsAcademico.utils.exceptions.NotFoundException;
 
@@ -78,5 +79,21 @@ public class FacultadService implements IFacultadService {
             throw new NotFoundException(Messages.NOT_FOUND_FACULTAD_BY_ID);
         }
         repository.deleteById(id);
+    }
+
+    @Override
+    public void deactivate(Integer id) {
+        FacultadModel facultad = repository.findById(id).orElse(null);
+        if (facultad == null) {
+            throw new NotFoundException(Messages.NOT_FOUND_FACULTAD_BY_ID);
+        }
+
+        if (!facultad.getEstado()) {
+            throw new AlreadyDeactivateException(Messages.ALREADY_DEACTIVATE_FACULTAD);
+        }
+
+        facultad.setEstado(Boolean.FALSE);
+        facultad.setUsuarioModificacion("a74c0747-1151-455c-87e2-2298e554521f");
+        repository.save(facultad);
     }
 }
