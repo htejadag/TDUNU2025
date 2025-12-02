@@ -1,7 +1,7 @@
 package com.unu.MsDocumentos.controller;
 
-import com.unu.MsDocumentos.controller.request.DocumentoRequest;
 import com.unu.MsDocumentos.model.Documento;
+import com.unu.MsDocumentos.model.request.DocumentoRequest;
 import com.unu.MsDocumentos.service.IDocumentoService;
 import com.unu.MsDocumentos.utils.ApiRoutes;
 // import com.unu.MsDocumentos.utils.Mensajes; // Úsalo si retornas mensajes personalizados

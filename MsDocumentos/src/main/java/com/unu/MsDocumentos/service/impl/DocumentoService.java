@@ -1,9 +1,10 @@
 package com.unu.MsDocumentos.service.impl;
 
-import com.unu.MsDocumentos.controller.request.DocumentoRequest;
 import com.unu.MsDocumentos.model.Documento;
+import com.unu.MsDocumentos.model.request.DocumentoRequest;
 import com.unu.MsDocumentos.repository.IDocumentoRepository;
 import com.unu.MsDocumentos.service.IDocumentoService;
+import com.unu.MsDocumentos.utils.Mensajes;
 import com.unu.MsDocumentos.utils.exceptions.NotFoundException; // Asegúrate de que esta clase exista
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
@@ -48,7 +49,7 @@ public class DocumentoService implements IDocumentoService {
     @Override
     public Documento buscarPorId(UUID id) {
         return repository.findById(id)
-                .orElseThrow(() -> new NotFoundException("Documento no encontrado con ID: " + id));
+                .orElseThrow(() -> new NotFoundException(Mensajes.buscar + id));
     }
 
     @Override
@@ -78,7 +79,7 @@ public class DocumentoService implements IDocumentoService {
 
         // Verificamos si existe antes de borrar
         if (!repository.existsById(id)) {
-            throw new NotFoundException("No se puede eliminar. Documento no encontrado con ID: " + id);
+            throw new NotFoundException(Mensajes.delete + id);
         }
 
         repository.deleteById(id);

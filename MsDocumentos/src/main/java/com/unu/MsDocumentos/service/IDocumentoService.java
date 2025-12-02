@@ -1,7 +1,7 @@
 package com.unu.MsDocumentos.service;
 
-import com.unu.MsDocumentos.controller.request.DocumentoRequest;
 import com.unu.MsDocumentos.model.Documento;
+import com.unu.MsDocumentos.model.request.DocumentoRequest;
 
 import java.util.List;
 import java.util.UUID;

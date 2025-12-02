@@ -1,4 +1,4 @@
-package com.unu.MsDocumentos.utils;
+package com.unu.MsDocumentos.config;
 
 import com.unu.MsDocumentos.utils.exceptions.NotFoundException;
 import lombok.extern.log4j.Log4j2;

@@ -1,4 +1,4 @@
-package com.unu.MsDocumentos.controller.request;
+package com.unu.MsDocumentos.model.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
