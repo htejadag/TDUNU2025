@@ -18,8 +18,10 @@ public class Messages {
     public static final String NOT_FOUND_ESCUELA_BY_ID = "No se encuentra una escuela por ese id";
 
     public static final String ALREADY_EXISTS_FACULTAD_BY_NOMBRE = "Ya se encuentra una facultad con ese nombre";
+    public static final String ALREADY_EXISTS_FACULTAD_BY_NOMBRE_DEACTIVATE = "Ya se encuentra una facultad con ese nombre y está desactivada";
     public static final String ALREADY_DEACTIVATE_FACULTAD = "La facultad ya se encuentra desactivada";
     public static final String ALREADY_EXISTS_ESCUELA_BY_NOMBRE = "Ya se encuentra una escuela con ese nombre";
+    public static final String ALREADY_EXISTS_ESCUELA_BY_NOMBRE_DEACTIVATE = "Ya se encuentra una escuela con ese nombre y está desactivada";
     public static final String ALREADY_DEACTIVATE_ESCUELA = "La escuela ya se encuentra desactivada";
 
     public static final String MAX_DURACION = "La duración mínima debe ser de 1";

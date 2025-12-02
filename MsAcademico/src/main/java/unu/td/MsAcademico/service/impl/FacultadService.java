@@ -24,7 +24,7 @@ public class FacultadService implements IFacultadService {
 
     @Override
     public List<FacultadResponse> getAll() {
-        return repository.findAll()
+        return repository.findByEstadoTrue()
                 .stream()
                 .map(model -> mapper.map(model, FacultadResponse.class))
                 .toList();
@@ -32,19 +32,13 @@ public class FacultadService implements IFacultadService {
 
     @Override
     public FacultadResponse getById(Integer id) {
-        FacultadModel facultad = repository.findById(id).orElse(null);
-        if (facultad == null) {
-            throw new NotFoundException(Messages.NOT_FOUND_FACULTAD_BY_ID);
-        }
+        FacultadModel facultad = checkExistsById(id);
         return mapper.map(facultad, FacultadResponse.class);
     }
 
     @Override
     public FacultadResponse add(FacultadRequest request) {
-        FacultadModel byNombre = repository.findByNombre(request.getNombre());
-        if (byNombre != null) {
-            throw new AlreadyExistsException(Messages.ALREADY_EXISTS_FACULTAD_BY_NOMBRE);
-        }
+        checkExistsByNombre(request.getNombre());
 
         FacultadModel facultad = mapper.map(request, FacultadModel.class);
         facultad.setUsuarioCreacion("dbd2a268-a9b0-42ba-981d-3977361f11f5");
@@ -55,15 +49,8 @@ public class FacultadService implements IFacultadService {
 
     @Override
     public FacultadResponse update(Integer id, FacultadRequest request) {
-        FacultadModel facultad = repository.findById(id).orElse(null);
-        if (facultad == null) {
-            throw new NotFoundException(Messages.NOT_FOUND_FACULTAD_BY_ID);
-        }
-
-        FacultadModel byNombre = repository.findByNombre(request.getNombre());
-        if (byNombre != null) {
-            throw new AlreadyExistsException(Messages.ALREADY_EXISTS_FACULTAD_BY_NOMBRE);
-        }
+        FacultadModel facultad = checkExistsById(id);
+        checkExistsByNombre(request.getNombre());
 
         facultad.setNombre(request.getNombre());
         facultad.setUsuarioModificacion("a74c0747-1151-455c-87e2-2298e554521f");
@@ -95,5 +82,25 @@ public class FacultadService implements IFacultadService {
         facultad.setEstado(Boolean.FALSE);
         facultad.setUsuarioModificacion("a74c0747-1151-455c-87e2-2298e554521f");
         repository.save(facultad);
+    }
+
+    private FacultadModel checkExistsById(Integer id) {
+        FacultadModel facultad = repository.findByIdAndEstadoTrue(id).orElse(null);
+        if (facultad == null) {
+            throw new NotFoundException(Messages.NOT_FOUND_FACULTAD_BY_ID);
+        }
+
+        return facultad;
+    }
+
+    private void checkExistsByNombre(String nombre) {
+        FacultadModel byNombre = repository.findByNombre(nombre);
+
+        if (!byNombre.getEstado()) {
+            throw new AlreadyExistsException(Messages.ALREADY_EXISTS_FACULTAD_BY_NOMBRE_DEACTIVATE);
+        }
+        if (byNombre != null) {
+            throw new AlreadyExistsException(Messages.ALREADY_EXISTS_FACULTAD_BY_NOMBRE);
+        }
     }
 }
