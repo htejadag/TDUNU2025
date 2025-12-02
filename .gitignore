@@ -1,1 +1,4 @@
 *.log
+*.gz
+/ms-simulacro/ms-simulacro/.gradle
+*.class
