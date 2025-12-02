@@ -4,6 +4,6 @@ public class ApiRoutes {
     public static final String CAJA = "/caja";
     public static final String APERTURA_CIERRE_CAJA_C = "/aperturaCierreCajaCrear";
     public static final String APERTURA_CIERRE_CAJA_R = "/aperturaCierreCajaLeer";
-    public static final String APERTURA_CIERRE_CAJA_U = "/aperturaCierreCajaActualizar";
+    public static final String APERTURA_CIERRE_CAJA_U = "/aperturaCierreCajaActualizar/{id}";
     public static final String APERTURA_CIERRE_CAJA_D = "/aperturaCierreCajaEliminar";
 }

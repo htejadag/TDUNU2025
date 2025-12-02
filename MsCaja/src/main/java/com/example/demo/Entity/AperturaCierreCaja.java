@@ -1,8 +1,6 @@
 package com.example.demo.Entity;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
-
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.*;
