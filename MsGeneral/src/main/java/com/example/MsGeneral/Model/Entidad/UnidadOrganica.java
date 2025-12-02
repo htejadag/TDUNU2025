@@ -15,7 +15,7 @@ public class UnidadOrganica {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Short id;
+    private Integer id;
 
     @Column(length = 120, nullable = false)
     private String nombre;
@@ -35,14 +35,18 @@ public class UnidadOrganica {
     @Column(length = 50)
     private String usuarioModificacion;
 
-    //AUDITORÍA AUTOMÁTICA
+    // AUDITORÍA AUTOMÁTICA
     @PrePersist
     public void prePersist() {
         this.fechaCreacion = LocalDateTime.now();
+        this.usuarioCreacion = "SYSTEM";
     }
 
     @PreUpdate
     public void preUpdate() {
         this.fechaModificacion = LocalDateTime.now();
+        if (this.usuarioModificacion == null) {
+            this.usuarioModificacion = "SYSTEM";
+        }
     }
 }

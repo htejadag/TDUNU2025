@@ -1,4 +1,4 @@
-package com.example.MsGeneral.Repositorio;
+package com.example.MsGeneral.Repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

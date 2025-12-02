@@ -16,7 +16,7 @@ public class Catalogo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_catalogo")
-    private Byte idCatalogo;
+    private Integer idCatalogo;
 
     @Column(name = "nombre_tabla", length = 100, nullable = false)
     private String nombreTabla;
