@@ -1,1 +1,6 @@
 *.log
+*.log
+*.gz
+/logs
+*.log
+/logs
