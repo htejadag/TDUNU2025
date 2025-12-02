@@ -30,6 +30,9 @@ public class CursoModel {
     @Column(name = "idCiclo")
     private Integer idCiclo;
 
+    @Column(name = "idCarrera")
+    private Integer idCarrera;
+
     @Column(name = "creditos")
     private Integer creditos;
 
