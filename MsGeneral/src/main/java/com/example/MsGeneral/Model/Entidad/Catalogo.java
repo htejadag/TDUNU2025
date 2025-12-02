@@ -1,4 +1,4 @@
-package com.example.MsGeneral.Entidad;
+package com.example.MsGeneral.Model.Entidad;
 
 import jakarta.persistence.*;
 import lombok.*;
