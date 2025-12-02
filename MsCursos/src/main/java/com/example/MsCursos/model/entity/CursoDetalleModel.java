@@ -4,9 +4,11 @@ import java.time.LocalDateTime;
 import jakarta.persistence.*;
 import lombok.Data;
 
+@Data
 @Entity
 @Table(name = "cursoDetalle")
-@Data
+
+
 public class CursoDetalleModel {
 
     @Id
