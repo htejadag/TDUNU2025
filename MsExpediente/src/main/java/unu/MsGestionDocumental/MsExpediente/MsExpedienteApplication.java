@@ -1,4 +1,4 @@
-package unu.MsTramite.MsExpediente;
+package unu.MsGestionDocumental.MsExpediente;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

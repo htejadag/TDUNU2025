@@ -1,4 +1,4 @@
-package unu.MsTramite.MsExpediente;
+package unu.MsGestionDocumental.MsExpediente;
 
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
