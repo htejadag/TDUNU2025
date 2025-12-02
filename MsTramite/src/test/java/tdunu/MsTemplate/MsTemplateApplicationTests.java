@@ -1,10 +1,10 @@
-package com.example.MsTramite;
+package tdunu.MsTemplate;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class MsTramiteApplicationTests {
+class MsTemplateApplicationTests {
 
 	@Test
 	void contextLoads() {
