@@ -19,14 +19,12 @@ public class UsuarioServiceimpl implements UsuarioService {
 
     @Override
     public UsuarioResponse guardar(UsuarioRequest request) {
-
         UsuarioModel user = new UsuarioModel();
         user.setCodUsuario(request.getCodUsuario());
         user.setContrasena(request.getContrasena());
         user.setEstado(1);
 
         UsuarioModel saved = usuarioRepository.save(user);
-
         return toResponse(saved);
     }
 
@@ -47,12 +45,69 @@ public class UsuarioServiceimpl implements UsuarioService {
     }
 
     @Override
+    public UsuarioResponse obtenerPorCodigo(String codUsuario) {
+        UsuarioModel user = usuarioRepository.findByCodUsuario(codUsuario)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+
+        return toResponse(user);
+    }
+
+    @Override
+    public UsuarioResponse editar(String codUsuario, UsuarioRequest request) {
+
+        UsuarioModel user = usuarioRepository.findByCodUsuario(codUsuario)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+
+        // Editar campos
+        user.setContrasena(request.getContrasena());
+        // Si se manda estado, lo cambia; si no, lo deja igual
+        if (request.getContrasena() != null) {
+            user.setContrasena(request.getContrasena());
+        }
+        if (request.getCodUsuario() != null) {
+            user.setCodUsuario(request.getCodUsuario());
+        }
+
+        UsuarioModel updated = usuarioRepository.save(user);
+
+        return toResponse(updated);
+    }
+
+    @Override
     public void eliminarPorCodigo(String codUsuario) {
         UsuarioModel user = usuarioRepository.findByCodUsuario(codUsuario)
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
-       
-        user.setEstado(0); 
+
+        user.setEstado(0);
         usuarioRepository.save(user);
+    }
+
+    @Override
+    public UsuarioResponse cambiarEstado(String codUsuario) {
+        UsuarioModel user = usuarioRepository.findByCodUsuario(codUsuario)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+
+        // Cambia 0 → 1 o 1 → 0
+        user.setEstado(user.getEstado() == 1 ? 0 : 1);
+
+        UsuarioModel updated = usuarioRepository.save(user);
+        return toResponse(updated);
+    }
+
+    @Override
+    public List<UsuarioResponse> listarActivos() {
+        return usuarioRepository.findByEstado(1)
+                .stream()
+                .map(this::toResponse)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<UsuarioResponse> listarDesactivados() {
+        return usuarioRepository.findByEstado(0)
+                .stream()
+                .map(this::toResponse)
+                .collect(Collectors.toList());
     }
 
     private UsuarioResponse toResponse(UsuarioModel model) {
@@ -61,17 +116,5 @@ public class UsuarioServiceimpl implements UsuarioService {
         resp.setCodUsuario(model.getCodUsuario());
         resp.setEstado(model.getEstado());
         return resp;
-    }
-
-    @Override
-    public UsuarioResponse obtenerPorCodigo(String codUsuario) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'obtenerPorCodigo'");
-    }
-
-    @Override
-    public UsuarioResponse cambiarEstado(String codUsuario) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'cambiarEstado'");
     }
 }
