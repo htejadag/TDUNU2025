@@ -1,42 +1,35 @@
 {
-  // Use IntelliSense para saber los atributos posibles.
-  // Mantenga el puntero para ver las descripciones de los existentes atributos.
-  // Para más información, visite: https://go.microsoft.com/fwlink/?linkid=830387
-  "version": "0.2.0",
-  "configurations": [
-    {
-      "type": "java",
-      "name": "MsSeguridadApplication",
-      "request": "launch",
-      "mainClass": "tdunu.MsSeguridad.MsSeguridadApplication",
-      "projectName": "tdunu-MsSeguridad"
-    },
-    {
-      "type": "java",
-      "name": "MsDocumentosApplication",
-      "request": "launch",
-      "mainClass": "com.unu.MsDocumentos.MsDocumentosApplication",
-      "projectName": "MsDocumentos"
-    },
-    {
-      "type": "java",
-      "name": "Current File",
-      "request": "launch",
-      "mainClass": "${file}"
-    },
-    {
-      "type": "java",
-      "name": "MsCursosApplication",
-      "request": "launch",
-      "mainClass": "com.example.MsCursos.MsCursosApplication",
-      "projectName": "MsCursos"
-    },
-    {
-      "type": "java",
-      "name": "MsTemplateApplication",
-      "request": "launch",
-      "mainClass": "tdunu.MsTemplate.MsTemplateApplication",
-      "projectName": "MsTemplate"
-    }
-  ]
+    // Use IntelliSense para saber los atributos posibles.
+    // Mantenga el puntero para ver las descripciones de los existentes atributos.
+    // Para más información, visite: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "MsCursosApplication",
+            "request": "launch",
+            "mainClass": "com.example.MsCursos.MsCursosApplication",
+            "projectName": ""
+        },
+        {
+            "type": "java",
+            "name": "Current File",
+            "request": "launch",
+            "mainClass": "${file}"
+        },
+        {
+            "type": "java",
+            "name": "MsCursosApplication",
+            "request": "launch",
+            "mainClass": "com.example.MsCursos.MsCursosApplication",
+            "projectName": "MsCursos"
+        },
+        {
+            "type": "java",
+            "name": "MsTemplateApplication",
+            "request": "launch",
+            "mainClass": "tdunu.MsTemplate.MsTemplateApplication",
+            "projectName": "MsTemplate"
+        }
+    ]
 }
