@@ -9,8 +9,10 @@ public interface UsuarioService {
 
     UsuarioResponse guardar(UsuarioRequest request);
     List<UsuarioResponse> listar();
-    UsuarioResponse obtenerPorId(Long idUsuario);       
-    void eliminar(Long idUsuario);                      
+    UsuarioResponse obtenerPorId(Long idUsuario); 
+    UsuarioResponse obtenerPorCodigo(String codUsuario);      
+    void eliminarPorCodigo(String codUsuario);
+    UsuarioResponse cambiarEstado(String codUsuario);                      
 
 }
 
