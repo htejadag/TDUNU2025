@@ -6,33 +6,47 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Table(name = "expediente")
 @Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class ExpedienteModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int idExpediente;
 
+    @Column(name = "id_expediente")
+    private int idExpediente;
+    @Column(name = "codigo_expediente")
     private String codigoExpediente;
-    
+    @Column(name = "id_persona")
     private int idPersona;
-    
+    @Column(name = "id_estado")
     private int idEstado;
-    
+    @Column(name = "descripcion")
     private String descripcion;
-    
+    @Column(name = "fecha_apertura")
     private Date fechaApertura;
-    
+    @Column(name = "fecha_cierre")
     private Date fechaCierre;
-    
+    @Column(name = "id_usuario_creo")
     private int idUsuarioCreo;
-    
+    @Column(name = "fecha_creacion")
     private Date fechaCreacion;
-    
+
+    @PrePersist
+    protected void onCreate() {
+        // Solo se establece si el campo no ha sido asignado previamente.
+        if (this.fechaCreacion == null) {
+            this.fechaCreacion = new Date();
+        }
+    }
+
     // Getters y Setters
     public int getIdExpediente() {
         return idExpediente;
@@ -105,4 +119,5 @@ public class ExpedienteModel {
     public void setFechaCreacion(Date fechaCreacion) {
         this.fechaCreacion = fechaCreacion;
     }
+
 }
