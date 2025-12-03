@@ -16,49 +16,46 @@ public class UsuarioController {
 
     private final UsuarioService usuarioService;
 
+    // LISTAR TODOS
     @GetMapping(ApiRoutes.USUARIO.LISTAR)
     public List<UsuarioResponse> listar() {
         return usuarioService.listar();
     }
 
-    @GetMapping("/activos")
-    public List<UsuarioResponse> activos() {
+    // LISTAR SOLO ACTIVOS
+    @GetMapping(ApiRoutes.USUARIO.LISTAR_ACTIVOS)
+    public List<UsuarioResponse> listarActivos() {
         return usuarioService.listarActivos();
     }
 
-    @GetMapping("/desactivados")
-    public List<UsuarioResponse> desactivados() {
+    // LISTAR SOLO DESACTIVADOS
+    @GetMapping(ApiRoutes.USUARIO.LISTAR_DESACTIVADOS)
+    public List<UsuarioResponse> listarDesactivados() {
         return usuarioService.listarDesactivados();
     }
 
-    @GetMapping(ApiRoutes.USUARIO.OBTENER_POR_ID + "/{id}")
-    public UsuarioResponse obtener(@PathVariable Long id) {
-        return usuarioService.obtenerPorId(id);
-    }
-
-    @GetMapping("/codigo/{codUsuario}")
+    // BUSCAR POR CODIGO
+    @GetMapping(ApiRoutes.USUARIO.OBTENER_POR_CODIGO + "/{codUsuario}")
     public UsuarioResponse obtenerPorCodigo(@PathVariable String codUsuario) {
         return usuarioService.obtenerPorCodigo(codUsuario);
     }
 
+    // GUARDAR
     @PostMapping(ApiRoutes.USUARIO.GUARDAR)
     public UsuarioResponse guardar(@RequestBody UsuarioRequest request) {
         return usuarioService.guardar(request);
     }
 
-    @PutMapping("/editar/{codUsuario}")
+    // EDITAR (incluye editar estado)
+    @PutMapping(ApiRoutes.USUARIO.EDITAR + "/{codUsuario}")
     public UsuarioResponse editar(@PathVariable String codUsuario,
                                   @RequestBody UsuarioRequest request) {
         return usuarioService.editar(codUsuario, request);
     }
 
-    @DeleteMapping(ApiRoutes.USUARIO.ELIMINAR + "/{codUsuario}")
-    public void eliminar(@PathVariable String codUsuario) {
-        usuarioService.eliminarPorCodigo(codUsuario);
-    }
-
-    @PutMapping("/estado/{codUsuario}")
-    public UsuarioResponse cambiarEstado(@PathVariable String codUsuario) {
-        return usuarioService.cambiarEstado(codUsuario);
-    }
+// ELIMINAR LOGICO POR CODIGO
+@DeleteMapping(ApiRoutes.USUARIO.ELIMINAR + "/{codUsuario}")
+public void eliminar(@PathVariable String codUsuario) {
+    usuarioService.eliminarPorCodigo(codUsuario);
+}
 }

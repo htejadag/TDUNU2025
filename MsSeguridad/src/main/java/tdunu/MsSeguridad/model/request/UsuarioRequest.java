@@ -6,5 +6,6 @@ import lombok.Data;
 public class UsuarioRequest {
     private String codUsuario;
     private String contrasena;  
+    private Integer estado;
         
 }

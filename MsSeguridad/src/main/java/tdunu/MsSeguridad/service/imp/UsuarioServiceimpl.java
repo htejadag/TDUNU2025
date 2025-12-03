@@ -19,6 +19,7 @@ public class UsuarioServiceimpl implements UsuarioService {
 
     @Override
     public UsuarioResponse guardar(UsuarioRequest request) {
+
         UsuarioModel user = new UsuarioModel();
         user.setCodUsuario(request.getCodUsuario());
         user.setContrasena(request.getContrasena());
@@ -40,7 +41,6 @@ public class UsuarioServiceimpl implements UsuarioService {
     public UsuarioResponse obtenerPorId(Long idUsuario) {
         UsuarioModel user = usuarioRepository.findById(idUsuario)
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
-
         return toResponse(user);
     }
 
@@ -48,7 +48,6 @@ public class UsuarioServiceimpl implements UsuarioService {
     public UsuarioResponse obtenerPorCodigo(String codUsuario) {
         UsuarioModel user = usuarioRepository.findByCodUsuario(codUsuario)
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
-
         return toResponse(user);
     }
 
@@ -58,15 +57,27 @@ public class UsuarioServiceimpl implements UsuarioService {
         UsuarioModel user = usuarioRepository.findByCodUsuario(codUsuario)
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
 
-        // Editar campos
-        user.setContrasena(request.getContrasena());
-        // Si se manda estado, lo cambia; si no, lo deja igual
-        if (request.getContrasena() != null) {
-            user.setContrasena(request.getContrasena());
-        }
-        if (request.getCodUsuario() != null) {
+        // Editar campos si vienen
+        if (request.getCodUsuario() != null)
             user.setCodUsuario(request.getCodUsuario());
-        }
+
+        if (request.getContrasena() != null)
+            user.setContrasena(request.getContrasena());
+
+        if (request.getEstado() != null)
+            user.setEstado(request.getEstado());
+
+        UsuarioModel updated = usuarioRepository.save(user);
+        return toResponse(updated);
+    }
+
+    @Override
+    public UsuarioResponse eliminarPorCodigo(String codUsuario) {
+
+        UsuarioModel user = usuarioRepository.findByCodUsuario(codUsuario)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+
+        user.setEstado(0);
 
         UsuarioModel updated = usuarioRepository.save(user);
 
@@ -74,23 +85,15 @@ public class UsuarioServiceimpl implements UsuarioService {
     }
 
     @Override
-    public void eliminarPorCodigo(String codUsuario) {
-        UsuarioModel user = usuarioRepository.findByCodUsuario(codUsuario)
-                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
-
-        user.setEstado(0);
-        usuarioRepository.save(user);
-    }
-
-    @Override
     public UsuarioResponse cambiarEstado(String codUsuario) {
+
         UsuarioModel user = usuarioRepository.findByCodUsuario(codUsuario)
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
 
-        // Cambia 0 → 1 o 1 → 0
         user.setEstado(user.getEstado() == 1 ? 0 : 1);
 
         UsuarioModel updated = usuarioRepository.save(user);
+
         return toResponse(updated);
     }
 
