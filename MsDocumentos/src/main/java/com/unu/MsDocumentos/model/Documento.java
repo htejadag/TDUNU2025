@@ -17,7 +17,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Document(collection = "documentos")
-public class Documento extends EntidadAuditable {
+public class Documento extends AuditoriaEstado {
 
     @Id
     private String id;

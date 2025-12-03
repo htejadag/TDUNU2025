@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -16,9 +16,11 @@ public class DocumentoRequest {
 
     private String correlativo;
     private LocalDateTime fechaEmision;
-    private UUID expedienteId;
+    private String expedienteId;
     private Integer tipoDocumentoId;
-    private UUID oficinaOrigenId;
+    private String oficinaOrigenId;
     private String asunto;
     private String referencia;
+
+    private List<ArchivoRequest> archivos;
 }

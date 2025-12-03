@@ -1,82 +1,113 @@
 package com.unu.MsDocumentos.service.impl;
 
+import com.unu.MsDocumentos.model.Archivo;
 import com.unu.MsDocumentos.model.Documento;
 import com.unu.MsDocumentos.model.request.DocumentoRequest;
-import com.unu.MsDocumentos.repository.IDocumentoRepository;
+import com.unu.MsDocumentos.repository.DocumentoRepository;
 import com.unu.MsDocumentos.service.IDocumentoService;
 import com.unu.MsDocumentos.utils.Mensajes;
 import com.unu.MsDocumentos.utils.exceptions.NotFoundException;
-import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.UUID;
 
 @Log4j2
 @Service
 @AllArgsConstructor
 public class DocumentoService implements IDocumentoService {
 
-    private final IDocumentoRepository repository;
+    private final DocumentoRepository repository;
 
+    // 1. CREAR DOCUMENTO
     @Override
-    @Transactional
-    public Documento registrar(DocumentoRequest request) {
-        log.info("Iniciando registro de documento con asunto: {}", request.getAsunto());
+    public Documento crearDocumento(Documento documento) {
+        log.info("Iniciando registro de documento: {}", documento.getAsunto());
 
-        Documento documento = new Documento();
+        // Al crear, la versión inicial de los archivos es 1
+        if (documento.getArchivos() != null) {
+            documento.getArchivos().forEach(archivo -> archivo.setVersion(1));
+        }
 
-        documento.setCorrelativo(request.getCorrelativo());
-        documento.setFechaEmision(request.getFechaEmision());
-        documento.setExpedienteId(request.getExpedienteId());
-        documento.setTipoDocumentoId(request.getTipoDocumentoId());
-        documento.setOficinaOrigenId(request.getOficinaOrigenId());
-        documento.setAsunto(request.getAsunto());
-        documento.setReferencia(request.getReferencia());
+        // El estado nace en true por defecto (definido en AuditoriaEstado),
+        // pero podemos asegurarlo aquí si quieres:
+        documento.setEstado(true);
 
         return repository.save(documento);
     }
 
+    // 2. AGREGAR NUEVA VERSIÓN
+    @Override
+    public Documento agregarNuevaVersion(String id, List<Archivo> nuevosArchivos) {
+        log.info("Agregando nueva versión al documento ID: {}", id);
+
+        Documento docExistente = obtenerPorId(id);
+
+        // Calculamos la versión siguiente
+        int maxVersionActual = docExistente.getArchivos().stream()
+                .mapToInt(Archivo::getVersion)
+                .max()
+                .orElse(0);
+
+        int nuevaVersion = maxVersionActual + 1;
+
+        // Asignamos la nueva versión a los archivos entrantes
+        for (Archivo archivo : nuevosArchivos) {
+            archivo.setVersion(nuevaVersion);
+        }
+
+        // Agregamos a la lista y guardamos
+        docExistente.getArchivos().addAll(nuevosArchivos);
+
+        return repository.save(docExistente);
+    }
+
+    // 3. LISTAR TODOS
     @Override
     public List<Documento> listarTodos() {
+        // Nota: Esto traerá activos e inactivos.
+        // Más adelante podrías querer filtrar solo los de estado = true.
         return repository.findAll();
     }
 
+    // 4. BUSCAR POR ID
     @Override
-    public Documento buscarPorId(UUID id) {
+    public Documento obtenerPorId(String id) {
         return repository.findById(id)
                 .orElseThrow(() -> new NotFoundException(Mensajes.buscar + id));
     }
 
+    // 5. ACTUALIZAR METADATOS
     @Override
-    @Transactional
-    public Documento actualizar(UUID id, DocumentoRequest request) {
-        log.info("Actualizando documento ID: {}", id);
+    public Documento actualizarMetadatos(String id, DocumentoRequest request) {
+        log.info("Actualizando metadatos documento ID: {}", id);
 
-        Documento documentoExistente = buscarPorId(id);
+        Documento docExistente = obtenerPorId(id);
 
-        documentoExistente.setCorrelativo(request.getCorrelativo());
-        documentoExistente.setFechaEmision(request.getFechaEmision());
-        documentoExistente.setExpedienteId(request.getExpedienteId());
-        documentoExistente.setTipoDocumentoId(request.getTipoDocumentoId());
-        documentoExistente.setOficinaOrigenId(request.getOficinaOrigenId());
-        documentoExistente.setAsunto(request.getAsunto());
-        documentoExistente.setReferencia(request.getReferencia());
+        docExistente.setCorrelativo(request.getCorrelativo());
+        docExistente.setFechaEmision(request.getFechaEmision());
+        docExistente.setExpedienteId(request.getExpedienteId());
+        docExistente.setTipoDocumentoId(request.getTipoDocumentoId());
+        docExistente.setOficinaOrigenId(request.getOficinaOrigenId());
+        docExistente.setAsunto(request.getAsunto());
+        docExistente.setReferencia(request.getReferencia());
 
-        return repository.save(documentoExistente);
+        return repository.save(docExistente);
     }
 
+    // 6. ELIMINAR (BORRADO LÓGICO)
     @Override
-    @Transactional
-    public void eliminar(UUID id) {
-        log.info("Eliminando documento ID: {}", id);
+    public void eliminar(String id) {
+        log.info("Eliminando (lógicamente) documento ID: {}", id);
 
-        if (!repository.existsById(id)) {
-            throw new NotFoundException(Mensajes.delete + id);
-        }
+        // 1. Buscamos el documento (si no existe, obtenerPorId lanza la excepción)
+        Documento docExistente = obtenerPorId(id);
 
-        repository.deleteById(id);
+        // 2. Cambiamos el estado a false (Inactivo)
+        docExistente.setEstado(false);
+
+        // 3. Guardamos los cambios
+        repository.save(docExistente);
     }
 }

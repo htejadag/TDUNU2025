@@ -1,20 +1,21 @@
 package com.unu.MsDocumentos.service;
 
+import com.unu.MsDocumentos.model.Archivo;
 import com.unu.MsDocumentos.model.Documento;
-import com.unu.MsDocumentos.model.request.DocumentoRequest;
+import com.unu.MsDocumentos.model.request.DocumentoRequest; // Solo si usas actualizarMetadatos
 
 import java.util.List;
-import java.util.UUID;
 
 public interface IDocumentoService {
+    Documento crearDocumento(Documento documento);
 
-    Documento registrar(DocumentoRequest request);
+    Documento agregarNuevaVersion(String id, List<Archivo> nuevosArchivos);
 
     List<Documento> listarTodos();
 
-    Documento buscarPorId(UUID id);
+    Documento obtenerPorId(String id);
 
-    Documento actualizar(UUID id, DocumentoRequest request);
+    Documento actualizarMetadatos(String id, DocumentoRequest request);
 
-    void eliminar(UUID id);
+    void eliminar(String id);
 }

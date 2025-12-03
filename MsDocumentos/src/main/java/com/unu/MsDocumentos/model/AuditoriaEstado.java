@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 
 @Getter
 @Setter
-public abstract class EntidadAuditable {
+public abstract class AuditoriaEstado {
 
     @Field("usuarioCreacion")
     private String usuarioCreacion;

@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Archivo {
+public class Archivo extends AuditoriaEstado {
 
     private Integer version;
     private String nombreOriginal;
