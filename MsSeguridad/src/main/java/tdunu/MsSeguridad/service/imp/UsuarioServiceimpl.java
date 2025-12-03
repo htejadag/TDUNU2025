@@ -47,10 +47,10 @@ public class UsuarioServiceimpl implements UsuarioService {
     }
 
     @Override
-    public void eliminar(Long idUsuario) {
-        UsuarioModel user = usuarioRepository.findById(idUsuario)
+    public void eliminarPorCodigo(String codUsuario) {
+        UsuarioModel user = usuarioRepository.findByCodUsuario(codUsuario)
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
-
+       
         user.setEstado(0); 
         usuarioRepository.save(user);
     }
@@ -61,5 +61,17 @@ public class UsuarioServiceimpl implements UsuarioService {
         resp.setCodUsuario(model.getCodUsuario());
         resp.setEstado(model.getEstado());
         return resp;
+    }
+
+    @Override
+    public UsuarioResponse obtenerPorCodigo(String codUsuario) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'obtenerPorCodigo'");
+    }
+
+    @Override
+    public UsuarioResponse cambiarEstado(String codUsuario) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'cambiarEstado'");
     }
 }

@@ -31,8 +31,8 @@ public class UsuarioController {
         return usuarioService.guardar(request);
     }
 
-    @DeleteMapping(ApiRoutes.USUARIO.ELIMINAR + "/{id}")
-    public void eliminar(@PathVariable Long id) {
-        usuarioService.eliminar(id);
+    @DeleteMapping(ApiRoutes.USUARIO.ELIMINAR + "/{codigo}")
+    public void eliminar(@PathVariable("codigo") String codUsuario) {
+        usuarioService.eliminarPorCodigo(codUsuario);
     }
 }
