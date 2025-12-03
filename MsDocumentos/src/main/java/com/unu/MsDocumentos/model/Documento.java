@@ -1,53 +1,43 @@
 package com.unu.MsDocumentos.model;
 
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.JdbcTypeCode;
-import org.hibernate.type.SqlTypes;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
-import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.UUID;
+import java.util.ArrayList;
+import java.util.List;
 
-@Entity
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "documentos")
-public class Documento implements Serializable {
-
-    private static final long serialVersionUID = 1L;
+@Document(collection = "documentos")
+public class Documento extends EntidadAuditable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    @JdbcTypeCode(SqlTypes.VARCHAR)
-    @Column(name = "id", nullable = false, updatable = false, length = 36)
-    private UUID id;
+    private String id;
 
-    @Column(name = "correlativo", length = 10)
     private String correlativo;
 
-    @Column(name = "fechaEmision", nullable = false)
     private LocalDateTime fechaEmision;
 
-    @JdbcTypeCode(SqlTypes.VARCHAR)
-    @Column(name = "expedienteId", nullable = false, length = 36)
-    private UUID expedienteId;
+    @Field("expediente_id")
+    private String expedienteId;
 
-    @Column(name = "tipoDocumentoId", nullable = false)
+    @Field("tipo_documento_id")
     private Integer tipoDocumentoId;
 
-    @JdbcTypeCode(SqlTypes.VARCHAR)
-    @Column(name = "oficinaOrigenId", length = 36)
-    private UUID oficinaOrigenId;
+    @Field("oficina_origen_id")
+    private String oficinaOrigenId;
 
-    @Column(name = "asunto", length = 255, nullable = false)
     private String asunto;
 
-    @Column(name = "referencia", length = 100, nullable = false)
     private String referencia;
+
+    private List<Archivo> archivos = new ArrayList<>();
 }
