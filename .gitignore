@@ -4,3 +4,5 @@
 /ms-simulacro/ms-simulacro/build
 /MsExpediente/target
 /MsEvaluacion/target
+MsCursos/target/classes/application.properties
+*.class
