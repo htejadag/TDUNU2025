@@ -6,10 +6,10 @@
     "configurations": [
         {
             "type": "java",
-            "name": "MsDocumentosApplication",
+            "name": "MsCursosApplication",
             "request": "launch",
-            "mainClass": "com.unu.MsDocumentos.MsDocumentosApplication",
-            "projectName": "MsDocumentos"
+            "mainClass": "com.example.MsCursos.MsCursosApplication",
+            "projectName": ""
         },
         {
             "type": "java",

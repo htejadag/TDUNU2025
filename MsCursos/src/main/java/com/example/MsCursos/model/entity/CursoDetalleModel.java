@@ -1,13 +1,14 @@
-package com.example.MsCursos.controller;
-
+package com.example.MsCursos.model.entity;
 
 import java.time.LocalDateTime;
 import jakarta.persistence.*;
 import lombok.Data;
 
+@Data
 @Entity
 @Table(name = "cursoDetalle")
-@Data
+
+
 public class CursoDetalleModel {
 
     @Id
@@ -24,8 +25,8 @@ public class CursoDetalleModel {
     @Column(name = "idTipoCurso")
     private Integer idTipoCurso;
 
-    @Column(name = "idCicloAcademico")
-    private Integer idCicloAcademico;
+    @Column(name = "idSemestre")
+    private Integer idSemestre;
 
     @Column(name = "estado")
     private Boolean estado;
