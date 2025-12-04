@@ -8,9 +8,6 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @Entity
 @Table(name = "facultad")
 @EntityListeners(AuditingEntityListener.class)
-public class FacultadModel extends BaseModel {
-
-    @Column(nullable = false, length = 100)
-    private String nombre;
+public class FacultadModel extends EntidadAcademicaBaseModel {
 
 }

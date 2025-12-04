@@ -8,14 +8,11 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @Entity
 @Table(name = "escuelaProfesional")
 @EntityListeners(AuditingEntityListener.class)
-public class EscuelaProfesionalModel extends BaseModel {
+public class EscuelaProfesionalModel extends EntidadAcademicaBaseModel {
 
     @ManyToOne()
     @JoinColumn(name = "idFacultad", nullable = false)
     private FacultadModel facultad;
-
-    @Column(nullable = false, length = 50)
-    private String nombre;
 
     @Column(nullable = false)
     private Integer duracionCarrera;
