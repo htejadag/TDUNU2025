@@ -42,7 +42,7 @@ public class EscuelaProfesionalService implements IEscuelaProfesionalService {
 
     @Override
     public EscuelaProfesionalResponse add(EscuelaProfesionalRequest request) {
-        checkExistsByNombre(request.getNombre(), null);
+        checkExistsByNombre(request.getNombre(), 0);
 
         EscuelaProfesionalModel escuela = Mapper.Escuela.requestToModel(request);
         escuela.setFacultad(getFacultad(request.getIdFacultad()));
@@ -114,16 +114,10 @@ public class EscuelaProfesionalService implements IEscuelaProfesionalService {
 
     private void checkExistsByNombre(String nombre, Integer id) {
         EscuelaProfesionalModel byNombre = repository.findByNombre(nombre);
-
-        if (byNombre == null) return;
-        if (id != null && byNombre != null) {
-            if (byNombre.getId() == id) return;
+        if (byNombre != null && byNombre.getId() != id) {
             throw new AlreadyExistsException(Messages.ALREADY_EXISTS_ESCUELA_BY_NOMBRE);
         }
-        if (byNombre != null) {
-            throw new AlreadyExistsException(Messages.ALREADY_EXISTS_ESCUELA_BY_NOMBRE);
-        }
-        if (!byNombre.getEstado()) {
+        if (byNombre != null && !byNombre.getEstado()) {
             throw new AlreadyExistsException(Messages.ALREADY_EXISTS_ESCUELA_BY_NOMBRE_DEACTIVATE);
         }
     }

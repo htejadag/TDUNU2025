@@ -3,6 +3,7 @@ package unu.td.MsAcademico.service.impl;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import unu.td.MsAcademico.model.entity.EscuelaProfesionalModel;
 import unu.td.MsAcademico.model.entity.FacultadModel;
 import unu.td.MsAcademico.model.response.FacultadResponse;
 import unu.td.MsAcademico.model.request.FacultadRequest;
@@ -38,7 +39,7 @@ public class FacultadService implements IFacultadService {
 
     @Override
     public FacultadResponse add(FacultadRequest request) {
-        checkExistsByNombre(request.getNombre());
+        checkExistsByNombre(request.getNombre(), 0);
 
         FacultadModel facultad = mapper.map(request, FacultadModel.class);
         facultad.setUsuarioCreacion("dbd2a268-a9b0-42ba-981d-3977361f11f5");
@@ -50,7 +51,7 @@ public class FacultadService implements IFacultadService {
     @Override
     public FacultadResponse update(Integer id, FacultadRequest request) {
         FacultadModel facultad = checkExistsById(id);
-        checkExistsByNombre(request.getNombre());
+        checkExistsByNombre(request.getNombre(), facultad.getId());
 
         facultad.setNombre(request.getNombre());
         facultad.setUsuarioModificacion("a74c0747-1151-455c-87e2-2298e554521f");
@@ -93,13 +94,12 @@ public class FacultadService implements IFacultadService {
         return facultad;
     }
 
-    private void checkExistsByNombre(String nombre) {
+    private void checkExistsByNombre(String nombre, Integer id) {
         FacultadModel byNombre = repository.findByNombre(nombre);
-
-        if (!byNombre.getEstado()) {
+        if (byNombre != null && !byNombre.getEstado()) {
             throw new AlreadyExistsException(Messages.ALREADY_EXISTS_FACULTAD_BY_NOMBRE_DEACTIVATE);
         }
-        if (byNombre != null) {
+        if (byNombre != null && byNombre.getId() != id) {
             throw new AlreadyExistsException(Messages.ALREADY_EXISTS_FACULTAD_BY_NOMBRE);
         }
     }

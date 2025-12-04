@@ -43,13 +43,6 @@ public class EscuelaProfesionalController {
         return ResponseBase.ok(response);
     }
 
-
-    @DeleteMapping(ApiRoutes.General.delete)
-    public ResponseBase<EscuelaProfesionalResponse> delete(@PathVariable Integer id) {
-        service.delete(id);
-        return ResponseBase.ok(Messages.ELIMINACION_EXITOSA, null);
-    }
-
     @PatchMapping(ApiRoutes.General.deactivate)
     public ResponseBase<EscuelaProfesionalResponse> deactivate(@PathVariable Integer id) {
         service.deactivate(id);
