@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 @Entity
@@ -38,4 +39,28 @@ public class Simulacro {
     private String tipoSimulacro;
 
     private String estado;
+
+    // auditoria
+    @Column(name = "fecha_creacion")
+    private LocalDateTime fechaCreacion;
+
+    @Column(name = "usuario_creacion")
+    private String usuarioCreacion;
+
+    @Column(name = "fecha_modificacion")
+    private LocalDateTime fechaModificacion;
+
+    @Column(name = "usuario_modificacion")
+    private String usuarioModificacion;
+
+    @PrePersist()
+    private void persistence() {
+        this.fechaCreacion = LocalDateTime.now();
+    }
+
+    @PreUpdate()
+    private void update() {
+        this.fechaModificacion = LocalDateTime.now();
+    }
+
 }

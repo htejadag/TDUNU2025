@@ -21,4 +21,6 @@ public class SimulacroDto {
     private LocalTime horaFin;
     private String tipoSimulacro;
     private String estado;
+    private String usuarioCreacion;
+    private String usuarioModificacion;
 }
