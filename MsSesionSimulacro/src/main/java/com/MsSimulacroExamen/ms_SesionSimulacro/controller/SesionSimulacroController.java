@@ -98,7 +98,7 @@ public class SesionSimulacroController {
             @RequestBody SesionSimulacro sesionActualizada) {
         log.info("Solicitud para actualizar sesión con ID: {}", id);
         SesionSimulacro actualizada = sesionSimulacroService.actualizarSesion(id, sesionActualizada);
-        log.info("Sesión actualizada: {}", actualizada)
+        log.info("Sesión actualizada: {}", actualizada);
         return ResponseEntity.ok(actualizada);
     }
 
