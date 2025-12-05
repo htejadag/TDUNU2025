@@ -45,13 +45,26 @@ public class SesionSimulacroService {
         log.info("Iniciando actualización de sesión con ID: {}", id);
         SesionSimulacro existente = obtenerPorId(id);
 
-        existente.setIdSimulacro(sesionActualizada.getIdSimulacro());
+        existente.setSimulacroId(sesionActualizada.getSimulacroId());
+        existente.setNombreSesion(sesionActualizada.getNombreSesion());
+
+        existente.setSedeId(sesionActualizada.getSedeId());
+        existente.setAulaId(sesionActualizada.getAulaId());
+
         existente.setFecha(sesionActualizada.getFecha());
         existente.setHoraInicio(sesionActualizada.getHoraInicio());
         existente.setHoraFin(sesionActualizada.getHoraFin());
-        existente.setAula(sesionActualizada.getAula());
-        existente.setSede(sesionActualizada.getSede());
+
+        existente.setCapacidadMaxima(sesionActualizada.getCapacidadMaxima());
+        existente.setInscritos(sesionActualizada.getInscritos());
+
         existente.setEstado(sesionActualizada.getEstado());
+        existente.setObservaciones(sesionActualizada.getObservaciones());
+
+        existente.setUsuarioModificacion(sesionActualizada.getUsuarioModificacion());
+        // fechaModificacion se actualiza sola por @UpdateTimestamp
+
+        log.info("Guardando cambios de la sesión de simulacro con ID: {}", id);
 
         return sesionSimulacroRepository.save(existente);
     }

@@ -32,7 +32,7 @@ public class SesionSimulacroController {
         this.sesionSimulacroService = sesionSimulacroService;
     }
 
-    // CREATE - POST
+     // CREATE - POST
     @Operation(
             summary = "Crear una sesión de simulacro",
             description = "Registra una nueva sesión asociada a un simulacro, incluyendo fecha, hora, aula y estado."
@@ -65,7 +65,6 @@ public class SesionSimulacroController {
         return ResponseEntity.ok(sesiones);
     }
 
-
     // READ BY ID - GET
     @Operation(
             summary = "Obtener sesión por ID",
@@ -96,6 +95,7 @@ public class SesionSimulacroController {
     public ResponseEntity<SesionSimulacro> actualizarSesion(
             @PathVariable Long id,
             @RequestBody SesionSimulacro sesionActualizada) {
+
         log.info("Solicitud para actualizar sesión con ID: {}", id);
         SesionSimulacro actualizada = sesionSimulacroService.actualizarSesion(id, sesionActualizada);
         log.info("Sesión actualizada: {}", actualizada);
