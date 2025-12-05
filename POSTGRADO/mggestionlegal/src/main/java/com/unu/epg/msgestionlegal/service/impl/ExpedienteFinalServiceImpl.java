@@ -1,12 +1,13 @@
-package MsGL.msgestionlegal.service.impl;
+package com.unu.epg.msgestionlegal.service.impl;
 
-import MsGL.MS_Gestion_Legal.Service.ExpedienteFinalService;
-import MsGL.MS_Gestion_Legal.domain.model.ExpedienteFinal;
-import MsGL.MS_Gestion_Legal.domain.model.EstadoExpediente;
-import MsGL.MS_Gestion_Legal.domain.repository.ExpedientefinalRepository;
+import com.unu.epg.msgestionlegal.domain.model.ExpedienteFinal;
+import com.unu.epg.msgestionlegal.domain.model.EstadoExpediente;
+import com.unu.epg.msgestionlegal.domain.repository.ExpedienteFinalRepository;
+import com.unu.epg.msgestionlegal.service.ExpedienteFinalService;
+
+import lombok.RequiredArgsConstructor;
 
 import org.springframework.stereotype.Service;
-import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -16,7 +17,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class ExpedienteFinalServiceImpl implements ExpedienteFinalService {
 
-    private final ExpedientefinalRepository expedienteFinalRepository;
+    private final ExpedienteFinalRepository expedienteFinalRepository;
 
     @Override
     public ExpedienteFinal crear(ExpedienteFinal ex) {
@@ -40,16 +41,21 @@ public class ExpedienteFinalServiceImpl implements ExpedienteFinalService {
 
     @Override
     public ExpedienteFinal actualizarEstado(Long id, String nuevoEstado, String observaciones) {
+
+        // Buscar expediente
         ExpedienteFinal expediente = expedienteFinalRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Expediente no encontrado con ID: " + id));
 
+        // Cambiar estado
         expediente.setEstado(EstadoExpediente.valueOf(nuevoEstado));
 
+        // Actualizar observaciones opcionalmente
         if (observaciones != null && !observaciones.trim().isEmpty()) {
             expediente.setObservaciones(observaciones);
         }
 
-        if (nuevoEstado.equals("COMPLETADO")) {
+        // Si se completa → registrar la fecha finalización
+        if ("COMPLETADO".equalsIgnoreCase(nuevoEstado)) {
             expediente.setFechaFinalizacion(LocalDate.now());
         }
 

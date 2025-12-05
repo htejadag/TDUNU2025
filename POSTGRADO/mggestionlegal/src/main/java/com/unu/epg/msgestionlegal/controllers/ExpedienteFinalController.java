@@ -1,13 +1,12 @@
-package MsGL.msgestionlegal.controllers;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.RequestMapping;
-import MsGL.MS_Gestion_Legal.Service.ExpedienteFinalService;    
-import MsGL.MS_Gestion_Legal.domain.model.ExpedienteFinal;
+package com.unu.epg.msgestionlegal.controllers;
 
+import com.unu.epg.msgestionlegal.domain.model.ExpedienteFinal;
+import com.unu.epg.msgestionlegal.service.ExpedienteFinalService;
 
-import lombok.RequiredArgsConstructor;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+
+import lombok.RequiredArgsConstructor;
 
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +18,8 @@ import java.util.List;
 @RequiredArgsConstructor
 @Tag(name = "Expedientes Finales", description = "CRUD completo de Expediente Final")
 public class ExpedienteFinalController {
-     private final ExpedienteFinalService service;
+
+    private final ExpedienteFinalService service;
 
     @PostMapping
     @Operation(summary = "Crear expediente final")
@@ -48,12 +48,11 @@ public class ExpedienteFinalController {
             @RequestParam String estado,
             @RequestParam(required = false) String observaciones) {
 
-        return ResponseEntity.ok(service.actualizarEstado(id, estado, observaciones)
-        );
+        return ResponseEntity.ok(service.actualizarEstado(id, estado, observaciones));
     }
 
     @DeleteMapping("/{id}")
-    @Operation(summary = "Eliminar expediente")
+    @Operation(summary = "Eliminar expediente final")
     public ResponseEntity<Void> eliminar(@PathVariable Long id) {
         service.eliminar(id);
         return ResponseEntity.noContent().build();
