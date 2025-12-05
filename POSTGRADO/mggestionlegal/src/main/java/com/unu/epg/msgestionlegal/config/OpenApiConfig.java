@@ -1,19 +1,26 @@
-package MsGL.MS_Gestion_Legal.config;
+package com.unu.epg.msgestionlegal.config;
 
-import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.info.Info;
-import org.springframework.context.annotation.Bean;
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.info.Info;
+import io.swagger.v3.oas.annotations.info.Contact;
+import io.swagger.v3.oas.annotations.servers.Server;
+
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
+@OpenAPIDefinition(
+        info = @Info(
+                title = "MS Gestión Legal - API",
+                version = "1.0",
+                description = "API REST del microservicio de Gestión Legal (Expedientes, Certificados, Diplomas, etc.)",
+                contact = @Contact(
+                        name = "Manuel Chirinos",
+                        email = "soporte@epg.edu.pe"
+                )
+        ),
+        servers = {
+                @Server(url = "http://localhost:8092", description = "Servidor Local")
+        }
+)
 public class OpenApiConfig {
-
-    @Bean
-    public OpenAPI customOpenAPI() {
-        return new OpenAPI()
-                .info(new Info()
-                        .title("MS3 - Gestión Legal / Otorgamiento de Grado")
-                        .version("1.0.0")
-                        .description("API oficial del Microservicio 3 encargado de gestionar los expedientes finales, certificados, diplomados, constancias y demás documentos para la obtención del grado académico."));
-    }
 }

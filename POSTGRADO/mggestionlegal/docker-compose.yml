@@ -1,7 +1,4 @@
-version: "3.9"
-
 services:
-
   postgres-gestion-legal:
     image: postgres:17
     container_name: postgres-gestion-legal
@@ -14,19 +11,6 @@ services:
       - "5444:5432"
     volumes:
       - pgdata_gestion_legal:/var/lib/postgresql/data
-
-  ms-gestion-legal:
-    build: .
-    container_name: ms-gestion-legal
-    restart: always
-    depends_on:
-      - postgres-gestion-legal
-    ports:
-      - "8092:8092"
-    environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-gestion-legal:5432/db_gestion_legal
-      SPRING_DATASOURCE_USERNAME: postgres
-      SPRING_DATASOURCE_PASSWORD: postgres
 
 volumes:
   pgdata_gestion_legal:
