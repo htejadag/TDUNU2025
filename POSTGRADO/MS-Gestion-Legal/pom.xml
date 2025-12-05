@@ -2,6 +2,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.unu.epg</groupId>
@@ -35,13 +36,18 @@
             <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
 
-        <!-- POSTGRES -->
+        <!-- VALIDACIÓN -->
         <dependency>
-    <groupId>com.impossibl.pgjdbc-ng</groupId>
-    <artifactId>pgjdbc-ng</artifactId>
-    <version>0.8.9</version>
-</dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
+        </dependency>
 
+        <!-- POSTGRES: DRIVER OFICIAL  -->
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <scope>runtime</scope>
+        </dependency>
 
         <!-- LOMBOK -->
         <dependency>
@@ -50,7 +56,7 @@
             <optional>true</optional>
         </dependency>
 
-        <!-- SPRINGDOC OPENAPI PARA SWAGGER -->
+        <!-- SPRINGDOC SWAGGER -->
         <dependency>
             <groupId>org.springdoc</groupId>
             <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
@@ -83,4 +89,3 @@
         </plugins>
     </build>
 </project>
-
