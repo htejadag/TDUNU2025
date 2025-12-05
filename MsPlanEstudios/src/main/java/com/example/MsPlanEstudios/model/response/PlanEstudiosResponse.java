@@ -5,7 +5,12 @@ import lombok.Data;
 @Data
 public class PlanEstudiosResponse {
     public Integer id;
-    public String nombres;
-    public String apellidos;
-    public Integer edad;
+    private Integer idCarrera;
+    private String nombre;
+    private String año;
+    private boolean estado;
+    private Integer usuarioCreacion;
+    private Integer usuarioModificacion;
+    private String fechaCreacion;
+    private String fechaModificacion;
 }

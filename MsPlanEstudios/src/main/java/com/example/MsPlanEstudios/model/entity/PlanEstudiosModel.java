@@ -10,19 +10,34 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "plan_estudios")
+@Table(name = "plan_estudio")
 public class PlanEstudiosModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Integer id;
 
-    @Column(name = "nombres")
-    private String nombres;
+    @Column(name = "idCarrera")
+    private Integer idCarrera;
 
-    @Column(name = "apellidos")
-    private String apellidos;
+    @Column(name = "nombre")
+    private String nombre;
 
-    @Column(name = "edad")
-    private Integer edad;
+    @Column(name = "año")
+    private String año;
+
+    @Column(name = "estado")
+    private boolean estado;
+
+    @Column(name = "usuarioCreacion")
+    private Integer usuarioCreacion;
+
+    @Column(name = "usuarioModificacion")
+    private Integer usuarioModificacion;
+
+    @Column(name = "fechaCreacion")
+    private String fechaCreacion;
+
+    @Column(name = "fechaModificacion")
+    private String fechaModificacion;
 }
