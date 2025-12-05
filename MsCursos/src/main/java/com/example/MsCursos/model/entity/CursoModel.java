@@ -1,4 +1,4 @@
-package com.example.MsCursos.model;
+package com.example.MsCursos.model.entity;
 
 import java.time.LocalDateTime;
 
@@ -10,9 +10,10 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.Data;
 
+@Data
 @Entity
 @Table(name = "curso")
-@Data
+
 public class CursoModel {
 
     @Id
@@ -28,6 +29,9 @@ public class CursoModel {
 
     @Column(name = "idCiclo")
     private Integer idCiclo;
+
+    @Column(name = "idCarrera")
+    private Integer idCarrera;
 
     @Column(name = "creditos")
     private Integer creditos;

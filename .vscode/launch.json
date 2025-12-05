@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "MsCursosApplication",
+            "request": "launch",
+            "mainClass": "com.example.MsCursos.MsCursosApplication",
+            "projectName": ""
+        },
+        {
+            "type": "java",
             "name": "Current File",
             "request": "launch",
             "mainClass": "${file}"
