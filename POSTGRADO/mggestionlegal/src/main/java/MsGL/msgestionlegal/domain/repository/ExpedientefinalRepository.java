@@ -1,4 +1,4 @@
-package com.unu.epg.msgestionlegal.domain.repository;
+package MsGL.msgestionlegal.domain.repository;
 
 import java.util.List;
 

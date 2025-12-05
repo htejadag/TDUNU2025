@@ -1,4 +1,4 @@
-package com.unu.epg.msgestionlegal.service.impl;
+package MsGL.msgestionlegal.domain.model;
 
 import com.unu.epg.msgestionlegal.domain.model.ExpedienteFinal;
 import com.unu.epg.msgestionlegal.domain.model.EstadoExpediente;

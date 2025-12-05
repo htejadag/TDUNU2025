@@ -1,4 +1,4 @@
-package MsGL.MS_Gestion_Legal.domain.repository;
+package MsGL.msgestionlegal.domain.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

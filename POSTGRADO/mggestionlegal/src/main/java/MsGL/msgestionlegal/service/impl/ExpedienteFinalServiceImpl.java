@@ -1,4 +1,4 @@
-package MsGL.MS_Gestion_Legal.Service.Impl;
+package MsGL.msgestionlegal.service.impl;
 
 import MsGL.MS_Gestion_Legal.Service.ExpedienteFinalService;
 import MsGL.MS_Gestion_Legal.domain.model.ExpedienteFinal;

@@ -1,4 +1,4 @@
-package com.unu.epg.msgestionlegal.controllers;
+package MsGL.msgestionlegal.controllers;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
 import MsGL.MS_Gestion_Legal.Service.ExpedienteFinalService;    
