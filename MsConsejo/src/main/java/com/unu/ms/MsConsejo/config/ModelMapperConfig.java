@@ -1,4 +1,4 @@
-package com.unu.ms.MsGradosTitulos.config;
+package com.unu.ms.MsConsejo.config;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
