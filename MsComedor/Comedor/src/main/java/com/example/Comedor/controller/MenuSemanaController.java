@@ -27,6 +27,7 @@ public class MenuSemanaController {
 
     @Autowired
     MenuSemanaService menuSemanaService;
+    //pruebita pa que funcione el de patrick
 
     @GetMapping(value = ApiRoutes.Comedor.LISTAR)
     public ResponseBase<List<MenuSemanaResponse>> listar() {
