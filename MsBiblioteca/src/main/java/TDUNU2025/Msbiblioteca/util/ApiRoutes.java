@@ -19,10 +19,24 @@ public class ApiRoutes {
     }
 
     // =========================
-    // ✅ RUTAS DE MULTA (AGREGADO)
+    // ✅ RUTAS DE MULTA
     // =========================
     public static class Multa {
         public static final String BASE = "/api/multa";
+        public static final String GUARDAR = "/guardar";
+        public static final String LISTAR = "/listar";
+
+        // ¡IMPORTANTE! Las llaves {id} son necesarias para @PathVariable
+        public static final String OBTENER_POR_ID = "/obtener/{id}";
+        public static final String ACTUALIZAR = "/actualizar/{id}";
+        public static final String ELIMINAR = "/eliminar/{id}";
+    }
+
+    // =========================
+    // ✅ RUTAS DE LIBRO - AUTOR (NUEVO ✅)
+    // =========================
+    public static class LibroAutor {
+        public static final String BASE = "/api/libro-autor";
         public static final String GUARDAR = "/guardar";
         public static final String LISTAR = "/listar";
 
