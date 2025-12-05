@@ -12,12 +12,12 @@ import Ms_Reingresante.Ms_Reingresante.model.response.resolucionResponse;
 public interface ResolucionService {
 
 
-  List<resolucionResponse> listar();
+  List<resolucionResponse> listarResolucion();
 
-  resolucionResponse obtenerPorId(Integer id);
+  resolucionResponse obtenerPorIdResolucion(Integer id);
 
-  resolucionResponse guardar(resolucionRequest producto);
+  resolucionResponse guardarResolucion(resolucionRequest producto);
 
-  void eliminar(Integer id);
+  void eliminarResolucion(Integer id);
 
 }
