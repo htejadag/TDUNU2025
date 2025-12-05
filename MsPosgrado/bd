@@ -1,64 +1,31 @@
-/*!50503 SET NAMES utf8mb4 */;
-/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
-/*!40103 SET TIME_ZONE='+00:00' */;
-/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
-/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
-/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
-/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
--- =====================================================
---   TABLE: asesor
--- =====================================================
-
-DROP TABLE IF EXISTS asesor;
 CREATE TABLE asesor (
-  id_asesor int NOT NULL AUTO_INCREMENT,
-  dni_asesor varchar(255) DEFAULT NULL,
-  nombre_asesor varchar(255) DEFAULT NULL,
-  grado_asesor varchar(255) DEFAULT NULL,
-  cv_url_asesor varchar(255) DEFAULT NULL,
-  declaracion_jurada_asesor varchar(255) DEFAULT NULL,
-  fecha_resolucion_designacion date DEFAULT NULL,
-  usuario_creacion_asesor varchar(255) DEFAULT NULL,
-  fecha_creacion_asesor date DEFAULT NULL,
-  estado_asesor int DEFAULT '1',
+  id_asesor INT NOT NULL AUTO_INCREMENT,
+  dni_asesor VARCHAR(255),
+  nombre_asesor VARCHAR(255),
+  grado_asesor VARCHAR(255),
+  cv_url_asesor VARCHAR(255),
+  declaracion_jurada_asesor VARCHAR(255),
+  fecha_resolucion_designacion DATE,
+  usuario_creacion_asesor VARCHAR(255),
+  fecha_creacion_asesor DATE,
+  estado_asesor INT DEFAULT 1,
   PRIMARY KEY (id_asesor),
-  UNIQUE KEY uc_dni_asesor (dni_asesor)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  UNIQUE (dni_asesor)
+);
 
--- =====================================================
---   TABLE: estudiante_proceso
---   (Según tu modelo EstudianteProceso.java)
--- =====================================================
 
-DROP TABLE IF EXISTS estudiante_proceso;
+
 CREATE TABLE estudiante_proceso (
-  id_estudiante_proceso bigint NOT NULL AUTO_INCREMENT,
-  id_estudiante bigint NOT NULL,
-  id_programa bigint DEFAULT NULL,
-  estadoGeneral varchar(255) NOT NULL,
-  estado_proyecto varchar(255) DEFAULT NULL,
-  estado_informe_final varchar(255) DEFAULT NULL,
-  porcentaje_antiplagio double DEFAULT NULL,
-  listo_para_expedito tinyint(1) DEFAULT 0,
-  fecha_inicio date DEFAULT NULL,
-  fecha_cierre_academico date DEFAULT NULL,
+  id_estudiante_proceso BIGINT NOT NULL AUTO_INCREMENT,
+  id_estudiante BIGINT NOT NULL,
+  id_programa BIGINT,
+  estadoGeneral VARCHAR(255) NOT NULL,
+  estado_proyecto VARCHAR(255),
+  estado_informe_final VARCHAR(255),
+  porcentaje_antiplagio DOUBLE,
+  listo_para_expedito TINYINT(1) DEFAULT 0,
+  fecha_inicio DATE,
+  fecha_cierre_academico DATE,
   PRIMARY KEY (id_estudiante_proceso)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
--- =====================================================
---  Insert examples (optional, you choose)
--- =====================================================
-
--- INSERT INTO estudiante_proceso (id_estudiante, id_programa, estadoGeneral)
--- VALUES (1001, 3, 'INICIADO');
-
--- =====================================================
---  Restore SQL settings
--- =====================================================
-
-/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
-/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
-/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
-/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
-/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+);
