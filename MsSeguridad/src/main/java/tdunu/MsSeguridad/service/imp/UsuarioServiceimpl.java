@@ -17,14 +17,47 @@ public class UsuarioServiceimpl implements UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
 
+    private void validarDatos(UsuarioRequest request, boolean esNuevo, UsuarioModel existente) {
+
+        // Validar código de usuario
+        if (esNuevo) {
+            if (usuarioRepository.existsByCodUsuario(request.getCodUsuario())) {
+                throw new RuntimeException("El código de usuario ya existe. Debe ser único.");
+            }
+        } else if (request.getCodUsuario() != null
+                && !request.getCodUsuario().equals(existente.getCodUsuario())) {
+
+            if (usuarioRepository.existsByCodUsuario(request.getCodUsuario())) {
+                throw new RuntimeException("El nuevo código ya existe. Debe ser único.");
+            }
+        }
+
+        // Validar correo solo si lo envía
+        if (request.getCorreo() != null) {
+            if (!request.getCorreo().matches("^[A-Za-z0-9._%+-]+@gmail\\.com$")) {
+                throw new RuntimeException("El correo debe ser un Gmail válido: ejemplo@gmail.com");
+            }
+        }
+
+        // Validar celular solo si lo envía
+        if (request.getCelular() != null) {
+            if (!request.getCelular().matches("^9\\d{8}$")) {
+                throw new RuntimeException("El número de celular debe tener 9 dígitos y empezar con 9.");
+            }
+        }
+    }
+
     @Override
     public UsuarioResponse guardar(UsuarioRequest request) {
-
+        validarDatos(request, true, null);
         UsuarioModel user = new UsuarioModel();
         user.setCodUsuario(request.getCodUsuario());
         user.setContrasena(request.getContrasena());
         user.setEstado(1);
-
+        user.setNombre(request.getNombre());
+        user.setApellido(request.getApellido());
+        user.setCorreo(request.getCorreo());
+        user.setCelular(request.getCelular());
         UsuarioModel saved = usuarioRepository.save(user);
         return toResponse(saved);
     }
@@ -57,15 +90,29 @@ public class UsuarioServiceimpl implements UsuarioService {
         UsuarioModel user = usuarioRepository.findByCodUsuario(codUsuario)
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
 
-        // Editar campos si vienen
-        if (request.getCodUsuario() != null)
+        validarDatos(request, false, user);
+
+        if (request.getCodUsuario() != null) {
             user.setCodUsuario(request.getCodUsuario());
-
-        if (request.getContrasena() != null)
+        }
+        if (request.getContrasena() != null) {
             user.setContrasena(request.getContrasena());
-
-        if (request.getEstado() != null)
+        }
+        if (request.getEstado() != null) {
             user.setEstado(request.getEstado());
+        }
+        if (request.getNombre() != null) {
+            user.setNombre(request.getNombre());
+        }
+        if (request.getApellido() != null) {
+            user.setApellido(request.getApellido());
+        }
+        if (request.getCorreo() != null) {
+            user.setCorreo(request.getCorreo());
+        }
+        if (request.getCelular() != null) {
+            user.setCelular(request.getCelular());
+        }
 
         UsuarioModel updated = usuarioRepository.save(user);
         return toResponse(updated);
@@ -117,7 +164,13 @@ public class UsuarioServiceimpl implements UsuarioService {
         UsuarioResponse resp = new UsuarioResponse();
         resp.setIdUsuario(model.getIdUsuario());
         resp.setCodUsuario(model.getCodUsuario());
+        resp.setNombre(model.getNombre());
+        resp.setApellido(model.getApellido());
+        resp.setCorreo(model.getCorreo());
+        resp.setCelular(model.getCelular());
+        resp.setContrasena(model.getContrasena());
         resp.setEstado(model.getEstado());
         return resp;
+
     }
 }

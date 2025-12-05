@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "MsSeguridadApplication",
+            "request": "launch",
+            "mainClass": "tdunu.MsSeguridad.MsSeguridadApplication",
+            "projectName": "tdunu-MsSeguridad"
+        },
+        {
+            "type": "java",
             "name": "MsCursosApplication",
             "request": "launch",
             "mainClass": "com.example.MsCursos.MsCursosApplication",
