@@ -17,7 +17,10 @@ public abstract class BaseModel {
     private Integer id;
 
     @Column(nullable = false)
-    private Boolean estado = Boolean.TRUE;
+    private Boolean activo = Boolean.TRUE;
+
+    @Column(nullable = false)
+    private Boolean eliminado = Boolean.FALSE;
 
     @Column(name = "usuarioCreacion", nullable = false, updatable = false)
     private String usuarioCreacion;

@@ -28,7 +28,7 @@ public class EscuelaProfesionalService implements IEscuelaProfesionalService {
 
     @Override
     public List<EscuelaProfesionalResponse> getAll() {
-        return repository.findByEstadoTrue()
+        return repository.findByEliminadoFalse()
                 .stream()
                 .map(this::getResponse)
                 .toList();
@@ -68,27 +68,26 @@ public class EscuelaProfesionalService implements IEscuelaProfesionalService {
 
     @Override
     public void delete(Integer id) {
-        EscuelaProfesionalModel escuela = repository.findById(id).orElse(null);
-        if (escuela == null) {
-            throw new NotFoundException(Messages.NOT_FOUND_ESCUELA_BY_ID);
-        }
-        repository.deleteById(id);
+//        EscuelaProfesionalModel escuela = repository.findById(id).orElse(null);
+//        if (escuela == null) {
+//            throw new NotFoundException(Messages.NOT_FOUND_ESCUELA_BY_ID);
+//        }
+//
+//        escuela.setEliminado(Boolean.FALSE);
+//        escuela.setUsuarioModificacion("a74c0747-1151-455c-87e2-2298e554521f");
+//        repository.save(escuela);
+        checkExistsById(id);
+        repository.delete(id, "a74c0747-1151-455c-87e2-2298e554521f");
+    }
+
+    @Override
+    public void activate(Integer id) {
+
     }
 
     @Override
     public void deactivate(Integer id) {
-        EscuelaProfesionalModel escuela = repository.findById(id).orElse(null);
-        if (escuela == null) {
-            throw new NotFoundException(Messages.NOT_FOUND_ESCUELA_BY_ID);
-        }
 
-        if (!escuela.getEstado()) {
-            throw new AlreadyDeactivateException(Messages.ALREADY_DEACTIVATE_ESCUELA);
-        }
-
-        escuela.setEstado(Boolean.FALSE);
-        escuela.setUsuarioModificacion("a74c0747-1151-455c-87e2-2298e554521f");
-        repository.save(escuela);
     }
 
     private EscuelaProfesionalResponse getResponse(EscuelaProfesionalModel escuela) {
@@ -96,7 +95,7 @@ public class EscuelaProfesionalService implements IEscuelaProfesionalService {
     }
 
     private FacultadModel getFacultad(Integer idFacultad) {
-        FacultadModel facultad = facultadRepository.findByIdAndEstadoTrue(idFacultad).orElse(null);
+        FacultadModel facultad = facultadRepository.findByIdAndEliminadoFalse(idFacultad).orElse(null);
         if (facultad == null) {
             throw new NotFoundException(Messages.NOT_FOUND_FACULTAD_BY_ID);
         }
@@ -104,7 +103,7 @@ public class EscuelaProfesionalService implements IEscuelaProfesionalService {
     }
 
     private EscuelaProfesionalModel checkExistsById(Integer id) {
-        EscuelaProfesionalModel escuela = repository.findByIdAndEstadoTrue(id).orElse(null);
+        EscuelaProfesionalModel escuela = repository.findByIdAndEliminadoFalse(id).orElse(null);
         if (escuela == null) {
             throw new NotFoundException(Messages.NOT_FOUND_ESCUELA_BY_ID);
         }
@@ -117,7 +116,7 @@ public class EscuelaProfesionalService implements IEscuelaProfesionalService {
         if (byNombre != null && byNombre.getId() != id) {
             throw new AlreadyExistsException(Messages.ALREADY_EXISTS_ESCUELA_BY_NOMBRE);
         }
-        if (byNombre != null && !byNombre.getEstado()) {
+        if (byNombre != null && !byNombre.getEliminado()) {
             throw new AlreadyExistsException(Messages.ALREADY_EXISTS_ESCUELA_BY_NOMBRE_DEACTIVATE);
         }
     }

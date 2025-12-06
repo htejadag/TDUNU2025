@@ -43,9 +43,9 @@ public class FacultadController {
         return ResponseBase.ok(response);
     }
 
-    @PatchMapping(ApiRoutes.General.deactivate)
-    public ResponseBase<FacultadResponse> deactivate(@PathVariable Integer id) {
-        service.deactivate(id);
+    @PatchMapping(ApiRoutes.General.delete)
+    public ResponseBase<FacultadResponse> delete(@PathVariable Integer id) {
+        service.delete(id);
         return ResponseBase.ok(Messages.DESACTIVACION_EXITOSA, null);
     }
 }

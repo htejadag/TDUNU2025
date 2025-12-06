@@ -11,6 +11,7 @@ public class Messages {
     public static final String REQUIRED_NOMBRE = "El nombre es requerido";
     public static final String REQUIRED_ID_FACULTAD = "El id de la facultad es requerido";
     public static final String REQUIRED_DURACION_ESCUELA = "El duracion de la carrera de la escuela profesional es requerida";
+    public static final String REQUIRED_FECHA_FUNDACION = "La fecha de fundación es requerida";
 
     public static final String MAX_LENGHT_NOMBRE = "El nombre debe tener maximo 20 caracteres";
 
@@ -26,5 +27,7 @@ public class Messages {
 
     public static final String MAX_DURACION = "La duración mínima debe ser de 1";
     public static final String MIN_DURACION = "La duración máxima debe ser de 10";
+
+    public static final String INVALID_FECHA_FUNDACION = "La fecha de fundación no es válida";
 
 }

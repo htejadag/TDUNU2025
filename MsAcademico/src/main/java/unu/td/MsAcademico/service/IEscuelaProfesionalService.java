@@ -2,21 +2,10 @@ package unu.td.MsAcademico.service;
 
 import unu.td.MsAcademico.model.request.EscuelaProfesionalRequest;
 import unu.td.MsAcademico.model.response.EscuelaProfesionalResponse;
+import unu.td.MsAcademico.utils.IService;
 
 import java.util.List;
 
-public interface IEscuelaProfesionalService {
-
-    public List<EscuelaProfesionalResponse> getAll();
-
-    public EscuelaProfesionalResponse getById(Integer id);
-
-    public EscuelaProfesionalResponse add(EscuelaProfesionalRequest request);
-
-    public EscuelaProfesionalResponse update(Integer id, EscuelaProfesionalRequest request);
-
-    public void delete(Integer id);
-
-    public void deactivate(Integer id);
+public interface IEscuelaProfesionalService extends IService<EscuelaProfesionalResponse, EscuelaProfesionalRequest> {
 
 }

@@ -25,7 +25,7 @@ public class FacultadService implements IFacultadService {
 
     @Override
     public List<FacultadResponse> getAll() {
-        return repository.findByEstadoTrue()
+        return repository.findByEliminadoFalse()
                 .stream()
                 .map(model -> mapper.map(model, FacultadResponse.class))
                 .toList();
@@ -62,31 +62,31 @@ public class FacultadService implements IFacultadService {
 
     @Override
     public void delete(Integer id) {
-        FacultadModel facultad = repository.findById(id).orElse(null);
-        if (facultad == null) {
-            throw new NotFoundException(Messages.NOT_FOUND_FACULTAD_BY_ID);
-        }
-        repository.deleteById(id);
+//        FacultadModel facultad = repository.findById(id).orElse(null);
+//        if (facultad == null) {
+//            throw new NotFoundException(Messages.NOT_FOUND_FACULTAD_BY_ID);
+//        }
+//
+//        facultad.setEliminado(Boolean.FALSE);
+//        facultad.setUsuarioModificacion("a74c0747-1151-455c-87e2-2298e554521f");
+//        repository.save(facultad);
+
+        checkExistsById(id);
+        repository.delete(id, "a74c0747-1151-455c-87e2-2298e554521f");
+    }
+
+    @Override
+    public void activate(Integer id) {
+
     }
 
     @Override
     public void deactivate(Integer id) {
-        FacultadModel facultad = repository.findById(id).orElse(null);
-        if (facultad == null) {
-            throw new NotFoundException(Messages.NOT_FOUND_FACULTAD_BY_ID);
-        }
 
-        if (!facultad.getEstado()) {
-            throw new AlreadyDeactivateException(Messages.ALREADY_DEACTIVATE_FACULTAD);
-        }
-
-        facultad.setEstado(Boolean.FALSE);
-        facultad.setUsuarioModificacion("a74c0747-1151-455c-87e2-2298e554521f");
-        repository.save(facultad);
     }
 
     private FacultadModel checkExistsById(Integer id) {
-        FacultadModel facultad = repository.findByIdAndEstadoTrue(id).orElse(null);
+        FacultadModel facultad = repository.findByIdAndEliminadoFalse(id).orElse(null);
         if (facultad == null) {
             throw new NotFoundException(Messages.NOT_FOUND_FACULTAD_BY_ID);
         }
@@ -96,8 +96,8 @@ public class FacultadService implements IFacultadService {
 
     private void checkExistsByNombre(String nombre, Integer id) {
         FacultadModel byNombre = repository.findByNombre(nombre);
-        if (byNombre != null && !byNombre.getEstado()) {
-            throw new AlreadyExistsException(Messages.ALREADY_EXISTS_FACULTAD_BY_NOMBRE_DEACTIVATE);
+        if (byNombre != null && !byNombre.getEliminado()) {
+            throw new AlreadyExistsException(Messages.ALREADY_EXISTS_FACULTAD_BY_NOMBRE_DEACTIVATE); //pero ya no tiene reversa desde el sistema, debe tocar la db??
         }
         if (byNombre != null && byNombre.getId() != id) {
             throw new AlreadyExistsException(Messages.ALREADY_EXISTS_FACULTAD_BY_NOMBRE);

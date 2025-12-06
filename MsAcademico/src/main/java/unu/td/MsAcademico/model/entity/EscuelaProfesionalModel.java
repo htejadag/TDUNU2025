@@ -6,7 +6,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Data
 @Entity
-@Table(name = "escuelaProfesional")
+@Table(name = "escuelasProfesionales")
 @EntityListeners(AuditingEntityListener.class)
 public class EscuelaProfesionalModel extends EntidadAcademicaBaseModel {
 
