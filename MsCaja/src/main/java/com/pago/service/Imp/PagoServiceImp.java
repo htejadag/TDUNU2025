@@ -54,6 +54,20 @@ public class PagoServiceImp implements PagoService {
   }
 
   @Override
+  public PagoResponse editar(Integer id, PagoRequest request) {
+    PagoModel existente = pagoRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("No existe pago con ID: " + id));
+
+    // Mapear solo los campos no nulos del request al modelo existente
+    modelMapper.map(request, existente);
+
+    PagoModel actualizado = pagoRepository.save(existente);
+
+    return modelMapper.map(actualizado, PagoResponse.class);
+  }
+
+
+  @Override
   public void eliminar(Integer id) {
     pagoRepository.deleteById(id);
   }

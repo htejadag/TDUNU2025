@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -40,6 +41,12 @@ public class PagoController {
   @PostMapping(value = ApiRoutes.Demo.GUARDAR)
   public ResponseBase<PagoResponse> guardar(@RequestBody PagoRequest request) {
     PagoResponse response = pagoService.guardar(request);
+    return ResponseBase.ok(response);
+  }
+
+  @PutMapping(value = ApiRoutes.Demo.EDITAR)
+  public ResponseBase<PagoResponse> editar(@RequestParam(value = "id") Integer id, @RequestBody PagoRequest request) {
+    PagoResponse response = pagoService.editar(id, request);
     return ResponseBase.ok(response);
   }
 
