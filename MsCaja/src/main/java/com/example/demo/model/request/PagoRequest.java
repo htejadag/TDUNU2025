@@ -21,9 +21,9 @@ public class PagoRequest {
 
   public String observaciones;
 
-  public Integer idtipopago;
+  public Integer tipopagoid;
 
-  public Integer idpersona;
+  public Integer personaid;
 
-  public Integer idusuario;
+  public Integer usuarioid;
 }

@@ -19,7 +19,7 @@ import com.example.demo.util.ResponseBase;
 
 @RestController
 @RequestMapping(ApiRoutes.Demo.BASE)
-public class DemoController {
+public class PagoController {
 
   @Autowired
   PagoService demoService;
