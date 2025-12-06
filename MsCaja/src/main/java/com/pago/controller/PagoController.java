@@ -23,29 +23,29 @@ import com.pago.util.ResponseBase;
 public class PagoController {
 
   @Autowired
-  PagoService demoService;
+  PagoService pagoService;
 
   @GetMapping(value = ApiRoutes.Demo.LISTAR)
   public ResponseBase<List<PagoResponse>> listar() {
-    List<PagoResponse> lista = demoService.listar();
+    List<PagoResponse> lista = pagoService.listar();
     return ResponseBase.ok(lista);
   }
 
   @GetMapping(value = ApiRoutes.Demo.OBTENER_POR_ID)
   public ResponseBase<PagoResponse> obtenerPorId(@RequestParam(value = "id") Integer id) {
-    PagoResponse response = demoService.obtenerPorId(id);
+    PagoResponse response = pagoService.obtenerPorId(id);
     return ResponseBase.ok(response);
   }
 
   @PostMapping(value = ApiRoutes.Demo.GUARDAR)
   public ResponseBase<PagoResponse> guardar(@RequestBody PagoRequest request) {
-    PagoResponse response = demoService.guardar(request);
+    PagoResponse response = pagoService.guardar(request);
     return ResponseBase.ok(response);
   }
 
   @DeleteMapping(value = ApiRoutes.Demo.ELIMINAR)
   public ResponseBase<Void> eliminar(@RequestParam(value = "id") Integer id) {
-    demoService.eliminar(id);
+    pagoService.eliminar(id);
     return ResponseBase.ok(null);
   }
 
