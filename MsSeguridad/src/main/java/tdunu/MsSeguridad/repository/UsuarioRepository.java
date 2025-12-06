@@ -8,6 +8,7 @@ import java.util.Optional;
 public interface UsuarioRepository extends JpaRepository<UsuarioModel, Long> {
     Optional<UsuarioModel> findByCodUsuario(String codUsuario);
      List<UsuarioModel> findByEstado(Integer estado);
+     boolean existsByCodUsuario(String codUsuario);
 }
 
 
