@@ -11,6 +11,8 @@ public interface PagoService {
 
   PagoResponse obtenerPorId(Integer id);
 
+  PagoResponse editar(Integer id, PagoRequest pago);
+
   PagoResponse guardar(PagoRequest pago);
   void eliminar(Integer id);
 
