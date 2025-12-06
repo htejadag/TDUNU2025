@@ -1,0 +1,176 @@
+package tdunu.MsSeguridad.service.imp;
+
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import tdunu.MsSeguridad.model.entity.UsuarioModel;
+import tdunu.MsSeguridad.model.request.UsuarioRequest;
+import tdunu.MsSeguridad.model.response.UsuarioResponse;
+import tdunu.MsSeguridad.repository.UsuarioRepository;
+import tdunu.MsSeguridad.service.UsuarioService;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+@Service
+@RequiredArgsConstructor
+public class UsuarioServiceimpl implements UsuarioService {
+
+    private final UsuarioRepository usuarioRepository;
+
+    private void validarDatos(UsuarioRequest request, boolean esNuevo, UsuarioModel existente) {
+
+        // Validar código de usuario
+        if (esNuevo) {
+            if (usuarioRepository.existsByCodUsuario(request.getCodUsuario())) {
+                throw new RuntimeException("El código de usuario ya existe. Debe ser único.");
+            }
+        } else if (request.getCodUsuario() != null
+                && !request.getCodUsuario().equals(existente.getCodUsuario())) {
+
+            if (usuarioRepository.existsByCodUsuario(request.getCodUsuario())) {
+                throw new RuntimeException("El nuevo código ya existe. Debe ser único.");
+            }
+        }
+
+        // Validar correo solo si lo envía
+        if (request.getCorreo() != null) {
+            if (!request.getCorreo().matches("^[A-Za-z0-9._%+-]+@gmail\\.com$")) {
+                throw new RuntimeException("El correo debe ser un Gmail válido: ejemplo@gmail.com");
+            }
+        }
+
+        // Validar celular solo si lo envía
+        if (request.getCelular() != null) {
+            if (!request.getCelular().matches("^9\\d{8}$")) {
+                throw new RuntimeException("El número de celular debe tener 9 dígitos y empezar con 9.");
+            }
+        }
+    }
+
+    @Override
+    public UsuarioResponse guardar(UsuarioRequest request) {
+        validarDatos(request, true, null);
+        UsuarioModel user = new UsuarioModel();
+        user.setCodUsuario(request.getCodUsuario());
+        user.setContrasena(request.getContrasena());
+        user.setEstado(1);
+        user.setNombre(request.getNombre());
+        user.setApellido(request.getApellido());
+        user.setCorreo(request.getCorreo());
+        user.setCelular(request.getCelular());
+        UsuarioModel saved = usuarioRepository.save(user);
+        return toResponse(saved);
+    }
+
+    @Override
+    public List<UsuarioResponse> listar() {
+        return usuarioRepository.findAll()
+                .stream()
+                .map(this::toResponse)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public UsuarioResponse obtenerPorId(Long idUsuario) {
+        UsuarioModel user = usuarioRepository.findById(idUsuario)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+        return toResponse(user);
+    }
+
+    @Override
+    public UsuarioResponse obtenerPorCodigo(String codUsuario) {
+        UsuarioModel user = usuarioRepository.findByCodUsuario(codUsuario)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+        return toResponse(user);
+    }
+
+    @Override
+    public UsuarioResponse editar(String codUsuario, UsuarioRequest request) {
+
+        UsuarioModel user = usuarioRepository.findByCodUsuario(codUsuario)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+
+        validarDatos(request, false, user);
+
+        if (request.getCodUsuario() != null) {
+            user.setCodUsuario(request.getCodUsuario());
+        }
+        if (request.getContrasena() != null) {
+            user.setContrasena(request.getContrasena());
+        }
+        if (request.getEstado() != null) {
+            user.setEstado(request.getEstado());
+        }
+        if (request.getNombre() != null) {
+            user.setNombre(request.getNombre());
+        }
+        if (request.getApellido() != null) {
+            user.setApellido(request.getApellido());
+        }
+        if (request.getCorreo() != null) {
+            user.setCorreo(request.getCorreo());
+        }
+        if (request.getCelular() != null) {
+            user.setCelular(request.getCelular());
+        }
+
+        UsuarioModel updated = usuarioRepository.save(user);
+        return toResponse(updated);
+    }
+
+    @Override
+    public UsuarioResponse eliminarPorCodigo(String codUsuario) {
+
+        UsuarioModel user = usuarioRepository.findByCodUsuario(codUsuario)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+
+        user.setEstado(0);
+
+        UsuarioModel updated = usuarioRepository.save(user);
+
+        return toResponse(updated);
+    }
+
+    @Override
+    public UsuarioResponse cambiarEstado(String codUsuario) {
+
+        UsuarioModel user = usuarioRepository.findByCodUsuario(codUsuario)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+
+        user.setEstado(user.getEstado() == 1 ? 0 : 1);
+
+        UsuarioModel updated = usuarioRepository.save(user);
+
+        return toResponse(updated);
+    }
+
+    @Override
+    public List<UsuarioResponse> listarActivos() {
+        return usuarioRepository.findByEstado(1)
+                .stream()
+                .map(this::toResponse)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<UsuarioResponse> listarDesactivados() {
+        return usuarioRepository.findByEstado(0)
+                .stream()
+                .map(this::toResponse)
+                .collect(Collectors.toList());
+    }
+
+    private UsuarioResponse toResponse(UsuarioModel model) {
+        UsuarioResponse resp = new UsuarioResponse();
+        resp.setIdUsuario(model.getIdUsuario());
+        resp.setCodUsuario(model.getCodUsuario());
+        resp.setNombre(model.getNombre());
+        resp.setApellido(model.getApellido());
+        resp.setCorreo(model.getCorreo());
+        resp.setCelular(model.getCelular());
+        resp.setContrasena(model.getContrasena());
+        resp.setEstado(model.getEstado());
+        return resp;
+
+    }
+}
