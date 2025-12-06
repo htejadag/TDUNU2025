@@ -1,4 +1,4 @@
-package com.example.demo.model.response;
+package com.pago.model.response;
 
 import java.sql.Date;
 
@@ -13,7 +13,7 @@ public String serie;
 
   public String estado;
 
-  public String descuento;
+  public Double descuento;
 
   public String observaciones;
 

@@ -1,4 +1,4 @@
-package com.example.demo.model.request;
+package com.pago.model.request;
 
 import java.sql.Date;
 
@@ -17,7 +17,7 @@ public class PagoRequest {
 
   public String estado;
 
-  public String descuento;
+  public Double descuento;
 
   public String observaciones;
 

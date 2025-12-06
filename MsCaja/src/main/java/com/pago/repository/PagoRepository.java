@@ -1,9 +1,9 @@
-package com.example.demo.repository;
+package com.pago.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.example.demo.model.entity.PagoModel;
+import com.pago.model.entity.PagoModel;
 
 
 @Repository
