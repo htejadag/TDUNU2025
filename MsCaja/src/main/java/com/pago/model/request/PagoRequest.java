@@ -1,7 +1,6 @@
 package com.pago.model.request;
 
 import java.sql.Date;
-
 import lombok.Data;
 
 @Data

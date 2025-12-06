@@ -1,9 +1,12 @@
 package com.pago.model.response;
 
 import java.sql.Date;
+import lombok.Data;
 
+@Data
 public class PagoResponse {
-public String serie;
+  
+  public String serie;
 
   public String correlativo;
 

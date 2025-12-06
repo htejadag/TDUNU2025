@@ -36,7 +36,7 @@ public class PagoModel {
   private String estado;
 
   @Column(name = "descuento")
-  private String descuento;
+  private Double descuento;
 
   @Column(name = "observaciones")
   private String observaciones;
