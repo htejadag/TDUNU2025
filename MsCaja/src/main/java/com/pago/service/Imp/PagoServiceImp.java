@@ -1,4 +1,4 @@
-package com.example.demo.service.Imp;
+package com.pago.service.Imp;
 
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
@@ -8,11 +8,11 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.demo.model.entity.PagoModel;
-import com.example.demo.model.request.PagoRequest;
-import com.example.demo.model.response.PagoResponse;
-import com.example.demo.repository.PagoRepository;
-import com.example.demo.service.PagoService;
+import com.pago.model.entity.PagoModel;
+import com.pago.model.request.PagoRequest;
+import com.pago.model.response.PagoResponse;
+import com.pago.repository.PagoRepository;
+import com.pago.service.PagoService;
 
 @Slf4j
 @Service

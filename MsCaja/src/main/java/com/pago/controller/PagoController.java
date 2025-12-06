@@ -1,4 +1,4 @@
-package com.example.demo.controller;
+package com.pago.controller;
 
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import java.util.List;
@@ -11,11 +11,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import com.example.demo.model.request.PagoRequest;
-import com.example.demo.model.response.PagoResponse;
-import com.example.demo.service.PagoService;
-import com.example.demo.util.ApiRoutes;
-import com.example.demo.util.ResponseBase;
+
+import com.pago.model.request.PagoRequest;
+import com.pago.model.response.PagoResponse;
+import com.pago.service.PagoService;
+import com.pago.util.ApiRoutes;
+import com.pago.util.ResponseBase;
 
 @RestController
 @RequestMapping(ApiRoutes.Demo.BASE)

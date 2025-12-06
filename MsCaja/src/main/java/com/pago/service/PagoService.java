@@ -1,9 +1,9 @@
-package com.example.demo.service;
+package com.pago.service;
 
 import java.util.List;
 
-import com.example.demo.model.response.PagoResponse;
-import com.example.demo.model.request.PagoRequest;
+import com.pago.model.request.PagoRequest;
+import com.pago.model.response.PagoResponse;
 
 public interface PagoService {
 

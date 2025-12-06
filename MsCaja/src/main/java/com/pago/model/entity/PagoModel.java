@@ -1,4 +1,4 @@
-package com.example.demo.model.entity;
+package com.pago.model.entity;
 
 import java.sql.Date;
 
@@ -27,7 +27,7 @@ public class PagoModel {
   private String correlativo;
 
   @Column(name = "fecha_pago")
-  private Date fechaPago;
+  private Date fecha_pago;
 
   @Column(name = "monto_total")
   private Double monto_total;
