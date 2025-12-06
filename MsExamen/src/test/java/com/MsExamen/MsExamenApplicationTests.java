@@ -1,4 +1,4 @@
-package com.example.MsExamen;
+package com.MsExamen;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

@@ -1,4 +1,4 @@
-package com.example.MsExamen;
+package com.MsExamen;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
