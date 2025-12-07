@@ -1,0 +1,16 @@
+tdunu\MsPersona\controller\EstudianteController.class
+tdunu\MsPersona\model\request\EstudianteRequest.class
+tdunu\MsPersona\config\ModelMapperConfig.class
+tdunu\MsPersona\model\response\EstudianteResponse.class
+tdunu\MsPersona\repository\EstudianteRepository.class
+tdunu\MsPersona\util\ApiRoutes.class
+tdunu\MsPersona\util\ApiRoutes$Estudiante.class
+tdunu\MsPersona\util\ResponseBase.class
+tdunu\MsPersona\config\SwaggerConfig.class
+tdunu\MsPersona\config\GlobalExceptionHandler.class
+tdunu\MsPersona\MsTemplateApplication.class
+tdunu\MsPersona\service\Imp\EstudianteServiceImp.class
+tdunu\MsPersona\util\Mensajes.class
+tdunu\MsPersona\model\entity\EstudianteModel.class
+tdunu\MsPersona\util\ApiRoutes$Demo.class
+tdunu\MsPersona\service\EstudianteService.class
