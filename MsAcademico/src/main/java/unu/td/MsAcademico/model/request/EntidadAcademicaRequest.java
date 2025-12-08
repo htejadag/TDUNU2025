@@ -2,7 +2,6 @@ package unu.td.MsAcademico.model.request;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.PastOrPresent;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 import unu.td.MsAcademico.utils.Messages;
@@ -19,6 +18,5 @@ public abstract class EntidadAcademicaRequest {
     private String descripcion;
 
     @NotNull(message = Messages.REQUIRED_FECHA_FUNDACION)
-    @PastOrPresent(message = Messages.INVALID_FECHA_FUNDACION)
     private LocalDate fechaFundacion;
 }

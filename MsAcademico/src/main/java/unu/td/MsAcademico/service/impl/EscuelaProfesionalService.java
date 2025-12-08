@@ -67,14 +67,6 @@ public class EscuelaProfesionalService implements IEscuelaProfesionalService {
 
     @Override
     public void delete(Integer id) {
-//        EscuelaProfesionalModel escuela = repository.findById(id).orElse(null);
-//        if (escuela == null) {
-//            throw new NotFoundException(Messages.NOT_FOUND_ESCUELA_BY_ID);
-//        }
-//
-//        escuela.setEliminado(Boolean.FALSE);
-//        escuela.setUsuarioModificacion("a74c0747-1151-455c-87e2-2298e554521f");
-//        repository.save(escuela);
         checkExistsById(id);
         repository.delete(id, "a74c0747-1151-455c-87e2-2298e554521f");
     }

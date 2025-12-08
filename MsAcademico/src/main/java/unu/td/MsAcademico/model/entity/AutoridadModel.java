@@ -13,7 +13,7 @@ import java.time.LocalDate;
 @Entity
 @Table(name = "autoridades")
 @EntityListeners(AuditingEntityListener.class)
-public class Autoridad extends BaseModel{
+public class AutoridadModel extends BaseModel{
 
     @Column(nullable = false)
     private String idUsuario;
@@ -25,7 +25,7 @@ public class Autoridad extends BaseModel{
     private Integer idEntidad;
 
     @Column(nullable = false)
-    private Integer idTipoIdentidad;
+    private Integer idTipoEntidad;
 
     @Column(nullable = false)
     private LocalDate fechaInicio;

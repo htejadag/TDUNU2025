@@ -25,4 +25,12 @@ public class ApiRoutes {
 
         public static final String BASE = "/api/escuelas";
     }
+
+    public static class Autoridad {
+        public Autoridad() {
+            throw new UnsupportedOperationException();
+        }
+
+        public static final String BASE = "/api/autoridades";
+    }
 }

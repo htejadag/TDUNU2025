@@ -60,15 +60,6 @@ public class FacultadService implements IFacultadService {
 
     @Override
     public void delete(Integer id) {
-//        FacultadModel facultad = repository.findById(id).orElse(null);
-//        if (facultad == null) {
-//            throw new NotFoundException(Messages.NOT_FOUND_FACULTAD_BY_ID);
-//        }
-//
-//        facultad.setEliminado(Boolean.FALSE);
-//        facultad.setUsuarioModificacion("a74c0747-1151-455c-87e2-2298e554521f");
-//        repository.save(facultad);
-
         checkExistsById(id);
         repository.delete(id, "a74c0747-1151-455c-87e2-2298e554521f");
     }
