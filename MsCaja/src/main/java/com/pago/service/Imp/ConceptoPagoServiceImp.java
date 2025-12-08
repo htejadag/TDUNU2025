@@ -1,0 +1,47 @@
+package com.pago.service.Imp;
+
+import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
+import com.pago.model.entity.ConceptoPagoModel;
+import com.pago.repository.ConceptoPagoRepository;
+import com.pago.service.ConceptoPagoService;
+
+@Service("concepto_pagoServicio")
+public class ConceptoPagoServiceImp implements ConceptoPagoService {
+    @Autowired
+    @Qualifier("concepto_pasoRepositorio")
+    private ConceptoPagoRepository concepto_pasoRepositorio;
+
+    @Override
+    public List<ConceptoPagoModel> listarConceptoPagoa() {
+        return concepto_pasoRepositorio.findAll();
+    }
+
+    @Override
+    public ConceptoPagoModel obtenerConceptoPago(int id) {
+        return concepto_pasoRepositorio.findById(id).orElse(null);
+    }
+
+    @Override
+    public ConceptoPagoModel registrarConceptoPago(ConceptoPagoModel ape_cie_caja) {
+        return concepto_pasoRepositorio.save(ape_cie_caja);
+    }
+
+    @Override
+    public ConceptoPagoModel actualizarConceptoPago(ConceptoPagoModel ape_cie_caja) {
+        return concepto_pasoRepositorio.save(ape_cie_caja);
+    }
+
+    @Override
+    public void desactivarConceptoPago(int id) {
+        concepto_pasoRepositorio.desactivar(id);
+    }
+
+    @Override
+    public void eliminarConceptoPago(int id) {
+        concepto_pasoRepositorio.eliminar(id);
+    }
+
+}

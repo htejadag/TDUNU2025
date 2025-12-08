@@ -11,7 +11,7 @@ public class ClasificadorIngresoModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "clasificador_ingresoid")
-    private int clasificador_ingresoid;
+    private Integer clasificador_ingresoid;
 
     @Column(name = "codigo")
     private String codigo;
@@ -20,21 +20,21 @@ public class ClasificadorIngresoModel {
     private String nombre;
 
     @Column(name = "usuario_creacion")
-    private int usuario_creacion;
+    private Integer usuario_creacion;
 
     @Column(name = "fecha_creacion")
     private LocalDateTime fecha_creacion;
 
-    @Column(name = "usuario_modificacion")
-    private int usuario_modificacion;
+    @Column(name = "usuario_modificacion", nullable = true)
+    private Integer usuario_modificacion;
 
-    @Column(name = "fecha_modificacion")
+    @Column(name = "fecha_modificacion", nullable = true)
     private LocalDateTime fecha_modificacion;
 
     @Column(name = "activo")
-    private boolean activo;
+    private Boolean activo;
 
     @Column(name = "es_eliminado")
-    private boolean es_eliminado;
+    private Boolean es_eliminado;
 
 }

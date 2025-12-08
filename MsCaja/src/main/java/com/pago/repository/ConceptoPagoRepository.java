@@ -6,16 +6,16 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
-import com.pago.model.entity.ClasificadorIngresoModel;
+import com.pago.model.entity.ConceptoPagoModel;
 
-public interface ClasificadorIngresoRepository extends JpaRepository<ClasificadorIngresoModel, Serializable> {
+public interface ConceptoPagoRepository extends JpaRepository<ConceptoPagoModel, Serializable> {
     @Modifying
     @Transactional
-    @Query("UPDATE ClasificadorIngresoMdel a SET a.activo = 0 WHERE a.clasificador_ingresoid = :id")
+    @Query("UPDATE ConceptoPagoModel a SET a.activo = 0 WHERE a.clasificador_ingresoid = :id")
     public void desactivar(@Param("id") int id);
 
     @Modifying
     @Transactional
-    @Query("UPDATE ClasificadorIngresoMdel a SET a.es_eliminado = 1 WHERE a.clasificador_ingresoid = :id")
+    @Query("UPDATE ConceptoPagoModel a SET a.es_eliminado = 1 WHERE a.clasificador_ingresoid = :id")
     public void eliminar(@Param("id") int id);
 }

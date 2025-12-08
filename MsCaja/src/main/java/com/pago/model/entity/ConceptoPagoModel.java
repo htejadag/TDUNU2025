@@ -11,7 +11,7 @@ public class ConceptoPagoModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "concepto_pagoid")
-    private int concepto_pagoid;
+    private Integer concepto_pagoid;
 
     @ManyToOne
     @JoinColumn(name = "clasificadorid", foreignKey = @ForeignKey(name = "FK_concepto_pago_clasificador_ingreso"))
@@ -24,21 +24,21 @@ public class ConceptoPagoModel {
     private float precio_base;
 
     @Column(name = "usuario_creacion")
-    private int usuario_creacion;
+    private Integer usuario_creacion;
 
     @Column(name = "fecha_creacion")
     private LocalDateTime fecha_creacion;
 
-    @Column(name = "usuario_modificacion")
-    private int usuario_modificacion;
+    @Column(name = "usuario_modificacion", nullable = true)
+    private Integer usuario_modificacion;
 
-    @Column(name = "fecha_modificacion")
+    @Column(name = "fecha_modificacion", nullable = true)
     private LocalDateTime fecha_modificacion;
 
     @Column(name = "activo")
-    private boolean activo;
+    private Boolean activo;
 
     @Column(name = "es_eliminado")
-    private boolean es_eliminado;
+    private Boolean es_eliminado;
 
 }
