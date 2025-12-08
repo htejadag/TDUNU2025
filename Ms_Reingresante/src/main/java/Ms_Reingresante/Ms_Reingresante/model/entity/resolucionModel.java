@@ -1,4 +1,4 @@
-package Ms_Reingresante.Ms_Reingresante.model.entity:
+package Ms_Reingresante.Ms_Reingresante.model.entity;
 
 
 import java.time.LocalDateTime;
@@ -47,3 +47,4 @@ public class resolucionModel {
     private String usuarioModificacion;
 
 }
+
