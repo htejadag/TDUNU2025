@@ -10,9 +10,7 @@ import unu.td.MsAcademico.model.response.EscuelaProfesionalResponse;
 import unu.td.MsAcademico.repository.IEscuelaProfesionalRepository;
 import unu.td.MsAcademico.repository.IFacultadRepository;
 import unu.td.MsAcademico.service.IEscuelaProfesionalService;
-import unu.td.MsAcademico.utils.Mapper;
 import unu.td.MsAcademico.utils.Messages;
-import unu.td.MsAcademico.utils.exceptions.AlreadyDeactivateException;
 import unu.td.MsAcademico.utils.exceptions.AlreadyExistsException;
 import unu.td.MsAcademico.utils.exceptions.NotFoundException;
 
@@ -44,7 +42,8 @@ public class EscuelaProfesionalService implements IEscuelaProfesionalService {
     public EscuelaProfesionalResponse add(EscuelaProfesionalRequest request) {
         checkExistsByNombre(request.getNombre(), 0);
 
-        EscuelaProfesionalModel escuela = Mapper.Escuela.requestToModel(request);
+        EscuelaProfesionalModel escuela = mapper.map(request, EscuelaProfesionalModel.class);
+        escuela.setId(null);
         escuela.setFacultad(getFacultad(request.getIdFacultad()));
         escuela.setUsuarioCreacion("dbd2a268-a9b0-42ba-981d-3977361f11f5");
 

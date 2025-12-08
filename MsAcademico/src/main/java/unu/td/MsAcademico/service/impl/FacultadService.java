@@ -3,14 +3,12 @@ package unu.td.MsAcademico.service.impl;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
-import unu.td.MsAcademico.model.entity.EscuelaProfesionalModel;
 import unu.td.MsAcademico.model.entity.FacultadModel;
 import unu.td.MsAcademico.model.response.FacultadResponse;
 import unu.td.MsAcademico.model.request.FacultadRequest;
 import unu.td.MsAcademico.repository.IFacultadRepository;
 import unu.td.MsAcademico.service.IFacultadService;
 import unu.td.MsAcademico.utils.Messages;
-import unu.td.MsAcademico.utils.exceptions.AlreadyDeactivateException;
 import unu.td.MsAcademico.utils.exceptions.AlreadyExistsException;
 import unu.td.MsAcademico.utils.exceptions.NotFoundException;
 
