@@ -39,4 +39,5 @@ public class AperturaCierreCajaModel {
 
     @Transient
     private String mensaje;
+    
 }

@@ -41,4 +41,7 @@ public class ConceptoPagoModel {
     @Column(name = "es_eliminado")
     private Boolean es_eliminado;
 
+    @Transient
+    private String mensaje;
+
 }

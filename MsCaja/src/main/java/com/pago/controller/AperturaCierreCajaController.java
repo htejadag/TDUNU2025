@@ -62,7 +62,8 @@ public class AperturaCierreCajaController {
     }
 */
     @PutMapping(ApiRoutes.Demo.DESACTIVAR)
-    public AperturaCierreCajaModel desactivar(@RequestParam("id") int id, @RequestParam("id_usuario") int id_usuario) {
+    public AperturaCierreCajaModel desactivar(@RequestParam("id") int id,
+                                              @RequestParam("id_usuario") int id_usuario) {
         AperturaCierreCajaModel a = ape_cie_cajaServicio.obtenerApeCieCaja(id);
         if(a == null){
             AperturaCierreCajaModel resp = new AperturaCierreCajaModel();
