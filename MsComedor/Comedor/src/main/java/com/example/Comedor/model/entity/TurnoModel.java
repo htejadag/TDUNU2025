@@ -1,0 +1,34 @@
+package com.example.Comedor.model.entity;
+
+
+
+
+import java.time.LocalTime;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import lombok.Data;
+
+@Data
+@Entity
+@Table(name = "turno")
+public class TurnoModel {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Integer id;
+    @Column(name = "descripcion")
+    private String descripcion;
+    @Column(name = "hora_apertura")
+    private LocalTime horaApertura;
+    @Column(name = "hora_cierre")
+    private LocalTime horaCierre;
+    @Column(name = "activo")
+    private boolean activo;
+    
+}
