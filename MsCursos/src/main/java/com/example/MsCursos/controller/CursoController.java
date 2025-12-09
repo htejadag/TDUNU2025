@@ -1,7 +1,22 @@
 package com.example.MsCursos.controller;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.example.MsCursos.model.request.CursoRequest;
+import com.example.MsCursos.model.response.CursoResponse;
 import com.example.MsCursos.service.CursoService;
+import com.example.MsCursos.util.ApiRoutes;
 import com.example.MsCursos.util.ResponseBase;
+
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
 
 @RestController
 @RequestMapping(ApiRoutes.Curso.BASE)
