@@ -111,6 +111,7 @@ public class AutoridadService implements IAutoridadService {
 
     private AutoridadResponse getResponse(AutoridadModel model) {
         AutoridadResponse response = mapper.map(model, AutoridadResponse.class);
+
         EntidadAcademicaResponse entidadResponse = getEntidadResponse(model.getIdTipoEntidad(), model.getIdEntidad());
         response.setEntidad(entidadResponse);
         if (model.getIdTipoEntidad().intValue() == CatalogoId.ID_TIPO_ENTIDAD_FACULTAD) {
@@ -118,6 +119,7 @@ public class AutoridadService implements IAutoridadService {
         } else if (model.getIdTipoEntidad().intValue() == CatalogoId.ID_TIPO_ENTIDAD_ESCUELA) {
             response.setTipoEntidad("Escuela Profesional");
         }
+
         return response;
     }
 

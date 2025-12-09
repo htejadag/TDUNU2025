@@ -60,4 +60,10 @@ public class AutoridadController {
         service.deactivate(id);
         return ResponseBase.ok(Messages.DESACTIVACION_EXITOSA, null);
     }
+
+    @GetMapping(ApiRoutes.Autoridad.byIdEntidad)
+    public ResponseBase<List<AutoridadResponse>> byIdEntidad(@PathVariable Integer idTipoEntidad, @PathVariable Integer idEntidad) {
+        List<AutoridadResponse> response = service.getByIdEntidad(idTipoEntidad, idEntidad);
+        return ResponseBase.ok(response);
+    }
 }
