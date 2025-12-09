@@ -10,6 +10,7 @@ import unu.td.MsAcademico.utils.ApiRoutes;
 import unu.td.MsAcademico.utils.Messages;
 import unu.td.MsAcademico.utils.ResponseBase;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @AllArgsConstructor
@@ -64,6 +65,12 @@ public class AutoridadController {
     @GetMapping(ApiRoutes.Autoridad.byIdEntidad)
     public ResponseBase<List<AutoridadResponse>> byIdEntidad(@PathVariable Integer idTipoEntidad, @PathVariable Integer idEntidad) {
         List<AutoridadResponse> response = service.getByIdEntidad(idTipoEntidad, idEntidad);
+        return ResponseBase.ok(response);
+    }
+
+    @GetMapping(ApiRoutes.Autoridad.byIdEntidadAndFecha)
+    public ResponseBase<AutoridadResponse> getAll(@PathVariable Integer idTipoEntidad, @PathVariable Integer idEntidad, @PathVariable LocalDate fecha) {
+        AutoridadResponse response = service.getByIdEntidadAndFecha(idTipoEntidad, idEntidad, fecha);
         return ResponseBase.ok(response);
     }
 }

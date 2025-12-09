@@ -35,5 +35,6 @@ public class ApiRoutes {
 
         public static final String BASE = "/api/autoridades";
         public static final String byIdEntidad = "/byIdEntidad/{idTipoEntidad}/{idEntidad}";
+        public static final String byIdEntidadAndFecha = "/byIdEntidadAndFecha/{idTipoEntidad}/{idEntidad}/{fecha}";
     }
 }

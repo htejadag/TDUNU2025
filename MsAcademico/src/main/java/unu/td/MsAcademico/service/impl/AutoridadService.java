@@ -93,7 +93,7 @@ public class AutoridadService implements IAutoridadService {
 
     @Override
     public AutoridadResponse getByIdEntidadAndFecha(Integer idTipoEntidad, Integer idEntidad, LocalDate fecha) {
-        AutoridadModel autoridad = repository.findByIdTipoEntidadAndIdEntidadAndEliminadoFalseAndFechaInicioLessThanEqualAndFechaFinGreaterThanEqual(idTipoEntidad, idEntidad, fecha, fecha);
+        AutoridadModel autoridad = repository.findByIdEntidadAndFecha(idTipoEntidad, idEntidad, fecha);
         if (autoridad == null) {
             throw new NotFoundException(Messages.NOT_FOUND_AUTORIDAD);
         }
