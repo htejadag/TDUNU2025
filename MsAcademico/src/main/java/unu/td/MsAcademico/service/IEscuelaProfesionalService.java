@@ -8,4 +8,6 @@ import java.util.List;
 
 public interface IEscuelaProfesionalService extends IService<EscuelaProfesionalResponse, EscuelaProfesionalRequest> {
 
+    List<EscuelaProfesionalResponse> getByIdFacultad(Integer idFacultad);
+
 }

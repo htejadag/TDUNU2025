@@ -18,6 +18,9 @@ public interface IEscuelaProfesionalRepository extends JpaRepository<EscuelaProf
 
     public EscuelaProfesionalModel findByNombre(String nombre);
 
+    @Query(value = "SELECT * FROM public.\"escuelasProfesionales\" WHERE eliminado = FALSE AND \"idFacultad\" = ?1", nativeQuery = true)
+    List<EscuelaProfesionalModel> findByIdFacultadIdAndEliminadoFalse(Integer idFacultad);
+
     @Modifying
     @Query(value = "UPDATE public.\"escuelasProfesionales\" SET eliminado = TRUE, \"usuarioModificacion\" = ?2 WHERE id = ?1", nativeQuery = true)
     public void softDelete(Integer id, String usuarioModificacion);

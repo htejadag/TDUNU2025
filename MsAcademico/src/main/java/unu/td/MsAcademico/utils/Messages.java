@@ -24,6 +24,7 @@ public class Messages {
     public static final String NOT_FOUND_FACULTAD_BY_ID = "No se encuentra una facultad por ese id";
     public static final String NOT_FOUND_ESCUELA_BY_ID = "No se encuentra una escuela por ese id";
     public static final String NOT_FOUND_TIPO_ENTIDAD = "No se encuentra una entidad académica por ese id";
+    public static final String NOT_FOUND_AUTORIDAD = "No se encuentra una autoridad bajo los parámetros buscados";
 
     public static final String ALREADY_EXISTS_FACULTAD_BY_NOMBRE = "Ya se encuentra una facultad con ese nombre";
     public static final String ALREADY_EXISTS_FACULTAD_BY_NOMBRE_DEACTIVATE = "Ya se encuentra una facultad con ese nombre y se encuentra desactivada";

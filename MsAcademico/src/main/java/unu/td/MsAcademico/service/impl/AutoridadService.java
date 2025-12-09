@@ -20,6 +20,7 @@ import unu.td.MsAcademico.utils.Mapper;
 import unu.td.MsAcademico.utils.Messages;
 import unu.td.MsAcademico.utils.exceptions.NotFoundException;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @AllArgsConstructor
@@ -80,6 +81,23 @@ public class AutoridadService implements IAutoridadService {
     public void deactivate(Integer id) {
         checkExistsById(id);
         repository.deactivate(id, "a74c0747-1151-455c-87e2-2298e554521f");
+    }
+
+    @Override
+    public List<AutoridadResponse> getByIdEntidad(Integer idTipoEntidad, Integer idEntidad) {
+        List<AutoridadModel> autoridades = repository.findByIdTipoEntidadAndIdEntidadAndEliminadoFalse(idTipoEntidad, idEntidad);
+        return autoridades.stream()
+                .map(this::getResponse)
+                .toList();
+    }
+
+    @Override
+    public AutoridadResponse getByIdEntidadAndFecha(Integer idTipoEntidad, Integer idEntidad, LocalDate fecha) {
+        AutoridadModel autoridad = repository.findByIdTipoEntidadAndIdEntidadAndEliminadoFalseAndFechaInicioLessThanEqualAndFechaFinGreaterThanEqual(idTipoEntidad, idEntidad, fecha, fecha);
+        if (autoridad == null) {
+            throw new NotFoundException(Messages.NOT_FOUND_AUTORIDAD);
+        }
+        return getResponse(autoridad);
     }
 
     private AutoridadModel checkExistsById(Integer id) {

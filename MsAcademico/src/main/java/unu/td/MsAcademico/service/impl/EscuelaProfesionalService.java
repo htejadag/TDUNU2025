@@ -83,6 +83,19 @@ public class EscuelaProfesionalService implements IEscuelaProfesionalService {
         repository.deactivate(id, "a74c0747-1151-455c-87e2-2298e554521f");
     }
 
+    @Override
+    public List<EscuelaProfesionalResponse> getByIdFacultad(Integer idFacultad) {
+        FacultadModel facultad = facultadRepository.findByIdAndEliminadoFalse(idFacultad).orElse(null);
+        if (facultad == null) {
+            throw new NotFoundException(Messages.NOT_FOUND_FACULTAD_BY_ID);
+        }
+        return repository.findByIdFacultadIdAndEliminadoFalse(idFacultad)
+                .stream()
+                .map(this::getResponse)
+                .toList();
+    }
+
+
     private EscuelaProfesionalResponse getResponse(EscuelaProfesionalModel escuela) {
         return mapper.map(escuela, EscuelaProfesionalResponse.class);
     }

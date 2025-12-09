@@ -60,4 +60,10 @@ public class EscuelaProfesionalController {
         service.deactivate(id);
         return ResponseBase.ok(Messages.DESACTIVACION_EXITOSA, null);
     }
+
+    @GetMapping(ApiRoutes.EscuelaProfesional.byIdFacultad)
+    public ResponseBase<List<EscuelaProfesionalResponse>> byIdFacultad(@PathVariable Integer idFacultad) {
+        List<EscuelaProfesionalResponse> response = service.getByIdFacultad(idFacultad);
+        return ResponseBase.ok(response);
+    }
 }

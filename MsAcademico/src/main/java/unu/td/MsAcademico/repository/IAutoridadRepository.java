@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import unu.td.MsAcademico.model.entity.AutoridadModel;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,6 +16,10 @@ public interface IAutoridadRepository extends JpaRepository<AutoridadModel, Inte
     public List<AutoridadModel> findByEliminadoFalse();
 
     public Optional<AutoridadModel> findByIdAndEliminadoFalse(Integer id);
+
+    List<AutoridadModel> findByIdTipoEntidadAndIdEntidadAndEliminadoFalse(Integer idTipoEntidad, Integer idEntidad);
+
+    AutoridadModel findByIdTipoEntidadAndIdEntidadAndEliminadoFalseAndFechaInicioLessThanEqualAndFechaFinGreaterThanEqual(Integer idTipoEntidad, Integer idEntidad, LocalDate fecha1, LocalDate fecha2);
 
     @Modifying
     @Query(value = "UPDATE public.autoridades SET eliminado = TRUE, \"usuarioModificacion\" = ?2 WHERE id = ?1", nativeQuery = true)
