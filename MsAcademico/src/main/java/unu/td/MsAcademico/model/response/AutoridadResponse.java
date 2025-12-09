@@ -15,4 +15,5 @@ public class AutoridadResponse {
     private String tipoEntidad;
     private LocalDate fechaInicio;
     private LocalDate fechaFin;
+    private Boolean activo;
 }

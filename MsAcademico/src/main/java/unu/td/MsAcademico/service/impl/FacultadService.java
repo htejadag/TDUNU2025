@@ -66,12 +66,14 @@ public class FacultadService implements IFacultadService {
 
     @Override
     public void activate(Integer id) {
-
+        checkExistsById(id);
+        repository.activate(id, "a74c0747-1151-455c-87e2-2298e554521f");
     }
 
     @Override
     public void deactivate(Integer id) {
-
+        checkExistsById(id);
+        repository.deactivate(id, "a74c0747-1151-455c-87e2-2298e554521f");
     }
 
     private FacultadModel checkExistsById(Integer id) {

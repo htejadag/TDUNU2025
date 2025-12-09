@@ -19,4 +19,12 @@ public interface IAutoridadRepository extends JpaRepository<AutoridadModel, Inte
     @Modifying
     @Query(value = "UPDATE public.autoridades SET eliminado = TRUE, \"usuarioModificacion\" = ?2 WHERE id = ?1", nativeQuery = true)
     public void softDelete(Integer id, String usuarioModificacion);
+
+    @Modifying
+    @Query(value = "UPDATE public.autoridades SET activo = TRUE, \"usuarioModificacion\" = ?2 WHERE id = ?1", nativeQuery = true)
+    public void activate(Integer id, String usuarioModificacion);
+
+    @Modifying
+    @Query(value = "UPDATE public.autoridades SET activo = FALSE, \"usuarioModificacion\" = ?2 WHERE id = ?1", nativeQuery = true)
+    public void deactivate(Integer id, String usuarioModificacion);
 }

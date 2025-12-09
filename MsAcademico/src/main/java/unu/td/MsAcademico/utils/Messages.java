@@ -5,6 +5,7 @@ public class Messages {
     public static final String OPERACION_EXITOSA = "Operación exitosa";
     public static final String ELIMINACION_EXITOSA = "Eliminación exitosa";
     public static final String DESACTIVACION_EXITOSA = "Desactivación exitosa";
+    public static final String ACTIVACION_EXITOSA = "Activación exitosa";
 
     public static final String ERROR_LOG = "Error procesando la petición";
 

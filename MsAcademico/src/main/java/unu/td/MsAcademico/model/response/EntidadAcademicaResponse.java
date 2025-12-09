@@ -10,4 +10,5 @@ public class EntidadAcademicaResponse {
     private String nombre;
     private String descripcion;
     private LocalDate fechaFundacion;
+    private Boolean activo;
 }
