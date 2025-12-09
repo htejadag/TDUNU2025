@@ -15,5 +15,13 @@ public class MenuSemanaResponse {
 
     private boolean activo;
 
+    private Integer usuarioCreacion;
+
+    private Date fechaCreacion;
+
+    private Integer usuarioModificacion;
+    
+    private Date fechaModificacion;
+
     
 }
