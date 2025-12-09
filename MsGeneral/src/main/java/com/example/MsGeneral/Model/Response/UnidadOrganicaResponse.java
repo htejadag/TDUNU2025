@@ -2,6 +2,9 @@ package com.example.MsGeneral.Model.Response;
 
 
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,7 +17,7 @@ import lombok.Setter;
 
 public class UnidadOrganicaResponse {
 
-    private Short id;
+    private String id;
     private String nombre;
     private String siglas;
 

@@ -1,12 +1,15 @@
 package com.example.MsGeneral.Model.Entidad;
 
-import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
 
-@Entity
-@Table(name = "UnidadOrganica")
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+@Document(collection  = "UnidadOrganica")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -14,39 +17,22 @@ import java.time.LocalDateTime;
 public class UnidadOrganica {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private String id;
 
-    @Column(length = 120, nullable = false)
     private String nombre;
 
-    @Column(length = 20, nullable = false)
     private String siglas;
 
-    @Column(nullable = false)
+    @CreatedDate
     private LocalDateTime fechaCreacion;
 
-    @Column(length = 50, nullable = false)
-    private String usuarioCreacion;
+    @Builder.Default
+    private String usuarioCreacion="System";
 
-    @Column()
+    @LastModifiedDate
     private LocalDateTime fechaModificacion;
 
-    @Column(length = 50)
-    private String usuarioModificacion;
+    @Builder.Default
+    private String usuarioModificacion="System";
 
-    // AUDITORÍA AUTOMÁTICA
-    @PrePersist
-    public void prePersist() {
-        this.fechaCreacion = LocalDateTime.now();
-        this.usuarioCreacion = "SYSTEM";
-    }
-
-    @PreUpdate
-    public void preUpdate() {
-        this.fechaModificacion = LocalDateTime.now();
-        if (this.usuarioModificacion == null) {
-            this.usuarioModificacion = "SYSTEM";
-        }
-    }
 }

@@ -6,12 +6,15 @@ import com.example.MsGeneral.Model.Request.UnidadOrganicaRequest;
 import com.example.MsGeneral.Model.Response.UnidadOrganicaResponse;
 
 public interface UnidadOrganicaServicio {
+    
     List<UnidadOrganicaResponse> listar();
 
-    UnidadOrganicaResponse obtenerPorId(Integer id);
+    UnidadOrganicaResponse obtenerPorId(String id);
 
     UnidadOrganicaResponse guardar(UnidadOrganicaRequest unidadorganica);
 
-    void eliminar(Integer id);
+    UnidadOrganicaResponse actualizar(String id, UnidadOrganicaRequest unidadOrganica);
+
+    void eliminar(String id);
 
 }

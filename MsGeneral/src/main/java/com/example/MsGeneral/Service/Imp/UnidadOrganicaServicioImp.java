@@ -31,10 +31,10 @@ public class UnidadOrganicaServicioImp implements UnidadOrganicaServicio {
     }
 
     @Override
-    public UnidadOrganicaResponse obtenerPorId(Integer id) {
-       return unidadOrganicaRepositorio.findById(id)
-       .map(model-> modelMapper.map(model,UnidadOrganicaResponse.class))
-       .orElse(null);
+    public UnidadOrganicaResponse obtenerPorId(String id) {
+        return unidadOrganicaRepositorio.findById(id)
+        .map(model-> modelMapper.map(model,UnidadOrganicaResponse.class))
+        .orElse(null);
     }
 
     @Override
@@ -49,8 +49,22 @@ public class UnidadOrganicaServicioImp implements UnidadOrganicaServicio {
     }
 
     @Override
-    public void eliminar(Integer id) {
-       unidadOrganicaRepositorio.deleteById(id);
+    public UnidadOrganicaResponse actualizar(String id, UnidadOrganicaRequest request){
+        UnidadOrganica modelExistente = unidadOrganicaRepositorio.findById(id).orElse(null);
+
+        modelExistente.setNombre(request.getNombre());
+        modelExistente.setSiglas(request.getSiglas());
+
+        UnidadOrganica saved = unidadOrganicaRepositorio.save(modelExistente);
+
+        UnidadOrganicaResponse response = modelMapper.map(saved,UnidadOrganicaResponse.class);
+        
+        return response;
+    }
+
+    @Override
+    public void eliminar(String id) {
+        unidadOrganicaRepositorio.deleteById(id);
     }
     
 }

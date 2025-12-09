@@ -1,11 +1,17 @@
 package com.example.MsGeneral.Model.Entidad;
 
-import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDateTime;
 
-@Entity
-@Table(name = "Catalogo")
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+
+@Document(collection  = "Catalogo")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -13,45 +19,28 @@ import java.time.LocalDateTime;
 public class Catalogo {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer idCatalogo;
+    private String idCatalogo;
 
-    @Column(length = 100, nullable = false)
     private String nombreTabla;
 
-    @Column(length = 32, nullable = false)
     private String codigo;
 
-    @Column(length = 255, nullable = false)
     private String descripcion;
 
-    @Column(length = 20)
     private String abreviatura;
 
-    @Column(nullable = false)
     private Integer orden;
 
-    @Column(nullable = false)
+    @CreatedDate
     private LocalDateTime fechaCreacion;
 
-    @Column(length = 50, nullable = false)
-    private String usuarioCreacion;
+    @Builder.Default
+    private String usuarioCreacion="System";
 
-    @Column()
+    @LastModifiedDate
     private LocalDateTime fechaModificacion;
 
-    @Column(length = 50)
-    private String usuarioModificacion;
+    @Builder.Default
+    private String usuarioModificacion="System";
 
-    @PrePersist
-    public void prePersist() {
-        this.fechaCreacion = LocalDateTime.now();
-        this.usuarioCreacion = "SYSTEM";
-    }
-
-    @PreUpdate
-    public void preUpdate() {
-        this.fechaModificacion = LocalDateTime.now();
-        this.usuarioModificacion = "SYSTEM";
-    }
 }
