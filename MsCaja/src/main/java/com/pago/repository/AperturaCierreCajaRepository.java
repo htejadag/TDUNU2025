@@ -14,7 +14,7 @@ public interface AperturaCierreCajaRepository extends JpaRepository<AperturaCier
 
     @Modifying
     @Transactional
-    @Query("UPDATE AperturaCierreCajaModel a SET a.activo = false  WHERE a.apertura_cierre_cajaid = :id")
+    @Query("UPDATE AperturaCierreCajaModel a SET a.activo = false WHERE a.apertura_cierre_cajaid = :id")
     public void desactivar(@Param("id") int id);
 
     @Modifying

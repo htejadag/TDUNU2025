@@ -11,37 +11,37 @@ import com.pago.service.ConceptoPagoService;
 @Service("concepto_pagoServicio")
 public class ConceptoPagoServiceImp implements ConceptoPagoService {
     @Autowired
-    @Qualifier("concepto_pasoRepositorio")
-    private ConceptoPagoRepository concepto_pasoRepositorio;
+    @Qualifier("concepto_pagoRepositorio")
+    private ConceptoPagoRepository concepto_pagoRepositorio;
 
     @Override
     public List<ConceptoPagoModel> listarConceptoPagoa() {
-        return concepto_pasoRepositorio.findAll();
+        return concepto_pagoRepositorio.findAll();
     }
 
     @Override
     public ConceptoPagoModel obtenerConceptoPago(int id) {
-        return concepto_pasoRepositorio.findById(id).orElse(null);
+        return concepto_pagoRepositorio.findById(id).orElse(null);
     }
 
     @Override
     public ConceptoPagoModel registrarConceptoPago(ConceptoPagoModel ape_cie_caja) {
-        return concepto_pasoRepositorio.save(ape_cie_caja);
+        return concepto_pagoRepositorio.save(ape_cie_caja);
     }
 
     @Override
     public ConceptoPagoModel actualizarConceptoPago(ConceptoPagoModel ape_cie_caja) {
-        return concepto_pasoRepositorio.save(ape_cie_caja);
+        return concepto_pagoRepositorio.save(ape_cie_caja);
     }
 
     @Override
     public void desactivarConceptoPago(int id) {
-        concepto_pasoRepositorio.desactivar(id);
+        concepto_pagoRepositorio.desactivar(id);
     }
 
     @Override
     public void eliminarConceptoPago(int id) {
-        concepto_pasoRepositorio.eliminar(id);
+        concepto_pagoRepositorio.eliminar(id);
     }
 
 }
