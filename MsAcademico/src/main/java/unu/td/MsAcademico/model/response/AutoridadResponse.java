@@ -10,9 +10,9 @@ public class AutoridadResponse {
     private Integer id;
     private String idUsuario;
     private Integer idTipoAutoridad;
-    private EntidadAcademicaResponse entidad;
     private Integer idTipoEntidad;
     private String tipoEntidad;
+    private EntidadAcademicaResponse entidad;
     private LocalDate fechaInicio;
     private LocalDate fechaFin;
     private Boolean activo;

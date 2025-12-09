@@ -9,8 +9,8 @@ import java.util.List;
 
 public interface IAutoridadService extends IService<AutoridadResponse, AutoridadRequest> {
 
-    List<AutoridadResponse> getByIdEntidad(Integer idTipoEntidad, Integer idEntidad);
+    List<AutoridadResponse> getByEntidad(Integer idTipoEntidad, Integer idEntidad);
 
-    AutoridadResponse getByIdEntidadAndFecha(Integer idTipoEntidad, Integer idEntidad, LocalDate fecha);
+    AutoridadResponse getByEntidadAndFecha(Integer idTipoEntidad, Integer idEntidad, LocalDate fecha);
 
 }

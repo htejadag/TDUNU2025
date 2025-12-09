@@ -17,14 +17,18 @@ public interface IAutoridadRepository extends JpaRepository<AutoridadModel, Inte
 
     public Optional<AutoridadModel> findByIdAndEliminadoFalse(Integer id);
 
-    List<AutoridadModel> findByIdTipoEntidadAndIdEntidadAndEliminadoFalse(Integer idTipoEntidad, Integer idEntidad);
+    @Query(value = "SELECT * \n" +
+            "FROM autoridades a\n" +
+            "WHERE a.eliminado = FALSE\n" +
+            "\tAND a.\"idTipoEntidad\" = ?1 AND a.\"idEntidad\" = ?2;", nativeQuery = true)
+    public List<AutoridadModel> findByEntidad(Integer idTipoEntidad, Integer idEntidad);
 
     @Query(value = "SELECT * \n" +
             "FROM autoridades a\n" +
             "WHERE a.eliminado = FALSE\n" +
             "\tAND a.\"fechaFin\"  >= ?3 AND a.\"fechaInicio\" <= ?3\n" +
-            "\tAND a.\"idTipoEntidad\" = ?2 AND a.\"idTipoEntidad\" = ?1;", nativeQuery = true)
-    AutoridadModel findByIdEntidadAndFecha(Integer idTipoEntidad, Integer idEntidad, LocalDate fecha);
+            "\tAND a.\"idTipoEntidad\" = ?1 AND a.\"idEntidad\" = ?2;", nativeQuery = true)
+    public Optional<AutoridadModel> findByEntidadAndFecha(Integer idTipoEntidad, Integer idEntidad, LocalDate fecha);
 
     @Modifying
     @Query(value = "UPDATE public.autoridades SET eliminado = TRUE, \"usuarioModificacion\" = ?2 WHERE id = ?1", nativeQuery = true)

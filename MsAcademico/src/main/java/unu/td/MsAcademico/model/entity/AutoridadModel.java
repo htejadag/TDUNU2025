@@ -22,10 +22,10 @@ public class AutoridadModel extends BaseModel{
     private Integer idTipoAutoridad;
 
     @Column(nullable = false)
-    private Integer idEntidad;
+    private Integer idTipoEntidad;
 
     @Column(nullable = false)
-    private Integer idTipoEntidad;
+    private Integer idEntidad;
 
     @Column(nullable = false)
     private LocalDate fechaInicio;

@@ -64,13 +64,13 @@ public class AutoridadController {
 
     @GetMapping(ApiRoutes.Autoridad.byIdEntidad)
     public ResponseBase<List<AutoridadResponse>> byIdEntidad(@PathVariable Integer idTipoEntidad, @PathVariable Integer idEntidad) {
-        List<AutoridadResponse> response = service.getByIdEntidad(idTipoEntidad, idEntidad);
+        List<AutoridadResponse> response = service.getByEntidad(idTipoEntidad, idEntidad);
         return ResponseBase.ok(response);
     }
 
     @GetMapping(ApiRoutes.Autoridad.byIdEntidadAndFecha)
     public ResponseBase<AutoridadResponse> getAll(@PathVariable Integer idTipoEntidad, @PathVariable Integer idEntidad, @PathVariable LocalDate fecha) {
-        AutoridadResponse response = service.getByIdEntidadAndFecha(idTipoEntidad, idEntidad, fecha);
+        AutoridadResponse response = service.getByEntidadAndFecha(idTipoEntidad, idEntidad, fecha);
         return ResponseBase.ok(response);
     }
 }

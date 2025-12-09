@@ -19,13 +19,13 @@ public class AutoridadRequest {
     @Min(value = 1, message = Messages.MIN_ID)
     private Integer idTipoAutoridad;
 
-    @NotNull(message = Messages.REQUIRED_ID_ENTIDAD)
-    @Min(value = 1, message = Messages.MIN_ID)
-    private Integer idEntidad;
-
     @NotNull(message = Messages.REQUIRED_ID_TIPO_ENTIDAD)
     @Min(value = 1, message = Messages.MIN_ID)
     private Integer idTipoEntidad;
+
+    @NotNull(message = Messages.REQUIRED_ID_ENTIDAD)
+    @Min(value = 1, message = Messages.MIN_ID)
+    private Integer idEntidad;
 
     @NotNull(message = Messages.REQUIRED_FECHA_INICIO)
     private LocalDate fechaInicio;

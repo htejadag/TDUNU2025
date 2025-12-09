@@ -44,7 +44,7 @@ public class AutoridadService implements IAutoridadService {
     @Override
     public AutoridadResponse getById(Integer id) {
         AutoridadModel autoridad = checkExistsById(id);
-        return getResponse(autoridad);
+        return getResponse(autoridad, null);
     }
 
     @Override
@@ -54,7 +54,7 @@ public class AutoridadService implements IAutoridadService {
         autoridad.setUsuarioCreacion("dbd2a268-a9b0-42ba-981d-3977361f11f5");
 
         autoridad = repository.save(autoridad);
-        return getResponse(autoridad);
+        return getResponse(autoridad, null);
     }
 
     @Override
@@ -65,7 +65,7 @@ public class AutoridadService implements IAutoridadService {
         autoridad.setUsuarioModificacion("a74c0747-1151-455c-87e2-2298e554521f");
         autoridad = repository.save(autoridad);
 
-        return getResponse(autoridad);
+        return getResponse(autoridad, null);
     }
 
     @Override
@@ -87,20 +87,24 @@ public class AutoridadService implements IAutoridadService {
     }
 
     @Override
-    public List<AutoridadResponse> getByIdEntidad(Integer idTipoEntidad, Integer idEntidad) {
-        List<AutoridadModel> autoridades = repository.findByIdTipoEntidadAndIdEntidadAndEliminadoFalse(idTipoEntidad, idEntidad);
+    public List<AutoridadResponse> getByEntidad(Integer idTipoEntidad, Integer idEntidad) {
+        checkIdTipoEntidad(idTipoEntidad);
+        EntidadAcademicaResponse entidad = getEntidadResponse(idTipoEntidad, idEntidad);
+        List<AutoridadModel> autoridades = repository.findByEntidad(idTipoEntidad, idEntidad);
         return autoridades.stream()
-                .map(this::getResponse)
+                .map(model -> getResponse(model, entidad))
                 .toList();
     }
 
     @Override
-    public AutoridadResponse getByIdEntidadAndFecha(Integer idTipoEntidad, Integer idEntidad, LocalDate fecha) {
-        AutoridadModel autoridad = repository.findByIdEntidadAndFecha(idTipoEntidad, idEntidad, fecha);
+    public AutoridadResponse getByEntidadAndFecha(Integer idTipoEntidad, Integer idEntidad, LocalDate fecha) {
+        checkIdTipoEntidad(idTipoEntidad);
+        EntidadAcademicaResponse entidad = getEntidadResponse(idTipoEntidad, idEntidad);
+        AutoridadModel autoridad = repository.findByEntidadAndFecha(idTipoEntidad, idEntidad, fecha).orElse(null);
         if (autoridad == null) {
             throw new NotFoundException(Messages.NOT_FOUND_AUTORIDAD);
         }
-        return getResponse(autoridad);
+        return getResponse(autoridad, entidad);
     }
 
     private AutoridadModel checkExistsById(Integer id) {
@@ -112,11 +116,13 @@ public class AutoridadService implements IAutoridadService {
         return autoridad;
     }
 
-    private AutoridadResponse getResponse(AutoridadModel model) {
+    private AutoridadResponse getResponse(AutoridadModel model, EntidadAcademicaResponse entidad) {
         AutoridadResponse response = mapper.map(model, AutoridadResponse.class);
-
-        EntidadAcademicaResponse entidadResponse = getEntidadResponse(model.getIdTipoEntidad(), model.getIdEntidad());
-        response.setEntidad(entidadResponse);
+        response.setEntidad(entidad);
+        if (entidad == null) {
+            EntidadAcademicaResponse entidadResponse = getEntidadResponse(model.getIdTipoEntidad(), model.getIdEntidad());
+            response.setEntidad(entidadResponse);
+        }
         if (model.getIdTipoEntidad().intValue() == CatalogoId.ID_TIPO_ENTIDAD_FACULTAD) {
             response.setTipoEntidad("Facultad");
         } else if (model.getIdTipoEntidad().intValue() == CatalogoId.ID_TIPO_ENTIDAD_ESCUELA) {
@@ -146,9 +152,15 @@ public class AutoridadService implements IAutoridadService {
 
     public void checkFechaInicioAndFechaFin(LocalDate fechaInicio, LocalDate fechaFin) {
         if (fechaFin != null) {
-            if (fechaInicio.isBefore(fechaFin)) {
+            if (fechaInicio.isAfter(fechaFin)) {
                 throw new BadRequestException(Messages.INVALID_FECHA_INICIO);
             }
+        }
+    }
+
+    public void checkIdTipoEntidad(Integer idTipoEntidad) {
+        if (idTipoEntidad.intValue() != CatalogoId.ID_TIPO_ENTIDAD_FACULTAD && idTipoEntidad.intValue() != CatalogoId.ID_TIPO_ENTIDAD_ESCUELA) {
+            throw new NotFoundException(Messages.NOT_FOUND_TIPO_ENTIDAD);
         }
     }
 
