@@ -5,7 +5,7 @@ import org.springframework.stereotype.Repository;
 import com.example.MsGeneral.Model.Entidad.UnidadOrganica;
 
 @Repository
-public interface UnidadOrganicaRepositorio extends MongoRepository<UnidadOrganica,String> {
+public interface UnidadOrganicaRepository extends MongoRepository<UnidadOrganica,String> {
 
     
 } 

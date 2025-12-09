@@ -8,31 +8,40 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 @Document(collection  = "UnidadOrganica")
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 @Builder
 public class UnidadOrganica {
 
     @Id
+    @Field("UNIDAD_ORGANICA_ID")
     private String id;
 
+    @Field("NOMBRE")
     private String nombre;
 
+    @Field("SIGLAS")
     private String siglas;
 
+    @Field("ACTIVO")
+    private boolean activo;
+
     @CreatedDate
+    @Field("FECHA_CREACION")
     private LocalDateTime fechaCreacion;
 
     @Builder.Default
+    @Field("USUARIO_CREACION")
     private String usuarioCreacion="System";
 
     @LastModifiedDate
+    @Field("FECHA_MODIFICACION")
     private LocalDateTime fechaModificacion;
 
     @Builder.Default
+    @Field("USUARIO_MODIFICACION")
     private String usuarioModificacion="System";
 
 }

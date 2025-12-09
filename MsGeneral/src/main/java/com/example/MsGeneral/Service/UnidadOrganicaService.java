@@ -5,7 +5,7 @@ import java.util.List;
 import com.example.MsGeneral.Model.Request.UnidadOrganicaRequest;
 import com.example.MsGeneral.Model.Response.UnidadOrganicaResponse;
 
-public interface UnidadOrganicaServicio {
+public interface UnidadOrganicaService {
     
     List<UnidadOrganicaResponse> listar();
 

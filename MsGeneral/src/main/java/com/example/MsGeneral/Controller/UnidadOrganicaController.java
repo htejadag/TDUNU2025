@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.MsGeneral.Model.Request.UnidadOrganicaRequest;
 import com.example.MsGeneral.Model.Response.UnidadOrganicaResponse;
-import com.example.MsGeneral.Service.UnidadOrganicaServicio;
+import com.example.MsGeneral.Service.UnidadOrganicaService;
 import com.example.MsGeneral.util.ApiRoutes;
 import com.example.MsGeneral.util.ResponseBase;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 public class UnidadOrganicaController {
 
     @Autowired
-    private UnidadOrganicaServicio unidadOrganicaservice;
+    private UnidadOrganicaService unidadOrganicaservice;
 
     @GetMapping(value = ApiRoutes.UnidadOrganica.LISTAR)
     public ResponseBase<List<UnidadOrganicaResponse>> listar() {

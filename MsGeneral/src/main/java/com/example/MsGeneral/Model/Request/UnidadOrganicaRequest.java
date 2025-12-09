@@ -12,6 +12,7 @@ import lombok.Setter;
 @Setter
 public class UnidadOrganicaRequest {
     
-    String nombre;
-    String siglas;
+    private String nombre;
+    private String siglas;
+    private boolean activo;
 }
