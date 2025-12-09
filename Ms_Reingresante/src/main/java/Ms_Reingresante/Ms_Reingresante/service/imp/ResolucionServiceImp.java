@@ -27,7 +27,7 @@ public class ResolucionServiceImp implements ResolucionService {
     private ModelMapper modelMapper;
 
     @Override
-    public List<resolucionResponse> listar() {
+    public List<resolucionResponse> listarResolucion() {
         return resolucionRepository.findAll()
             .stream()
             .map(model -> modelMapper.map(model, resolucionResponse.class))
@@ -37,14 +37,14 @@ public class ResolucionServiceImp implements ResolucionService {
 
 
      @Override
-  public resolucionResponse obtenerPorId(Integer id) {
+  public resolucionResponse obtenerPorIdResolucion(Integer id) {
     return resolucionRepository.findById(id)
         .map(model -> modelMapper.map(model, resolucionResponse.class))
         .orElse(null);
   }
 
   @Override
-  public resolucionResponse guardar(resolucionRequest request) {
+  public resolucionResponse guardarResolucion(resolucionRequest request) {
     // 1. Request -> Model
     resolucionModel model = modelMapper.map(request,resolucionModel.class);
 
@@ -58,7 +58,7 @@ public class ResolucionServiceImp implements ResolucionService {
   }
 
   @Override
-  public void eliminar(Integer id) {
+  public void eliminarResolucion(Integer id) {
     resolucionRepository.deleteById(id);
   }
 

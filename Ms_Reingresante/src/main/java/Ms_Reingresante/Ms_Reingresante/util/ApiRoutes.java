@@ -28,4 +28,20 @@ public class ApiRoutes {
     public static final String ELIMINAR = "/eliminar";
 }
 
+ public static class InformeAcademico {
+    public static final String BASE = "/api/InformeAcademico";
+    public static final String LISTAR = "/listar";
+    public static final String OBTENER_POR_ID = "/obtenerPorId";
+    public static final String GUARDAR = "/guardar";
+    public static final String ELIMINAR = "/eliminar";
+}
+
+ public static class FichaNoAdeudo {
+    public static final String BASE = "/api/FichaNoAdeudo";
+    public static final String LISTAR = "/listar";
+    public static final String OBTENER_POR_ID = "/obtenerPorId";
+    public static final String GUARDAR = "/guardar";
+    public static final String ELIMINAR = "/eliminar";
+}
+
 }

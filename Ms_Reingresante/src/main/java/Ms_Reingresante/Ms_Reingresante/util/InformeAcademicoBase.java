@@ -1,40 +1,60 @@
 package Ms_Reingresante.Ms_Reingresante.util;
 
-// Se define como clase final para evitar herencia
-public final class ApiRoutes {
+import lombok.Builder;
+import lombok.Data;
 
-    // Define las operaciones CRUD comunes
-    public static final String LISTAR = "/listar";
-    public static final String OBTENER_POR_ID = "/obtenerPorId";
-    public static final String GUARDAR = "/guardar";
-    public static final String ELIMINAR = "/eliminar";
+@Data
+@Builder
+public class InformeAcademicoBase<T> {
     
-    // --- RUTAS BASE DEL MICROSERVICIO ---
+    // Indica si la operación fue exitosa
+    private boolean success; 
     
-    public static final class ProcesoReingresante {
-        // Ruta base: /api/v1/proceso
-        public static final String BASE = "/api/v1/proceso";
-        public static final String LISTAR = ApiRoutes.LISTAR;
-        public static final String OBTENER_POR_ID = ApiRoutes.OBTENER_POR_ID;
-        public static final String GUARDAR = ApiRoutes.GUARDAR;
-        public static final String ELIMINAR = ApiRoutes.ELIMINAR;
+    // Mensaje de la operación (éxito o error)
+    private String message; 
+    
+    // Los datos devueltos (List<Response>, Response, etc.)
+    private T data; 
+
+    /**
+     * Constructor estático para respuestas exitosas (OK) con datos.
+     * @param <T> Tipo de datos a devolver.
+     * @param data Los datos del resultado.
+     * @return Respuesta estándar de éxito.
+     */
+    public static <T> InformeAcademicoBase<T> ok(T data) {
+        return InformeAcademicoBase.<T>builder()
+            .success(true)
+            .message("Proceso de Informe Academico, operacion exitosa")
+            .data(data)
+            .build();
     }
 
-    public static final class FichaNoAdeudo {
-        // Ruta base: /api/v1/ficha-no-adeudo
-        public static final String BASE = "/api/v1/ficha-no-adeudo";
-        public static final String LISTAR = ApiRoutes.LISTAR;
-        public static final String OBTENER_POR_ID = ApiRoutes.OBTENER_POR_ID;
-        // Se puede usar "GENERAR" en lugar de "GUARDAR" para reflejar mejor la acción de negocio
-        public static final String GUARDAR = "/generar"; 
-        public static final String APROBAR = "/aprobar"; 
+    /**
+     * Constructor estático para respuestas exitosas (OK) con mensaje y datos.
+     * @param <T> Tipo de datos a devolver.
+     * @param message Mensaje personalizado.
+     * @param data Los datos del resultado.
+     * @return Respuesta estándar de éxito con mensaje.
+     */
+    public static <T> InformeAcademicoBase<T> ok(String message, T data) {
+        return InformeAcademicoBase.<T>builder()
+            .success(true)
+            .message(message)
+            .data(data)
+            .build();
     }
 
-    public static final class InformeAcademico {
-        // Ruta base: /api/v1/informe-academico
-        public static final String BASE = "/api/v1/informe-academico";
-        public static final String LISTAR = ApiRoutes.LISTAR;
-        public static final String OBTENER_POR_ID = ApiRoutes.OBTENER_POR_ID;
-        public static final String GUARDAR = "/generar"; 
+    /**
+     * Constructor estático para respuestas de error.
+     * @param <T> Tipo de datos a devolver (generalmente se usa Object o null).
+     * @param message Mensaje de error.
+     * @return Respuesta estándar de error.
+     */
+    public static <T>  InformeAcademicoBase<T> error(String message) {
+        return InformeAcademicoBase.<T>builder()
+            .success(false)
+            .message(message)
+            .build();
     }
 }

@@ -1,10 +1,10 @@
-package Ms_Reingresante.Ms_Reingresante.model.request;
+package Ms_Reingresante.Ms_Reingresante.model.response;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
-public class InformeAcademicoRequest {
+public class InformeAcademicoResponse {
 
     // Clave Foránea: Necesario para vincular el informe al proceso
     public Integer idProceso;

@@ -1,4 +1,4 @@
-package Ms_Reingresante.Ms_Reingresante.model.Entity;
+package Ms_Reingresante.Ms_Reingresante.model.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;

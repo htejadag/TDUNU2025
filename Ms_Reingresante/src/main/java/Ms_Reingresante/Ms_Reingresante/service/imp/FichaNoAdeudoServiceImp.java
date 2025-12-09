@@ -7,24 +7,30 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import Ms_Reingresante.Ms_Reingresante.model.entity.FichaNoAdeudoModel;
+import Ms_Reingresante.Ms_Reingresante.model.entity.InformeAcademicoModel;
+
 // Importaciones de Modelos y Repositorios
-import Ms_Reingresante.Ms_Reingresante.model.entity.FichaNoAdeudoEntity;
+
 import Ms_Reingresante.Ms_Reingresante.model.request.FichaNoAdeudoRequest;
+import Ms_Reingresante.Ms_Reingresante.model.request.InformeAcademicoRequest;
 import Ms_Reingresante.Ms_Reingresante.model.response.FichaNoAdeudoResponse;
+import Ms_Reingresante.Ms_Reingresante.model.response.InformeAcademicoResponse;
 import Ms_Reingresante.Ms_Reingresante.repository.FichaNoAdeudoRepository;
+import Ms_Reingresante.Ms_Reingresante.repository.InformeAcademicoRepository;
 import Ms_Reingresante.Ms_Reingresante.service.FichaNoAdeudoService;
 
 
 @Service
-public class FichaNoAdeudoServiceImpl implements FichaNoAdeudoService {
+public class FichaNoAdeudoServiceImp implements FichaNoAdeudoService {
 
-    private final FichaNoAdeudoRepository fichaNoAdeudoRepository;
+    private final FichaNoAdeudoRepository FichaNoAdeudoRepository;
     private final ModelMapper modelMapper;
 
     // Inyección de dependencias
     @Autowired
-    public FichaNoAdeudoServiceImpl(FichaNoAdeudoRepository fichaNoAdeudoRepository, ModelMapper modelMapper) {
-        this.fichaNoAdeudoRepository = fichaNoAdeudoRepository;
+    public FichaNoAdeudoServiceImp(FichaNoAdeudoRepository fichaNoAdeudoRepository, ModelMapper modelMapper) {
+        this.FichaNoAdeudoRepository = fichaNoAdeudoRepository;
         this.modelMapper = modelMapper;
     }
 
@@ -32,55 +38,39 @@ public class FichaNoAdeudoServiceImpl implements FichaNoAdeudoService {
 
     @Override
     public List<FichaNoAdeudoResponse> listar() {
-        return fichaNoAdeudoRepository.findAll()
+        return FichaNoAdeudoRepository.findAll()
             .stream()
             .map(entity -> modelMapper.map(entity, FichaNoAdeudoResponse.class))
             .toList();
     }
 
     @Override
-    public FichaNoAdeudoResponse obtenerPorId(Long id) {
-        return fichaNoAdeudoRepository.findById(id)
+    public FichaNoAdeudoResponse obtenerPorId(Integer id) {
+        return FichaNoAdeudoRepository.findById(id)
             .map(entity -> modelMapper.map(entity, FichaNoAdeudoResponse.class))
             // Es crucial manejar el caso de no encontrar el recurso (lanzar excepción o devolver null)
             .orElseThrow(() -> new RuntimeException("Ficha No Adeudo no encontrada con ID: " + id)); 
     }
 
-    // --- LÓGICA DE NEGOCIO ---
-
     @Override
-    public FichaNoAdeudoResponse generarFicha(FichaNoAdeudoRequest request) {
-        
-        // 1. Request -> Entity
-        FichaNoAdeudoEntity nuevaFicha = modelMapper.map(request, FichaNoAdeudoEntity.class);
+  public FichaNoAdeudoResponse guardar(FichaNoAdeudoRequest request) {
+    // 1. Request -> Model
+    FichaNoAdeudoModel model = modelMapper.map(request,FichaNoAdeudoModel.class);
 
-        // 2. Asignación de datos automáticos (Lógica de Negocio)
-        // Lógica: Generar la fecha de emisión y un número correlativo
-        nuevaFicha.setFechaEmision(LocalDate.now());
-        nuevaFicha.setFichaNumero("FNA-" + nuevaFicha.getIdProceso() + "-" + System.currentTimeMillis()); 
-        // Lógica de Auditoría
-        nuevaFicha.setFechaCreacion(java.time.LocalDateTime.now());
-        nuevaFicha.setUsuarioCreacion(request.usuarioCreacion); 
+    // 2. Guardar en BD
+     FichaNoAdeudoModel saved = FichaNoAdeudoRepository.save(model);
+    // 3. Model -> Response
+   FichaNoAdeudoResponse response = modelMapper.map(saved, FichaNoAdeudoResponse.class);
 
-        // 3. Guardar en BD
-        FichaNoAdeudoEntity savedEntity = fichaNoAdeudoRepository.save(nuevaFicha);
+    return response;
+  }
 
-        // 4. Entity -> Response
-        return modelMapper.map(savedEntity, FichaNoAdeudoResponse.class);
-    }
 
-    @Override
-    public FichaNoAdeudoResponse aprobarFicha(Long id) {
-        FichaNoAdeudoEntity entity = fichaNoAdeudoRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("Ficha No Adeudo no encontrada para aprobar."));
+   @Override
+  public void eliminar(Integer id) {
+    FichaNoAdeudoRepository.deleteById(id);
+  }
 
-        // **Lógica de Aprobación:**
-        // Aquí se actualizarían los campos de estado y auditoría.
-        entity.setUsuarioModificacion("Usuario_Aprobador"); 
-        entity.setFechaModificacion(java.time.LocalDateTime.now());
-        
-        FichaNoAdeudoEntity updatedEntity = fichaNoAdeudoRepository.save(entity);
 
-        return modelMapper.map(updatedEntity, FichaNoAdeudoResponse.class);
-    }
+
 }

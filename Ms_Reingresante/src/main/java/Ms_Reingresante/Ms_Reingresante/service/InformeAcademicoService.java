@@ -6,13 +6,29 @@ import Ms_Reingresante.Ms_Reingresante.model.request.InformeAcademicoRequest;
 import Ms_Reingresante.Ms_Reingresante.model.response.InformeAcademicoResponse;
 
 
+
 public interface InformeAcademicoService {
+
+List<InformeAcademicoResponse> listar();
+
+  InformeAcademicoResponse obtenerPorId(Integer id);
+
+ InformeAcademicoResponse guardar(InformeAcademicoRequest producto);
+
+  void eliminar(Integer id);
+
+
+
+
+
+
+
 
     /**
      * Lista todos los Informes Académicos registrados.
      * @return Lista de objetos InformeAcademicoResponse.
      */
-    List<InformeAcademicoResponse> listar();
+    //List<InformeAcademicoResponse> listar();
 
     /**
      * Obtiene un Informe por su identificador único.
@@ -20,7 +36,7 @@ public interface InformeAcademicoService {
      * @param id El ID del informe.
      * @return El objeto InformeAcademicoResponse.
      */
-    InformeAcademicoResponse obtenerPorId(Long id);
+    //InformeAcademicoResponse obtenerPorId(Long id);
 
     /**
      * Genera el Informe Académico para un proceso de reingreso, 
@@ -28,5 +44,5 @@ public interface InformeAcademicoService {
      * @param request Datos de la solicitud.
      * @return El Informe Académico generado.
      */
-    InformeAcademicoResponse generarInforme(InformeAcademicoRequest request);
+   // InformeAcademicoResponse generarInforme(InformeAcademicoRequest request);
 }

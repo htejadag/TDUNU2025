@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class procesoReingresanteBase<T> {
+public class FichaNoAdeudoBase<T> {
     
     // Indica si la operación fue exitosa
     private boolean success; 
@@ -22,10 +22,10 @@ public class procesoReingresanteBase<T> {
      * @param data Los datos del resultado.
      * @return Respuesta estándar de éxito.
      */
-    public static <T> procesoReingresanteBase<T> ok(T data) {
-        return procesoReingresanteBase.<T>builder()
+    public static <T> FichaNoAdeudoBase<T> ok(T data) {
+        return FichaNoAdeudoBase.<T>builder()
             .success(true)
-            .message("Proceso Reingresante, operación exitosa")
+            .message("Proceso Ficha no Adeudo, operación exitosa")
             .data(data)
             .build();
     }
@@ -37,8 +37,8 @@ public class procesoReingresanteBase<T> {
      * @param data Los datos del resultado.
      * @return Respuesta estándar de éxito con mensaje.
      */
-    public static <T> procesoReingresanteBase<T> ok(String message, T data) {
-        return procesoReingresanteBase.<T>builder()
+    public static <T> FichaNoAdeudoBase<T> ok(String message, T data) {
+        return FichaNoAdeudoBase.<T>builder()
             .success(true)
             .message(message)
             .data(data)
@@ -51,8 +51,8 @@ public class procesoReingresanteBase<T> {
      * @param message Mensaje de error.
      * @return Respuesta estándar de error.
      */
-    public static <T> procesoReingresanteBase<T> error(String message) {
-        return procesoReingresanteBase.<T>builder()
+    public static <T> FichaNoAdeudoBase<T> error(String message) {
+        return FichaNoAdeudoBase.<T>builder()
             .success(false)
             .message(message)
             .build();
