@@ -18,5 +18,16 @@ public class Mapper {
 
             return model;
         }
+
+        public static AutoridadModel requestToModelUpdate(AutoridadModel model, AutoridadRequest request) {
+            model.setIdUsuario(request.getIdUsuario());
+            model.setIdTipoAutoridad(request.getIdTipoAutoridad());
+            model.setIdEntidad(request.getIdEntidad());
+            model.setIdTipoEntidad(request.getIdTipoEntidad());
+            model.setFechaInicio(request.getFechaInicio());
+            model.setFechaFin(request.getFechaFin());
+
+            return model;
+        }
     }
 }

@@ -4,7 +4,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 import unu.td.MsAcademico.model.entity.FacultadModel;
 
 import java.util.List;
@@ -21,5 +20,5 @@ public interface IFacultadRepository extends JpaRepository<FacultadModel, Intege
 
     @Modifying
     @Query(value = "UPDATE public.facultades SET eliminado = TRUE, \"usuarioModificacion\" = ?2 WHERE id = ?1", nativeQuery = true)
-    public void delete(Integer id, String usuarioModificacion);
+    public void softDelete(Integer id, String usuarioModificacion);
 }

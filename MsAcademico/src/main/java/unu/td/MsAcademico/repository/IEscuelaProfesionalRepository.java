@@ -20,5 +20,5 @@ public interface IEscuelaProfesionalRepository extends JpaRepository<EscuelaProf
 
     @Modifying
     @Query(value = "UPDATE public.escuelasProfesionales SET eliminado = TRUE, \"usuarioModificacion\" = ?2 WHERE id = ?1", nativeQuery = true)
-    public void delete(Integer id, String usuarioModificacion);
+    public void softDelete(Integer id, String usuarioModificacion);
 }

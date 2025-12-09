@@ -61,7 +61,7 @@ public class FacultadService implements IFacultadService {
     @Override
     public void delete(Integer id) {
         checkExistsById(id);
-        repository.delete(id, "a74c0747-1151-455c-87e2-2298e554521f");
+        repository.softDelete(id, "a74c0747-1151-455c-87e2-2298e554521f");
     }
 
     @Override

@@ -42,7 +42,7 @@ public class AutoridadService implements IAutoridadService {
     @Override
     public AutoridadResponse getById(Integer id) {
         AutoridadModel autoridad = checkExistsById(id);
-        return mapper.map(autoridad, AutoridadResponse.class);
+        return getResponse(autoridad);
     }
 
     @Override
@@ -57,6 +57,7 @@ public class AutoridadService implements IAutoridadService {
     @Override
     public AutoridadResponse update(Integer id, AutoridadRequest request) {
         AutoridadModel autoridad = checkExistsById(id);
+        autoridad = Mapper.Autoridad.requestToModelUpdate(autoridad, request);
         autoridad.setUsuarioModificacion("a74c0747-1151-455c-87e2-2298e554521f");
         autoridad = repository.save(autoridad);
 
@@ -66,7 +67,7 @@ public class AutoridadService implements IAutoridadService {
     @Override
     public void delete(Integer id) {
         checkExistsById(id);
-        repository.delete(id, "a74c0747-1151-455c-87e2-2298e554521f");
+        repository.softDelete(id, "a74c0747-1151-455c-87e2-2298e554521f");
     }
 
     @Override

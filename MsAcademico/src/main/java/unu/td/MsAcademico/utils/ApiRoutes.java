@@ -7,6 +7,7 @@ public class ApiRoutes {
         public static final String update = "/udpate/{id}";
         public static final String delete = "/delete/{id}";
         public static final String deactivate = "/deactivate/{id}";
+        public static final String activate = "/activate/{id}";
         public static final String byId = "/{id}";
     }
 

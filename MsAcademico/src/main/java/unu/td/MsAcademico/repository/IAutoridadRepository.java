@@ -17,6 +17,6 @@ public interface IAutoridadRepository extends JpaRepository<AutoridadModel, Inte
     public Optional<AutoridadModel> findByIdAndEliminadoFalse(Integer id);
 
     @Modifying
-    @Query(value = "UPDATE public.facultades SET eliminado = TRUE, \"usuarioModificacion\" = ?2 WHERE id = ?1", nativeQuery = true)
-    public void delete(Integer id, String usuarioModificacion);
+    @Query(value = "UPDATE public.autoridades SET eliminado = TRUE, \"usuarioModificacion\" = ?2 WHERE id = ?1", nativeQuery = true)
+    public void softDelete(Integer id, String usuarioModificacion);
 }
