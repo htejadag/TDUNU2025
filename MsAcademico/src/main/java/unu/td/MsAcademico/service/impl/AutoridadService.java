@@ -18,6 +18,7 @@ import unu.td.MsAcademico.service.IAutoridadService;
 import unu.td.MsAcademico.utils.CatalogoId;
 import unu.td.MsAcademico.utils.Mapper;
 import unu.td.MsAcademico.utils.Messages;
+import unu.td.MsAcademico.utils.exceptions.BadRequestException;
 import unu.td.MsAcademico.utils.exceptions.NotFoundException;
 
 import java.time.LocalDate;
@@ -48,6 +49,7 @@ public class AutoridadService implements IAutoridadService {
 
     @Override
     public AutoridadResponse add(AutoridadRequest request) {
+        checkFechaInicioAndFechaFin(request.getFechaInicio(), request.getFechaFin());
         AutoridadModel autoridad = Mapper.Autoridad.requestToModel(request);
         autoridad.setUsuarioCreacion("dbd2a268-a9b0-42ba-981d-3977361f11f5");
 
@@ -57,6 +59,7 @@ public class AutoridadService implements IAutoridadService {
 
     @Override
     public AutoridadResponse update(Integer id, AutoridadRequest request) {
+        checkFechaInicioAndFechaFin(request.getFechaInicio(), request.getFechaFin());
         AutoridadModel autoridad = checkExistsById(id);
         autoridad = Mapper.Autoridad.requestToModelUpdate(autoridad, request);
         autoridad.setUsuarioModificacion("a74c0747-1151-455c-87e2-2298e554521f");
@@ -138,6 +141,14 @@ public class AutoridadService implements IAutoridadService {
             return mapper.map(escuela, EscuelaProfesionalResponse.class);
         } else {
             throw new NotFoundException(Messages.NOT_FOUND_TIPO_ENTIDAD);
+        }
+    }
+
+    public void checkFechaInicioAndFechaFin(LocalDate fechaInicio, LocalDate fechaFin) {
+        if (fechaFin != null) {
+            if (fechaInicio.isBefore(fechaFin)) {
+                throw new BadRequestException(Messages.INVALID_FECHA_INICIO);
+            }
         }
     }
 

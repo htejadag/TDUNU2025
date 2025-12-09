@@ -33,5 +33,8 @@ public class Messages {
 
     public static final String MAX_DURACION = "La duración mínima debe ser de 1";
     public static final String MIN_DURACION = "La duración máxima debe ser de 10";
+    public static final String MIN_ID = "El valor mínimo debe ser de 1";
+
+    public static final String INVALID_FECHA_INICIO = "La fecha de inicio no puede ser posterior a la fecha de fin";
 
 }
