@@ -15,7 +15,7 @@ public class ConceptoPagoServiceImp implements ConceptoPagoService {
     private ConceptoPagoRepository concepto_pagoRepositorio;
 
     @Override
-    public List<ConceptoPagoModel> listarConceptoPagoa() {
+    public List<ConceptoPagoModel> listarConceptoPago() {
         return concepto_pagoRepositorio.findAll();
     }
 

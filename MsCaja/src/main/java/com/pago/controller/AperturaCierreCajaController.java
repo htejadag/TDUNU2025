@@ -47,6 +47,7 @@ public class AperturaCierreCajaController {
         a.setUsuario_creacion(id_usuario);
         a.setFecha_creacion(LocalDateTime.now());
         a.setActivo(true);
+        a.setEs_eliminado(false);
         a = ape_cie_cajaServicio.registrarApeCieCaja(a);
         a.setMensaje(Mensajes.GUARDADO_OK);
         return a;

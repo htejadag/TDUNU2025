@@ -5,7 +5,7 @@ import com.pago.model.entity.ConceptoPagoModel;
 
 public interface ConceptoPagoService {
 
-    public abstract List<ConceptoPagoModel> listarConceptoPagoa();
+    public abstract List<ConceptoPagoModel> listarConceptoPago();
 
     public abstract ConceptoPagoModel obtenerConceptoPago(int id);
 

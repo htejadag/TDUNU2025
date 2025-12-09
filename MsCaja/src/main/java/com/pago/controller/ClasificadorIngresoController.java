@@ -50,6 +50,7 @@ public class ClasificadorIngresoController {
         c.setUsuario_creacion(id_usuario);
         c.setFecha_creacion(LocalDateTime.now());
         c.setActivo(true);
+        c.setEs_eliminado(false);
         c = clasificador_ingresoServicio.registrarClasificadorIngreso(c);
         c.setMensaje(Mensajes.GUARDADO_OK);
         return c;
@@ -60,19 +61,19 @@ public class ClasificadorIngresoController {
                                            @RequestParam("codigo") String codigo,
                                            @RequestParam("nombre") String nombre,
                                            @RequestParam("id_usuario") int id_usuario) {
-        ClasificadorIngresoModel a = clasificador_ingresoServicio.obtenerClasificadorIngreso(id);
-        if (a == null) {
+        ClasificadorIngresoModel c = clasificador_ingresoServicio.obtenerClasificadorIngreso(id);
+        if (c == null) {
             ClasificadorIngresoModel resp = new ClasificadorIngresoModel();
             resp.setMensaje(Mensajes.NO_ENCONTRADO);
             return resp;
         }
-        a.setCodigo(codigo);
-        a.setNombre(nombre);
-        a.setUsuario_modificacion(id_usuario);
-        a.setFecha_modificacion(LocalDateTime.now());
-        a = clasificador_ingresoServicio.actualizarClasificadorIngreso(a);
-        a.setMensaje(Mensajes.ACTUALIZADO_OK);
-        return a;
+        c.setCodigo(codigo);
+        c.setNombre(nombre);
+        c.setUsuario_modificacion(id_usuario);
+        c.setFecha_modificacion(LocalDateTime.now());
+        c = clasificador_ingresoServicio.actualizarClasificadorIngreso(c);
+        c.setMensaje(Mensajes.ACTUALIZADO_OK);
+        return c;
     }
 
     @PutMapping(ApiRoutes.Demo.DESACTIVAR)
