@@ -58,29 +58,29 @@ public class MenuDiaServiceImp implements MenuDiaService {
     @Override
     public MenuDiaResponse guardar(MenuDiaRequest req) {
 
-    MenuDiaModel model = new MenuDiaModel();
+        MenuDiaModel model = new MenuDiaModel();
 
-    //Cargar las entidades por ID
-    MenuSemanaModel semana = menuSemanaRepository.findById(req.getIdMenuSemana())
-        .orElseThrow(() -> new RuntimeException("No existe menu semana con id: " + req.getIdMenuSemana()));
+        //Cargar las entidades por ID
+        MenuSemanaModel semana = menuSemanaRepository.findById(req.getIdMenuSemana())
+            .orElseThrow(() -> new RuntimeException("No existe menu semana con id: " + req.getIdMenuSemana()));
 
-    TurnoModel turno = turnoRepository.findById(req.getIdTurno())
-        .orElseThrow(() -> new RuntimeException("No existe turno con id: " + req.getIdTurno()));
+        TurnoModel turno = turnoRepository.findById(req.getIdTurno())
+            .orElseThrow(() -> new RuntimeException("No existe turno con id: " + req.getIdTurno()));
 
-    // Asignar relaciones correctamente
-    model.setMenuSemana(semana);
-    model.setTurno(turno);
+        // Asignar relaciones correctamente
+        model.setMenuSemana(semana);
+        model.setTurno(turno);
 
-    // Copiar otros campos
-    model.setRacionesTotales(req.getRacionesTotales());
-    model.setRacionesRestantes(req.getRacionesRestantes());
-    model.setActivo(req.isActivo());
+        // Copiar otros campos
+        model.setRacionesTotales(req.getRacionesTotales());
+        model.setRacionesRestantes(req.getRacionesRestantes());
+        model.setActivo(req.isActivo());
 
-    // Guardar
-    MenuDiaModel saved = menuDiaRepository.save(model);
+        // Guardar
+        MenuDiaModel saved = menuDiaRepository.save(model);
 
-    return modelMapper.map(saved, MenuDiaResponse.class);
-}
+        return modelMapper.map(saved, MenuDiaResponse.class);
+    }
 
 
     @Override
@@ -100,6 +100,6 @@ public class MenuDiaServiceImp implements MenuDiaService {
         menuDiaRepository.deleteById(id);
         
     
-}
+    }
 
 }

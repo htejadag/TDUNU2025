@@ -55,7 +55,7 @@ public class MenuDiaController {
     }
 
 
-     @DeleteMapping(value = ApiRoutes.Comedor.ELIMINAR_MENU_DIA)
+    @DeleteMapping(value = ApiRoutes.Comedor.ELIMINAR_MENU_DIA)
     public MenuSemanaResponse eliminar(@RequestParam(value = "id") Integer id) {
         menuDiaService.eliminar(id);
         return null;
