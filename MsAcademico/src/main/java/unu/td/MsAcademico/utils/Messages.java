@@ -19,7 +19,7 @@ public class Messages {
     public static final String REQUIRED_ID_TIPO_ENTIDAD = "El id del tipo de entidad es requerido";
     public static final String REQUIRED_FECHA_INICIO = "La fecha de inicio es requerida";
 
-    public static final String MAX_LENGHT_NOMBRE = "El nombre debe tener maximo 20 caracteres";
+    public static final String MAX_LENGHT_NOMBRE = "El nombre debe tener maximo 100 caracteres";
 
     public static final String NOT_FOUND_FACULTAD_BY_ID = "No se encuentra una facultad por ese id";
     public static final String NOT_FOUND_ESCUELA_BY_ID = "No se encuentra una escuela por ese id";

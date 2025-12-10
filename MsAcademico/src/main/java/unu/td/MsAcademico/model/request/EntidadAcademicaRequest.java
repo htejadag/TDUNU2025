@@ -12,7 +12,7 @@ import java.time.LocalDate;
 public abstract class EntidadAcademicaRequest {
 
     @NotBlank(message = Messages.REQUIRED_NOMBRE)
-    @Size(max = 20, message = Messages.MAX_LENGHT_NOMBRE)
+    @Size(max = 100, message = Messages.MAX_LENGHT_NOMBRE)
     private String nombre;
 
     private String descripcion;
