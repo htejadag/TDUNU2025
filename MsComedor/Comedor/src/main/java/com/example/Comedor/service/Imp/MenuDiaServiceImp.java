@@ -71,10 +71,17 @@ public class MenuDiaServiceImp implements MenuDiaService {
         model.setMenuSemana(semana);
         model.setTurno(turno);
 
-        // Copiar otros campos
         model.setRacionesTotales(req.getRacionesTotales());
         model.setRacionesRestantes(req.getRacionesRestantes());
         model.setActivo(req.isActivo());
+
+        //AGREGAR ESTO
+        model.setUsuarioCreacion(req.getUsuarioCreacion());
+        model.setFechaCreacion(req.getFechaCreacion().toString());
+        model.setUsuarioModificacion(req.getUsuarioModificacion());
+        model.setFechaModificacion(req.getFechaModificacion().toString());
+
+       
 
         // Guardar
         MenuDiaModel saved = menuDiaRepository.save(model);

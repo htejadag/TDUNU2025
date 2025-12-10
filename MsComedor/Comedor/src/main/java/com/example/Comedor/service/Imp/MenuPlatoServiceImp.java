@@ -69,6 +69,11 @@ public class MenuPlatoServiceImp implements MenuPlatoService {
         model.setMenuDia(menuDia);
         model.setPlato(plato);
 
+        model.setUsuarioCreacion(req.getUsuarioCreacion());
+        model.setFechaCreacion(req.getFechaCreacion().toString());
+        model.setUsuarioModificacion(req.getUsuarioModificacion());
+        model.setFechaModificacion(req.getFechaModificacion().toString());
+
   
         MenuPlatoModel saved = menuPlatoRepository.save(model);
 
@@ -90,6 +95,11 @@ public class MenuPlatoServiceImp implements MenuPlatoService {
 
         model.setMenuDia(menuDia);
         model.setPlato(plato);
+
+        model.setUsuarioCreacion(req.getUsuarioCreacion());
+        model.setFechaCreacion(req.getFechaCreacion().toString());
+        model.setUsuarioModificacion(req.getUsuarioModificacion());
+        model.setFechaModificacion(req.getFechaModificacion().toString());
 
         MenuPlatoModel actualizado = menuPlatoRepository.save(model);
 

@@ -57,6 +57,13 @@ public class ConsumoRacionServiceImp implements ConsumoRacionService {
 
         // Asignar relaciones correctamente
         modelRa.setIdMenuDia(dia);
+        modelRa.setIdCuentaUsuario(consumoRacionRequest.getIdCuentaUsuario());
+        modelRa.setFechaConsumo(consumoRacionRequest.getFechaConsumo());
+
+        modelRa.setUsuarioCreacion(consumoRacionRequest.getUsuarioCreacion());
+        modelRa.setFechaCreacion(consumoRacionRequest.getFechaCreacion().toString());
+        modelRa.setUsuarioModificacion(consumoRacionRequest.getUsuarioModificacion());
+        modelRa.setFechaModificacion(consumoRacionRequest.getFechaModificacion().toString());
         // Guardar
         ConsumoRacionModel saved = consumoRacionRepository.save(modelRa);
 

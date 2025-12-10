@@ -23,30 +23,30 @@ import com.example.Comedor.util.ApiRoutes;
 import com.example.Comedor.util.ResponseBase;
 
 @RestController
-@RequestMapping("/api/consumo-racion")
+@RequestMapping(ApiRoutes.Comedor.BASE_CONSUMO)
 public class ConsumoRacionController {
 
     @Autowired
     private ConsumoRacionService consumoRacionService;
 
-    @GetMapping("/listar")
+    @GetMapping(value = ApiRoutes.Comedor.LISTAR_CONSUMO)
     public List<ConsumoRacionResponse> listar() {
         return consumoRacionService.listar();
     }
 
-    @GetMapping("/{id}")
+    @GetMapping(value = ApiRoutes.Comedor.OBTENER_POR_ID_CONSUMO)
     public ResponseBase<ConsumoRacionResponse> obtenerPorId(@RequestParam(value = "id") Integer id) {
         ConsumoRacionResponse response = consumoRacionService.obtenerPorId(id);
         return ResponseBase.ok(response);
     }
 
-     @PostMapping("/guardar")
+     @PostMapping(value = ApiRoutes.Comedor.GUARDAR_CONSUMO)
     public ResponseBase<ConsumoRacionResponse> guardar(@RequestBody ConsumoRacionRequest model) {
         ConsumoRacionResponse response = consumoRacionService.guardar(model);
         return ResponseBase.ok(response);
     }
 
-    @PutMapping("/modificar")
+    @PutMapping(value = ApiRoutes.Comedor.MODIFICAR_CONSUMO)
     public ResponseBase<ConsumoRacionResponse> modificar(
             @RequestParam(value = "id") Integer id,
             @RequestBody ConsumoRacionRequest request) {
@@ -55,8 +55,8 @@ public class ConsumoRacionController {
         return ResponseBase.ok(response);
     }
 
-    @DeleteMapping(value = ApiRoutes.Comedor.ELIMINAR_MENU_DIA)
-    public ConsumoRacionService eliminar(@RequestParam(value = "id") Integer id) {
+    @DeleteMapping(value = ApiRoutes.Comedor.ELIMINAR_CONSUMO)
+    public ConsumoRacionResponse eliminar(@RequestParam(value = "id") Integer id) {
         consumoRacionService.eliminar(id);
         return null;
     }
