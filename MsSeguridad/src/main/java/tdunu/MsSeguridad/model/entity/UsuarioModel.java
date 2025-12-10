@@ -2,6 +2,8 @@ package tdunu.MsSeguridad.model.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import java.util.HashSet;
+import java.util.Set;
 
 @Data
 @Entity
@@ -33,4 +35,11 @@ public class UsuarioModel {
 
     @Column(length = 20)
     private String celular;
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "usuarios_roles",
+            joinColumns = @JoinColumn(name = "usuario_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
+    private Set<RoleModel> roles = new HashSet<>();
 }
