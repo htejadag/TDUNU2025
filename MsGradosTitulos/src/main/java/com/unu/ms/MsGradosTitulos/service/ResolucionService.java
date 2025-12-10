@@ -1,23 +1,20 @@
 package com.unu.ms.MsGradosTitulos.service;
 
+import java.util.List;
+
 import com.unu.ms.MsGradosTitulos.model.request.ResolucionRequest;
 import com.unu.ms.MsGradosTitulos.model.response.ResolucionResponse;
 
-import java.util.List;
-
 public interface ResolucionService {
-    
-    List<ResolucionResponse> listar();
-    
-    ResolucionResponse obtenerPorId(Integer id);
-    
-    ResolucionResponse guardar(ResolucionRequest request);
-    
-    ResolucionResponse actualizar(ResolucionRequest request);
-    
-    void eliminar(Integer id);
-    
-    List<ResolucionResponse> buscarPorExpediente(Integer idExpediente);
-    
-    ResolucionResponse buscarPorNumero(String numeroResolucion);
+
+    public List<ResolucionResponse> listar();
+    public ResolucionResponse obtenerPorId(Integer id);
+    public ResolucionResponse guardar(ResolucionRequest resolucionRequest);
+    public void eliminar(Integer id);
+    public ResolucionResponse actualizar(Integer id, ResolucionRequest resolucionActualizado);
+    public boolean existePorId(Integer id);
+
+    public List<ResolucionResponse> buscarPorExpediente(Integer idExpediente);
+    public ResolucionResponse buscarPorNumero(String numeroResolucion);
+
 }
