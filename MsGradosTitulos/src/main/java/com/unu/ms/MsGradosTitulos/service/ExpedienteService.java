@@ -1,23 +1,20 @@
 package com.unu.ms.MsGradosTitulos.service;
 
+import java.util.List;
+
 import com.unu.ms.MsGradosTitulos.model.request.ExpedienteRequest;
 import com.unu.ms.MsGradosTitulos.model.response.ExpedienteResponse;
 
-import java.util.List;
-
 public interface ExpedienteService {
-    
-    List<ExpedienteResponse> listar();
-    
-    ExpedienteResponse obtenerPorId(Integer id);
-    
-    ExpedienteResponse guardar(ExpedienteRequest request);
-    
-    ExpedienteResponse actualizar(ExpedienteRequest request);
-    
-    void eliminar(Integer id);
-    
-    ExpedienteResponse buscarPorCodigo(String codigo);
-    
-    List<ExpedienteResponse> buscarPorPersona(Integer idPersona);
+
+    public List<ExpedienteResponse> listar();
+    public ExpedienteResponse obtenerPorId(Integer id);
+    public ExpedienteResponse guardar(ExpedienteRequest expedienteRequest);
+    public void eliminar(Integer id);
+    public ExpedienteResponse actualizar(Integer id, ExpedienteRequest expedienteActualizado);
+    public boolean existePorId(Integer id);
+
+    public ExpedienteResponse buscarPorCodigo(String codigo);
+    public List<ExpedienteResponse> buscarPorPersona(Integer idPersona);
+
 }
