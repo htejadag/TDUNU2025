@@ -62,30 +62,30 @@ public class SesionConsejoController {
 
     @GetMapping(value = ApiRoutes.SesionConsejo.OBTENER_POR_ID)
     public ResponseBase<SesionConsejoResponse> ObtenerPorId(@RequestParam(value = "id") Integer id) {
-        // SesionConsejoResponse response = sesionConsejoService.obtenerPorId(id);
-        return ResponseBase.ok(Mensajes.OBTENER_POR_OK, null);
+        SesionConsejoResponse response = sesionConsejoService.obtenerPorId(id);
+        return ResponseBase.ok(Mensajes.OBTENER_POR_OK, response);
     }
 
-    @GetMapping(ApiRoutes.SesionConsejo.BUSCAR_POR_CONSEJO)
+    @GetMapping(value = ApiRoutes.SesionConsejo.BUSCAR_POR_CONSEJO)
     public ResponseBase<List<SesionConsejoResponse>> buscarPorConsejo(@RequestParam Integer idConsejo) {
         List<SesionConsejoResponse> listaResponse = sesionConsejoService.buscarPorConsejo(idConsejo);
         return ResponseBase.ok(listaResponse);
     }
 
-    @GetMapping(ApiRoutes.SesionConsejo.BUSCAR_POR_NUMERO)
+    @GetMapping(value = ApiRoutes.SesionConsejo.BUSCAR_POR_NUMERO)
     public ResponseBase<SesionConsejoResponse> buscarPorNumeroSesion(@RequestParam String numeroSesion) {
         SesionConsejoResponse response = sesionConsejoService.buscarPorNumeroSesion(numeroSesion);
         return ResponseBase.ok(Mensajes.OBTENER_POR_OK, response);
     }
 
-    @GetMapping(ApiRoutes.SesionConsejo.BUSCAR_POR_FECHA)
+    @GetMapping(value = ApiRoutes.SesionConsejo.BUSCAR_POR_FECHA)
     public ResponseBase<List<SesionConsejoResponse>> buscarPorFecha(
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fechaSesion) {
         List<SesionConsejoResponse> listaResponse = sesionConsejoService.buscarPorFecha(fechaSesion);
         return ResponseBase.ok(Mensajes.LISTAR_OK, listaResponse);
     }
 
-    @GetMapping(ApiRoutes.SesionConsejo.BUSCAR_POR_TIPO)
+    @GetMapping(value = ApiRoutes.SesionConsejo.BUSCAR_POR_TIPO)
     public ResponseBase<List<SesionConsejoResponse>> buscarPorTipoSesion(@RequestParam Integer idTipoSesion) {
         List<SesionConsejoResponse> listaResponse = sesionConsejoService.buscarPorTipoSesion(idTipoSesion);
         return ResponseBase.ok(Mensajes.LISTAR_OK, listaResponse);

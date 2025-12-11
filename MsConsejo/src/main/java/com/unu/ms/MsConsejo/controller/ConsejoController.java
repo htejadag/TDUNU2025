@@ -64,13 +64,13 @@ public class ConsejoController {
         return ResponseBase.ok(Mensajes.OBTENER_POR_OK, response);
     }
 
-    @GetMapping(ApiRoutes.Consejo.BUSCAR_POR_NOMBRE)
+    @GetMapping(value = ApiRoutes.Consejo.BUSCAR_POR_NOMBRE)
     public ResponseBase<ConsejoResponse> buscarPorNombre(@RequestParam String nombre) {
         ConsejoResponse response = consejoService.buscarPorNombre(nombre);
         return ResponseBase.ok(Mensajes.OBTENER_POR_OK, response);
     }
 
-    @GetMapping(ApiRoutes.Consejo.BUSCAR_POR_ESTADO)
+    @GetMapping(value = ApiRoutes.Consejo.BUSCAR_POR_ESTADO)
     public ResponseBase<List<ConsejoResponse>> buscarPorEstado(@RequestParam Integer idEstado) {
         List<ConsejoResponse> listaResponse = consejoService.buscarPorEstado(idEstado);
         return ResponseBase.ok(Mensajes.LISTAR_OK, listaResponse);

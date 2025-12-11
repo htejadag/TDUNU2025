@@ -64,19 +64,19 @@ public class MiembroConsejoController {
         return ResponseBase.ok(Mensajes.OBTENER_POR_OK, response);
     }
 
-    @GetMapping(ApiRoutes.MiembroConsejo.BUSCAR_POR_CONSEJO)
+    @GetMapping(value = ApiRoutes.MiembroConsejo.BUSCAR_POR_CONSEJO)
     public ResponseBase<List<MiembroConsejoResponse>> buscarPorConsejo(@RequestParam Integer idConsejo) {
         List<MiembroConsejoResponse> listaResponse = miembroConsejoService.buscarPorConsejo(idConsejo);
         return ResponseBase.ok(Mensajes.LISTAR_OK, listaResponse);
     }
 
-    @GetMapping(ApiRoutes.MiembroConsejo.BUSCAR_POR_PERSONA)
+    @GetMapping(value = ApiRoutes.MiembroConsejo.BUSCAR_POR_PERSONA)
     public ResponseBase<List<MiembroConsejoResponse>> buscarPorPersona(@RequestParam Integer idPersona) {
         List<MiembroConsejoResponse> listaResponse = miembroConsejoService.buscarPorPersona(idPersona);
         return ResponseBase.ok(Mensajes.LISTAR_OK, listaResponse);
     }
 
-    @GetMapping(ApiRoutes.MiembroConsejo.BUSCAR_POR_CARGO)
+    @GetMapping(value = ApiRoutes.MiembroConsejo.BUSCAR_POR_CARGO)
     public ResponseBase<List<MiembroConsejoResponse>> buscarPorCargo(@RequestParam Integer idCargo) {
         List<MiembroConsejoResponse> listaResponse = miembroConsejoService.buscarPorCargo(idCargo);
         return ResponseBase.ok(Mensajes.LISTAR_OK, listaResponse);

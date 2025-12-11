@@ -20,7 +20,7 @@ public class SesionConsejoRequest {
     public String descripcion;
     // public Integer idEstado;
     // public Integer usuarioRegistro;
-    // public Timestamp fechaCreacion;
+    // public LocalDateTime fechaCreacion;
     // public List<AsistenciaSesionModel> asistencias;
 
 }

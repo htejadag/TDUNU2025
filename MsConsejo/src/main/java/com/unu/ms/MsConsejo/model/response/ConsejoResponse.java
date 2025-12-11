@@ -13,7 +13,7 @@ public class ConsejoResponse {
     public String nombre;
     public String descripcion;
     public Integer idEstado;
-    // public Timestamp fechaCreacion;
+    // public LocalDateTime fechaCreacion;
     // public List<MiembroConsejoModel> miembros;
     // public List<SesionConsejoModel> sesiones;
     

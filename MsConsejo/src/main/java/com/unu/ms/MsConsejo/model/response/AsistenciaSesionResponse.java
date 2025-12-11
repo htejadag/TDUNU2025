@@ -14,7 +14,7 @@ public class AsistenciaSesionResponse {
     // public MiembroConsejoModel idMiembro;
     public Integer idEstadoAsistencia;
     public Integer usuarioRegistro;
-    // public Timestamp fechaRegistro;
+    // public LocalDateTime fechaRegistro;
 
 }
 

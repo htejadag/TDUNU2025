@@ -65,19 +65,19 @@ public class AsistenciaSesionController {
     }
 
 
-    @GetMapping(ApiRoutes.AsistenciaSesion.BUSCAR_POR_SESION)
+    @GetMapping(value = ApiRoutes.AsistenciaSesion.BUSCAR_POR_SESION)
     public ResponseBase<List<AsistenciaSesionResponse>> buscarPorSesion(@RequestParam Integer idSesion) {
         List<AsistenciaSesionResponse> listaResponse = asistenciaSesionService.buscarPorSesion(idSesion);
         return ResponseBase.ok(Mensajes.LISTAR_OK, listaResponse);
     }
 
-    @GetMapping(ApiRoutes.AsistenciaSesion.BUSCAR_POR_MIEMBRO)
+    @GetMapping(value = ApiRoutes.AsistenciaSesion.BUSCAR_POR_MIEMBRO)
     public ResponseBase<List<AsistenciaSesionResponse>> buscarPorMiembro(@RequestParam Integer idMiembro) {
         List<AsistenciaSesionResponse> listaResponse = asistenciaSesionService.buscarPorMiembro(idMiembro);
         return ResponseBase.ok(Mensajes.LISTAR_OK, listaResponse);
     }
 
-    @GetMapping(ApiRoutes.AsistenciaSesion.BUSCAR_POR_ESTADO)
+    @GetMapping(value = ApiRoutes.AsistenciaSesion.BUSCAR_POR_ESTADO)
     public ResponseBase<List<AsistenciaSesionResponse>> buscarPorEstadoAsistencia(@RequestParam Integer idEstadoAsistencia) {
         List<AsistenciaSesionResponse> listaResponse = asistenciaSesionService.buscarPorEstadoAsistencia(idEstadoAsistencia);
         return ResponseBase.ok(Mensajes.LISTAR_OK, listaResponse);

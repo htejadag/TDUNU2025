@@ -8,9 +8,10 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 import lombok.Data;
 
@@ -39,6 +40,11 @@ public class AsistenciaSesionModel {
     private Integer usuarioRegistro;
 
     @Column(name = "fecha_registro")
-    private Timestamp fechaRegistro;
+    private LocalDateTime fechaRegistro;
+
+    @PrePersist
+    protected void onCreate() {
+        this.fechaRegistro = LocalDateTime.now();
+    }
 
 }

@@ -1,6 +1,6 @@
 package com.unu.ms.MsConsejo.model.request;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,6 +16,6 @@ public class AsistenciaSesionRequest {
     // public MiembroConsejoModel idMiembro;
     public Integer idEstadoAsistencia;
     public Integer usuarioRegistro;
-    public Timestamp fechaRegistro;
+    public LocalDateTime fechaRegistro;
 
 }
