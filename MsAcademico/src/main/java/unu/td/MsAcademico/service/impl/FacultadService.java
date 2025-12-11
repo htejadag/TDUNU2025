@@ -23,7 +23,7 @@ public class FacultadService implements IFacultadService {
 
     @Override
     public List<FacultadResponse> getAll() {
-        return repository.findAll()
+        return repository.findByEliminadoFalse()
                 .stream()
                 .map(model -> mapper.map(model, FacultadResponse.class))
                 .toList();
@@ -31,19 +31,13 @@ public class FacultadService implements IFacultadService {
 
     @Override
     public FacultadResponse getById(Integer id) {
-        FacultadModel facultad = repository.findById(id).orElse(null);
-        if (facultad == null) {
-            throw new NotFoundException(Messages.NOT_FOUND_FACULTAD_BY_ID);
-        }
+        FacultadModel facultad = checkExistsById(id);
         return mapper.map(facultad, FacultadResponse.class);
     }
 
     @Override
     public FacultadResponse add(FacultadRequest request) {
-        FacultadModel byNombre = repository.findByNombre(request.getNombre());
-        if (byNombre != null) {
-            throw new AlreadyExistsException(Messages.ALREADY_EXISTS_FACULTAD_BY_NOMBRE);
-        }
+        checkExistsByNombre(request.getNombre(), 0);
 
         FacultadModel facultad = mapper.map(request, FacultadModel.class);
         facultad.setUsuarioCreacion("dbd2a268-a9b0-42ba-981d-3977361f11f5");
@@ -54,17 +48,11 @@ public class FacultadService implements IFacultadService {
 
     @Override
     public FacultadResponse update(Integer id, FacultadRequest request) {
-        FacultadModel facultad = repository.findById(id).orElse(null);
-        if (facultad == null) {
-            throw new NotFoundException(Messages.NOT_FOUND_FACULTAD_BY_ID);
-        }
-
-        FacultadModel byNombre = repository.findByNombre(request.getNombre());
-        if (byNombre != null) {
-            throw new AlreadyExistsException(Messages.ALREADY_EXISTS_FACULTAD_BY_NOMBRE);
-        }
+        FacultadModel facultad = checkExistsById(id);
+        checkExistsByNombre(request.getNombre(), facultad.getId());
 
         facultad.setNombre(request.getNombre());
+        facultad.setUsuarioModificacion("a74c0747-1151-455c-87e2-2298e554521f");
         facultad = repository.save(facultad);
 
         return mapper.map(facultad, FacultadResponse.class);
@@ -72,10 +60,38 @@ public class FacultadService implements IFacultadService {
 
     @Override
     public void delete(Integer id) {
-        FacultadModel facultad = repository.findById(id).orElse(null);
+        checkExistsById(id);
+        repository.softDelete(id, "a74c0747-1151-455c-87e2-2298e554521f");
+    }
+
+    @Override
+    public void activate(Integer id) {
+        checkExistsById(id);
+        repository.activate(id, "a74c0747-1151-455c-87e2-2298e554521f");
+    }
+
+    @Override
+    public void deactivate(Integer id) {
+        checkExistsById(id);
+        repository.deactivate(id, "a74c0747-1151-455c-87e2-2298e554521f");
+    }
+
+    private FacultadModel checkExistsById(Integer id) {
+        FacultadModel facultad = repository.findByIdAndEliminadoFalse(id).orElse(null);
         if (facultad == null) {
             throw new NotFoundException(Messages.NOT_FOUND_FACULTAD_BY_ID);
         }
-        repository.deleteById(id);
+
+        return facultad;
+    }
+
+    private void checkExistsByNombre(String nombre, Integer id) {
+        FacultadModel byNombre = repository.findByNombre(nombre);
+        if (byNombre != null && !byNombre.getEliminado()) {
+            throw new AlreadyExistsException(Messages.ALREADY_EXISTS_FACULTAD_BY_NOMBRE_DEACTIVATE); //pero ya no tiene reversa desde el sistema, debe tocar la db??
+        }
+        if (byNombre != null && byNombre.getId() != id) {
+            throw new AlreadyExistsException(Messages.ALREADY_EXISTS_FACULTAD_BY_NOMBRE);
+        }
     }
 }
