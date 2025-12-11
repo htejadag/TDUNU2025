@@ -1,0 +1,25 @@
+package com.unu.TDUNU2025.Msbiblioteca.model.response;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
+import java.time.LocalDateTime;
+
+@Getter
+@Setter
+@Builder
+public class CategoriaLibroResponse {
+
+    @JsonProperty("idCategoria")
+    private Long idCategoria;
+
+    @JsonProperty("nombre")
+    private String nombre;
+
+    @JsonProperty("descripcion")
+    private String descripcion;
+
+    @JsonProperty("fechaRegistro")
+    private LocalDateTime fechaRegistro;
+}

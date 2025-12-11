@@ -13,6 +13,8 @@ public interface EditorialService {
 
     EditorialResponse guardar(EditorialRequest editorial);
 
+    EditorialResponse actualizar(Long id, EditorialRequest request);
+
     void eliminar(Long id);
 
 }

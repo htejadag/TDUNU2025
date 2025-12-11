@@ -1,57 +1,63 @@
-package com.unu.TDUNU2025.Msbiblioteca.service.Impl;
+package com.unu.TDUNU2025.Msbiblioteca.service.impl;
 
-import java.util.List;
-
-import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
+import com.unu.TDUNU2025.Msbiblioteca.exception.ResourceNotFoundException;
 import com.unu.TDUNU2025.Msbiblioteca.model.entity.Editorial;
 import com.unu.TDUNU2025.Msbiblioteca.model.request.EditorialRequest;
 import com.unu.TDUNU2025.Msbiblioteca.model.response.EditorialResponse;
 import com.unu.TDUNU2025.Msbiblioteca.repository.EditorialRepository;
 import com.unu.TDUNU2025.Msbiblioteca.service.EditorialService;
 
+import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
+@RequiredArgsConstructor 
 public class EditorialServiceImpl implements EditorialService {
 
-    @Autowired
-    EditorialRepository editorialRepository;
-
-    @Autowired
-    private ModelMapper modelMapper;
-
-
+    private final EditorialRepository editorialRepository;
+    private final ModelMapper modelMapper;
+    private Editorial findEditorialEntity(Long id) {
+        return editorialRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Editorial", "idEditorial", id));
+    }
+    private EditorialResponse convertToResponse(Editorial editorial) {
+        return modelMapper.map(editorial, EditorialResponse.class);
+    }
     @Override
     public List<EditorialResponse> listar() {
-        return editorialRepository.findAll()
-                .stream()
-                .map(model -> modelMapper.map(model, EditorialResponse.class))
-                .toList();
+        return editorialRepository.findAll().stream()
+                .map(this::convertToResponse)
+                .collect(Collectors.toList());
     }
 
     @Override
     public EditorialResponse obtenerPorId(Long id) {
-        return editorialRepository.findById(id)
-        .map(model -> modelMapper.map(model, EditorialResponse.class))
-        .orElse(null);
-  }
+        Editorial editorial = findEditorialEntity(id);
+        return convertToResponse(editorial);
+    }
 
     @Override
-    public EditorialResponse guardar(EditorialRequest editorial) {
-    // 1. Convertir Request (DTO) a Entidad
-        Editorial editorialEntity = modelMapper.map(editorial, Editorial.class);
-
-        // 2. Guardar en Base de Datos
+    public EditorialResponse guardar(EditorialRequest request) {
+        Editorial editorialEntity = modelMapper.map(request, Editorial.class);
         Editorial editorialGuardada = editorialRepository.save(editorialEntity);
+        return convertToResponse(editorialGuardada);
+    }
 
-        // 3. Convertir Entidad guardada a Response (DTO) para devolver al cliente
-        return modelMapper.map(editorialGuardada, EditorialResponse.class);
+    @Override
+    public EditorialResponse actualizar(Long id, EditorialRequest request) {
+        Editorial existingEditorial = findEditorialEntity(id);
+        modelMapper.map(request, existingEditorial);
+        Editorial updatedEditorial = editorialRepository.save(existingEditorial);
+        return convertToResponse(updatedEditorial);
     }
 
     @Override
     public void eliminar(Long id) {
-        editorialRepository.deleteById(id);
+        Editorial editorial = findEditorialEntity(id);
+        editorialRepository.delete(editorial);
     }
-
 }
