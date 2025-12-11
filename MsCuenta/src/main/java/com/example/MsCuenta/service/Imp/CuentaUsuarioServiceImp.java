@@ -1,5 +1,6 @@
 package com.example.MsCuenta.service.Imp;
 
+
 import java.util.List;
 
 import org.modelmapper.ModelMapper;
@@ -74,16 +75,25 @@ public class CuentaUsuarioServiceImp implements CuentaUsuarioService {
     @Override
     public CuentaUsuarioResponse modificar(Integer id, CuentaUsuarioRequest cuentaUsuarioRequest) {
 
-
+    // Buscar registro existente
     CuentaUsuarioModel model = cuentaUsuarioRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("No existe un comedor con id: " + id));
+            .orElseThrow(() -> new RuntimeException("No existe una cuenta usuario con id: " + id));
 
-    modelMapper.map(cuentaUsuarioRequest, model);
+    // Actualizar solo campos editables
+    model.setIdUsuarioRol(cuentaUsuarioRequest.getIdUsuarioRol());
+    model.setSaldo(cuentaUsuarioRequest.getSaldo());
+    model.setActivo(cuentaUsuarioRequest.isActivo());
 
+    // Auditoría (NO confiar en el request)
+    model.setUsuarioModificacion(cuentaUsuarioRequest.getUsuarioModificacion());
+    model.setFechaModificacion(cuentaUsuarioRequest.getFechaModificacion().toString());
+
+    // Guardar cambios
     CuentaUsuarioModel actualizado = cuentaUsuarioRepository.save(model);
 
     return modelMapper.map(actualizado, CuentaUsuarioResponse.class);
     }
+
 
     @Override
     public void eliminar(Integer id) {
