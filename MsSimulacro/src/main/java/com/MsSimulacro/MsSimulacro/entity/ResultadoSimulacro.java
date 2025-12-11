@@ -18,6 +18,6 @@ public class ResultadoSimulacro extends BaseEntity{
     private Double puntaje;
 
     @ManyToOne
-    @JoinColumn(name = "sesion_id")
+    @JoinColumn(name = "sesion_id", nullable = false)
     private SesionSimulacro sesion;
 }
