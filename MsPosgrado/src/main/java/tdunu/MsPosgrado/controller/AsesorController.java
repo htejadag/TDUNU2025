@@ -75,7 +75,7 @@ public class AsesorController {
 
         if (existente != null) {
             // 2. Establecer el ID del Path en el modelo para el servicio
-            asesorModel.setId_asesor(id);
+            asesorModel.setIdAsesor(id);
             // 3. Guardar actualizará si el ID existe
             return ResponseEntity.ok(asesorService.guardar(asesorModel));
         } else {
@@ -91,9 +91,12 @@ public class AsesorController {
     })
     @DeleteMapping(ApiRoutes.Asesor.ELIMINAR)
     public ResponseEntity<Void> eliminar(@PathVariable Integer id) {
-        asesorService.eliminar(id);
-        // Usar 204 No Content para indicar una eliminación exitosa sin cuerpo de
-        // respuesta
-        return ResponseEntity.noContent().build();
+        AsesorModel existente = asesorService.obtenerPorId(id);
+        if (existente == null) {
+        return ResponseEntity.notFound().build();
+        }
+    asesorService.eliminar(id);
+    return ResponseEntity.noContent().build();
+
     }
 }

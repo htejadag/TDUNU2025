@@ -1,123 +1,161 @@
 package tdunu.MsPosgrado.model;
 
 import java.io.Serializable;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
+
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
 import jakarta.persistence.*;
 
 @Entity
 @Table(name = "asesor")
+@EntityListeners(AuditingEntityListener.class)
+
 public class AsesorModel implements Serializable {
-    private static final long serialVersionUID = 1L;
+    
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_asesor")
-    private int id_asesor;
+    private int idAsesor;
 
-    @Column(name = "dni_asesor")
-    private String dni_asesor;
+    @Column(name = "nombres", nullable = false)
+    private String nombres;
 
-    @Column(name = "nombre_asesor")
-    private String nombre_asesor;
+    @Column(name = "apellidos", nullable = false)
+    private String apellidos;
 
-    @Column(name = "grado_asesor")
-    private String grado_asesor;
+    @Column(name = "grado_maximo", nullable = false)
+    private String gradoMaximo;
 
-    @Column(name = "cv_url_asesor")
-    private String cv_url_asesor;
+    @Column(name = "cv_ruta")
+    private String cvRuta;
 
-    @Column(name = "declaracion_jurada_asesor")
-    private String declaracion_jurada_asesor;
-
-    @Column(name = "fecha_resolucion_designacion")
-    private LocalDate fecha_resolucion_designacion;
-
-    @Column(name = "usuario_creacion_asesor")
-    private String usuario_creacion_asesor;
-
-    @Column(name = "fecha_creacion_asesor")
-    private LocalDate fecha_creacion_asesor;
+    @Column(name = "declaracion_ruta")
+    private String declaracionRuta;
 
     @Column(name = "estado_asesor")
-    private int estado_asesor;
+    private String estadoAsesor;
 
-    public int getId_asesor() {
-        return id_asesor;
+    // Auditoría
+    @CreatedDate
+    @Column(name = "fecha_creacion", nullable = false, updatable = false)
+    private LocalDateTime fechaCreacion;
+    
+    @LastModifiedDate
+    @Column(name = "fecha_modificacion")
+    private LocalDateTime fechaModificacion;
+
+    @CreatedBy
+    @Column(name = "creado_por",updatable = false)
+    private String creadoPor;
+
+    @LastModifiedBy
+    @Column(name = "modificado_por")
+    private String modificadoPor;
+
+    @Column(name = "activo", nullable = false)
+    private boolean activo;
+
+    // ======== GETTERS & SETTERS ========
+
+    public int getIdAsesor() {
+        return idAsesor;
     }
 
-    public void setId_asesor(int id_asesor) {
-        this.id_asesor = id_asesor;
+    public void setIdAsesor(int idAsesor) {
+        this.idAsesor = idAsesor;
     }
 
-    public String getDni_asesor() {
-        return dni_asesor;
+    public String getNombres() {
+        return nombres;
     }
 
-    public void setDni_asesor(String dni_asesor) {
-        this.dni_asesor = dni_asesor;
+    public void setNombres(String nombres) {
+        this.nombres = nombres;
     }
 
-    public String getNombre_asesor() {
-        return nombre_asesor;
+    public String getApellidos() {
+        return apellidos;
     }
 
-    public void setNombre_asesor(String nombre_asesor) {
-        this.nombre_asesor = nombre_asesor;
+    public void setApellidos(String apellidos) {
+        this.apellidos = apellidos;
     }
 
-    public String getGrado_asesor() {
-        return grado_asesor;
+    public String getGradoMaximo() {
+        return gradoMaximo;
     }
 
-    public void setGrado_asesor(String grado_asesor) {
-        this.grado_asesor = grado_asesor;
+    public void setGradoMaximo(String gradoMaximo) {
+        this.gradoMaximo = gradoMaximo;
     }
 
-    public String getCv_url_asesor() {
-        return cv_url_asesor;
+    public String getCvRuta() {
+        return cvRuta;
     }
 
-    public void setCv_url_asesor(String cv_url_asesor) {
-        this.cv_url_asesor = cv_url_asesor;
+    public void setCvRuta(String cvRuta) {
+        this.cvRuta = cvRuta;
     }
 
-    public String getDeclaracion_jurada_asesor() {
-        return declaracion_jurada_asesor;
+    public String getDeclaracionRuta() {
+        return declaracionRuta;
     }
 
-    public void setDeclaracion_jurada_asesor(String declaracion_jurada_asesor) {
-        this.declaracion_jurada_asesor = declaracion_jurada_asesor;
+    public void setDeclaracionRuta(String declaracionRuta) {
+        this.declaracionRuta = declaracionRuta;
     }
 
-    public LocalDate getFecha_resolucion_designacion() {
-        return fecha_resolucion_designacion;
+    public String getEstadoAsesor() {
+        return estadoAsesor;
     }
 
-    public void setFecha_resolucion_designacion(LocalDate fecha_resolucion_designacion) {
-        this.fecha_resolucion_designacion = fecha_resolucion_designacion;
+    public void setEstadoAsesor(String estadoAsesor) {
+        this.estadoAsesor = estadoAsesor;
     }
 
-    public String getUsuario_creacion_asesor() {
-        return usuario_creacion_asesor;
+    public LocalDateTime getFechaCreacion() {
+        return fechaCreacion;
     }
 
-    public void setUsuario_creacion_asesor(String usuario_creacion_asesor) {
-        this.usuario_creacion_asesor = usuario_creacion_asesor;
+    public void setFechaCreacion(LocalDateTime fechaCreacion) {
+        this.fechaCreacion = fechaCreacion;
     }
 
-    public LocalDate getFecha_creacion_asesor() {
-        return fecha_creacion_asesor;
+    public LocalDateTime getFechaModificacion() {
+        return fechaModificacion;
     }
 
-    public void setFecha_creacion_asesor(LocalDate fecha_creacion_asesor) {
-        this.fecha_creacion_asesor = fecha_creacion_asesor;
+    public void setFechaModificacion(LocalDateTime fechaModificacion) {
+        this.fechaModificacion = fechaModificacion;
     }
 
-    public int getEstado_asesor() {
-        return estado_asesor;
+    public String getCreadoPor() {
+        return creadoPor;
     }
 
-    public void setEstado_asesor(int estado_asesor) {
-        this.estado_asesor = estado_asesor;
+    public void setCreadoPor(String creadoPor) {
+        this.creadoPor = creadoPor;
+    }
+
+    public String getModificadoPor() {
+        return modificadoPor;
+    }
+
+    public void setModificadoPor(String modificadoPor) {
+        this.modificadoPor = modificadoPor;
+    }
+
+    public boolean isActivo() {
+        return activo;
+    }
+
+    public void setActivo(boolean activo) {
+        this.activo = activo;
     }
 }
