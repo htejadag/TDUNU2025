@@ -13,7 +13,7 @@ import lombok.Data;
 @Table(name = "cuenta_usuario")
 
 
-public class CuentaUsuarioModel {
+public class CuentaUsuarioModel extends AuditoriaModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
