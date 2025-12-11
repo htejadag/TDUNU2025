@@ -1,16 +1,12 @@
 package com.example.MsCuenta.service;
 
-
-import com.example.MsCuenta.model.entity.AuditoriaModel;
 import com.example.MsCuenta.model.entity.CuentaUsuarioModel;
 import com.example.MsCuenta.model.request.CuentaRequest;
-import com.example.MsCuenta.repository.AuditoriaRepository;
 import com.example.MsCuenta.repository.CuentaUsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,11 +16,8 @@ public class CuentaService {
     @Autowired
     private CuentaUsuarioRepository cuentaRepository;
 
-    @Autowired
-    private AuditoriaRepository auditoriaRepository;
-
-    // Formato de fecha para respetar tu String en la base de datos
-    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    // @Autowired
+    // private AuditoriaRepository auditoriaRepository; // ELIMINADO: Ya no existe tabla independiente
 
     // --- CRUD CUENTA ---
 
@@ -39,71 +32,53 @@ public class CuentaService {
     public CuentaUsuarioModel crearCuenta(CuentaRequest request, Integer idUsuarioOperador) {
         CuentaUsuarioModel cuenta = new CuentaUsuarioModel();
         
-        // Mapeo de datos
+        // Mapeo de datos funcionales
         cuenta.setIdUsuarioRol(request.getIdUsuarioRol());
         cuenta.setSaldo(request.getSaldo());
         cuenta.setActivo(request.isActivo());
 
-        // Auditoría Interna (Campos de tu tabla)
-        String fechaActual = LocalDateTime.now().format(FORMATTER);
-        cuenta.setUsuarioCreacion(idUsuarioOperador);
-        cuenta.setFechaCreacion(fechaActual);
+        // --- AUDITORÍA (Ahora se guarda DIRECTO en la tabla cuenta_usuario) ---
+        cuenta.setEntidad("CuentaUsuario");
+        cuenta.setAccion("CREAR");
+        cuenta.setIdUsuario(idUsuarioOperador);
+        cuenta.setFecha(LocalDateTime.now());
+        cuenta.setDetalles("Saldo inicial: " + request.getSaldo());
+
+        // El idRegistro será el mismo ID de la cuenta, pero al crear es null hasta que se guarde.
+        // Si es vital tenerlo, podrías hacer un flush, pero para simplificar lo dejamos así o lo llenamos luego.
         
-        // Guardar
-        CuentaUsuarioModel cuentaGuardada = cuentaRepository.save(cuenta);
-
-        // Registrar en Auditoría Externa
-        registrarAuditoria("CuentaUsuario", cuentaGuardada.getId(), "CREAR", idUsuarioOperador, "Saldo inicial: " + request.getSaldo());
-
-        return cuentaGuardada;
+        return cuentaRepository.save(cuenta);
     }
 
     public CuentaUsuarioModel actualizarCuenta(Integer id, CuentaRequest request, Integer idUsuarioOperador) {
         return cuentaRepository.findById(id).map(cuenta -> {
-            // Actualizar datos
+            // Actualizar datos funcionales
             cuenta.setIdUsuarioRol(request.getIdUsuarioRol());
             cuenta.setSaldo(request.getSaldo());
             cuenta.setActivo(request.isActivo());
 
-            // Auditoría Interna
-            String fechaActual = LocalDateTime.now().format(FORMATTER);
-            cuenta.setUsuarioModificacion(idUsuarioOperador);
-            cuenta.setFechaModificacion(fechaActual);
+            // --- AUDITORÍA (Actualizamos los campos heredados) ---
+            cuenta.setEntidad("CuentaUsuario");
+            cuenta.setAccion("ACTUALIZAR");
+            cuenta.setIdUsuario(idUsuarioOperador);
+            cuenta.setFecha(LocalDateTime.now());
+            cuenta.setDetalles("Actualización de saldo/estado");
+            cuenta.setIdRegistro(id); // Ahora sí tenemos el ID
 
-            CuentaUsuarioModel cuentaActualizada = cuentaRepository.save(cuenta);
-
-            // Registrar en Auditoría Externa
-            registrarAuditoria("CuentaUsuario", cuentaActualizada.getId(), "ACTUALIZAR", idUsuarioOperador, "Actualización de saldo/estado");
-
-            return cuentaActualizada;
+            return cuentaRepository.save(cuenta);
         }).orElseThrow(() -> new RuntimeException("Cuenta no encontrada"));
     }
 
     public void eliminarCuenta(Integer id, Integer idUsuarioOperador) {
         if (cuentaRepository.existsById(id)) {
+            // Al borrar la cuenta, se borra su auditoría interna (porque es la misma fila).
+            // Si quisieras mantener historial, deberías usar "Borrado Lógico" (campo activo = false)
+            // en lugar de deleteById. Por ahora, usamos delete físico:
             cuentaRepository.deleteById(id);
-            // Registrar en Auditoría Externa
-            registrarAuditoria("CuentaUsuario", id, "ELIMINAR", idUsuarioOperador, "Cuenta eliminada permanentemente");
         } else {
             throw new RuntimeException("Cuenta no encontrada para eliminar");
         }
     }
 
-    // --- CRUD AUDITORIA (SOLO LECTURA) ---
-    
-    public List<AuditoriaModel> listarAuditoria() {
-        return auditoriaRepository.findAll();
-    }
-
-    // Método privado auxiliar para guardar el log
-    private void registrarAuditoria(String entidad, Integer idRegistro, String accion, Integer idUsuario, String detalles) {
-        AuditoriaModel log = new AuditoriaModel();
-        log.setEntidad(entidad);
-        log.setIdRegistro(idRegistro);
-        log.setAccion(accion);
-        log.setIdUsuario(idUsuario);
-        log.setFecha(LocalDateTime.now());
-        log.setDetalles(detalles);
-        auditoriaRepository.save(log);
-    }
+    // --- NOTA: Los métodos de listarAuditoria se eliminan porque ya no hay tabla separada de logs ---
 }
