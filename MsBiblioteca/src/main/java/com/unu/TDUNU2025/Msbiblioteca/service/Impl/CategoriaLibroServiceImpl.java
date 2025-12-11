@@ -53,6 +53,7 @@ public class CategoriaLibroServiceImpl implements CategoriaLibroService {
     public CategoriaLibroResponse update(Long idCategoria, CategoriaLibroRequest request) {
         CategoriaLibro existingCategoria = findCategoriaLibroEntity(idCategoria);
 
+        // Mapeamos los campos del request a la entidad existente
         modelMapper.map(request, existingCategoria); 
         
         CategoriaLibro updatedCategoria = categoriaLibroRepository.save(existingCategoria);
