@@ -2,6 +2,8 @@ package com.MsSimulacro.MsSimulacro.entity.base;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.MappedSuperclass;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
 import lombok.Getter;
 import lombok.Setter;
 import java.time.LocalDateTime;
@@ -24,4 +26,22 @@ public abstract class BaseEntity {
     private String usuarioModificacion;
 
     private LocalDateTime fechaModificacion;
+
+    @PrePersist
+    protected void onCreate() {
+        this.activo = true;
+        this.esEliminado = false;
+        this.fechaCreacion = LocalDateTime.now();
+        if (this.usuarioCreacion == null) {
+            this.usuarioCreacion = "SYSTEM";
+        }
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        this.fechaModificacion = LocalDateTime.now();
+        if (this.usuarioModificacion == null) {
+            this.usuarioModificacion = "SYSTEM";
+        }
+    }
 }

@@ -40,15 +40,13 @@ public class SimulacroServiceImpl implements SimulacroService{
 
     @Override
     public Simulacro actualizar(Long id, Simulacro simulacro) {
-        Simulacro existente = simulacroRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Simulacro no encontrado"));
-
+        Simulacro existente = simulacroRepository.findById(id).orElseThrow(()
+        -> new RuntimeException("Simulacro no encontrado"));
         existente.setNombre(simulacro.getNombre());
         existente.setDescripcion(simulacro.getDescripcion());
-        existente.setUsuarioModificacion("SYSTEM");
-        existente.setFechaModificacion(LocalDateTime.now());
+        existente.setUsuarioModificacion("ADMIN"); // si quieres fijarlo aquí
 
-        return simulacroRepository.save(existente);
+    return simulacroRepository.save(existente);
     }
 
     @Override
@@ -58,7 +56,7 @@ public class SimulacroServiceImpl implements SimulacroService{
 
         existente.setActivo(false);
         existente.setEsEliminado(true);
-        existente.setUsuarioModificacion("SYSTEM");
+        existente.setUsuarioModificacion("ADMIN");
         existente.setFechaModificacion(LocalDateTime.now());
 
         simulacroRepository.save(existente);

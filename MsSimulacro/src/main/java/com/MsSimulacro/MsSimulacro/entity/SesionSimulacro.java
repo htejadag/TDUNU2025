@@ -19,6 +19,10 @@ public class SesionSimulacro extends BaseEntity{
     private LocalDateTime fechaInicio;
     private LocalDateTime fechaFin;
 
+    private String aula;
+
+    private String descripcion;
+
     // Relación con Simulacro
     @ManyToOne
     @JoinColumn(name = "simulacro_id")

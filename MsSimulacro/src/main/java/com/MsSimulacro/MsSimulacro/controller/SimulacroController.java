@@ -50,7 +50,7 @@ public class SimulacroController {
     }
 
     @DeleteMapping("/{id}")
-    @Operation(summary = "Eliminar un simulacro")
+    @Operation(summary = "Elimina un simulacro")
     public ResponseEntity<Void> eliminar(@PathVariable Long id) {
         simulacroService.eliminarLogico(id);
         return ResponseEntity.noContent().build();
