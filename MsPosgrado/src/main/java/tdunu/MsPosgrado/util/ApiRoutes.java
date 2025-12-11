@@ -17,4 +17,16 @@ public class ApiRoutes {
         public static final String ACTUALIZAR = "/{id}"; // PUT /api/msposgrado/asesor/{id}
         public static final String ELIMINAR = "/{id}"; // DELETE /api/msposgrado/asesor/{id}
     }
+
+
+    // --- RUTAS DEL JURADO ---
+    public static class Jurado {
+        public static final String BASE = MS + "/jurado";
+        public static final String OBTENER_POR_ID = "/{id}";
+        public static final String GUARDAR = "";
+        public static final String ACTUALIZAR = "/{id}";
+        public static final String ELIMINAR = "/{id}";
+    }
+
+    
 }

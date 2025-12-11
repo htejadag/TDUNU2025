@@ -1,17 +1,17 @@
 URL'S
 
---------------------------------------------
+-----------------------------------------------------------
 ASESOR
 
-Listar todos:
+Listar todos los Asesores:
 
 GET  http://localhost:82/api/estudiante-proceso
 
-List por ID:
+List por ID de Asesor:
 
 GET http://localhost:82/api/msposgrado/asesor/{id}
 
-Agregar:
+Agregar Asesor:
 
 POST http://localhost:82/api/msposgrado/asesor
 
@@ -25,7 +25,7 @@ POST http://localhost:82/api/msposgrado/asesor
   "activo": true
 }
 
-Editar:
+Editar Asesor por Id:
 
 PUT http://localhost:82/api/msposgrado/asesor/{id}
 
@@ -39,8 +39,52 @@ PUT http://localhost:82/api/msposgrado/asesor/{id}
   "activo": true
 }
 
-Eliminar:
+Eliminar Asesor:
 
 DELETE http://localhost:82/api/msposgrado/asesor/{id}
+
+-----------------------------------------------------------
+
+
+JURADO
+
+Listar todos los Jurados
+
+GET  http://localhost:82/api/msposgrado/jurado
+
+List por ID de Jurado:
+
+GET http://localhost:82/api/msposgrado/jurado/{id}
+
+Agregar Jurado:
+
+POST http://localhost:82/api/msposgrado/jurado
+
+{
+  "nombres": "Carlos",
+  "apellidos": "García López",
+  "especialidad": "Ingeniería de Sistemas",
+  "resolucionDesignacionRuta": "resolucion_123.pdf",
+  "estadoJurado": "ACTIVO",
+  "activo": true
+}
+
+Actualizar Jurado:
+
+PUT http://localhost:82/api/msposgrado/jurado/{id}
+
+{
+  "nombres": "Carlos Alberto",
+  "apellidos": "García López",
+  "especialidad": "Ingeniería de Software",
+  "resolucionDesignacionRuta": "resolucion_editada.pdf",
+  "estadoJurado": "INACTIVO",
+  "activo": false
+}
+
+Eliminar Jurado:
+
+DELETE http://localhost:82/api/msposgrado/jurado/{id}
+
 
 
