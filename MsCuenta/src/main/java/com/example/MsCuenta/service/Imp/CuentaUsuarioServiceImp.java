@@ -48,51 +48,63 @@ public class CuentaUsuarioServiceImp implements CuentaUsuarioService {
     }
 
     @Override
-    public CuentaUsuarioResponse guardar(CuentaUsuarioRequest cuentaUsuarioRequest) {
-        
-        CuentaUsuarioModel model = new CuentaUsuarioModel();
+public CuentaUsuarioResponse guardar(CuentaUsuarioRequest request) {
 
-        model.setIdUsuarioRol(cuentaUsuarioRequest.getIdUsuarioRol());
-        model.setSaldo(cuentaUsuarioRequest.getSaldo());
-        model.setActivo(cuentaUsuarioRequest.isActivo());
+    CuentaUsuarioModel model = new CuentaUsuarioModel();
 
-        // Auditoría (NUNCA confiar en el request)
-        model.setUsuarioCreacion(cuentaUsuarioRequest.getUsuarioCreacion());
-        model.setFechaCreacion(cuentaUsuarioRequest.getFechaCreacion().toString());
-        model.setUsuarioModificacion(cuentaUsuarioRequest.getUsuarioModificacion());
-        model.setFechaModificacion(cuentaUsuarioRequest.getFechaModificacion().toString());
+    model.setIdUsuarioRol(request.getIdUsuarioRol());
+    model.setSaldo(request.getSaldo());
+    model.setActivo(request.isActivo());
 
+  
+    model.setUsuarioCreacion(request.getUsuarioCreacion());
 
-       
-        CuentaUsuarioModel saved = cuentaUsuarioRepository.save(model);
-
-       
-        CuentaUsuarioResponse response = modelMapper.map(saved, CuentaUsuarioResponse.class);
-
-        return response;
+ 
+    if (request.getFechaCreacion() != null) {
+        model.setFechaCreacion(request.getFechaCreacion().toString());
+    } else {
+        model.setFechaCreacion(null);
     }
 
-    @Override
-    public CuentaUsuarioResponse modificar(Integer id, CuentaUsuarioRequest cuentaUsuarioRequest) {
+   
+    model.setUsuarioModificacion(request.getUsuarioModificacion());
 
-    // Buscar registro existente
+    if (request.getFechaModificacion() != null) {
+        model.setFechaModificacion(request.getFechaModificacion().toString());
+    } else {
+        model.setFechaModificacion(null);
+    }
+
+    CuentaUsuarioModel saved = cuentaUsuarioRepository.save(model);
+
+    return modelMapper.map(saved, CuentaUsuarioResponse.class);
+}
+
+
+    @Override
+public CuentaUsuarioResponse modificar(Integer id, CuentaUsuarioRequest request) {
+
     CuentaUsuarioModel model = cuentaUsuarioRepository.findById(id)
             .orElseThrow(() -> new RuntimeException("No existe una cuenta usuario con id: " + id));
 
-    // Actualizar solo campos editables
-    model.setIdUsuarioRol(cuentaUsuarioRequest.getIdUsuarioRol());
-    model.setSaldo(cuentaUsuarioRequest.getSaldo());
-    model.setActivo(cuentaUsuarioRequest.isActivo());
+    model.setIdUsuarioRol(request.getIdUsuarioRol());
+    model.setSaldo(request.getSaldo());
+    model.setActivo(request.isActivo());
 
-    // Auditoría (NO confiar en el request)
-    model.setUsuarioModificacion(cuentaUsuarioRequest.getUsuarioModificacion());
-    model.setFechaModificacion(cuentaUsuarioRequest.getFechaModificacion().toString());
+    model.setUsuarioModificacion(request.getUsuarioModificacion());
 
-    // Guardar cambios
+
+    if (request.getFechaModificacion() != null) {
+        model.setFechaModificacion(request.getFechaModificacion().toString());
+    } else {
+        model.setFechaModificacion(null);
+    }
+
     CuentaUsuarioModel actualizado = cuentaUsuarioRepository.save(model);
 
     return modelMapper.map(actualizado, CuentaUsuarioResponse.class);
     }
+
 
 
     @Override
