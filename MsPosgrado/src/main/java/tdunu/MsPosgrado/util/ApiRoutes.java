@@ -28,5 +28,14 @@ public class ApiRoutes {
         public static final String ELIMINAR = "/{id}";
     }
 
+    // --- RUTAS DEL EXPEDIENTE ---
+    public static class Expediente {
+        public static final String BASE = MS + "/expediente";
+        public static final String OBTENER_POR_ID = "/{id}";
+        public static final String GUARDAR = "";
+        public static final String ACTUALIZAR = "/{id}";
+        public static final String ELIMINAR = "/{id}";
+    }
+
     
 }
