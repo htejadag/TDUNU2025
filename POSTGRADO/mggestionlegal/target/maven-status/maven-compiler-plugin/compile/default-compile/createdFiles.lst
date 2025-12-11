@@ -1,7 +1,0 @@
-MsGL\MS_Gestion_Legal\Controllers\ArchivoTesisController.class
-MsGL\MS_Gestion_Legal\Controllers\DiplomaController.class
-MsGL\MS_Gestion_Legal\domain\model\Constancia.class
-MsGL\MS_Gestion_Legal\domain\model\ExpedienteFinal.class
-MsGL\MS_Gestion_Legal\Controllers\ConstanciaController.class
-MsGL\MS_Gestion_Legal\Controllers\ArticuloCientificoController.class
-MsGL\MS_Gestion_Legal\domain\model\EstadoExpediente.class
