@@ -5,9 +5,10 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.springframework.boot</groupId>
-<artifactId>spring-boot-starter-parent</artifactId>
-<version>4.0.0</version>
-<relativePath /> </parent>
+    <artifactId>spring-boot-starter-parent</artifactId>
+    <version>4.0.0</version>
+    <relativePath />
+  </parent>
   <groupId>tdunu</groupId>
   <artifactId>MsTemplate</artifactId>
   <version>0.0.1-SNAPSHOT</version>
@@ -37,10 +38,11 @@
       <scope>test</scope>
     </dependency>
 
+    <!-- https://mvnrepository.com/artifact/org.modelmapper/modelmapper -->
     <dependency>
       <groupId>org.modelmapper</groupId>
       <artifactId>modelmapper</artifactId>
-      <version>3.2.0</version>
+      <version>3.2.6</version>
     </dependency>
 
     <dependency>
