@@ -81,6 +81,9 @@ public class TurnoServiceImp implements TurnoService {
     TurnoModel model = turnoRepository.findById(id)
             .orElseThrow(() -> new RuntimeException("No existe un turno con id: " + id));
 
+
+    
+    model.setDescripcion(turnoRequest.getDescripcion());
     model.setHoraApertura(LocalTime.parse(turnoRequest.getHoraApertura()));
     model.setHoraCierre(LocalTime.parse(turnoRequest.getHoraCierre()));
 

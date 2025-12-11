@@ -95,6 +95,16 @@ public class MenuDiaServiceImp implements MenuDiaService {
         MenuDiaModel model = menuDiaRepository.findById(id)
             .orElseThrow(() -> new RuntimeException("No existe un comedor con id: " + id));
 
+
+     
+        if (menuDiaRequest.getFechaModificacion() != null) {
+            model.setFechaModificacion(menuDiaRequest.getFechaModificacion().toString());
+        } else {
+            model.setFechaModificacion(null);
+        }
+
+    
+
         modelMapper.map(menuDiaRequest, model);
 
         MenuDiaModel actualizado = menuDiaRepository.save(model);

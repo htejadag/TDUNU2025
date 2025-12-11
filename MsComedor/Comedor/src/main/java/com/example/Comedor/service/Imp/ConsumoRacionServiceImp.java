@@ -78,11 +78,17 @@ public class ConsumoRacionServiceImp implements ConsumoRacionService {
         MenuDiaModel dia = menuDiaRepository.findById(consumoRacionRequest.getIdMenuDia())
             .orElseThrow(() -> new RuntimeException("No existe menu dia con id: " + consumoRacionRequest.getIdMenuDia()));
 
-        // Actualizar las propiedades del modelo existente
+        existingModel.setIdCuentaUsuario(consumoRacionRequest.getIdCuentaUsuario());
         existingModel.setIdMenuDia(dia);
-        // Aquí puedes actualizar otras propiedades según sea necesario
+        existingModel.setUsuarioCreacion(consumoRacionRequest.getUsuarioCreacion());
 
-        // Guardar los cambios
+        existingModel.setUsuarioModificacion(consumoRacionRequest.getUsuarioModificacion());
+        if (consumoRacionRequest.getFechaModificacion() != null) {
+            existingModel.setFechaModificacion(consumoRacionRequest.getFechaModificacion().toString());
+        } else {
+            existingModel.setFechaModificacion(null);
+        }
+        
         ConsumoRacionModel updatedModel = consumoRacionRepository.save(existingModel);
 
         return modelMapper.map(updatedModel, ConsumoRacionResponse.class);
