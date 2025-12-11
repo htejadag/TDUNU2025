@@ -17,8 +17,10 @@ public class CuentaUsuarioModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Integer id;
+
     @Column(name = "id_usuario_rol")
     private Integer idUsuarioRol;
+
     @Column(name = "saldo")
     private double saldo;
     @Column (name = "activo")
@@ -34,4 +36,6 @@ public class CuentaUsuarioModel {
     @Column(name = "fecha_modificacion")
     private String fechaModificacion;
 
+   
+    
 }
