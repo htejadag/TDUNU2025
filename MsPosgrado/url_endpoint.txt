@@ -1,0 +1,46 @@
+URL'S
+
+--------------------------------------------
+ASESOR
+
+Listar todos:
+
+GET  http://localhost:82/api/estudiante-proceso
+
+List por ID:
+
+GET http://localhost:82/api/msposgrado/asesor/{id}
+
+Agregar:
+
+POST http://localhost:82/api/msposgrado/asesor
+
+{
+  "nombres": "Juan",
+  "apellidos": "Pérez",
+  "gradoMaximo": "Magister",
+  "cvRuta": "cv.pdf",
+  "declaracionRuta": "declaracion.pdf",
+  "estadoAsesor": "Activo",
+  "activo": true
+}
+
+Editar:
+
+PUT http://localhost:82/api/msposgrado/asesor/{id}
+
+{
+  "nombres": "Juan Carlos",
+  "apellidos": "Pérez Gómez",
+  "gradoMaximo": "Doctor",
+  "cvRuta": "cv_actualizado.pdf",
+  "declaracionRuta": "declaracion_actualizada.pdf",
+  "estadoAsesor": "Activo",
+  "activo": true
+}
+
+Eliminar:
+
+DELETE http://localhost:82/api/msposgrado/asesor/{id}
+
+
