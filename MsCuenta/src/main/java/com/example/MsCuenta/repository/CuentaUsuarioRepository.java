@@ -6,5 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface CuentaUsuarioRepository extends JpaRepository<CuentaUsuarioModel, Integer> {
-    // Aquí puedes añadir métodos personalizados si los necesitas a futuro
+     
+    
 }

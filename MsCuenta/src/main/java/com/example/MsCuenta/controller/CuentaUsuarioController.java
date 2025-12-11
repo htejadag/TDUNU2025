@@ -1,73 +1,72 @@
 package com.example.MsCuenta.controller;
 
 
-import com.example.MsCuenta.model.entity.AuditoriaModel;
-import com.example.MsCuenta.model.entity.CuentaUsuarioModel;
-import com.example.MsCuenta.model.request.CuentaRequest;
-import com.example.MsCuenta.service.CuentaService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+
+
+
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.example.MsCuenta.Util.ApiRoutes;
+import com.example.MsCuenta.Util.ResponseBase;
+import com.example.MsCuenta.model.request.CuentaUsuarioRequest;
+import com.example.MsCuenta.model.response.CuentaUsuarioResponse;
+import com.example.MsCuenta.service.CuentaUsuarioService;
+
 @RestController
-@RequestMapping("/api/cuentas")
+@RequestMapping(ApiRoutes.CuentaUsuario.BASE)
 public class CuentaUsuarioController {
 
     @Autowired
-    private CuentaService cuentaService;
+    CuentaUsuarioService cuentaService;
 
-    // --- ENDPOINTS CUENTA ---
 
-    @GetMapping
-    public List<CuentaUsuarioModel> listar() {
-        return cuentaService.listarCuentas();
+    @GetMapping(value = ApiRoutes.CuentaUsuario.LISTAR)
+    public ResponseBase<List<CuentaUsuarioResponse>> listar() {
+        List<CuentaUsuarioResponse> lista = cuentaService.listar();
+        return ResponseBase.ok(lista);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<CuentaUsuarioModel> obtener(@PathVariable Integer id) {
-        return cuentaService.obtenerPorId(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    @GetMapping(value = ApiRoutes.CuentaUsuario.OBTENER_POR_ID)
+    public ResponseBase<CuentaUsuarioResponse> obtenerPorId(@RequestParam(value = "id") Integer id) {
+        CuentaUsuarioResponse response = cuentaService.obtenerPorId(id);
+        return ResponseBase.ok(response);
     }
 
-    @PostMapping
-    public ResponseEntity<CuentaUsuarioModel> crear(
-            @RequestBody CuentaRequest request, 
-            @RequestParam Integer idUsuarioOperador) { 
-            // Nota: idUsuarioOperador simula quién está logueado
-        return ResponseEntity.ok(cuentaService.crearCuenta(request, idUsuarioOperador));
+
+     @PostMapping(value = ApiRoutes.CuentaUsuario.GUARDAR)
+    public ResponseBase<CuentaUsuarioResponse> guardar(@RequestBody CuentaUsuarioRequest model) {
+        CuentaUsuarioResponse response = cuentaService.guardar(model);
+        return ResponseBase.ok(response);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<CuentaUsuarioModel> actualizar(
-            @PathVariable Integer id, 
-            @RequestBody CuentaRequest request,
-            @RequestParam Integer idUsuarioOperador) {
-        try {
-            return ResponseEntity.ok(cuentaService.actualizarCuenta(id, request, idUsuarioOperador));
-        } catch (RuntimeException e) {
-            return ResponseEntity.notFound().build();
-        }
+    @PutMapping(value = ApiRoutes.CuentaUsuario.MODIFICAR)
+    public ResponseBase<CuentaUsuarioResponse> modificar(
+            @RequestParam(value = "id") Integer id,
+            @RequestBody CuentaUsuarioRequest request) {
+        
+        CuentaUsuarioResponse response = cuentaService.modificar(id, request);
+        return ResponseBase.ok(response);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> eliminar(
-            @PathVariable Integer id,
-            @RequestParam Integer idUsuarioOperador) {
-        try {
-            cuentaService.eliminarCuenta(id, idUsuarioOperador);
-            return ResponseEntity.ok().build();
-        } catch (RuntimeException e) {
-            return ResponseEntity.notFound().build();
-        }
+
+     @DeleteMapping(value = ApiRoutes.CuentaUsuario.ELIMINAR)
+    public CuentaUsuarioResponse eliminar(@RequestParam(value = "id") Integer id) {
+        cuentaService.eliminar(id);
+        return null;
     }
 
-    // --- ENDPOINT AUDITORIA ---
     
-    @GetMapping("/auditoria-logs")
-    public List<AuditoriaModel> verLogsAuditoria() {
-        return cuentaService.listarAuditoria();
-    }
+
+   
 }

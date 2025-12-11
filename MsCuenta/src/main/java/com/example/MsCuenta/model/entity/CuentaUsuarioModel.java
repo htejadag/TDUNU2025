@@ -12,7 +12,6 @@ import lombok.Data;
 @Entity
 @Table(name = "cuenta_usuario")
 
-
 public class CuentaUsuarioModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,7 +24,7 @@ public class CuentaUsuarioModel {
     @Column (name = "activo")
     private boolean activo;
     
-//auditoria
+    //auditoria
     @Column(name = "usuario_creacion", nullable = false, length = 100)
     private Integer usuarioCreacion;
     @Column(name = "fecha_creacion", nullable = false)
