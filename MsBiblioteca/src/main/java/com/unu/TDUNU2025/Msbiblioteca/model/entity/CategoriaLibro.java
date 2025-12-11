@@ -41,6 +41,4 @@ public class CategoriaLibro {
     @ManyToMany(mappedBy = "categorias")
     @ToString.Exclude // Evita StackOverflowError en toString()
     private Set<Libro> libros;
-
-    
 }
