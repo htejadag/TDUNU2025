@@ -49,13 +49,24 @@ public class UsuarioController {
     // EDITAR (incluye editar estado)
     @PutMapping(ApiRoutes.USUARIO.EDITAR + "/{codUsuario}")
     public UsuarioResponse editar(@PathVariable String codUsuario,
-                                  @RequestBody UsuarioRequest request) {
+            @RequestBody UsuarioRequest request) {
         return usuarioService.editar(codUsuario, request);
     }
 
 // ELIMINAR LOGICO POR CODIGO
-@DeleteMapping(ApiRoutes.USUARIO.ELIMINAR + "/{codUsuario}")
-public void eliminar(@PathVariable String codUsuario) {
-    usuarioService.eliminarPorCodigo(codUsuario);
-}
+    @DeleteMapping(ApiRoutes.USUARIO.ELIMINAR + "/{codUsuario}")
+    public void eliminar(@PathVariable String codUsuario) {
+        usuarioService.eliminarPorCodigo(codUsuario);
+    }
+
+    @PostMapping("/{codUsuario}/roles/{idRole}")
+    public UsuarioResponse asignarRole(@PathVariable String codUsuario, @PathVariable Long idRole) {
+        return usuarioService.asignarRole(codUsuario, idRole);
+    }
+
+    @DeleteMapping("/{codUsuario}/roles/{idRole}")
+    public UsuarioResponse quitarRole(@PathVariable String codUsuario, @PathVariable Long idRole) {
+        return usuarioService.quitarRole(codUsuario, idRole);
+    }
+
 }
