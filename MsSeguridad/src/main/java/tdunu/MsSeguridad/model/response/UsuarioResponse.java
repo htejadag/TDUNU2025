@@ -14,7 +14,9 @@ import java.util.Set;
     "correo",
     "celular",
     "contrasena",
-    "estado"
+    "estado",
+    "roles",
+    "permisos"
 })
 public class UsuarioResponse {
 
@@ -27,4 +29,5 @@ public class UsuarioResponse {
     private String contrasena;
     private Integer estado;
     private Set<String> roles;
+    private Set<String> permisos;
 }

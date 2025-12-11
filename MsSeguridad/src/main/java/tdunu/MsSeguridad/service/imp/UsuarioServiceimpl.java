@@ -3,6 +3,7 @@ package tdunu.MsSeguridad.service.imp;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import tdunu.MsSeguridad.model.entity.PermissionModel;
 import tdunu.MsSeguridad.model.entity.RoleModel;
 import tdunu.MsSeguridad.model.entity.UsuarioModel;
 import tdunu.MsSeguridad.model.request.UsuarioRequest;
@@ -178,6 +179,12 @@ public class UsuarioServiceimpl implements UsuarioService {
         resp.setRoles(
                 model.getRoles().stream()
                         .map(RoleModel::getNombre)
+                        .collect(Collectors.toSet())
+        );
+        resp.setPermisos(
+                model.getRoles().stream()
+                        .flatMap(role -> role.getPermisos().stream())
+                        .map(PermissionModel::getNombre)
                         .collect(Collectors.toSet())
         );
 
