@@ -1,8 +1,11 @@
 package com.unu.TDUNU2025.Msbiblioteca.model.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
@@ -10,6 +13,8 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class DetalleLibroResponse {
 
     @JsonProperty("idDetalleLibro")
@@ -29,4 +34,5 @@ public class DetalleLibroResponse {
 
     @JsonProperty("fechaActualizacion")
     private LocalDateTime fechaActualizacion;
+
 }
