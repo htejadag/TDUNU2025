@@ -96,6 +96,7 @@ public class RecargaServiceImp implements RecargaService {
         model1.setFecha_recarga(recargaRequest.getFecha_recarga());
 
         model1.setUsuarioModificacion(recargaRequest.getUsuarioModificacion());
+        model1.setUsuarioCreacion(recargaRequest.getUsuarioCreacion());
 
 
         if (recargaRequest.getFechaModificacion() != null) {
