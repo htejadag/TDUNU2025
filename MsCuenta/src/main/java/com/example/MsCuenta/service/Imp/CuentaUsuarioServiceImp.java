@@ -48,37 +48,37 @@ public class CuentaUsuarioServiceImp implements CuentaUsuarioService {
     }
 
     @Override
-public CuentaUsuarioResponse guardar(CuentaUsuarioRequest request) {
+    public CuentaUsuarioResponse guardar(CuentaUsuarioRequest request) {
 
-    CuentaUsuarioModel model = new CuentaUsuarioModel();
+        CuentaUsuarioModel model = new CuentaUsuarioModel();
 
-    model.setIdUsuarioRol(request.getIdUsuarioRol());
-    model.setSaldo(request.getSaldo());
-    model.setActivo(request.isActivo());
+        model.setIdUsuarioRol(request.getIdUsuarioRol());
+        model.setSaldo(request.getSaldo());
+        model.setActivo(request.isActivo());
 
-  
-    model.setUsuarioCreacion(request.getUsuarioCreacion());
+    
+        model.setUsuarioCreacion(request.getUsuarioCreacion());
 
- 
-    if (request.getFechaCreacion() != null) {
-        model.setFechaCreacion(request.getFechaCreacion().toString());
-    } else {
-        model.setFechaCreacion(null);
+    
+        if (request.getFechaCreacion() != null) {
+            model.setFechaCreacion(request.getFechaCreacion().toString());
+        } else {
+            model.setFechaCreacion(null);
+        }
+
+    
+        model.setUsuarioModificacion(request.getUsuarioModificacion());
+
+        if (request.getFechaModificacion() != null) {
+            model.setFechaModificacion(request.getFechaModificacion().toString());
+        } else {
+            model.setFechaModificacion(null);
+        }
+
+        CuentaUsuarioModel saved = cuentaUsuarioRepository.save(model);
+
+        return modelMapper.map(saved, CuentaUsuarioResponse.class);
     }
-
-   
-    model.setUsuarioModificacion(request.getUsuarioModificacion());
-
-    if (request.getFechaModificacion() != null) {
-        model.setFechaModificacion(request.getFechaModificacion().toString());
-    } else {
-        model.setFechaModificacion(null);
-    }
-
-    CuentaUsuarioModel saved = cuentaUsuarioRepository.save(model);
-
-    return modelMapper.map(saved, CuentaUsuarioResponse.class);
-}
 
 
     @Override
