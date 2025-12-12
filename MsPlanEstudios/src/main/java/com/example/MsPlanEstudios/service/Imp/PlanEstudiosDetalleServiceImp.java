@@ -42,6 +42,8 @@ public class PlanEstudiosDetalleServiceImp implements PlanEstudiosDetalleService
     public PlanEstudiosDetalleResponse guardar(PlanEstudiosDetalleRequest request) {
         // 1. Request -> Model
         PlanEstudiosDetalleModel model = modelMapper.map(request, PlanEstudiosDetalleModel.class);
+    
+         model.setId(null);
 
         // 2. Guardar en BD
         PlanEstudiosDetalleModel saved = planestudiosdetalleRepository.save(model);
