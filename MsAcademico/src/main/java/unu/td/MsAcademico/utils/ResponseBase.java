@@ -1,4 +1,4 @@
-package unu.td.MsAcademico.utils;
+package unu.td.msacademico.utils;
 
 
 import lombok.Builder;

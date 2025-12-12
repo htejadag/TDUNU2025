@@ -1,16 +1,16 @@
-package unu.td.MsAcademico.service.impl;
+package unu.td.msacademico.service.impl;
 
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
-import unu.td.MsAcademico.model.entity.FacultadModel;
-import unu.td.MsAcademico.model.response.FacultadResponse;
-import unu.td.MsAcademico.model.request.FacultadRequest;
-import unu.td.MsAcademico.repository.IFacultadRepository;
-import unu.td.MsAcademico.service.IFacultadService;
-import unu.td.MsAcademico.utils.Messages;
-import unu.td.MsAcademico.utils.exceptions.AlreadyExistsException;
-import unu.td.MsAcademico.utils.exceptions.NotFoundException;
+import unu.td.msacademico.model.entity.FacultadModel;
+import unu.td.msacademico.model.response.FacultadResponse;
+import unu.td.msacademico.model.request.FacultadRequest;
+import unu.td.msacademico.repository.IFacultadRepository;
+import unu.td.msacademico.service.IFacultadService;
+import unu.td.msacademico.utils.Messages;
+import unu.td.msacademico.utils.exceptions.AlreadyExistsException;
+import unu.td.msacademico.utils.exceptions.NotFoundException;
 
 import java.util.List;
 
