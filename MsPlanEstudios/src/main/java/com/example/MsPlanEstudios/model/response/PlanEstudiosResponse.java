@@ -8,7 +8,7 @@ public class PlanEstudiosResponse {
     private Integer idCarrera;
     private String nombre;
     private String año;
-    private boolean estado;
+    private Boolean estado;
     private Integer usuarioCreacion;
     private Integer usuarioModificacion;
     private String fechaCreacion;

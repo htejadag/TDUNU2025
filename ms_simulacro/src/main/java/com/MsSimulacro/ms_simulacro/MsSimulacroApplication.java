@@ -1,12 +1,13 @@
-package com.example.MsPlanEstudios;
+package com.MsSimulacro.ms_simulacro;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class MsPlanEstudiosApplication {
+public class MsSimulacroApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(MsPlanEstudiosApplication.class, args);
+		SpringApplication.run(MsSimulacroApplication.class, args);
 	}
 
 }
