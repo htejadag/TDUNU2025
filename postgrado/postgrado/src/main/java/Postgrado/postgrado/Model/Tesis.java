@@ -4,6 +4,10 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name = "tesis")
@@ -15,8 +19,13 @@ public class Tesis {
     private Integer idTesis;
 
     @ManyToOne
-    @JoinColumn(name = "id_expediente", nullable = false)
+    @JoinColumn(name = "id_expediente")
+    @JsonBackReference(value = "exp-tesis")
     private Expediente expediente;
+    
+    @OneToMany(mappedBy = "tesis")
+    @JsonManagedReference(value = "tesis-revision")
+    private List<Revision> revisiones;
 
     private String titulo;
     private String proyectoPdf;

@@ -5,6 +5,8 @@ import lombok.Data;
 
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 @Table(name = "documentos")
 @Data
@@ -15,7 +17,8 @@ public class Documento {
     private Integer idDocumento;
 
     @ManyToOne
-    @JoinColumn(name = "id_solicitud", nullable = false)
+    @JoinColumn(name = "id_solicitud")
+    @JsonBackReference
     private Solicitud solicitud;
 
     private String tipoDocumento;

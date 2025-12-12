@@ -3,6 +3,7 @@ package Postgrado.postgrado.Model;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import java.time.LocalDateTime;
 
 @Entity
@@ -15,7 +16,8 @@ public class ExpedienteJurado {
     private Integer idExpJurado;
 
     @ManyToOne
-    @JoinColumn(name = "id_expediente", nullable = false)
+    @JoinColumn(name = "id_expediente")
+    @JsonBackReference(value = "exp-jurado")
     private Expediente expediente;
 
     @ManyToOne
