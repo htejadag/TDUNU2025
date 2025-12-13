@@ -42,7 +42,7 @@ this.service = service;
     }
 
     @PutMapping("/{id}")
-    public Asesor actualizar(@PathVariable Integer id, @Valid @RequestBody Asesor data) {
+    public Asesor actualizar(@PathVariable Integer id, @RequestBody Asesor data) {
     return service.actualizar(id, data);
     }
 

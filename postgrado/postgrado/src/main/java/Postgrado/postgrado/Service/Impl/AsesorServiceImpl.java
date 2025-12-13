@@ -36,7 +36,7 @@ public class AsesorServiceImpl implements AsesorService {
 
     @Override
     public List<Asesor> listar() {
-        return repository.findAll();
+        return repository.findByActivoTrue();
     }
 
     @Override
@@ -51,29 +51,52 @@ public class AsesorServiceImpl implements AsesorService {
     @Override
     public Asesor actualizar(Integer id, Asesor data) {
 
-        Asesor existente = obtenerPorId(id); // Ya lanza excepción si no existe
+        Asesor existente = obtenerPorId(id); // Trae los datos viejos completos
 
+        // SOLUCIÓN: Preguntar antes de chancar
         
-        existente.setNombres(data.getNombres());
-        existente.setApellidos(data.getApellidos());
-        existente.setGradoMaximo(data.getGradoMaximo());
-        existente.setCvRuta(data.getCvRuta());
-        existente.setDeclaracionRuta(data.getDeclaracionRuta());
-        existente.setEstadoAsesor(data.getEstadoAsesor());
+        // Si data trae nombres, actualizamos. Si es null, conservamos el viejo.
+        if (data.getNombres() != null && !data.getNombres().isEmpty()) {
+            existente.setNombres(data.getNombres());
+        }
+
+        if (data.getApellidos() != null && !data.getApellidos().isEmpty()) {
+            existente.setApellidos(data.getApellidos());
+        }
+
+        if (data.getGradoMaximo() != null && !data.getGradoMaximo().isEmpty()) {
+            existente.setGradoMaximo(data.getGradoMaximo());
+        }
+
+        if (data.getCvRuta() != null && !data.getCvRuta().isEmpty()) {
+            existente.setCvRuta(data.getCvRuta());
+        }
+
+        if (data.getDeclaracionRuta() != null && !data.getDeclaracionRuta().isEmpty()) {
+            existente.setDeclaracionRuta(data.getDeclaracionRuta());
+        }
+        
+        // El estado no suele ser vacío, pero si es nulo no lo tocamos
+        if (data.getEstadoAsesor() != null) {
+            existente.setEstadoAsesor(data.getEstadoAsesor());
+        }
 
         log.info("Actualizando asesor con ID {}", id);
 
         return repository.save(existente);
     }
 
-    @Override
-    public void eliminar(Integer id) {
+        @Override
+        public void eliminar(Integer id) {
+        Asesor existente = obtenerPorId(id); // Lanza error si no existe
 
-        Asesor existente = obtenerPorId(id); // Ya lanza excepción si no existe
-
-        log.warn("Eliminando asesor con ID {}", id);
-
-        repository.delete(existente);
+        log.warn("Realizando borrado LÓGICO (Auditoria) del asesor ID {}", id);
+        
+        // CAMBIO: Usamos el campo de la clase padre AuditoriaEntity
+        existente.setActivo(false); 
+        
+        // Guardamos el cambio. El registro persiste, pero queda marcado como inactivo.
+        repository.save(existente);
     }
 
     

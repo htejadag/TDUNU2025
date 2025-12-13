@@ -1,0 +1,28 @@
+
+--------------------------------------------------------------------
+
+ASESOR:
+
+CREAR:  POST http://localhost:8080/api/asesores
+
+{
+    "nombres": "Juan",
+    "apellidos": "Pérez",
+    "gradoMaximo": "Magister",
+    "cvRuta": "/ruta/cv.pdf",
+    "declaracionRuta": "/ruta/declaracion.pdf"
+}
+
+OBTENER POR ID:  GET http://localhost:8080/api/asesores/{id}
+
+ACTUALIZAR:  PUT http://localhost:8080/asesores/{id}
+
+{
+    "gradoMaximo": "Doctor"
+}
+
+ELIMINAR:  DELETE http://localhost:8080/api/asesores/{id}
+
+--------------------------------------------------------------------
+
+

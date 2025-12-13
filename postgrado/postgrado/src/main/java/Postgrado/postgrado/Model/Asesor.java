@@ -4,11 +4,14 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
+@EqualsAndHashCode(callSuper = false)
 @Entity
 @Table(name = "asesor")
 @Data
-public class Asesor {
+
+public class Asesor extends AuditoriaEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,13 +37,15 @@ public class Asesor {
     @Size(max = 255, message = "La ruta de la declaración no puede superar los 255 caracteres")
     private String declaracionRuta;
 
-    @NotBlank(message = "El estado del asesor es obligatorio")
+    
     @Size(max = 20, message = "El estado no puede superar los 20 caracteres")
     private String estadoAsesor;
 
     // Se ejecuta automáticamente al crear el registro y considera "ACTIVO" al nuevo asesor por defecto
     @PrePersist
     public void prePersist() {
-        this.estadoAsesor = "ACTIVO";
+        if (this.estadoAsesor == null) {
+            this.estadoAsesor = "ACTIVO";
+        }
     }
 }
