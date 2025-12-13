@@ -23,8 +23,6 @@ public class AsesorServiceImpl implements AsesorService {
     @Override
     public Asesor crear(Asesor asesor) {
 
-        
-
         if (asesor.getEstadoAsesor() == null) {
             asesor.setEstadoAsesor("ACTIVO"); // Estado por defecto
         }
@@ -41,11 +39,18 @@ public class AsesorServiceImpl implements AsesorService {
 
     @Override
     public Asesor obtenerPorId(Integer id) {
-        return repository.findById(id)
+        Asesor asesor = repository.findById(id)
                 .orElseThrow(() -> {
                     log.error("Asesor con ID {} no encontrado", id);
                     return new RuntimeException("Asesor no encontrado");
                 });
+
+        if (!asesor.getActivo()) {
+            log.warn("Intento de acceso a Asesor inactivo (ID: {})", id);
+            throw new RuntimeException("Asesor no encontrado");
+        }
+
+        return asesor;
     }
 
     @Override
@@ -54,7 +59,7 @@ public class AsesorServiceImpl implements AsesorService {
         Asesor existente = obtenerPorId(id); // Trae los datos viejos completos
 
         // SOLUCIÓN: Preguntar antes de chancar
-        
+
         // Si data trae nombres, actualizamos. Si es null, conservamos el viejo.
         if (data.getNombres() != null && !data.getNombres().isEmpty()) {
             existente.setNombres(data.getNombres());
@@ -75,7 +80,7 @@ public class AsesorServiceImpl implements AsesorService {
         if (data.getDeclaracionRuta() != null && !data.getDeclaracionRuta().isEmpty()) {
             existente.setDeclaracionRuta(data.getDeclaracionRuta());
         }
-        
+
         // El estado no suele ser vacío, pero si es nulo no lo tocamos
         if (data.getEstadoAsesor() != null) {
             existente.setEstadoAsesor(data.getEstadoAsesor());
@@ -86,19 +91,17 @@ public class AsesorServiceImpl implements AsesorService {
         return repository.save(existente);
     }
 
-        @Override
-        public void eliminar(Integer id) {
+    @Override
+    public void eliminar(Integer id) {
         Asesor existente = obtenerPorId(id); // Lanza error si no existe
 
         log.warn("Realizando borrado LÓGICO (Auditoria) del asesor ID {}", id);
-        
+
         // CAMBIO: Usamos el campo de la clase padre AuditoriaEntity
-        existente.setActivo(false); 
-        
+        existente.setActivo(false);
+
         // Guardamos el cambio. El registro persiste, pero queda marcado como inactivo.
         repository.save(existente);
     }
-
-    
 
 }

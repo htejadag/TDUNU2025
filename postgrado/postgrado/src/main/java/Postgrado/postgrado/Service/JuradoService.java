@@ -11,5 +11,7 @@ public interface JuradoService {
 
     Jurado obtenerPorId(Integer id);
 
+    Jurado actualizar(Integer id, Jurado jurado);
+
     void eliminar(Integer id);
 }
