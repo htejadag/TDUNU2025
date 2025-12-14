@@ -1,5 +1,7 @@
 package com.MsExamen.service;
 
+import com.MsExamen.exception.ResourceNotFoundException;
+
 import com.MsExamen.dto.ExamenDTO;
 import com.MsExamen.dto.request.ExamenRequest;
 import com.MsExamen.model.Examen;
@@ -43,7 +45,7 @@ public class ExamenServiceImpl implements IExamenService {
         Examen examen = examenRepository.findById(id)
                 .orElseThrow(() -> {
                     log.error("Examen not found with ID: {}", id);
-                    return new RuntimeException(AppConstants.EXAMEN_NOT_FOUND);
+                    return new ResourceNotFoundException(AppConstants.EXAMEN_NOT_FOUND);
                 });
         return modelMapper.map(examen, ExamenDTO.class);
     }
@@ -60,7 +62,7 @@ public class ExamenServiceImpl implements IExamenService {
 
         if (examenRequest.getIdTipoExamen() != null) {
             CatalogoDetalle tipoExamen = catalogoDetalleRepository.findById(examenRequest.getIdTipoExamen())
-                    .orElseThrow(() -> new RuntimeException(AppConstants.CATALOGO_DETALLE_NOT_FOUND));
+                    .orElseThrow(() -> new ResourceNotFoundException(AppConstants.CATALOGO_DETALLE_NOT_FOUND));
             examen.setTipoExamen(tipoExamen);
         }
 
@@ -79,7 +81,7 @@ public class ExamenServiceImpl implements IExamenService {
         Examen existingExamen = examenRepository.findById(id)
                 .orElseThrow(() -> {
                     log.error("Examen not found with ID: {}", id);
-                    return new RuntimeException(AppConstants.EXAMEN_NOT_FOUND);
+                    return new ResourceNotFoundException(AppConstants.EXAMEN_NOT_FOUND);
                 });
 
         existingExamen.setTitulo(examenRequest.getTitulo());
@@ -87,7 +89,7 @@ public class ExamenServiceImpl implements IExamenService {
 
         if (examenRequest.getIdTipoExamen() != null) {
             CatalogoDetalle tipoExamen = catalogoDetalleRepository.findById(examenRequest.getIdTipoExamen())
-                    .orElseThrow(() -> new RuntimeException(AppConstants.CATALOGO_DETALLE_NOT_FOUND));
+                    .orElseThrow(() -> new ResourceNotFoundException(AppConstants.CATALOGO_DETALLE_NOT_FOUND));
             existingExamen.setTipoExamen(tipoExamen);
         }
 
@@ -104,7 +106,7 @@ public class ExamenServiceImpl implements IExamenService {
     public void deleteExamen(Integer id) {
         if (!examenRepository.existsById(id)) {
             log.error("Cannot delete. Examen not found with ID: {}", id);
-            throw new RuntimeException(AppConstants.EXAMEN_NOT_FOUND);
+            throw new ResourceNotFoundException(AppConstants.EXAMEN_NOT_FOUND);
         }
         examenRepository.deleteById(id);
         log.info("Examen deleted successfully with ID: {}", id);

@@ -1,5 +1,7 @@
 package com.MsExamen.service;
 
+import com.MsExamen.exception.ResourceNotFoundException;
+
 import com.MsExamen.dto.CatalogoDto;
 import com.MsExamen.dto.request.CatalogoRequest;
 import com.MsExamen.model.Catalogo;
@@ -36,7 +38,7 @@ public class CatalogoServiceImpl implements ICatalogoService {
         Catalogo catalogo = catalogoRepository.findById(id)
                 .orElseThrow(() -> {
                     log.error("Catalogo not found with ID: {}", id);
-                    return new RuntimeException(AppConstants.CATALOGO_NOT_FOUND);
+                    return new ResourceNotFoundException(AppConstants.CATALOGO_NOT_FOUND);
                 });
         return modelMapper.map(catalogo, CatalogoDto.class);
     }
@@ -64,7 +66,7 @@ public class CatalogoServiceImpl implements ICatalogoService {
         Catalogo existingCatalogo = catalogoRepository.findById(id)
                 .orElseThrow(() -> {
                     log.error("Catalogo not found with ID: {}", id);
-                    return new RuntimeException(AppConstants.CATALOGO_NOT_FOUND);
+                    return new ResourceNotFoundException(AppConstants.CATALOGO_NOT_FOUND);
                 });
 
         existingCatalogo.setNombre(catalogoRequest.getNombre());
@@ -84,7 +86,7 @@ public class CatalogoServiceImpl implements ICatalogoService {
     public void deleteCatalogo(Integer id) {
         if (!catalogoRepository.existsById(id)) {
             log.error("Cannot delete. Catalogo not found with ID: {}", id);
-            throw new RuntimeException(AppConstants.CATALOGO_NOT_FOUND);
+            throw new ResourceNotFoundException(AppConstants.CATALOGO_NOT_FOUND);
         }
         catalogoRepository.deleteById(id);
         log.info("Catalogo deleted successfully with ID: {}", id);

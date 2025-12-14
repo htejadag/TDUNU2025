@@ -1,5 +1,7 @@
 package com.MsExamen.config;
 
+import com.MsExamen.exception.ResourceNotFoundException;
+
 import com.MsExamen.dto.ApiResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,6 +29,13 @@ public class GlobalExceptionHandler {
                 log.error("Unhandled exception: ", e);
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                                 .body(new ApiResponse<>("Internal Server Error: " + e.getMessage(), null));
+        }
+
+        @ExceptionHandler(ResourceNotFoundException.class)
+        public ResponseEntity<ApiResponse<String>> handleResourceNotFoundException(ResourceNotFoundException ex) {
+                log.warn("Resource not found: {}", ex.getMessage());
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                                .body(new ApiResponse<>(ex.getMessage(), null));
         }
 
         @ExceptionHandler(MethodArgumentNotValidException.class)

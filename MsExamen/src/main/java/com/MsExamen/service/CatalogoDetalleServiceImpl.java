@@ -1,5 +1,7 @@
 package com.MsExamen.service;
 
+import com.MsExamen.exception.ResourceNotFoundException;
+
 import com.MsExamen.dto.CatalogoDetalleDto;
 import com.MsExamen.dto.request.CatalogoDetalleRequest;
 import com.MsExamen.model.Catalogo;
@@ -41,7 +43,7 @@ public class CatalogoDetalleServiceImpl implements ICatalogoDetalleService {
         CatalogoDetalle detalle = catalogoDetalleRepository.findById(id)
                 .orElseThrow(() -> {
                     log.error("CatalogoDetalle not found with ID: {}", id);
-                    return new RuntimeException(AppConstants.CATALOGO_DETALLE_NOT_FOUND);
+                    return new ResourceNotFoundException(AppConstants.CATALOGO_DETALLE_NOT_FOUND);
                 });
         return modelMapper.map(detalle, CatalogoDetalleDto.class);
     }
@@ -51,7 +53,7 @@ public class CatalogoDetalleServiceImpl implements ICatalogoDetalleService {
         log.info("Creating new CatalogoDetalle with name: {}", request.getNombre());
 
         Catalogo catalogo = catalogoRepository.findById(request.getIdCatalogo())
-                .orElseThrow(() -> new RuntimeException(AppConstants.CATALOGO_NOT_FOUND));
+                .orElseThrow(() -> new ResourceNotFoundException(AppConstants.CATALOGO_NOT_FOUND));
 
         CatalogoDetalle detalle = modelMapper.map(request, CatalogoDetalle.class);
         detalle.setCatalogo(catalogo);
@@ -74,12 +76,12 @@ public class CatalogoDetalleServiceImpl implements ICatalogoDetalleService {
         CatalogoDetalle existingDetalle = catalogoDetalleRepository.findById(id)
                 .orElseThrow(() -> {
                     log.error("CatalogoDetalle not found with ID: {}", id);
-                    return new RuntimeException(AppConstants.CATALOGO_DETALLE_NOT_FOUND);
+                    return new ResourceNotFoundException(AppConstants.CATALOGO_DETALLE_NOT_FOUND);
                 });
 
         if (request.getIdCatalogo() != null) {
             Catalogo catalogo = catalogoRepository.findById(request.getIdCatalogo())
-                    .orElseThrow(() -> new RuntimeException(AppConstants.CATALOGO_NOT_FOUND));
+                    .orElseThrow(() -> new ResourceNotFoundException(AppConstants.CATALOGO_NOT_FOUND));
             existingDetalle.setCatalogo(catalogo);
         }
 
@@ -100,7 +102,7 @@ public class CatalogoDetalleServiceImpl implements ICatalogoDetalleService {
     public void deleteCatalogoDetalle(Integer id) {
         if (!catalogoDetalleRepository.existsById(id)) {
             log.error("Cannot delete. CatalogoDetalle not found with ID: {}", id);
-            throw new RuntimeException(AppConstants.CATALOGO_DETALLE_NOT_FOUND);
+            throw new ResourceNotFoundException(AppConstants.CATALOGO_DETALLE_NOT_FOUND);
         }
         catalogoDetalleRepository.deleteById(id);
         log.info("CatalogoDetalle deleted successfully with ID: {}", id);
