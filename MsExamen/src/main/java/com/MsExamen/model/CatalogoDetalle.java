@@ -7,14 +7,14 @@ import java.util.Objects;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "examen")
+@Table(name = "catalogo_detalle")
 @Getter
 @Setter
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Examen {
+public class CatalogoDetalle {
 
     @Override
     public final boolean equals(Object o) {
@@ -30,8 +30,8 @@ public class Examen {
                 : this.getClass();
         if (thisEffectiveClass != oEffectiveClass)
             return false;
-        Examen examen = (Examen) o;
-        return getIdExamen() != null && Objects.equals(getIdExamen(), examen.getIdExamen());
+        CatalogoDetalle that = (CatalogoDetalle) o;
+        return getIdCatalogoDetalle() != null && Objects.equals(getIdCatalogoDetalle(), that.getIdCatalogoDetalle());
     }
 
     @Override
@@ -43,18 +43,21 @@ public class Examen {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_examen")
-    private Integer idExamen;
+    @Column(name = "id_catalogo_detalle")
+    private Integer idCatalogoDetalle;
 
-    @Column(name = "titulo", length = 150)
-    private String titulo;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_catalogo", nullable = false)
+    private Catalogo catalogo;
 
-    @Column(name = "descripcion", columnDefinition = "TEXT")
-    private String descripcion;
+    @Column(name = "nombre", length = 100, nullable = false)
+    private String nombre;
 
-    @ManyToOne
-    @JoinColumn(name = "id_tipo_examen")
-    private CatalogoDetalle tipoExamen;
+    @Column(name = "valor", length = 50, nullable = false)
+    private String valor;
+
+    @Column(name = "estado", nullable = false)
+    private Boolean estado;
 
     @Column(name = "fecha_creacion", updatable = false)
     private LocalDateTime fechaCreacion;
@@ -72,6 +75,7 @@ public class Examen {
     protected void onCreate() {
         this.fechaCreacion = LocalDateTime.now();
         this.fechaModificacion = LocalDateTime.now();
+        this.estado = true; // Default to active
     }
 
     @PreUpdate

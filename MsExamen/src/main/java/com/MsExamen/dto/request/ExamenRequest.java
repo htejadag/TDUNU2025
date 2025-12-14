@@ -9,6 +9,7 @@ public class ExamenRequest {
     private String titulo;
 
     private String descripcion;
+    private Integer idTipoExamen;
 
     private String usuarioCreacion;
     private String usuarioModificacion;

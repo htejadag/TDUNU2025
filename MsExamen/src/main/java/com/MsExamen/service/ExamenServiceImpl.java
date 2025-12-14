@@ -3,12 +3,15 @@ package com.MsExamen.service;
 import com.MsExamen.dto.ExamenDTO;
 import com.MsExamen.dto.request.ExamenRequest;
 import com.MsExamen.model.Examen;
+import com.MsExamen.model.CatalogoDetalle;
 import com.MsExamen.repository.ExamenRepository;
+import com.MsExamen.repository.CatalogoDetalleRepository;
 import com.MsExamen.utils.AppConstants;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -16,10 +19,14 @@ import java.util.stream.Collectors;
 
 @Service
 @Slf4j
+@Transactional
 public class ExamenServiceImpl implements IExamenService {
 
     @Autowired
     private ExamenRepository examenRepository;
+
+    @Autowired
+    private CatalogoDetalleRepository catalogoDetalleRepository;
 
     @Autowired
     private ModelMapper modelMapper;
@@ -44,13 +51,23 @@ public class ExamenServiceImpl implements IExamenService {
     @Override
     public ExamenDTO createExamen(ExamenRequest examenRequest) {
         log.info("Creating new Examen with title: {}", examenRequest.getTitulo());
-        Examen examen = modelMapper.map(examenRequest, Examen.class);
-        if (examen.getFechaCreacion() == null) {
-            examen.setFechaCreacion(LocalDateTime.now());
+
+        Examen examen = new Examen();
+        examen.setTitulo(examenRequest.getTitulo());
+        examen.setDescripcion(examenRequest.getDescripcion());
+        examen.setFechaCreacion(LocalDateTime.now());
+        examen.setFechaModificacion(LocalDateTime.now());
+
+        if (examenRequest.getIdTipoExamen() != null) {
+            CatalogoDetalle tipoExamen = catalogoDetalleRepository.findById(examenRequest.getIdTipoExamen())
+                    .orElseThrow(() -> new RuntimeException(AppConstants.CATALOGO_DETALLE_NOT_FOUND));
+            examen.setTipoExamen(tipoExamen);
         }
+
         if (examenRequest.getUsuarioCreacion() != null) {
             examen.setUsuarioCreacion(examenRequest.getUsuarioCreacion());
         }
+
         Examen savedExamen = examenRepository.save(examen);
         log.info("Examen created successfully with ID: {}", savedExamen.getIdExamen());
         return modelMapper.map(savedExamen, ExamenDTO.class);
@@ -67,6 +84,12 @@ public class ExamenServiceImpl implements IExamenService {
 
         existingExamen.setTitulo(examenRequest.getTitulo());
         existingExamen.setDescripcion(examenRequest.getDescripcion());
+
+        if (examenRequest.getIdTipoExamen() != null) {
+            CatalogoDetalle tipoExamen = catalogoDetalleRepository.findById(examenRequest.getIdTipoExamen())
+                    .orElseThrow(() -> new RuntimeException(AppConstants.CATALOGO_DETALLE_NOT_FOUND));
+            existingExamen.setTipoExamen(tipoExamen);
+        }
 
         if (examenRequest.getUsuarioModificacion() != null) {
             existingExamen.setUsuarioModificacion(examenRequest.getUsuarioModificacion());

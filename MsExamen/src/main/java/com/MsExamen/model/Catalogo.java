@@ -1,41 +1,34 @@
 package com.MsExamen.model;
 
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "pregunta")
+@Table(name = "catalogo")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Pregunta {
+public class Catalogo {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_pregunta")
-    private Integer idPregunta;
+    @Column(name = "id_catalogo")
+    private Integer idCatalogo;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_examen", nullable = false)
-    private Examen examen;
+    @Column(name = "nombre", length = 100, nullable = false)
+    private String nombre;
 
-    @Column(name = "pregunta", nullable = false, columnDefinition = "TEXT")
-    private String preguntaTexto;
+    @Column(name = "descripcion", length = 255)
+    private String descripcion;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "tipo", length = 20)
-    private TipoPregunta tipo;
-
-    public enum TipoPregunta {
-        opcion_multiple,
-        respuesta_corta
-    }
+    @Column(name = "estado", nullable = false)
+    private Boolean estado;
 
     @Column(name = "fecha_creacion", updatable = false)
     private LocalDateTime fechaCreacion;
@@ -50,12 +43,10 @@ public class Pregunta {
     private String usuarioModificacion;
 
     @PrePersist
-    public void prePersist() {
-        if (this.tipo == null) {
-            this.tipo = TipoPregunta.opcion_multiple;
-        }
+    protected void onCreate() {
         this.fechaCreacion = LocalDateTime.now();
         this.fechaModificacion = LocalDateTime.now();
+        this.estado = true; // Default to active
     }
 
     @PreUpdate
