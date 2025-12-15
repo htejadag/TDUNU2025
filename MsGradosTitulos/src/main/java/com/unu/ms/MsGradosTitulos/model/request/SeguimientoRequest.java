@@ -8,10 +8,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class SeguimientoRequest {
-    private Integer idSeguimiento;
-    private Integer idEntidadCatalogo;
-    private Integer entidadId;
-    private Integer idEstado;
-    private String comentario;
-    private Integer idUsuario;
+    
+    public Integer idSeguimiento;
+    public Integer idEntidadCatalogo;
+    public Integer entidadId;
+    public Integer idEstado;
+    public String comentario;
+    public Integer idUsuario;
+    // public Timestamp fechaRegistro;
+    
 }

@@ -1,4 +1,4 @@
-package Ms_Reingresante.Ms_Reingresante.model.request;
+package Ms_Reingresante.Ms_Reingresante.model.response;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 // Nota: No se usa Lombok @Data aquí para seguir el estilo de tu ejemplo, 
 // usando campos públicos.
 
-public class FichaNoAdeudoRequest {
+public class FichaNoAdeudoResponse {
 
     // Clave Foránea: Necesario para vincular la ficha al proceso
     public Integer idProceso; 

@@ -1,5 +1,7 @@
 package com.unu.ms.MsGradosTitulos.model.request;
 
+import com.unu.ms.MsGradosTitulos.model.entity.ResolucionModel;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,9 +10,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ResolucionArticuloRequest {
-    private Integer idArticulo;
-    private Integer idResolucion;
-    private Integer numeroArticulo;
-    private String titulo;
-    private String contenido;
+    
+    // public Integer idArticulo;
+    public ResolucionModel resolucion;
+    public Integer numeroArticulo;
+    public String titulo;
+    public String contenido;
+    
 }

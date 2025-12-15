@@ -6,6 +6,20 @@
     "configurations": [
         {
             "type": "java",
+            "name": "MsGradosTitulosApplication",
+            "request": "launch",
+            "mainClass": "com.unu.ms.MsGradosTitulos.MsGradosTitulosApplication",
+            "projectName": "MsGradosTitulos"
+        },
+        {
+            "type": "java",
+            "name": "MsConsejoApplication",
+            "request": "launch",
+            "mainClass": "com.unu.ms.MsConsejo.MsConsejoApplication",
+            "projectName": "MsConsejo"
+        },
+        {
+            "type": "java",
             "name": "MsSeguridadApplication",
             "request": "launch",
             "mainClass": "tdunu.MsSeguridad.MsSeguridadApplication",

@@ -1,56 +1,98 @@
 package com.unu.ms.MsGradosTitulos.config;
 
-import com.unu.ms.MsGradosTitulos.util.ResponseBase;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.DataAccessResourceFailureException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.context.request.WebRequest;
+import org.hibernate.exception.ConstraintViolationException;
+import org.springframework.dao.DataAccessException;
 
-import java.sql.SQLException;
+import com.unu.ms.MsGradosTitulos.util.Mensajes;
+import com.unu.ms.MsGradosTitulos.util.ResponseBase;
+
+import lombok.extern.slf4j.Slf4j;
+
+import jakarta.persistence.EntityNotFoundException;
+import jakarta.persistence.PersistenceException;
 
 @Slf4j
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<ResponseBase<String>> handleIllegalArgument(IllegalArgumentException ex) {
-        log.error("Error de argumento ilegal: {}", ex.getMessage(), ex);
-        return ResponseEntity
-            .badRequest()
-            .body(ResponseBase.error("Error en los datos proporcionados: " + ex.getMessage()));
-    }
+  // Error General
+  @ExceptionHandler(Exception.class)
+  public ResponseEntity<ResponseBase<Object>> handleGeneralException(Exception ex, WebRequest request) {
+    log.error("Error procesando la petición: {}", ex.getMessage());
+    ResponseBase<Object> errorResponse = ResponseBase.error(ex.getMessage());
+    return ResponseEntity
+        .status(HttpStatus.INTERNAL_SERVER_ERROR)
+        .body(errorResponse);
+  }
 
-    @ExceptionHandler(DataIntegrityViolationException.class)
-    public ResponseEntity<ResponseBase<String>> handleDataIntegrityViolation(DataIntegrityViolationException ex) {
-        log.error("Error de integridad de datos: {}", ex.getMessage(), ex);
-        return ResponseEntity
-            .status(HttpStatus.CONFLICT)
-            .body(ResponseBase.error("Error de integridad de datos. Verifique las relaciones entre entidades."));
-    }
+  // Entidad no encontrada (JPA)
+  @ExceptionHandler(EntityNotFoundException.class)
+  public ResponseEntity<ResponseBase<Object>> handleEntityNotFound(EntityNotFoundException ex) {
+    log.warn("Entidad no encontrada: {}", ex.getMessage());
+    return ResponseEntity
+        .status(HttpStatus.NOT_FOUND)
+        .body(ResponseBase.error(Mensajes.ENTIDAD_NO_ENCONTRADA));
+  }
 
-    @ExceptionHandler(SQLException.class)
-    public ResponseEntity<ResponseBase<String>> handleSQLException(SQLException ex) {
-        log.error("Error SQL: {}", ex.getMessage(), ex);
-        return ResponseEntity
-            .status(HttpStatus.INTERNAL_SERVER_ERROR)
-            .body(ResponseBase.error("Error en la base de datos: " + ex.getMessage()));
-    }
+  // Error por restricciones de BD
+  @ExceptionHandler(ConstraintViolationException.class)
+  public ResponseEntity<ResponseBase<Object>> handleConstraint(ConstraintViolationException ex) {
+    log.warn("Violación de restricción: {}", ex.getMessage());
+    return ResponseEntity
+        .status(HttpStatus.BAD_REQUEST)
+        .body(ResponseBase.error(Mensajes.VIOLACION_RESTRICCION));
+  }
 
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<ResponseBase<String>> handleGeneralException(Exception ex) {
-        log.error("Error inesperado: {}", ex.getMessage(), ex);
-        return ResponseEntity
-            .status(HttpStatus.INTERNAL_SERVER_ERROR)
-            .body(ResponseBase.error("Error interno del servidor: " + ex.getMessage()));
-    }
+  // Errores genéricos de persistencia
+  @ExceptionHandler(PersistenceException.class)
+  public ResponseEntity<ResponseBase<Object>> handlePersistence(PersistenceException ex) {
+    log.error("Error de persistencia: {}", ex.getMessage(), ex);
+    return ResponseEntity
+        .status(HttpStatus.INTERNAL_SERVER_ERROR)
+        .body(ResponseBase.error(Mensajes.ERROR_PERSISTENCIA));
+  }
 
-    @ExceptionHandler(NullPointerException.class)
-    public ResponseEntity<ResponseBase<String>> handleNullPointer(NullPointerException ex) {
-        log.error("Error NullPointer: {}", ex.getMessage(), ex);
-        return ResponseEntity
-            .status(HttpStatus.INTERNAL_SERVER_ERROR)
-            .body(ResponseBase.error("Error: Datos no encontrados o referencia nula"));
-    }
+  // JSON mal formado
+  @ExceptionHandler(HttpMessageNotReadableException.class)
+  public ResponseEntity<ResponseBase<Object>> handleUnreadable(HttpMessageNotReadableException ex) {
+    log.warn("JSON inválido: {}", ex.getMessage());
+    return ResponseEntity
+        .status(HttpStatus.BAD_REQUEST)
+        .body(ResponseBase.error(Mensajes.JSON_INVALIDO));
+  }
+
+  // Fallos de conexión a la BD
+  @ExceptionHandler(DataAccessResourceFailureException.class)
+  public ResponseEntity<ResponseBase<Object>> handleDbConnection(DataAccessResourceFailureException ex) {
+    log.error("No se puede conectar a la base de datos: {}", ex.getMessage());
+    return ResponseEntity
+        .status(HttpStatus.SERVICE_UNAVAILABLE)
+        .body(ResponseBase.error(Mensajes.ERROR_CONEXION_BD));
+  }
+
+  // Errores generales de acceso a datos
+  @ExceptionHandler(DataAccessException.class)
+  public ResponseEntity<ResponseBase<Object>> handleDataAccess(DataAccessException ex) {
+    log.error("Error de acceso a datos: {}", ex.getMessage());
+    return ResponseEntity
+        .status(HttpStatus.INTERNAL_SERVER_ERROR)
+        .body(ResponseBase.error(Mensajes.ERROR_ACCESO_DATOS));
+  }
+
+  // Error de conversión numérica
+  @ExceptionHandler(NumberFormatException.class)
+  public ResponseEntity<ResponseBase<Object>> handleNumberFormat(NumberFormatException ex) {
+    log.warn("Error de formato numérico: {}", ex.getMessage());
+    return ResponseEntity
+        .status(HttpStatus.BAD_REQUEST)
+        .body(ResponseBase.error(Mensajes.FORMATO_NUMERICO_INVALIDO));
+  }
+
 }

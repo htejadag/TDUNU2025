@@ -2,11 +2,16 @@ package tdunu.MsSeguridad.service.imp;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import tdunu.MsSeguridad.model.entity.PermissionModel;
+import tdunu.MsSeguridad.model.entity.RoleModel;
 import tdunu.MsSeguridad.model.entity.UsuarioModel;
 import tdunu.MsSeguridad.model.request.UsuarioRequest;
 import tdunu.MsSeguridad.model.response.UsuarioResponse;
+import tdunu.MsSeguridad.repository.RoleRepository;
 import tdunu.MsSeguridad.repository.UsuarioRepository;
 import tdunu.MsSeguridad.service.UsuarioService;
+import jakarta.transaction.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -170,7 +175,61 @@ public class UsuarioServiceimpl implements UsuarioService {
         resp.setCelular(model.getCelular());
         resp.setContrasena(model.getContrasena());
         resp.setEstado(model.getEstado());
-        return resp;
 
+        resp.setRoles(
+                model.getRoles().stream()
+                        .map(RoleModel::getNombre)
+                        .collect(Collectors.toSet())
+        );
+        resp.setPermisos(
+                model.getRoles().stream()
+                        .flatMap(role -> role.getPermisos().stream())
+                        .map(PermissionModel::getNombre)
+                        .collect(Collectors.toSet())
+        );
+
+        return resp;
+    }
+    private final RoleRepository roleRepository;
+
+    @Override
+    @Transactional
+    public UsuarioResponse asignarRole(String codUsuario, Long idRole) {
+
+        UsuarioModel user = usuarioRepository.findByCodUsuario(codUsuario)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+
+        RoleModel role = roleRepository.findById(idRole)
+                .orElseThrow(() -> new RuntimeException("Rol no encontrado"));
+
+        // Evita duplicado
+        boolean yaTiene = user.getRoles().stream()
+                .anyMatch(r -> r.getIdRole().equals(idRole));
+
+        if (yaTiene) {
+            throw new RuntimeException("El usuario ya tiene este rol");
+        }
+
+        user.getRoles().add(role);
+
+        UsuarioModel updated = usuarioRepository.save(user);
+        return toResponse(updated);
+    }
+
+    @Override
+    @Transactional
+    public UsuarioResponse quitarRole(String codUsuario, Long idRole) {
+
+        UsuarioModel user = usuarioRepository.findByCodUsuario(codUsuario)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+
+        boolean removed = user.getRoles().removeIf(r -> r.getIdRole().equals(idRole));
+
+        if (!removed) {
+            throw new RuntimeException("El usuario no tenía ese rol asignado");
+        }
+
+        UsuarioModel updated = usuarioRepository.save(user);
+        return toResponse(updated);
     }
 }

@@ -13,11 +13,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.MsPlanEstudios.model.request.PlanEstudiosDetalleRequest;
-import com.example.MsPlanEstudios.model.request.PlanEstudiosRequest;
 import com.example.MsPlanEstudios.model.response.PlanEstudiosDetalleResponse;
-import com.example.MsPlanEstudios.model.response.PlanEstudiosResponse;
 import com.example.MsPlanEstudios.service.PlanEstudiosDetalleService;
-import com.example.MsPlanEstudios.service.PlanEstudiosService;
 import com.example.MsPlanEstudios.util.ApiRoutes;
 
 @RestController

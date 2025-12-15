@@ -6,13 +6,26 @@ import Ms_Reingresante.Ms_Reingresante.model.request.FichaNoAdeudoRequest;
 import Ms_Reingresante.Ms_Reingresante.model.response.FichaNoAdeudoResponse;
 
 
+
 public interface FichaNoAdeudoService {
+
+
+
+
+    List<FichaNoAdeudoResponse> listar();
+
+  FichaNoAdeudoResponse obtenerPorId(Integer id);
+
+ FichaNoAdeudoResponse guardar(FichaNoAdeudoRequest producto);
+
+  void eliminar(Integer id);
+
 
     /**
      * Lista todas las Fichas de No Adeudo registradas.
      * @return Lista de objetos FichaNoAdeudoResponse.
      */
-    List<FichaNoAdeudoResponse> listar();
+   // List<FichaNoAdeudoResponse> listar();
 
     /**
      * Obtiene una Ficha por su identificador único.
@@ -20,7 +33,7 @@ public interface FichaNoAdeudoService {
      * @param id El ID de la ficha.
      * @return El objeto FichaNoAdeudoResponse.
      */
-    FichaNoAdeudoResponse obtenerPorId(Long id);
+   // FichaNoAdeudoResponse obtenerPorId(Long id);
 
     /**
      * Genera y guarda la Ficha de No Adeudo para un proceso de reingreso,
@@ -28,12 +41,12 @@ public interface FichaNoAdeudoService {
      * @param request Datos de la solicitud.
      * @return La Ficha de No Adeudo generada.
      */
-    FichaNoAdeudoResponse generarFicha(FichaNoAdeudoRequest request);
+  // FichaNoAdeudoResponse generarFicha(FichaNoAdeudoRequest request);
 
     /**
      * Actualiza el estado de la Ficha a "APROBADA" si cumple con los requisitos.
      * @param id El ID de la ficha a aprobar.
      * @return La ficha actualizada.
      */
-    FichaNoAdeudoResponse aprobarFicha(Long id);
+    //FichaNoAdeudoResponse aprobarFicha(Long id);
 }

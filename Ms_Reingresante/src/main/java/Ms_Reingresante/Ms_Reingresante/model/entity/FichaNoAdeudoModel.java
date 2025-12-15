@@ -15,7 +15,7 @@ import lombok.Data;
 @Data
 @Entity
 @Table(name = "ficha_no_adeudo")
-public class FichaNoAdeudoEntity {
+public class FichaNoAdeudoModel {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
