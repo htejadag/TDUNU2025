@@ -8,6 +8,7 @@ import unu.td.msacademico.utils.Messages;
 public class EscuelaProfesionalRequest extends EntidadAcademicaRequest{
 
     @NotNull(message = Messages.REQUIRED_ID_FACULTAD)
+    @Min(value = 1, message = Messages.MIN_ID)
     private Integer idFacultad;
 
     @Min(value = 1, message = Messages.MAX_DURACION)

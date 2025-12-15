@@ -27,6 +27,7 @@ public class Messages {
     public static final String NOT_FOUND_ESCUELA_BY_ID = "No se encuentra una escuela por ese id";
     public static final String NOT_FOUND_CATALOGO_BY_ID = "No se encuentra un item del catalogo por ese id";
     public static final String NOT_FOUND_TIPO_ENTIDAD_BY_ID = "No se encuentra una entidad académica por ese id";
+    public static final String NOT_FOUND_TIPO_AUTORIDAD_BY_ID = "No se encuentra un tipo de autoridad por ese id";
     public static final String NOT_FOUND_AUTORIDAD_BY_ID = "No se encuentra una autoridad por ese id";
     public static final String NOT_FOUND_AUTORIDAD = "No se encuentra una autoridad bajo los parámetros buscados";
 
@@ -45,5 +46,8 @@ public class Messages {
 
     public static final String INVALID_FECHA_INICIO = "La fecha de inicio no puede ser posterior a la fecha de fin";
     public static final String INVALID_FECHA_FUNDACION = "La fecha de fundacion no puede ser una fecha futura";
+    public static final String INVALID_AUTORIDAD_FACULTAD = "Una Facultad solo puede tener como autoridad a un Decano";
+    public static final String INVALID_AUTORIDAD_ESCUELA = "Una Escuela solo puede tener como autoridad a un Director";
+    public static final String INVALID_TIPO_AUTORIDAD = "El tipo de autoridad no es válido";
 
 }

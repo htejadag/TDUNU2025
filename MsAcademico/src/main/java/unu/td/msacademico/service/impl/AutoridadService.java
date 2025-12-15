@@ -50,10 +50,13 @@ public class AutoridadService implements IAutoridadService {
     @Override
     public AutoridadResponse add(AutoridadRequest request) {
         checkFechaInicioAndFechaFin(request.getFechaInicio(), request.getFechaFin());
+        checkAutoridadByTipoEntidad(request.getIdTipoEntidad(), request.getIdTipoAutoridad());
         AutoridadModel autoridad = Mapper.Autoridad.requestToModel(null, request);
+        CatalogoModel tipoAutoridad = getTipoAutoridad(request.getIdTipoAutoridad());
+        CatalogoModel tipoEntidad = getTipoEntidad(request.getIdTipoEntidad());
 
-        autoridad.setTipoAutoridad(getTipo(request.getIdTipoAutoridad()));
-        autoridad.setTipoEntidad(getTipo(request.getIdTipoEntidad()));
+        autoridad.setTipoAutoridad(tipoAutoridad);
+        autoridad.setTipoEntidad(tipoEntidad);
         autoridad.setUsuarioCreacion(CatalogoUtils.IdUsuarioCreacion);
         autoridad = repository.save(autoridad);
 
@@ -63,11 +66,14 @@ public class AutoridadService implements IAutoridadService {
     @Override
     public AutoridadResponse update(Integer id, AutoridadRequest request) {
         checkFechaInicioAndFechaFin(request.getFechaInicio(), request.getFechaFin());
+        checkAutoridadByTipoEntidad(request.getIdTipoEntidad(), request.getIdTipoAutoridad());
         AutoridadModel autoridad = checkExistsById(id);
+        CatalogoModel tipoAutoridad = getTipoAutoridad(request.getIdTipoAutoridad());
+        CatalogoModel tipoEntidad = getTipoEntidad(request.getIdTipoEntidad());
 
         autoridad = Mapper.Autoridad.requestToModel(autoridad, request);
-        autoridad.setTipoAutoridad(getTipo(request.getIdTipoAutoridad()));
-        autoridad.setTipoEntidad(getTipo(request.getIdTipoEntidad()));
+        autoridad.setTipoAutoridad(tipoAutoridad);
+        autoridad.setTipoEntidad(tipoEntidad);
         autoridad.setUsuarioModificacion(CatalogoUtils.IdUsuarioModificacion);
         autoridad = repository.save(autoridad);
 
@@ -94,7 +100,7 @@ public class AutoridadService implements IAutoridadService {
 
     @Override
     public List<AutoridadResponse> getByEntidad(Integer idTipoEntidad, Integer idEntidad) {
-        checkIdTipoEntidad(idTipoEntidad);
+        getTipoEntidad(idTipoEntidad);
         EntidadAcademicaResponse entidad = getEntidadResponse(idTipoEntidad, idEntidad);
         List<AutoridadModel> autoridades = repository.findByEntidad(idTipoEntidad, idEntidad);
         return autoridades.stream()
@@ -104,7 +110,7 @@ public class AutoridadService implements IAutoridadService {
 
     @Override
     public AutoridadResponse getByEntidadAndFecha(Integer idTipoEntidad, Integer idEntidad, LocalDate fecha) {
-        checkIdTipoEntidad(idTipoEntidad);
+        getTipoEntidad(idTipoEntidad);
         EntidadAcademicaResponse entidad = getEntidadResponse(idTipoEntidad, idEntidad);
         AutoridadModel autoridad = repository.findByEntidadAndFecha(idTipoEntidad, idEntidad, fecha).orElse(null);
         if (autoridad == null) {
@@ -159,16 +165,42 @@ public class AutoridadService implements IAutoridadService {
         }
     }
 
-    public void checkIdTipoEntidad(Integer idTipoEntidad) {
+    public CatalogoModel getTipoEntidad(Integer idTipoEntidad) {
         if (idTipoEntidad.intValue() != CatalogoUtils.ID_TIPO_ENTIDAD_FACULTAD && idTipoEntidad.intValue() != CatalogoUtils.ID_TIPO_ENTIDAD_ESCUELA) {
             throw new NotFoundException(Messages.NOT_FOUND_TIPO_ENTIDAD_BY_ID);
         }
+        CatalogoModel model = catalogoRepository.findById(idTipoEntidad).orElse(null);
+        if (model == null) {
+            throw new NotFoundException(Messages.NOT_FOUND_TIPO_AUTORIDAD_BY_ID);
+        }
+        return model;
     }
 
     public CatalogoModel getTipo(Integer idTipo) {
         CatalogoModel model = catalogoRepository.findById(idTipo).orElse(null);
         if (model == null) {
             throw new NotFoundException(Messages.NOT_FOUND_CATALOGO_BY_ID);
+        }
+        return model;
+    }
+
+    private void checkAutoridadByTipoEntidad(Integer idTipoEntidad, Integer idTipoAutoridad) {
+        if (idTipoEntidad.equals(CatalogoUtils.ID_TIPO_ENTIDAD_FACULTAD) && !idTipoAutoridad.equals(CatalogoUtils.ID_TIPO_AUTORIDAD_DECANO)) {
+            throw new BadRequestException(Messages.INVALID_AUTORIDAD_FACULTAD);
+        }
+
+        if (idTipoEntidad.equals(CatalogoUtils.ID_TIPO_ENTIDAD_ESCUELA) && !idTipoAutoridad.equals(CatalogoUtils.ID_TIPO_AUTORIDAD_DIRECTOR)) {
+            throw new BadRequestException(Messages.INVALID_AUTORIDAD_ESCUELA);
+        }
+    }
+
+    public CatalogoModel getTipoAutoridad(Integer idTipoAutoridad) {
+        if (!idTipoAutoridad.equals(CatalogoUtils.ID_TIPO_AUTORIDAD_DECANO) && !idTipoAutoridad.equals(CatalogoUtils.ID_TIPO_AUTORIDAD_DIRECTOR)) {
+            throw new NotFoundException(Messages.NOT_FOUND_TIPO_AUTORIDAD_BY_ID);
+        }
+        CatalogoModel model = catalogoRepository.findById(idTipoAutoridad).orElse(null);
+        if (model == null) {
+            throw new NotFoundException(Messages.NOT_FOUND_TIPO_AUTORIDAD_BY_ID);
         }
         return model;
     }
