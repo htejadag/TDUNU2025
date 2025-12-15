@@ -8,6 +8,8 @@ import unu.td.msacademico.model.response.FacultadResponse;
 import unu.td.msacademico.model.request.FacultadRequest;
 import unu.td.msacademico.repository.IFacultadRepository;
 import unu.td.msacademico.service.IFacultadService;
+import unu.td.msacademico.utils.CatalogoUtils;
+import unu.td.msacademico.utils.Mapper;
 import unu.td.msacademico.utils.Messages;
 import unu.td.msacademico.utils.exceptions.AlreadyExistsException;
 import unu.td.msacademico.utils.exceptions.NotFoundException;
@@ -40,7 +42,7 @@ public class FacultadService implements IFacultadService {
         checkExistsByNombre(request.getNombre(), 0);
 
         FacultadModel facultad = mapper.map(request, FacultadModel.class);
-        facultad.setUsuarioCreacion("dbd2a268-a9b0-42ba-981d-3977361f11f5");
+        facultad.setUsuarioCreacion(CatalogoUtils.IdUsuarioCreacion);
 
         facultad = repository.save(facultad);
         return mapper.map(facultad, FacultadResponse.class);
@@ -51,8 +53,8 @@ public class FacultadService implements IFacultadService {
         FacultadModel facultad = checkExistsById(id);
         checkExistsByNombre(request.getNombre(), facultad.getId());
 
-        facultad.setNombre(request.getNombre());
-        facultad.setUsuarioModificacion("a74c0747-1151-455c-87e2-2298e554521f");
+        facultad = Mapper.Facultad.requestToModel(facultad, request);
+        facultad.setUsuarioModificacion(CatalogoUtils.IdUsuarioModificacion);
         facultad = repository.save(facultad);
 
         return mapper.map(facultad, FacultadResponse.class);
@@ -61,19 +63,19 @@ public class FacultadService implements IFacultadService {
     @Override
     public void delete(Integer id) {
         checkExistsById(id);
-        repository.softDelete(id, "a74c0747-1151-455c-87e2-2298e554521f");
+        repository.softDelete(id, CatalogoUtils.IdUsuarioModificacion);
     }
 
     @Override
     public void activate(Integer id) {
         checkExistsById(id);
-        repository.activate(id, "a74c0747-1151-455c-87e2-2298e554521f");
+        repository.activate(id, CatalogoUtils.IdUsuarioModificacion);
     }
 
     @Override
     public void deactivate(Integer id) {
         checkExistsById(id);
-        repository.deactivate(id, "a74c0747-1151-455c-87e2-2298e554521f");
+        repository.deactivate(id, CatalogoUtils.IdUsuarioModificacion);
     }
 
     private FacultadModel checkExistsById(Integer id) {
@@ -87,10 +89,10 @@ public class FacultadService implements IFacultadService {
 
     private void checkExistsByNombre(String nombre, Integer id) {
         FacultadModel byNombre = repository.findByNombre(nombre);
-        if (byNombre != null && !byNombre.getEliminado()) {
-            throw new AlreadyExistsException(Messages.ALREADY_EXISTS_FACULTAD_BY_NOMBRE_DEACTIVATE); //pero ya no tiene reversa desde el sistema, debe tocar la db??
-        }
         if (byNombre != null && !byNombre.getId().equals(id)) {
+            if (byNombre.getEliminado()) {
+                throw new AlreadyExistsException(Messages.ALREADY_EXISTS_FACULTAD_BY_NOMBRE_DEACTIVATE); //pero ya no tiene reversa desde el sistema, debe tocar la db??
+            }
             throw new AlreadyExistsException(Messages.ALREADY_EXISTS_FACULTAD_BY_NOMBRE);
         }
     }

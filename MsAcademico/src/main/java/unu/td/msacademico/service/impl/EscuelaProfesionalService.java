@@ -10,6 +10,8 @@ import unu.td.msacademico.model.response.EscuelaProfesionalResponse;
 import unu.td.msacademico.repository.IEscuelaProfesionalRepository;
 import unu.td.msacademico.repository.IFacultadRepository;
 import unu.td.msacademico.service.IEscuelaProfesionalService;
+import unu.td.msacademico.utils.CatalogoUtils;
+import unu.td.msacademico.utils.Mapper;
 import unu.td.msacademico.utils.Messages;
 import unu.td.msacademico.utils.exceptions.AlreadyExistsException;
 import unu.td.msacademico.utils.exceptions.NotFoundException;
@@ -28,14 +30,14 @@ public class EscuelaProfesionalService implements IEscuelaProfesionalService {
     public List<EscuelaProfesionalResponse> getAll() {
         return repository.findByEliminadoFalse()
                 .stream()
-                .map(this::getResponse)
+                .map(model -> mapper.map(model, EscuelaProfesionalResponse.class))
                 .toList();
     }
 
     @Override
     public EscuelaProfesionalResponse getById(Integer id) {
         EscuelaProfesionalModel escuela = checkExistsById(id);
-        return getResponse(escuela);
+        return mapper.map(escuela, EscuelaProfesionalResponse.class);
     }
 
     @Override
@@ -45,42 +47,41 @@ public class EscuelaProfesionalService implements IEscuelaProfesionalService {
         EscuelaProfesionalModel escuela = mapper.map(request, EscuelaProfesionalModel.class);
         escuela.setId(null);
         escuela.setFacultad(getFacultad(request.getIdFacultad()));
-        escuela.setUsuarioCreacion("dbd2a268-a9b0-42ba-981d-3977361f11f5");
+        escuela.setUsuarioCreacion(CatalogoUtils.IdUsuarioCreacion);
 
         escuela = repository.save(escuela);
-        return getResponse(escuela);
+        return mapper.map(escuela, EscuelaProfesionalResponse.class);
     }
 
     @Override
     public EscuelaProfesionalResponse update(Integer id, EscuelaProfesionalRequest request) {
+        checkExistsByNombre(request.getNombre(), id);
         EscuelaProfesionalModel escuela = checkExistsById(id);
 
-        checkExistsByNombre(request.getNombre(), id);
-
-        escuela.setNombre(request.getNombre());
+        escuela = Mapper.Escuela.requestToModel(escuela, request);
         escuela.setFacultad(getFacultad(request.getIdFacultad()));
-        escuela.setUsuarioModificacion("a74c0747-1151-455c-87e2-2298e554521f");
+        escuela.setUsuarioModificacion(CatalogoUtils.IdUsuarioModificacion);
         escuela = repository.save(escuela);
 
-        return getResponse(escuela);
+        return mapper.map(escuela, EscuelaProfesionalResponse.class);
     }
 
     @Override
     public void delete(Integer id) {
         checkExistsById(id);
-        repository.softDelete(id, "a74c0747-1151-455c-87e2-2298e554521f");
+        repository.softDelete(id, CatalogoUtils.IdUsuarioModificacion);
     }
 
     @Override
     public void activate(Integer id) {
         checkExistsById(id);
-        repository.activate(id, "a74c0747-1151-455c-87e2-2298e554521f");
+        repository.activate(id, CatalogoUtils.IdUsuarioModificacion);
     }
 
     @Override
     public void deactivate(Integer id) {
         checkExistsById(id);
-        repository.deactivate(id, "a74c0747-1151-455c-87e2-2298e554521f");
+        repository.deactivate(id, CatalogoUtils.IdUsuarioModificacion);
     }
 
     @Override
@@ -91,13 +92,8 @@ public class EscuelaProfesionalService implements IEscuelaProfesionalService {
         }
         return repository.findByIdFacultadIdAndEliminadoFalse(idFacultad)
                 .stream()
-                .map(this::getResponse)
+                .map(model -> mapper.map(model, EscuelaProfesionalResponse.class))
                 .toList();
-    }
-
-
-    private EscuelaProfesionalResponse getResponse(EscuelaProfesionalModel escuela) {
-        return mapper.map(escuela, EscuelaProfesionalResponse.class);
     }
 
     private FacultadModel getFacultad(Integer idFacultad) {
@@ -120,10 +116,10 @@ public class EscuelaProfesionalService implements IEscuelaProfesionalService {
     private void checkExistsByNombre(String nombre, Integer id) {
         EscuelaProfesionalModel byNombre = repository.findByNombre(nombre);
         if (byNombre != null && !byNombre.getId().equals(id)) {
+            if (byNombre.getEliminado()) {
+                throw new AlreadyExistsException(Messages.ALREADY_EXISTS_ESCUELA_BY_NOMBRE_DEACTIVATE);
+            }
             throw new AlreadyExistsException(Messages.ALREADY_EXISTS_ESCUELA_BY_NOMBRE);
-        }
-        if (byNombre != null && !byNombre.getEliminado()) {
-            throw new AlreadyExistsException(Messages.ALREADY_EXISTS_ESCUELA_BY_NOMBRE_DEACTIVATE);
         }
     }
 }

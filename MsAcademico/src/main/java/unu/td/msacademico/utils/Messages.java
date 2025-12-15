@@ -27,6 +27,7 @@ public class Messages {
     public static final String NOT_FOUND_ESCUELA_BY_ID = "No se encuentra una escuela por ese id";
     public static final String NOT_FOUND_CATALOGO_BY_ID = "No se encuentra un item del catalogo por ese id";
     public static final String NOT_FOUND_TIPO_ENTIDAD_BY_ID = "No se encuentra una entidad académica por ese id";
+    public static final String NOT_FOUND_AUTORIDAD_BY_ID = "No se encuentra una autoridad por ese id";
     public static final String NOT_FOUND_AUTORIDAD = "No se encuentra una autoridad bajo los parámetros buscados";
 
     public static final String ALREADY_EXISTS_FACULTAD_BY_NOMBRE = "Ya se encuentra una facultad con ese nombre";
@@ -39,7 +40,10 @@ public class Messages {
     public static final String MAX_DURACION = "La duración mínima debe ser de 1";
     public static final String MIN_DURACION = "La duración máxima debe ser de 10";
     public static final String MIN_ID = "El valor mínimo debe ser de 1";
+    public static final String MIN_VALOR = "El valor mínimo debe ser de 1";
+    public static final String MIN_ORDEN = "El valor del orden mínimo debe ser de 1";
 
     public static final String INVALID_FECHA_INICIO = "La fecha de inicio no puede ser posterior a la fecha de fin";
+    public static final String INVALID_FECHA_FUNDACION = "La fecha de fundacion no puede ser una fecha futura";
 
 }

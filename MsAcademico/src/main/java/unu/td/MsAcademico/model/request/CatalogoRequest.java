@@ -21,7 +21,9 @@ public class CatalogoRequest {
 
     private String abreviatura;
 
+    @Min(value = 1, message = Messages.MIN_VALOR)
     private Integer valor;
 
+    @Min(value = 1, message = Messages.MIN_ORDEN)
     private Integer orden;
 }

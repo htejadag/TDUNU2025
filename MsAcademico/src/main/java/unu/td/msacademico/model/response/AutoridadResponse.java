@@ -8,9 +8,8 @@ import java.time.LocalDate;
 public class AutoridadResponse {
     private Integer id;
     private String idUsuario;
-    private Integer idTipoAutoridad;
-    private Integer idTipoEntidad;
-    private String tipoEntidad;
+    private CatalogoResponse tipoAutoridad;
+    private CatalogoResponse tipoEntidad;
     private EntidadAcademicaResponse entidad;
     private LocalDate fechaInicio;
     private LocalDate fechaFin;

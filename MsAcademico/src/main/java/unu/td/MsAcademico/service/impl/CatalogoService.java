@@ -8,6 +8,7 @@ import unu.td.msacademico.model.request.CatalogoRequest;
 import unu.td.msacademico.model.response.CatalogoResponse;
 import unu.td.msacademico.repository.ICatalogoRepository;
 import unu.td.msacademico.service.ICatalogoService;
+import unu.td.msacademico.utils.CatalogoUtils;
 import unu.td.msacademico.utils.Mapper;
 import unu.td.msacademico.utils.Messages;
 import unu.td.msacademico.utils.exceptions.AlreadyExistsException;
@@ -49,7 +50,7 @@ public class CatalogoService implements ICatalogoService {
         checkExistsByCategoriaAndNombre(request.getCategoria(), request.getNombre(), 0);
 
         CatalogoModel catalogo = mapper.map(request, CatalogoModel.class);
-        catalogo.setUsuarioCreacion("dbd2a268-a9b0-42ba-981d-3977361f11f5");
+        catalogo.setUsuarioCreacion(CatalogoUtils.IdUsuarioCreacion);
         catalogo = repository.save(catalogo);
 
         return mapper.map(catalogo, CatalogoResponse.class);
@@ -61,7 +62,7 @@ public class CatalogoService implements ICatalogoService {
         checkExistsByCategoriaAndNombre(request.getCategoria(), request.getNombre(), catalogo.getId());
 
         catalogo = Mapper.Catalogo.requestToModel(catalogo, request);
-        catalogo.setUsuarioModificacion("a74c0747-1151-455c-87e2-2298e554521f");
+        catalogo.setUsuarioModificacion(CatalogoUtils.IdUsuarioModificacion);
         catalogo = repository.save(catalogo);
 
         return mapper.map(catalogo, CatalogoResponse.class);
@@ -70,19 +71,19 @@ public class CatalogoService implements ICatalogoService {
     @Override
     public void delete(Integer id) {
         checkExistsById(id);
-        repository.softDelete(id, "a74c0747-1151-455c-87e2-2298e554521f");
+        repository.softDelete(id, CatalogoUtils.IdUsuarioModificacion);
     }
 
     @Override
     public void activate(Integer id) {
         checkExistsById(id);
-        repository.activate(id, "a74c0747-1151-455c-87e2-2298e554521f");
+        repository.activate(id, CatalogoUtils.IdUsuarioModificacion);
     }
 
     @Override
     public void deactivate(Integer id) {
         checkExistsById(id);
-        repository.deactivate(id, "a74c0747-1151-455c-87e2-2298e554521f");
+        repository.deactivate(id, CatalogoUtils.IdUsuarioModificacion);
     }
 
     private CatalogoModel checkExistsById(Integer id) {

@@ -4,18 +4,17 @@ import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import unu.td.msacademico.model.entity.AutoridadModel;
+import unu.td.msacademico.model.entity.CatalogoModel;
 import unu.td.msacademico.model.entity.EscuelaProfesionalModel;
 import unu.td.msacademico.model.entity.FacultadModel;
 import unu.td.msacademico.model.request.AutoridadRequest;
-import unu.td.msacademico.model.response.AutoridadResponse;
-import unu.td.msacademico.model.response.EntidadAcademicaResponse;
-import unu.td.msacademico.model.response.EscuelaProfesionalResponse;
-import unu.td.msacademico.model.response.FacultadResponse;
+import unu.td.msacademico.model.response.*;
 import unu.td.msacademico.repository.IAutoridadRepository;
+import unu.td.msacademico.repository.ICatalogoRepository;
 import unu.td.msacademico.repository.IEscuelaProfesionalRepository;
 import unu.td.msacademico.repository.IFacultadRepository;
 import unu.td.msacademico.service.IAutoridadService;
-import unu.td.msacademico.utils.CatalogoId;
+import unu.td.msacademico.utils.CatalogoUtils;
 import unu.td.msacademico.utils.Mapper;
 import unu.td.msacademico.utils.Messages;
 import unu.td.msacademico.utils.exceptions.BadRequestException;
@@ -29,6 +28,7 @@ import java.util.List;
 public class AutoridadService implements IAutoridadService {
 
     private IAutoridadRepository repository;
+    private ICatalogoRepository catalogoRepository;
     private IFacultadRepository facultadRepository;
     private IEscuelaProfesionalRepository escuelaRepository;
     private ModelMapper mapper;
@@ -50,10 +50,13 @@ public class AutoridadService implements IAutoridadService {
     @Override
     public AutoridadResponse add(AutoridadRequest request) {
         checkFechaInicioAndFechaFin(request.getFechaInicio(), request.getFechaFin());
-        AutoridadModel autoridad = Mapper.Autoridad.requestToModel(request);
-        autoridad.setUsuarioCreacion("dbd2a268-a9b0-42ba-981d-3977361f11f5");
+        AutoridadModel autoridad = Mapper.Autoridad.requestToModel(null, request);
 
+        autoridad.setTipoAutoridad(getTipo(request.getIdTipoAutoridad()));
+        autoridad.setTipoEntidad(getTipo(request.getIdTipoEntidad()));
+        autoridad.setUsuarioCreacion(CatalogoUtils.IdUsuarioCreacion);
         autoridad = repository.save(autoridad);
+
         return getResponse(autoridad, null);
     }
 
@@ -61,8 +64,11 @@ public class AutoridadService implements IAutoridadService {
     public AutoridadResponse update(Integer id, AutoridadRequest request) {
         checkFechaInicioAndFechaFin(request.getFechaInicio(), request.getFechaFin());
         AutoridadModel autoridad = checkExistsById(id);
-        autoridad = Mapper.Autoridad.requestToModelUpdate(autoridad, request);
-        autoridad.setUsuarioModificacion("a74c0747-1151-455c-87e2-2298e554521f");
+
+        autoridad = Mapper.Autoridad.requestToModel(autoridad, request);
+        autoridad.setTipoAutoridad(getTipo(request.getIdTipoAutoridad()));
+        autoridad.setTipoEntidad(getTipo(request.getIdTipoEntidad()));
+        autoridad.setUsuarioModificacion(CatalogoUtils.IdUsuarioModificacion);
         autoridad = repository.save(autoridad);
 
         return getResponse(autoridad, null);
@@ -71,19 +77,19 @@ public class AutoridadService implements IAutoridadService {
     @Override
     public void delete(Integer id) {
         checkExistsById(id);
-        repository.softDelete(id, "a74c0747-1151-455c-87e2-2298e554521f");
+        repository.softDelete(id, CatalogoUtils.IdUsuarioModificacion);
     }
 
     @Override
     public void activate(Integer id) {
         checkExistsById(id);
-        repository.activate(id, "a74c0747-1151-455c-87e2-2298e554521f");
+        repository.activate(id, CatalogoUtils.IdUsuarioModificacion);
     }
 
     @Override
     public void deactivate(Integer id) {
         checkExistsById(id);
-        repository.deactivate(id, "a74c0747-1151-455c-87e2-2298e554521f");
+        repository.deactivate(id, CatalogoUtils.IdUsuarioModificacion);
     }
 
     @Override
@@ -110,7 +116,7 @@ public class AutoridadService implements IAutoridadService {
     private AutoridadModel checkExistsById(Integer id) {
         AutoridadModel autoridad = repository.findByIdAndEliminadoFalse(id).orElse(null);
         if (autoridad == null) {
-            throw new NotFoundException(Messages.NOT_FOUND_FACULTAD_BY_ID);
+            throw new NotFoundException(Messages.NOT_FOUND_AUTORIDAD_BY_ID);
         }
 
         return autoridad;
@@ -120,26 +126,21 @@ public class AutoridadService implements IAutoridadService {
         AutoridadResponse response = mapper.map(model, AutoridadResponse.class);
         response.setEntidad(entidad);
         if (entidad == null) {
-            EntidadAcademicaResponse entidadResponse = getEntidadResponse(model.getIdTipoEntidad(), model.getIdEntidad());
+            EntidadAcademicaResponse entidadResponse = getEntidadResponse(model.getTipoEntidad().getId(), model.getIdEntidad());
             response.setEntidad(entidadResponse);
-        }
-        if (model.getIdTipoEntidad().intValue() == CatalogoId.ID_TIPO_ENTIDAD_FACULTAD) {
-            response.setTipoEntidad("Facultad");
-        } else if (model.getIdTipoEntidad().intValue() == CatalogoId.ID_TIPO_ENTIDAD_ESCUELA) {
-            response.setTipoEntidad("Escuela Profesional");
         }
 
         return response;
     }
 
     private EntidadAcademicaResponse getEntidadResponse(Integer idTipoEntidad, Integer idEntidad) {
-        if (idTipoEntidad.intValue() == CatalogoId.ID_TIPO_ENTIDAD_FACULTAD) {
+        if (idTipoEntidad.equals(CatalogoUtils.ID_TIPO_ENTIDAD_FACULTAD)) {
             FacultadModel facultad = facultadRepository.findByIdAndEliminadoFalse(idEntidad).orElse(null);
             if (facultad == null) {
                 throw new NotFoundException(Messages.NOT_FOUND_FACULTAD_BY_ID);
             }
             return mapper.map(facultad, FacultadResponse.class);
-        } else if (idTipoEntidad.intValue() == CatalogoId.ID_TIPO_ENTIDAD_ESCUELA) {
+        } else if (idTipoEntidad.equals(CatalogoUtils.ID_TIPO_ENTIDAD_ESCUELA)) {
             EscuelaProfesionalModel escuela = escuelaRepository.findByIdAndEliminadoFalse(idEntidad).orElse(null);
             if (escuela == null) {
                 throw new NotFoundException(Messages.NOT_FOUND_ESCUELA_BY_ID);
@@ -159,9 +160,17 @@ public class AutoridadService implements IAutoridadService {
     }
 
     public void checkIdTipoEntidad(Integer idTipoEntidad) {
-        if (idTipoEntidad.intValue() != CatalogoId.ID_TIPO_ENTIDAD_FACULTAD && idTipoEntidad.intValue() != CatalogoId.ID_TIPO_ENTIDAD_ESCUELA) {
+        if (idTipoEntidad.intValue() != CatalogoUtils.ID_TIPO_ENTIDAD_FACULTAD && idTipoEntidad.intValue() != CatalogoUtils.ID_TIPO_ENTIDAD_ESCUELA) {
             throw new NotFoundException(Messages.NOT_FOUND_TIPO_ENTIDAD_BY_ID);
         }
+    }
+
+    public CatalogoModel getTipo(Integer idTipo) {
+        CatalogoModel model = catalogoRepository.findById(idTipo).orElse(null);
+        if (model == null) {
+            throw new NotFoundException(Messages.NOT_FOUND_CATALOGO_BY_ID);
+        }
+        return model;
     }
 
 }
