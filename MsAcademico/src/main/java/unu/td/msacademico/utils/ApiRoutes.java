@@ -37,4 +37,12 @@ public class ApiRoutes {
         public static final String byIdEntidad = "/byIdEntidad/{idTipoEntidad}/{idEntidad}";
         public static final String byIdEntidadAndFecha = "/byIdEntidadAndFecha/{idTipoEntidad}/{idEntidad}/{fecha}";
     }
+
+    public static class Catalogo {
+        public Catalogo() {
+            throw new UnsupportedOperationException();
+        }
+
+        public static final String BASE = "/api/catalogo";
+    }
 }

@@ -146,7 +146,7 @@ public class AutoridadService implements IAutoridadService {
             }
             return mapper.map(escuela, EscuelaProfesionalResponse.class);
         } else {
-            throw new NotFoundException(Messages.NOT_FOUND_TIPO_ENTIDAD);
+            throw new NotFoundException(Messages.NOT_FOUND_TIPO_ENTIDAD_BY_ID);
         }
     }
 
@@ -160,7 +160,7 @@ public class AutoridadService implements IAutoridadService {
 
     public void checkIdTipoEntidad(Integer idTipoEntidad) {
         if (idTipoEntidad.intValue() != CatalogoId.ID_TIPO_ENTIDAD_FACULTAD && idTipoEntidad.intValue() != CatalogoId.ID_TIPO_ENTIDAD_ESCUELA) {
-            throw new NotFoundException(Messages.NOT_FOUND_TIPO_ENTIDAD);
+            throw new NotFoundException(Messages.NOT_FOUND_TIPO_ENTIDAD_BY_ID);
         }
     }
 

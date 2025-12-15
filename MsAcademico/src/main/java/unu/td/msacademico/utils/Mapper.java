@@ -1,7 +1,9 @@
 package unu.td.msacademico.utils;
 
 import unu.td.msacademico.model.entity.AutoridadModel;
+import unu.td.msacademico.model.entity.CatalogoModel;
 import unu.td.msacademico.model.request.AutoridadRequest;
+import unu.td.msacademico.model.request.CatalogoRequest;
 
 public class Mapper {
 
@@ -26,6 +28,19 @@ public class Mapper {
             model.setIdTipoEntidad(request.getIdTipoEntidad());
             model.setFechaInicio(request.getFechaInicio());
             model.setFechaFin(request.getFechaFin());
+
+            return model;
+        }
+    }
+
+    public static class Catalogo {
+        public static CatalogoModel requestToModel(CatalogoModel model, CatalogoRequest request) {
+            model.setCategoria(request.getCategoria());
+            model.setCodigo(request.getCodigo());
+            model.setNombre(request.getNombre());
+            model.setAbreviatura(request.getAbreviatura());
+            model.setValor(request.getValor());
+            model.setOrden(request.getOrden());
 
             return model;
         }

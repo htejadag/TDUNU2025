@@ -1,0 +1,106 @@
+package unu.td.msacademico.service.impl;
+
+import lombok.AllArgsConstructor;
+import org.modelmapper.ModelMapper;
+import org.springframework.stereotype.Service;
+import unu.td.msacademico.model.entity.CatalogoModel;
+import unu.td.msacademico.model.request.CatalogoRequest;
+import unu.td.msacademico.model.response.CatalogoResponse;
+import unu.td.msacademico.repository.ICatalogoRepository;
+import unu.td.msacademico.service.ICatalogoService;
+import unu.td.msacademico.utils.Mapper;
+import unu.td.msacademico.utils.Messages;
+import unu.td.msacademico.utils.exceptions.AlreadyExistsException;
+import unu.td.msacademico.utils.exceptions.NotFoundException;
+
+import java.util.List;
+
+@AllArgsConstructor
+@Service
+public class CatalogoService implements ICatalogoService {
+
+    private ICatalogoRepository repository;
+    private ModelMapper mapper;
+
+    @Override
+    public List<CatalogoResponse> getAllByCategoria(String categoria) {
+        return repository.findByCategoriaAndEliminadoFalse(categoria)
+                .stream()
+                .map(model -> mapper.map(model, CatalogoResponse.class))
+                .toList();
+    }
+
+    @Override
+    public List<CatalogoResponse> getAll() {
+        return repository.findByEliminadoFalse()
+                .stream()
+                .map(model -> mapper.map(model, CatalogoResponse.class))
+                .toList();
+    }
+
+    @Override
+    public CatalogoResponse getById(Integer id) {
+        CatalogoModel catalogo = checkExistsById(id);
+        return mapper.map(catalogo, CatalogoResponse.class);
+    }
+
+    @Override
+    public CatalogoResponse add(CatalogoRequest request) {
+        checkExistsByCategoriaAndNombre(request.getCategoria(), request.getNombre(), 0);
+
+        CatalogoModel catalogo = mapper.map(request, CatalogoModel.class);
+        catalogo.setUsuarioCreacion("dbd2a268-a9b0-42ba-981d-3977361f11f5");
+        catalogo = repository.save(catalogo);
+
+        return mapper.map(catalogo, CatalogoResponse.class);
+    }
+
+    @Override
+    public CatalogoResponse update(Integer id, CatalogoRequest request) {
+        CatalogoModel catalogo = checkExistsById(id);
+        checkExistsByCategoriaAndNombre(request.getCategoria(), request.getNombre(), catalogo.getId());
+
+        catalogo = Mapper.Catalogo.requestToModel(catalogo, request);
+        catalogo.setUsuarioModificacion("a74c0747-1151-455c-87e2-2298e554521f");
+        catalogo = repository.save(catalogo);
+
+        return mapper.map(catalogo, CatalogoResponse.class);
+    }
+
+    @Override
+    public void delete(Integer id) {
+        checkExistsById(id);
+        repository.softDelete(id, "a74c0747-1151-455c-87e2-2298e554521f");
+    }
+
+    @Override
+    public void activate(Integer id) {
+        checkExistsById(id);
+        repository.activate(id, "a74c0747-1151-455c-87e2-2298e554521f");
+    }
+
+    @Override
+    public void deactivate(Integer id) {
+        checkExistsById(id);
+        repository.deactivate(id, "a74c0747-1151-455c-87e2-2298e554521f");
+    }
+
+    private CatalogoModel checkExistsById(Integer id) {
+        CatalogoModel catalogo = repository.findByIdAndEliminadoFalse(id).orElse(null);
+        if (catalogo == null) {
+            throw new NotFoundException(Messages.NOT_FOUND_CATALOGO_BY_ID);
+        }
+
+        return catalogo;
+    }
+
+    private void checkExistsByCategoriaAndNombre(String categoria, String nombre, Integer id) {
+        CatalogoModel byCategoriaAndNombre = repository.findByCategoriaAndNombre(categoria, nombre).orElse(null);
+        if (byCategoriaAndNombre != null && !byCategoriaAndNombre.getId().equals(id)) {
+            if (byCategoriaAndNombre.getEliminado()) {
+                throw new AlreadyExistsException(Messages.ALREADY_EXISTS_CATALOGO_BY_NOMBRE_DEACTIVATE);
+            }
+            throw new AlreadyExistsException(Messages.ALREADY_EXISTS_CATALOGO_BY_NOMBRE);
+        }
+    }
+}

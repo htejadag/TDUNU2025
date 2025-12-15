@@ -90,7 +90,7 @@ public class FacultadService implements IFacultadService {
         if (byNombre != null && !byNombre.getEliminado()) {
             throw new AlreadyExistsException(Messages.ALREADY_EXISTS_FACULTAD_BY_NOMBRE_DEACTIVATE); //pero ya no tiene reversa desde el sistema, debe tocar la db??
         }
-        if (byNombre != null && byNombre.getId() != id) {
+        if (byNombre != null && !byNombre.getId().equals(id)) {
             throw new AlreadyExistsException(Messages.ALREADY_EXISTS_FACULTAD_BY_NOMBRE);
         }
     }

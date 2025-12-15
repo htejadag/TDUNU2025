@@ -18,18 +18,23 @@ public class Messages {
     public static final String REQUIRED_ID_ENTIDAD = "El id de la entiadad es requerido";
     public static final String REQUIRED_ID_TIPO_ENTIDAD = "El id del tipo de entidad es requerido";
     public static final String REQUIRED_FECHA_INICIO = "La fecha de inicio es requerida";
+    public static final String REQUIRED_CATEGORIA = "La categoria es requerida";
+    public static final String REQUIRED_CODIGO = "El codigo es requerida";
 
     public static final String MAX_LENGHT_NOMBRE = "El nombre debe tener maximo 100 caracteres";
 
     public static final String NOT_FOUND_FACULTAD_BY_ID = "No se encuentra una facultad por ese id";
     public static final String NOT_FOUND_ESCUELA_BY_ID = "No se encuentra una escuela por ese id";
-    public static final String NOT_FOUND_TIPO_ENTIDAD = "No se encuentra una entidad académica por ese id";
+    public static final String NOT_FOUND_CATALOGO_BY_ID = "No se encuentra un item del catalogo por ese id";
+    public static final String NOT_FOUND_TIPO_ENTIDAD_BY_ID = "No se encuentra una entidad académica por ese id";
     public static final String NOT_FOUND_AUTORIDAD = "No se encuentra una autoridad bajo los parámetros buscados";
 
     public static final String ALREADY_EXISTS_FACULTAD_BY_NOMBRE = "Ya se encuentra una facultad con ese nombre";
     public static final String ALREADY_EXISTS_FACULTAD_BY_NOMBRE_DEACTIVATE = "Ya se encuentra una facultad con ese nombre y se encuentra desactivada";
     public static final String ALREADY_EXISTS_ESCUELA_BY_NOMBRE = "Ya se encuentra una escuela con ese nombre";
     public static final String ALREADY_EXISTS_ESCUELA_BY_NOMBRE_DEACTIVATE = "Ya se encuentra una escuela con ese nombre y se encuentra desactivada";
+    public static final String ALREADY_EXISTS_CATALOGO_BY_NOMBRE = "Ya se encuentra un item del catalogo con ese nombre y en la misma categoria";
+    public static final String ALREADY_EXISTS_CATALOGO_BY_NOMBRE_DEACTIVATE = "Ya se encuentra un item del catalogo con  ese nombre y en la misma categoria y se encuentra desactivado";
 
     public static final String MAX_DURACION = "La duración mínima debe ser de 1";
     public static final String MIN_DURACION = "La duración máxima debe ser de 10";

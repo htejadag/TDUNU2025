@@ -119,7 +119,7 @@ public class EscuelaProfesionalService implements IEscuelaProfesionalService {
 
     private void checkExistsByNombre(String nombre, Integer id) {
         EscuelaProfesionalModel byNombre = repository.findByNombre(nombre);
-        if (byNombre != null && byNombre.getId() != id) {
+        if (byNombre != null && !byNombre.getId().equals(id)) {
             throw new AlreadyExistsException(Messages.ALREADY_EXISTS_ESCUELA_BY_NOMBRE);
         }
         if (byNombre != null && !byNombre.getEliminado()) {
