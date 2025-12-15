@@ -47,6 +47,7 @@ public class CatalogoServiceImpl implements ICatalogoService {
     public CatalogoDto createCatalogo(CatalogoRequest catalogoRequest) {
         log.info("Creating new Catalogo with name: {}", catalogoRequest.getNombre());
         Catalogo catalogo = modelMapper.map(catalogoRequest, Catalogo.class);
+        catalogo.setIdCatalogo(null); // Ensure ID is null to force INSERT
 
         if (catalogo.getFechaCreacion() == null) {
             catalogo.setFechaCreacion(LocalDateTime.now());

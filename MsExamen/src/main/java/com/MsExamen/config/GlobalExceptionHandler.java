@@ -1,5 +1,6 @@
 package com.MsExamen.config;
 
+import org.springframework.dao.OptimisticLockingFailureException;
 import com.MsExamen.exception.ResourceNotFoundException;
 
 import com.MsExamen.dto.ApiResponse;
@@ -36,6 +37,16 @@ public class GlobalExceptionHandler {
                 log.warn("Resource not found: {}", ex.getMessage());
                 return ResponseEntity.status(HttpStatus.NOT_FOUND)
                                 .body(new ApiResponse<>(ex.getMessage(), null));
+        }
+
+        @ExceptionHandler(OptimisticLockingFailureException.class)
+        public ResponseEntity<ApiResponse<String>> handleOptimisticLockingFailureException(
+                        OptimisticLockingFailureException ex) {
+                log.warn("Concurrency conflict: {}", ex.getMessage());
+                return ResponseEntity.status(HttpStatus.CONFLICT)
+                                .body(new ApiResponse<>(
+                                                "The resource was updated or deleted by another transaction. Please refresh and try again.",
+                                                null));
         }
 
         @ExceptionHandler(MethodArgumentNotValidException.class)

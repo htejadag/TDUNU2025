@@ -56,6 +56,7 @@ public class CatalogoDetalleServiceImpl implements ICatalogoDetalleService {
                 .orElseThrow(() -> new ResourceNotFoundException(AppConstants.CATALOGO_NOT_FOUND));
 
         CatalogoDetalle detalle = modelMapper.map(request, CatalogoDetalle.class);
+        detalle.setIdCatalogoDetalle(null); // Ensure ID is null to force INSERT
         detalle.setCatalogo(catalogo);
 
         if (detalle.getFechaCreacion() == null) {
