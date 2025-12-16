@@ -47,10 +47,12 @@ public class CatalogoService implements ICatalogoService {
 
     @Override
     public CatalogoResponse add(CatalogoRequest request) {
-        checkExistsByCategoriaAndNombre(request.getCategoria(), request.getNombre(), 0);
+        request = checkParameters(request, 0);
 
         CatalogoModel catalogo = mapper.map(request, CatalogoModel.class);
+        Integer codigo = getLastCodigoByCategoria(request.getCategoria());
         catalogo.setUsuarioCreacion(CatalogoUtils.IdUsuarioCreacion);
+        catalogo.setCodigo(codigo);
         catalogo = repository.save(catalogo);
 
         return mapper.map(catalogo, CatalogoResponse.class);
@@ -59,7 +61,7 @@ public class CatalogoService implements ICatalogoService {
     @Override
     public CatalogoResponse update(Integer id, CatalogoRequest request) {
         CatalogoModel catalogo = checkExistsById(id);
-        checkExistsByCategoriaAndNombre(request.getCategoria(), request.getNombre(), catalogo.getId());
+        request = checkParameters(request, catalogo.getId());
 
         catalogo = Mapper.Catalogo.requestToModel(catalogo, request);
         catalogo.setUsuarioModificacion(CatalogoUtils.IdUsuarioModificacion);
@@ -103,5 +105,27 @@ public class CatalogoService implements ICatalogoService {
             }
             throw new AlreadyExistsException(Messages.ALREADY_EXISTS_CATALOGO_BY_NOMBRE);
         }
+    }
+
+    private Integer getLastCodigoByCategoria(String categoria) {
+        Integer lastCodigo = repository.getLastCodigoByCategoria(categoria);
+        if (lastCodigo == null) {
+            lastCodigo = 1;
+        } else {
+            lastCodigo += 1;
+        }
+        return lastCodigo;
+    }
+
+    private CatalogoRequest checkParameters(CatalogoRequest request, Integer idCatalogo) {
+        Boolean existsByCategoriaAndOrden = repository.existsByCategoriaAndOrden(request.getCategoria(), request.getOrden());
+        Integer orden = repository.getLastOrdenByCategoria(request.getCategoria());
+
+        if (existsByCategoriaAndOrden) {
+            request.setOrden(orden == null ? 1 : orden + 1);
+        }
+        checkExistsByCategoriaAndNombre(request.getCategoria(), request.getNombre(), idCatalogo);
+
+        return request;
     }
 }

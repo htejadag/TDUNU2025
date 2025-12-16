@@ -31,4 +31,15 @@ public interface ICatalogoRepository extends JpaRepository<CatalogoModel, Intege
     @Modifying
     @Query(value = "UPDATE public.catalogo SET activo = FALSE, \"usuarioModificacion\" = ?2 WHERE id = ?1", nativeQuery = true)
     public void deactivate(Integer id, String usuarioModificacion);
+
+    @Query(value = "SELECT c.codigo FROM catalogo c WHERE c.categoria = ?1 ORDER BY c.codigo DESC LIMIT 1", nativeQuery = true)
+    public Integer getLastCodigoByCategoria(String categoria);
+
+    @Query(value = "SELECT EXISTS (\n" +
+                    "\tSELECT 1 FROM catalogo c WHERE c.categoria = ?1 AND c.orden = ?2\n" +
+                    ") AS existe", nativeQuery = true)
+    public Boolean existsByCategoriaAndOrden(String categoria, Integer orden);
+
+    @Query(value = "SELECT c.orden FROM catalogo c WHERE c.categoria = ?1 ORDER BY c.orden DESC LIMIT 1", nativeQuery = true)
+    public Integer getLastOrdenByCategoria(String categoria);
 }

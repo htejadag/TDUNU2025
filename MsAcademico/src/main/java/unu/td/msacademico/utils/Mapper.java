@@ -57,7 +57,6 @@ public class Mapper {
                 model = new CatalogoModel();
             }
             model.setCategoria(request.getCategoria());
-            model.setCodigo(request.getCodigo());
             model.setNombre(request.getNombre());
             model.setAbreviatura(request.getAbreviatura());
             model.setValor(request.getValor());
