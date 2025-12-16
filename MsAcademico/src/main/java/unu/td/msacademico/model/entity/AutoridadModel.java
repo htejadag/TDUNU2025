@@ -34,6 +34,5 @@ public class AutoridadModel extends BaseModel{
     @Column(nullable = false)
     private LocalDate fechaInicio;
 
-    @Column(nullable = false)
     private LocalDate fechaFin;
 }

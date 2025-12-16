@@ -41,4 +41,17 @@ public interface IAutoridadRepository extends JpaRepository<AutoridadModel, Inte
     @Modifying
     @Query(value = "UPDATE public.autoridades SET activo = FALSE, \"usuarioModificacion\" = ?2 WHERE id = ?1", nativeQuery = true)
     public void deactivate(Integer id, String usuarioModificacion);
+
+    @Query(value = """
+    SELECT EXISTS (
+        SELECT 1
+        FROM autoridades a
+        WHERE a.eliminado = FALSE
+          AND (a."fechaFin" IS NULL OR a."fechaFin" >= ?3)
+          AND a."fechaInicio" <= ?3
+          AND a."idTipoEntidad" = ?1
+          AND a."idEntidad" = ?2
+    )
+    """, nativeQuery = true)
+    public Boolean checkParameters(Integer idTipoEntidad, Integer idEntidad, LocalDate fechaInicio, LocalDate fechaFin);
 }

@@ -17,6 +17,7 @@ import unu.td.msacademico.service.IAutoridadService;
 import unu.td.msacademico.utils.CatalogoUtils;
 import unu.td.msacademico.utils.Mapper;
 import unu.td.msacademico.utils.Messages;
+import unu.td.msacademico.utils.exceptions.AlreadyExistsException;
 import unu.td.msacademico.utils.exceptions.BadRequestException;
 import unu.td.msacademico.utils.exceptions.NotFoundException;
 
@@ -49,8 +50,7 @@ public class AutoridadService implements IAutoridadService {
 
     @Override
     public AutoridadResponse add(AutoridadRequest request) {
-        checkFechaInicioAndFechaFin(request.getFechaInicio(), request.getFechaFin());
-        checkAutoridadByTipoEntidad(request.getIdTipoEntidad(), request.getIdTipoAutoridad());
+        checkParameters(request);
         AutoridadModel autoridad = Mapper.Autoridad.requestToModel(null, request);
         CatalogoModel tipoAutoridad = getTipoAutoridad(request.getIdTipoAutoridad());
         CatalogoModel tipoEntidad = getTipoEntidad(request.getIdTipoEntidad());
@@ -65,8 +65,7 @@ public class AutoridadService implements IAutoridadService {
 
     @Override
     public AutoridadResponse update(Integer id, AutoridadRequest request) {
-        checkFechaInicioAndFechaFin(request.getFechaInicio(), request.getFechaFin());
-        checkAutoridadByTipoEntidad(request.getIdTipoEntidad(), request.getIdTipoAutoridad());
+        checkParameters(request);
         AutoridadModel autoridad = checkExistsById(id);
         CatalogoModel tipoAutoridad = getTipoAutoridad(request.getIdTipoAutoridad());
         CatalogoModel tipoEntidad = getTipoEntidad(request.getIdTipoEntidad());
@@ -157,7 +156,7 @@ public class AutoridadService implements IAutoridadService {
         }
     }
 
-    public void checkFechaInicioAndFechaFin(LocalDate fechaInicio, LocalDate fechaFin) {
+    public void checkValidFechaInicioAndFechaFin(LocalDate fechaInicio, LocalDate fechaFin) {
         if (fechaFin != null) {
             if (fechaInicio.isAfter(fechaFin)) {
                 throw new BadRequestException(Messages.INVALID_FECHA_INICIO);
@@ -203,6 +202,15 @@ public class AutoridadService implements IAutoridadService {
             throw new NotFoundException(Messages.NOT_FOUND_TIPO_AUTORIDAD_BY_ID);
         }
         return model;
+    }
+
+    public void checkParameters(AutoridadRequest request) {
+        Boolean existe = repository.checkParameters(request.getIdTipoEntidad(), request.getIdEntidad(), request.getFechaInicio(), request.getFechaFin());
+        if (existe) {
+            throw new AlreadyExistsException(Messages.ALREADY_EXISTS_AUTORIDAD_BY_PARAMETERS);
+        }
+        checkValidFechaInicioAndFechaFin(request.getFechaInicio(), request.getFechaFin());
+        checkAutoridadByTipoEntidad(request.getIdTipoEntidad(), request.getIdTipoAutoridad());
     }
 
 }

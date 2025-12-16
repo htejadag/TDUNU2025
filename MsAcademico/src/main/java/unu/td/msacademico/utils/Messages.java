@@ -37,6 +37,7 @@ public class Messages {
     public static final String ALREADY_EXISTS_ESCUELA_BY_NOMBRE_DEACTIVATE = "Ya se encuentra una escuela con ese nombre y se encuentra desactivada";
     public static final String ALREADY_EXISTS_CATALOGO_BY_NOMBRE = "Ya se encuentra un item del catalogo con ese nombre y en la misma categoria";
     public static final String ALREADY_EXISTS_CATALOGO_BY_NOMBRE_DEACTIVATE = "Ya se encuentra un item del catalogo con  ese nombre y en la misma categoria y se encuentra desactivado";
+    public static final String ALREADY_EXISTS_AUTORIDAD_BY_PARAMETERS = "Ya se encuentra una autoridad con esos parametros";
 
     public static final String MAX_DURACION = "La duración mínima debe ser de 1";
     public static final String MIN_DURACION = "La duración máxima debe ser de 10";
