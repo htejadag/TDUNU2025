@@ -17,7 +17,6 @@ import unu.td.msacademico.service.IAutoridadService;
 import unu.td.msacademico.utils.CatalogoUtils;
 import unu.td.msacademico.utils.Mapper;
 import unu.td.msacademico.utils.Messages;
-import unu.td.msacademico.utils.exceptions.AlreadyExistsException;
 import unu.td.msacademico.utils.exceptions.BadRequestException;
 import unu.td.msacademico.utils.exceptions.NotFoundException;
 
@@ -36,7 +35,7 @@ public class AutoridadService implements IAutoridadService {
 
     @Override
     public List<AutoridadResponse> getAll() {
-        return repository.findByEliminadoFalse()
+        return repository.findByEliminadoFalseOrderByFechaInicioDesc()
                 .stream()
                 .map(model -> mapper.map(model, AutoridadResponse.class))
                 .toList();
@@ -54,10 +53,16 @@ public class AutoridadService implements IAutoridadService {
         AutoridadModel autoridad = Mapper.Autoridad.requestToModel(null, request);
         CatalogoModel tipoAutoridad = getTipoAutoridad(request.getIdTipoAutoridad());
         CatalogoModel tipoEntidad = getTipoEntidad(request.getIdTipoEntidad());
+        boolean isActive = isPeriodoVigente(request.getFechaInicio(), request.getFechaFin());
+
+        if (isActive) {
+            repository.deactivateActivasActuales(request.getIdTipoEntidad(), request.getIdEntidad(), CatalogoUtils.IdUsuarioModificacion);
+        }
 
         autoridad.setTipoAutoridad(tipoAutoridad);
         autoridad.setTipoEntidad(tipoEntidad);
         autoridad.setUsuarioCreacion(CatalogoUtils.IdUsuarioCreacion);
+        autoridad.setActivo(isActive);
         autoridad = repository.save(autoridad);
 
         return getResponse(autoridad, null);
@@ -69,11 +74,16 @@ public class AutoridadService implements IAutoridadService {
         AutoridadModel autoridad = checkExistsById(id);
         CatalogoModel tipoAutoridad = getTipoAutoridad(request.getIdTipoAutoridad());
         CatalogoModel tipoEntidad = getTipoEntidad(request.getIdTipoEntidad());
+        boolean isActive = isPeriodoVigente(request.getFechaInicio(), request.getFechaFin());
 
+        if (isActive) {
+            repository.deactivateActivasActuales(request.getIdTipoEntidad(), request.getIdEntidad(), CatalogoUtils.IdUsuarioModificacion);
+        }
         autoridad = Mapper.Autoridad.requestToModel(autoridad, request);
         autoridad.setTipoAutoridad(tipoAutoridad);
         autoridad.setTipoEntidad(tipoEntidad);
         autoridad.setUsuarioModificacion(CatalogoUtils.IdUsuarioModificacion);
+        autoridad.setActivo(isActive);
         autoridad = repository.save(autoridad);
 
         return getResponse(autoridad, null);
@@ -158,7 +168,7 @@ public class AutoridadService implements IAutoridadService {
 
     public void checkValidFechaInicioAndFechaFin(LocalDate fechaInicio, LocalDate fechaFin) {
         if (fechaFin != null && fechaInicio.isAfter(fechaFin)) {
-            throw new BadRequestException(Messages.INVALID_FECHA_INICIO);
+            throw new BadRequestException(Messages.INVALID_FECHA_INICIO_FECHA_FIN);
         }
     }
 
@@ -203,12 +213,18 @@ public class AutoridadService implements IAutoridadService {
     }
 
     public void checkParameters(AutoridadRequest request) {
-        Boolean existe = repository.checkParameters(request.getIdTipoEntidad(), request.getIdEntidad(), request.getFechaInicio(), request.getFechaFin());
-        if (existe) {
-            throw new AlreadyExistsException(Messages.ALREADY_EXISTS_AUTORIDAD_BY_PARAMETERS);
-        }
+//        Boolean existe = repository.checkParameters(request.getIdTipoEntidad(), request.getIdEntidad(), request.getFechaInicio(), request.getFechaFin());
+//        if (existe) {
+//            throw new AlreadyExistsException(Messages.ALREADY_EXISTS_AUTORIDAD_BY_PARAMETERS);
+//        }
         checkValidFechaInicioAndFechaFin(request.getFechaInicio(), request.getFechaFin());
         checkAutoridadByTipoEntidad(request.getIdTipoEntidad(), request.getIdTipoAutoridad());
+    }
+
+    private boolean isPeriodoVigente(LocalDate inicio, LocalDate fin) {
+        LocalDate hoy = LocalDate.now();
+        if (inicio.isAfter(hoy)) return false;
+        return fin == null || !fin.isBefore(hoy);
     }
 
 }

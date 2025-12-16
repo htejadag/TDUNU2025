@@ -46,8 +46,10 @@ public class Messages {
     public static final String MIN_VALOR = "El valor mínimo debe ser de 1";
     public static final String MIN_ORDEN = "El valor del orden mínimo debe ser de 1";
 
-    public static final String INVALID_FECHA_INICIO = "La fecha de inicio no puede ser posterior a la fecha de fin";
+    public static final String INVALID_FECHA_INICIO_FECHA_FIN = "La fecha de inicio no puede ser posterior a la fecha de fin";
     public static final String INVALID_FECHA_FUNDACION = "La fecha de fundacion no puede ser una fecha futura";
+    public static final String INVALID_FECHA_INICIO = "La fecha de fundacion no puede ser una fecha futura";
+    public static final String INVALID_FECHA_FIN = "La fecha de fundacion no puede ser una fecha futura";
     public static final String INVALID_AUTORIDAD_FACULTAD = "Una Facultad solo puede tener como autoridad a un Decano";
     public static final String INVALID_AUTORIDAD_ESCUELA = "Una Escuela solo puede tener como autoridad a un Director";
     public static final String INVALID_TIPO_AUTORIDAD = "El tipo de autoridad no es válido";

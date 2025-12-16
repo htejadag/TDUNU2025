@@ -43,15 +43,45 @@ public interface IAutoridadRepository extends JpaRepository<AutoridadModel, Inte
     public void deactivate(Integer id, String usuarioModificacion);
 
     @Query(value = """
-    SELECT EXISTS (
-        SELECT 1
-        FROM autoridades a
-        WHERE a.eliminado = FALSE
-          AND (a."fechaFin" IS NULL OR a."fechaFin" >= ?4)
-          AND a."fechaInicio" <= ?3
-          AND a."idTipoEntidad" = ?1
-          AND a."idEntidad" = ?2
-    )
-    """, nativeQuery = true)
+            SELECT EXISTS (
+                SELECT 1
+                FROM autoridades a
+                WHERE a.eliminado = FALSE
+                  AND (a."fechaFin" IS NULL OR a."fechaFin" >= ?4)
+                  AND a."fechaInicio" <= ?3
+                  AND a."idTipoEntidad" = ?1
+                  AND a."idEntidad" = ?2
+            )
+            """, nativeQuery = true)
     public Boolean checkParameters(Integer idTipoEntidad, Integer idEntidad, LocalDate fechaInicio, LocalDate fechaFin);
+
+    public List<AutoridadModel> findByEliminadoFalseOrderByFechaInicioDesc();
+
+    @Modifying
+    @Query(value = """
+                UPDATE autoridades 
+                SET activo = FALSE, "usuarioModificacion" = ?3, "fechaFin" = CURRENT_DATE 
+                WHERE eliminado = FALSE 
+                  AND "idTipoEntidad" = ?1 
+                  AND "idEntidad" = ?2 
+                  AND ( "fechaFin" IS NULL OR "fechaFin" >= CURRENT_DATE )
+                  AND "fechaInicio" <= CURRENT_DATE
+            """, nativeQuery = true)
+    public void deactivateActivasActuales(Integer idTipoEntidad, Integer idEntidad, String usuarioModificacion);
+
+    @Query(value = """
+            SELECT EXISTS (
+                SELECT 1
+                FROM autoridades a
+                WHERE a.eliminado = FALSE
+                  AND a.activo = TRUE
+                  AND a."idTipoEntidad" = ?1
+                  AND a."idEntidad" = ?2
+                  AND a."fechaInicio" <= CURRENT_DATE
+                  AND (a."fechaFin" IS NULL OR a."fechaFin" >= CURRENT_DATE)
+            )
+            """, nativeQuery = true)
+    public Boolean existsActiveActual(Integer idTipoEntidad, Integer idEntidad);
+
+
 }
