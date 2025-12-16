@@ -157,15 +157,13 @@ public class AutoridadService implements IAutoridadService {
     }
 
     public void checkValidFechaInicioAndFechaFin(LocalDate fechaInicio, LocalDate fechaFin) {
-        if (fechaFin != null) {
-            if (fechaInicio.isAfter(fechaFin)) {
-                throw new BadRequestException(Messages.INVALID_FECHA_INICIO);
-            }
+        if (fechaFin != null && fechaInicio.isAfter(fechaFin)) {
+            throw new BadRequestException(Messages.INVALID_FECHA_INICIO);
         }
     }
 
     public CatalogoModel getTipoEntidad(Integer idTipoEntidad) {
-        if (idTipoEntidad.intValue() != CatalogoUtils.ID_TIPO_ENTIDAD_FACULTAD && idTipoEntidad.intValue() != CatalogoUtils.ID_TIPO_ENTIDAD_ESCUELA) {
+        if (!idTipoEntidad.equals(CatalogoUtils.ID_TIPO_ENTIDAD_FACULTAD) && !idTipoEntidad.equals(CatalogoUtils.ID_TIPO_ENTIDAD_ESCUELA)) {
             throw new NotFoundException(Messages.NOT_FOUND_TIPO_ENTIDAD_BY_ID);
         }
         CatalogoModel model = catalogoRepository.findById(idTipoEntidad).orElse(null);

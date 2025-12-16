@@ -47,7 +47,7 @@ public class CatalogoService implements ICatalogoService {
 
     @Override
     public CatalogoResponse add(CatalogoRequest request) {
-        request = checkParameters(request, 0);
+        checkParameters(request, 0);
 
         CatalogoModel catalogo = mapper.map(request, CatalogoModel.class);
         Integer codigo = getLastCodigoByCategoria(request.getCategoria());
@@ -61,7 +61,7 @@ public class CatalogoService implements ICatalogoService {
     @Override
     public CatalogoResponse update(Integer id, CatalogoRequest request) {
         CatalogoModel catalogo = checkExistsById(id);
-        request = checkParameters(request, catalogo.getId());
+        checkParameters(request, catalogo.getId());
 
         catalogo = Mapper.Catalogo.requestToModel(catalogo, request);
         catalogo.setUsuarioModificacion(CatalogoUtils.IdUsuarioModificacion);
@@ -117,7 +117,7 @@ public class CatalogoService implements ICatalogoService {
         return lastCodigo;
     }
 
-    private CatalogoRequest checkParameters(CatalogoRequest request, Integer idCatalogo) {
+    private void checkParameters(CatalogoRequest request, Integer idCatalogo) {
         Boolean existsByCategoriaAndOrden = repository.existsByCategoriaAndOrden(request.getCategoria(), request.getOrden());
         Integer orden = repository.getLastOrdenByCategoria(request.getCategoria());
 
@@ -125,7 +125,5 @@ public class CatalogoService implements ICatalogoService {
             request.setOrden(orden == null ? 1 : orden + 1);
         }
         checkExistsByCategoriaAndNombre(request.getCategoria(), request.getNombre(), idCatalogo);
-
-        return request;
     }
 }

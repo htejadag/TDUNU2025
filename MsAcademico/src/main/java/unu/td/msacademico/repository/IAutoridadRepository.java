@@ -47,7 +47,7 @@ public interface IAutoridadRepository extends JpaRepository<AutoridadModel, Inte
         SELECT 1
         FROM autoridades a
         WHERE a.eliminado = FALSE
-          AND (a."fechaFin" IS NULL OR a."fechaFin" >= ?3)
+          AND (a."fechaFin" IS NULL OR a."fechaFin" >= ?4)
           AND a."fechaInicio" <= ?3
           AND a."idTipoEntidad" = ?1
           AND a."idEntidad" = ?2

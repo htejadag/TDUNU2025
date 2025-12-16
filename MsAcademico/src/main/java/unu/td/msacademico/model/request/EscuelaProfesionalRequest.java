@@ -11,8 +11,8 @@ public class EscuelaProfesionalRequest extends EntidadAcademicaRequest{
     @Min(value = 1, message = Messages.MIN_ID)
     private Integer idFacultad;
 
-    @Min(value = 1, message = Messages.MAX_DURACION)
-    @Max(value = 10, message = Messages.MIN_DURACION)
+    @Min(value = 1, message = Messages.MIN_DURACION)
+    @Max(value = 10, message = Messages.MAX_DURACION)
     @NotNull(message = Messages.REQUIRED_DURACION_ESCUELA)
     private Integer duracionCarrera;
 
