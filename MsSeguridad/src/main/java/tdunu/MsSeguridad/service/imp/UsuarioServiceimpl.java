@@ -12,6 +12,7 @@ import tdunu.MsSeguridad.repository.RoleRepository;
 import tdunu.MsSeguridad.repository.UsuarioRepository;
 import tdunu.MsSeguridad.service.UsuarioService;
 import jakarta.transaction.Transactional;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -21,6 +22,7 @@ import java.util.stream.Collectors;
 public class UsuarioServiceimpl implements UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
+    private final PasswordEncoder passwordEncoder;
 
     private void validarDatos(UsuarioRequest request, boolean esNuevo, UsuarioModel existente) {
 
@@ -57,7 +59,8 @@ public class UsuarioServiceimpl implements UsuarioService {
         validarDatos(request, true, null);
         UsuarioModel user = new UsuarioModel();
         user.setCodUsuario(request.getCodUsuario());
-        user.setContrasena(request.getContrasena());
+        user.setContrasena(
+                passwordEncoder.encode(request.getContrasena()));
         user.setEstado(1);
         user.setNombre(request.getNombre());
         user.setApellido(request.getApellido());
@@ -101,7 +104,9 @@ public class UsuarioServiceimpl implements UsuarioService {
             user.setCodUsuario(request.getCodUsuario());
         }
         if (request.getContrasena() != null) {
-            user.setContrasena(request.getContrasena());
+            user.setContrasena(
+                    passwordEncoder.encode(request.getContrasena())
+            );
         }
         if (request.getEstado() != null) {
             user.setEstado(request.getEstado());
@@ -173,7 +178,6 @@ public class UsuarioServiceimpl implements UsuarioService {
         resp.setApellido(model.getApellido());
         resp.setCorreo(model.getCorreo());
         resp.setCelular(model.getCelular());
-        resp.setContrasena(model.getContrasena());
         resp.setEstado(model.getEstado());
 
         resp.setRoles(
