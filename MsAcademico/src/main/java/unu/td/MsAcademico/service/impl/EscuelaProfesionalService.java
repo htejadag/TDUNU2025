@@ -1,20 +1,20 @@
-package unu.td.msacademico.service.impl;
+package unu.td.MsAcademico.service.impl;
 
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
-import unu.td.msacademico.model.entity.EscuelaProfesionalModel;
-import unu.td.msacademico.model.entity.FacultadModel;
-import unu.td.msacademico.model.request.EscuelaProfesionalRequest;
-import unu.td.msacademico.model.response.EscuelaProfesionalResponse;
-import unu.td.msacademico.repository.IEscuelaProfesionalRepository;
-import unu.td.msacademico.repository.IFacultadRepository;
-import unu.td.msacademico.service.IEscuelaProfesionalService;
-import unu.td.msacademico.utils.CatalogoUtils;
-import unu.td.msacademico.utils.Mapper;
-import unu.td.msacademico.utils.Messages;
-import unu.td.msacademico.utils.exceptions.AlreadyExistsException;
-import unu.td.msacademico.utils.exceptions.NotFoundException;
+import unu.td.MsAcademico.model.entity.EscuelaProfesionalModel;
+import unu.td.MsAcademico.model.entity.FacultadModel;
+import unu.td.MsAcademico.model.request.EscuelaProfesionalRequest;
+import unu.td.MsAcademico.model.response.EscuelaProfesionalResponse;
+import unu.td.MsAcademico.repository.IEscuelaProfesionalRepository;
+import unu.td.MsAcademico.repository.IFacultadRepository;
+import unu.td.MsAcademico.service.IEscuelaProfesionalService;
+import unu.td.MsAcademico.utils.CatalogoUtils;
+import unu.td.MsAcademico.utils.Mapper;
+import unu.td.MsAcademico.utils.Messages;
+import unu.td.MsAcademico.utils.exceptions.AlreadyExistsException;
+import unu.td.MsAcademico.utils.exceptions.NotFoundException;
 
 import java.util.List;
 

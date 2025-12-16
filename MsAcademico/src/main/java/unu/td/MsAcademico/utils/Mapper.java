@@ -1,13 +1,13 @@
-package unu.td.msacademico.utils;
+package unu.td.MsAcademico.utils;
 
-import unu.td.msacademico.model.entity.AutoridadModel;
-import unu.td.msacademico.model.entity.CatalogoModel;
-import unu.td.msacademico.model.entity.EscuelaProfesionalModel;
-import unu.td.msacademico.model.entity.FacultadModel;
-import unu.td.msacademico.model.request.AutoridadRequest;
-import unu.td.msacademico.model.request.CatalogoRequest;
-import unu.td.msacademico.model.request.EscuelaProfesionalRequest;
-import unu.td.msacademico.model.request.FacultadRequest;
+import unu.td.MsAcademico.model.entity.AutoridadModel;
+import unu.td.MsAcademico.model.entity.CatalogoModel;
+import unu.td.MsAcademico.model.entity.EscuelaProfesionalModel;
+import unu.td.MsAcademico.model.entity.FacultadModel;
+import unu.td.MsAcademico.model.request.AutoridadRequest;
+import unu.td.MsAcademico.model.request.CatalogoRequest;
+import unu.td.MsAcademico.model.request.EscuelaProfesionalRequest;
+import unu.td.MsAcademico.model.request.FacultadRequest;
 
 public class Mapper {
 

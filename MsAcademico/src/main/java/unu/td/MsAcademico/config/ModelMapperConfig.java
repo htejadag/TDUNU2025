@@ -1,4 +1,4 @@
-package unu.td.msacademico.config;
+package unu.td.MsAcademico.config;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;

@@ -1,4 +1,4 @@
-package unu.td.msacademico;
+package unu.td.MsAcademico;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

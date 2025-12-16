@@ -1,4 +1,4 @@
-package unu.td.msacademico.config;
+package unu.td.MsAcademico.config;
 
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.OpenAPI;

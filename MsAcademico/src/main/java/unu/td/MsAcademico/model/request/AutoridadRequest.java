@@ -1,10 +1,10 @@
-package unu.td.msacademico.model.request;
+package unu.td.MsAcademico.model.request;
 
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
-import unu.td.msacademico.utils.Messages;
+import unu.td.MsAcademico.utils.Messages;
 
 import java.time.LocalDate;
 

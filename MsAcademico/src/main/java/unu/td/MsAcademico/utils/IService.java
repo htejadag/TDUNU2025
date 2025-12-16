@@ -1,4 +1,4 @@
-package unu.td.msacademico.utils;
+package unu.td.MsAcademico.utils;
 
 
 import org.springframework.transaction.annotation.Transactional;

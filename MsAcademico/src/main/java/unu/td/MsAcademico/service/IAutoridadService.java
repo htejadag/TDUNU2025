@@ -1,8 +1,8 @@
-package unu.td.msacademico.service;
+package unu.td.MsAcademico.service;
 
-import unu.td.msacademico.model.request.AutoridadRequest;
-import unu.td.msacademico.model.response.AutoridadResponse;
-import unu.td.msacademico.utils.IService;
+import unu.td.MsAcademico.model.request.AutoridadRequest;
+import unu.td.MsAcademico.model.response.AutoridadResponse;
+import unu.td.MsAcademico.utils.IService;
 
 import java.time.LocalDate;
 import java.util.List;

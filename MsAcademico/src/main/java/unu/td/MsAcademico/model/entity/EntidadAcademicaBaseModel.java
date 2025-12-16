@@ -1,4 +1,4 @@
-package unu.td.msacademico.model.entity;
+package unu.td.MsAcademico.model.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.MappedSuperclass;
