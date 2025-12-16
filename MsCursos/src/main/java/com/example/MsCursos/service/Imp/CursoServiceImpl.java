@@ -56,4 +56,28 @@ public class CursoServiceImpl implements CursoService {
     public void eliminar(Integer id) {
         cursoRepository.deleteById(id);
     }
+
+    @Override
+    public List<CursoResponse> listarPorCarrera(Integer idCarrera) {
+        return cursoRepository.findByIdCarrera(idCarrera)
+                .stream()
+                .map(model -> modelMapper.map(model, CursoResponse.class))
+                .toList();
+    }
+
+    @Override
+    public List<CursoResponse> listarPorEstado(Boolean estado) {
+        return cursoRepository.findByEstado(estado)
+                .stream()
+                .map(model -> modelMapper.map(model, CursoResponse.class))
+                .toList();
+    }
+
+    @Override
+    public List<CursoResponse> listarPorCarreraYEstado(Integer idCarrera, Boolean estado) {
+        return cursoRepository.findByIdCarreraAndEstado(idCarrera, estado)
+                .stream()
+                .map(model -> modelMapper.map(model, CursoResponse.class))
+                .toList();
+    }
 }

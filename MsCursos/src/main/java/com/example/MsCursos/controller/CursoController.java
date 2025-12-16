@@ -16,7 +16,7 @@ import com.example.MsCursos.service.CursoService;
 import com.example.MsCursos.util.ApiRoutes;
 import com.example.MsCursos.util.ResponseBase;
 
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
+import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
 @RequestMapping(ApiRoutes.Curso.BASE)
@@ -47,5 +47,21 @@ public class CursoController {
     public CursoResponse eliminar(@RequestParam(value = "id") Integer id) {
         cursoService.eliminar(id);
         return null;
+    }
+
+    @GetMapping("/buscar")
+    public List<CursoResponse> buscar(
+            @RequestParam(required = false) Integer carrera,
+            @RequestParam(required = false) Boolean estado) {
+        if (carrera != null && estado != null) {
+            return cursoService.listarPorCarreraYEstado(carrera, estado);
+        }
+        if (carrera != null) {
+            return cursoService.listarPorCarrera(carrera);
+        }
+        if (estado != null) {
+            return cursoService.listarPorEstado(estado);
+        }
+        return cursoService.listar();
     }
 }

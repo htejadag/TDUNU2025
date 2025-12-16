@@ -3,11 +3,17 @@ package com.example.MsCursos.config;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import com.example.MsCursos.model.entity.CursoModel;
+import com.example.MsCursos.model.request.CursoRequest;
 
 @Configuration
 public class ModelMapperConfig {
     @Bean
-    public ModelMapper modelMapper(){
-        return new ModelMapper();
+    public ModelMapper modelMapper() {
+
+        ModelMapper mm = new ModelMapper();
+        mm.typeMap(CursoRequest.class, CursoModel.class).addMappings(mapper -> mapper.skip(CursoModel::setId));
+
+        return mm;
     }
 }

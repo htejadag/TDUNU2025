@@ -12,4 +12,5 @@ public class CursoResponse {
     private Integer creditos;
     private Integer horasTeoricas;
     private Integer horasPracticas;
+    private Boolean estado;
 }
