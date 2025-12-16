@@ -1,43 +1,50 @@
 package Postgrado.postgrado.Model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
+@EqualsAndHashCode(callSuper = false)
 @Entity
 @Table(name = "expediente")
 @Data
-public class Expediente {
+public class Expediente extends AuditoriaEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idExpediente;
 
+    @NotNull(message = "El id del estudiante es obligatorio")
+    @Column(name = "id_estudiante", nullable = false)
     private Integer idEstudiante;
 
+    @NotBlank(message = "El estado del expediente es obligatorio")
+    @Size(max = 50, message = "El estado no puede superar los 50 caracteres")
+    @Column(name = "estado_expediente", length = 50, nullable = false)
     private String estadoExpediente;
+
+    @Column(name = "fecha_apertura", updatable = false)
     private LocalDateTime fechaApertura;
+
+    @Column(name = "fecha_cierre")
     private LocalDateTime fechaCierre;
+
+    @Size(max = 1000, message = "Las observaciones no pueden superar los 1000 caracteres")
+    @Column(columnDefinition = "TEXT")
     private String observaciones;
 
-    @ManyToOne
-    @JoinColumn(name = "id_asesor")
-    private Asesor asesor;
-
-    @OneToMany(mappedBy = "expediente")
-    @JsonManagedReference(value = "exp-solicitud")
-    private List<Solicitud> solicitudes;
-
-    
-    @OneToMany(mappedBy = "expediente")
-    @JsonManagedReference(value = "exp-tesis")
-    private List<Tesis> tesis;
-
-
-    @OneToMany(mappedBy = "expediente")
-    private List<ExpedienteJurado> jurados;
+    @PrePersist
+    public void prePersist() {
+        if (this.estadoExpediente == null) {
+            this.estadoExpediente = "INICIADO";
+        }
+        if (this.fechaApertura == null) {
+            this.fechaApertura = LocalDateTime.now();
+        }
+    }
 }

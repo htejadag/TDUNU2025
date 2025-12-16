@@ -18,9 +18,9 @@ public class FlujoTramiteController {
     private final AsesorService asesorService;
 
     public FlujoTramiteController(ExpedienteService expedienteService,
-                                  SolicitudService solicitudService,
-                                  DocumentoService documentoService,
-                                  AsesorService asesorService) {
+            SolicitudService solicitudService,
+            DocumentoService documentoService,
+            AsesorService asesorService) {
         this.expedienteService = expedienteService;
         this.solicitudService = solicitudService;
         this.documentoService = documentoService;
@@ -44,11 +44,13 @@ public class FlujoTramiteController {
             expediente.setObservaciones("Expediente generado automáticamente.");
 
             // Asignar asesor si viene en el JSON
-            if (request.containsKey("idAsesor")) {
-                Integer idAsesor = (Integer) request.get("idAsesor");
-                Asesor asesor = asesorService.obtenerPorId(idAsesor);
-                expediente.setAsesor(asesor);
-            }
+            /*
+             * if (request.containsKey("idAsesor")) {
+             * Integer idAsesor = (Integer) request.get("idAsesor");
+             * Asesor asesor = asesorService.obtenerPorId(idAsesor);
+             * expediente.setAsesor(asesor);
+             * }
+             */
 
             expediente = expedienteService.crear(expediente);
 

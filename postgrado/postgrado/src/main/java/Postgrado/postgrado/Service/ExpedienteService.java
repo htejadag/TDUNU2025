@@ -11,5 +11,7 @@ public interface ExpedienteService {
 
     Expediente obtenerPorId(Integer id);
 
+    Expediente actualizar(Integer id, Expediente expediente);
+
     void eliminar(Integer id);
 }
