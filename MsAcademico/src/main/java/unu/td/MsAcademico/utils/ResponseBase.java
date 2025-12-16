@@ -1,4 +1,4 @@
-package unu.td.MsAcademico.utils;
+package unu.td.msacademico.utils;
 
 
 import lombok.Builder;
@@ -28,13 +28,6 @@ public class ResponseBase<T> {
     }
 
     public static <T> ResponseBase<T> error(String message) {
-        return ResponseBase.<T>builder()
-                .success(false)
-                .message(message)
-                .build();
-    }
-
-    public static <T> ResponseBase<T> notFound(String message) {
         return ResponseBase.<T>builder()
                 .success(false)
                 .message(message)
