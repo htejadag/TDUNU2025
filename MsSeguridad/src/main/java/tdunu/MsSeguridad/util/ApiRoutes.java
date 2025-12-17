@@ -42,4 +42,10 @@ public class ApiRoutes {
         public static final String EDITAR = "/editar";
         public static final String ELIMINAR = "/eliminar";
     }
+
+    public static class AUTH {
+
+        public static final String BASE = "/auth";
+        public static final String LOGIN = "/login";
+    }
 }
