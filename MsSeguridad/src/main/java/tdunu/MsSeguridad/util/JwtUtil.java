@@ -1,5 +1,6 @@
 package tdunu.MsSeguridad.util;
 
+import java.security.Key;
 import java.util.Date;
 import java.util.List;
 
@@ -7,7 +8,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.io.Decoders;
+import io.jsonwebtoken.security.Keys;
 
 @Component
 public class JwtUtil {
@@ -17,6 +19,10 @@ public class JwtUtil {
 
     @Value("${jwt.expiration}")
     private long expiration;
+
+    private Key getKey() {
+        return Keys.hmacShaKeyFor(Decoders.BASE64.decode(secret));
+    }
 
     public String generarToken(String username,
             List<String> roles,
@@ -28,13 +34,14 @@ public class JwtUtil {
                 .claim("permisos", permisos)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + expiration))
-                .signWith(SignatureAlgorithm.HS256, secret)
+                .signWith(getKey())
                 .compact();
     }
 
     public String obtenerUsuario(String token) {
-        return Jwts.parser()
-                .setSigningKey(secret)
+        return Jwts.parserBuilder()
+                .setSigningKey(getKey())
+                .build()
                 .parseClaimsJws(token)
                 .getBody()
                 .getSubject();
