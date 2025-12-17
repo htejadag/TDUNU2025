@@ -13,7 +13,7 @@ import lombok.Data;
 @Table(name = "cuenta_usuario")
 
 public class CuentaUsuarioModel {
-    @Id
+    @Id 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Integer id;
