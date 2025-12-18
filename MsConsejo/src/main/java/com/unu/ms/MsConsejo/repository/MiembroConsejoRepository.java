@@ -18,6 +18,14 @@ public interface MiembroConsejoRepository extends JpaRepository<MiembroConsejoMo
     public List<MiembroConsejoModel> findByIdCargo(Integer idCargo);
     public List<MiembroConsejoModel> findByConsejo_IdConsejoAndIdPersona(Integer idConsejo, Integer idPersona);
 
+    // Miembros activos por cargo (fechaFin es null = activo)
+    @Query("SELECT m FROM MiembroConsejoModel m WHERE m.idCargo = :idCargo AND m.fechaFin IS NULL")
+    List<MiembroConsejoModel> findActivosByIdCargo(@Param("idCargo") Integer idCargo);
+    
+    // Miembros activos por consejo (fechaFin es null = activo)
+    @Query("SELECT m FROM MiembroConsejoModel m WHERE m.consejo.idConsejo = :idConsejo AND m.fechaFin IS NULL")
+    List<MiembroConsejoModel> findActivosByConsejoId(@Param("idConsejo") Integer idConsejo);
+
     @Query(
 
             value = "SELECT "

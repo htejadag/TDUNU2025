@@ -2,11 +2,13 @@ package com.unu.ms.MsConsejo.controller;
 
 import java.util.List;
 
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.unu.ms.MsConsejo.model.request.ConsejoRequest;
+import com.unu.ms.MsConsejo.model.response.ConsejoDetalleCompletoResponse;
 import com.unu.ms.MsConsejo.model.response.ConsejoResponse;
 import com.unu.ms.MsConsejo.service.ConsejoService;
 import com.unu.ms.MsConsejo.util.ApiRoutes;
@@ -19,17 +21,19 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PutMapping;
 
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RestController
 @RequestMapping(ApiRoutes.Consejo.BASE)
 @Tag(name = "Consejo Controller")
+@RequiredArgsConstructor
 public class ConsejoController {
 
-    private ConsejoService consejoService;
+    private final ConsejoService consejoService;
 
     @GetMapping(value = ApiRoutes.Consejo.LISTAR)
     public ResponseBase<List<ConsejoResponse>> listar() {
@@ -73,6 +77,20 @@ public class ConsejoController {
     public ResponseBase<List<ConsejoResponse>> buscarPorEstado(@RequestParam Integer idEstado) {
         List<ConsejoResponse> listaResponse = consejoService.buscarPorEstado(idEstado);
         return ResponseBase.ok(Mensajes.LISTAR_OK, listaResponse);
+    }
+
+    @GetMapping(value = ApiRoutes.Consejo.VIGENTES)
+    @Operation(summary = "Listar consejos vigentes", description = "Obtiene una lista de Consejos que actualmente están activos (id_estado = estado activo)")
+    public ResponseBase<List<ConsejoResponse>> listarVigentes() {
+        List<ConsejoResponse> listaResponse = consejoService.listarVigentes();
+        return ResponseBase.ok(Mensajes.LISTAR_OK, listaResponse);
+    }
+
+    @GetMapping(value = ApiRoutes.Consejo.DETALLE_COMPLETO)
+    @Operation(summary = "Obtener detalle completo del consejo", description = "Obtiene el detalle del Consejo junto con su lista de Miembros activos y el número de Sesiones realizadas")
+    public ResponseBase<ConsejoDetalleCompletoResponse> obtenerDetalleCompleto(@PathVariable Integer id) {
+        ConsejoDetalleCompletoResponse response = consejoService.obtenerDetalleCompleto(id);
+        return ResponseBase.ok(Mensajes.OBTENER_POR_OK, response);
     }
 
 }

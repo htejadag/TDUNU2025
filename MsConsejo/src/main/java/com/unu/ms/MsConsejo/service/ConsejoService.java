@@ -3,6 +3,7 @@ package com.unu.ms.MsConsejo.service;
 import java.util.List;
 
 import com.unu.ms.MsConsejo.model.request.ConsejoRequest;
+import com.unu.ms.MsConsejo.model.response.ConsejoDetalleCompletoResponse;
 import com.unu.ms.MsConsejo.model.response.ConsejoResponse;
 
 public interface ConsejoService {
@@ -16,5 +17,9 @@ public interface ConsejoService {
         
         public ConsejoResponse buscarPorNombre(String nombre);
         public List<ConsejoResponse> buscarPorEstado(Integer idEstado);
+        
+        // Nuevos métodos
+        public List<ConsejoResponse> listarVigentes();
+        public ConsejoDetalleCompletoResponse obtenerDetalleCompleto(Integer id);
 
 }

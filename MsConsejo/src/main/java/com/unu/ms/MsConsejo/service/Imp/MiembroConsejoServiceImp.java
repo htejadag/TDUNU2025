@@ -1,5 +1,6 @@
 package com.unu.ms.MsConsejo.service.Imp;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
@@ -15,11 +16,12 @@ import com.unu.ms.MsConsejo.service.MiembroConsejoService;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class MiembroConsejoServiceImp implements MiembroConsejoService {
 
         
-        MiembroConsejoRepository miembroConsejoRepository;
-        MiembroConsejoMapper mapper;
+        private final MiembroConsejoRepository miembroConsejoRepository;
+        private final MiembroConsejoMapper mapper;
 
         @Override
         public List<MiembroConsejoResponse> listar() {
@@ -69,6 +71,14 @@ public class MiembroConsejoServiceImp implements MiembroConsejoService {
         @Override
         public List<MiembroConsejoResponse> buscarPorCargo(Integer idCargo) {
                 return miembroConsejoRepository.findByIdCargo(idCargo).stream().map(mapper::toResponse).toList();
+        }
+
+        @Override
+        public List<MiembroConsejoResponse> listarActivosPorCargo(Integer idCargo) {
+                return miembroConsejoRepository.findActivosByIdCargo(idCargo)
+                        .stream()
+                        .map(mapper::toResponse)
+                        .toList();
         }
 
 }

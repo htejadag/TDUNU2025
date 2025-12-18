@@ -20,6 +20,9 @@ public interface SesionConsejoRepository extends JpaRepository<SesionConsejoMode
     public List<SesionConsejoModel> findByIdTipoSesion(Integer idTipoSesion);
     public List<SesionConsejoModel> findByConsejo_IdConsejoAndFechaSesionBetween(Integer idConsejo, LocalDate fechaInicio, LocalDate fechaFin);
     
+    // Contar sesiones por consejo
+    long countByConsejo_IdConsejo(Integer idConsejo);
+    
     @Query(
 
             value = "SELECT "

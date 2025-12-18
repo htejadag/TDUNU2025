@@ -12,6 +12,10 @@ public class ApiRoutes {
 
         public static final String BUSCAR_POR_NOMBRE = "/buscarPorNombre";
         public static final String BUSCAR_POR_ESTADO = "/buscarPorEstado";
+        
+        // Nuevos endpoints
+        public static final String VIGENTES = "/vigentes";
+        public static final String DETALLE_COMPLETO = "/{id}/detalle-completo";
     }
 
     public static class AsistenciaSesion {
@@ -38,6 +42,9 @@ public class ApiRoutes {
         public static final String BUSCAR_POR_CONSEJO = "/buscarPorConsejo";
         public static final String BUSCAR_POR_PERSONA = "/buscarPorPersona";
         public static final String BUSCAR_POR_CARGO = "/buscarPorCargo";
+        
+        // Nuevo endpoint - miembros activos por cargo
+        public static final String POR_CARGO = "/por-cargo/{idCargo}";
     }
 
     public static class SesionConsejo {

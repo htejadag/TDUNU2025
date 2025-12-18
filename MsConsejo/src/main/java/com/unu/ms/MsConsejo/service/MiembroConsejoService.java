@@ -18,4 +18,7 @@ public interface MiembroConsejoService {
         public List<MiembroConsejoResponse> buscarPorPersona(Integer idPersona);
         public List<MiembroConsejoResponse> buscarPorCargo(Integer idCargo);
         
+        // Nuevo método - miembros activos por cargo
+        public List<MiembroConsejoResponse> listarActivosPorCargo(Integer idCargo);
+        
 }

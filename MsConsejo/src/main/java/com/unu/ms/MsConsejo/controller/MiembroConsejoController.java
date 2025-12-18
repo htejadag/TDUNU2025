@@ -2,6 +2,7 @@ package com.unu.ms.MsConsejo.controller;
 
 import java.util.List;
 
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,17 +20,19 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PutMapping;
 
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RestController
 @RequestMapping(ApiRoutes.MiembroConsejo.BASE)
 @Tag(name = "MiembroConsejo Controller")
+@RequiredArgsConstructor
 public class MiembroConsejoController {
 
-    private MiembroConsejoService miembroConsejoService;
+    private final MiembroConsejoService miembroConsejoService;
 
     @GetMapping(value = ApiRoutes.MiembroConsejo.LISTAR)
     public ResponseBase<List<MiembroConsejoResponse>> listar() {
@@ -78,6 +81,13 @@ public class MiembroConsejoController {
     @GetMapping(value = ApiRoutes.MiembroConsejo.BUSCAR_POR_CARGO)
     public ResponseBase<List<MiembroConsejoResponse>> buscarPorCargo(@RequestParam Integer idCargo) {
         List<MiembroConsejoResponse> listaResponse = miembroConsejoService.buscarPorCargo(idCargo);
+        return ResponseBase.ok(Mensajes.LISTAR_OK, listaResponse);
+    }
+
+    @GetMapping(value = ApiRoutes.MiembroConsejo.POR_CARGO)
+    @Operation(summary = "Listar miembros activos por cargo", description = "Lista todos los miembros activos que ocupan un id_cargo específico")
+    public ResponseBase<List<MiembroConsejoResponse>> listarActivosPorCargo(@PathVariable Integer idCargo) {
+        List<MiembroConsejoResponse> listaResponse = miembroConsejoService.listarActivosPorCargo(idCargo);
         return ResponseBase.ok(Mensajes.LISTAR_OK, listaResponse);
     }
 
