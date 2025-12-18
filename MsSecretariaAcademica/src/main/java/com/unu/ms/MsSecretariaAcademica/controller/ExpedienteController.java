@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -29,48 +28,45 @@ import lombok.extern.slf4j.Slf4j;
 @Tag(name = "Expediente Controller")
 public class ExpedienteController {
 
-    @Autowired
     ExpedienteService expedienteService;
 
     @GetMapping(value = ApiRoutes.Expediente.LISTAR)
-    public ResponseBase<List<ExpedienteResponse>> Listar() {
+    public ResponseBase<List<ExpedienteResponse>> listar() {
         List<ExpedienteResponse> listaResponse = expedienteService.listar();
         return ResponseBase.ok(Mensajes.LISTAR_OK, listaResponse);
     }
 
     @PostMapping(value = ApiRoutes.Expediente.GUARDAR)
-    public ResponseBase<ExpedienteResponse> Guardar(@RequestBody ExpedienteRequest request) {
+    public ResponseBase<ExpedienteResponse> guardar(@RequestBody ExpedienteRequest request) {
         ExpedienteResponse response = expedienteService.guardar(request);
         return ResponseBase.ok(Mensajes.CREADO_OK, response);
     }
 
     @DeleteMapping(value = ApiRoutes.Expediente.ELIMINAR)
-    public ResponseBase<?> Eliminar(@RequestParam(value = "id") Integer id) {
+    public ResponseBase<String> eliminar(@RequestParam(value = "id") Integer id) {
         expedienteService.eliminar(id);
         return ResponseBase.ok(Mensajes.ELIMINADO_OK);
     }
 
     @PutMapping(value = ApiRoutes.Expediente.ACTUALIZAR)
-    public ResponseBase<ExpedienteResponse> Actualizar(
-            @RequestParam(value = "id") Integer id,
-            @RequestBody ExpedienteRequest request) {
+    public ResponseBase<ExpedienteResponse> actualizar(@RequestParam(value = "id") Integer id, @RequestBody ExpedienteRequest request) {
         ExpedienteResponse response = expedienteService.actualizar(id, request);
         return ResponseBase.ok(Mensajes.ACTUALIZADO_OK, response);
     }
 
     @GetMapping(value = ApiRoutes.Expediente.OBTENER_POR_ID)
-    public ResponseBase<ExpedienteResponse> ObtenerPorId(@RequestParam(value = "id") Integer id) {
+    public ResponseBase<ExpedienteResponse> obtenerPorId(@RequestParam(value = "id") Integer id) {
         ExpedienteResponse response = expedienteService.obtenerPorId(id);
         return ResponseBase.ok(Mensajes.OBTENER_POR_OK, response);
     }
 
-    @GetMapping(ApiRoutes.Expediente.BUSCAR_POR_CODIGO)
+    @GetMapping(value =  ApiRoutes.Expediente.BUSCAR_POR_CODIGO)
     public ResponseBase<ExpedienteResponse> buscarPorCodigo(@RequestParam String codigo) {
         ExpedienteResponse response = expedienteService.buscarPorCodigo(codigo);
         return ResponseBase.ok(Mensajes.OBTENER_POR_OK, response);
     }
 
-    @GetMapping(ApiRoutes.Expediente.BUSCAR_POR_PERSONA)
+    @GetMapping(value =  ApiRoutes.Expediente.BUSCAR_POR_PERSONA)
     public ResponseBase<List<ExpedienteResponse>> buscarPorPersona(@RequestParam Integer idPersona) {
         List<ExpedienteResponse> listaResponse = expedienteService.buscarPorPersona(idPersona);
         return ResponseBase.ok(Mensajes.LISTAR_OK, listaResponse);

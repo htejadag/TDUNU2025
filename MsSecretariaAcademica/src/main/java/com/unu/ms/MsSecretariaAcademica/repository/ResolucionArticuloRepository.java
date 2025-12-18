@@ -10,7 +10,7 @@ import com.unu.ms.MsSecretariaAcademica.model.entity.ResolucionArticuloModel;
 @Repository
 public interface ResolucionArticuloRepository extends JpaRepository<ResolucionArticuloModel, Integer> {
   
-    public List<ResolucionArticuloModel> findByResolucion(Integer idResolucion);
-    public List<ResolucionArticuloModel> findByResolucionOrderByNumeroArticuloAsc(Integer idResolucion);
+    public List<ResolucionArticuloModel> findByResolucion_IdResolucion(Integer idResolucion);
+    public List<ResolucionArticuloModel> findByResolucion_IdResolucionOrderByNumeroArticuloAsc(Integer idResolucion);
 
 }

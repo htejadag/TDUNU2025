@@ -9,5 +9,4 @@ import com.unu.ms.MsSecretariaAcademica.model.entity.SolicitudModel;
 @Repository
 public interface SolicitudRepository extends JpaRepository<SolicitudModel, Integer> {
 
-   
 }

@@ -4,7 +4,6 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.unu.ms.MsSecretariaAcademica.model.entity.SolicitudModel;
@@ -18,10 +17,7 @@ import com.unu.ms.MsSecretariaAcademica.service.SolicitudService;
 @Service
 public class SolicitudServiceImp implements SolicitudService {
 
-    @Autowired
     SolicitudRepository solicitudRepository;
-
-    @Autowired
     SolicitudMapper mapper;
 
     @Override
@@ -58,4 +54,5 @@ public class SolicitudServiceImp implements SolicitudService {
     public boolean existePorId(Integer id) {
         return solicitudRepository.existsById(id);
     }
+    
 }

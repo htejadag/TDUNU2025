@@ -4,7 +4,6 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.unu.ms.MsSecretariaAcademica.model.entity.ResolucionArticuloModel;
@@ -12,16 +11,15 @@ import com.unu.ms.MsSecretariaAcademica.model.mapper.ResolucionArticuloMapper;
 import com.unu.ms.MsSecretariaAcademica.model.request.ResolucionArticuloRequest;
 import com.unu.ms.MsSecretariaAcademica.model.response.ResolucionArticuloResponse;
 import com.unu.ms.MsSecretariaAcademica.repository.ResolucionArticuloRepository;
+import com.unu.ms.MsSecretariaAcademica.repository.ResolucionRepository;
 import com.unu.ms.MsSecretariaAcademica.service.ResolucionArticuloService;
 
 @Slf4j
 @Service
 public class ResolucionArticuloServiceImp implements ResolucionArticuloService {
 
-    @Autowired
     ResolucionArticuloRepository resolucionArticuloRepository;
-
-    @Autowired
+    ResolucionRepository resolucionRepository;
     ResolucionArticuloMapper mapper;
 
     @Override
@@ -61,7 +59,7 @@ public class ResolucionArticuloServiceImp implements ResolucionArticuloService {
 
     @Override
     public List<ResolucionArticuloResponse> buscarPorResolucion(Integer idResolucion) {
-        return resolucionArticuloRepository.findByResolucionOrderByNumeroArticuloAsc(idResolucion).stream().map(mapper:: toResponse).toList();
+        return resolucionArticuloRepository.findByResolucion_IdResolucionOrderByNumeroArticuloAsc(idResolucion).stream().map(mapper:: toResponse).toList();
     }
 
 }

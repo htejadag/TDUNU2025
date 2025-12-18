@@ -12,10 +12,10 @@ import com.unu.ms.MsSecretariaAcademica.model.entity.ResolucionModel;
 public interface ResolucionRepository extends JpaRepository<ResolucionModel, Integer> {
   
     public Optional<ResolucionModel> findByNumeroResolucion(String numeroResolucion);
-    public List<ResolucionModel> findByExpediente(Integer idExpediente);
-    public List<ResolucionModel> findByIdSolicitud(Integer idSolicitud);
+    public List<ResolucionModel> findByExpediente_IdExpediente(Integer idExpediente);
+    public List<ResolucionModel> findBySolicitud_IdSolicitud(Integer idSolicitud);
     public List<ResolucionModel> findByIdEstado(Integer idEstado);
     public List<ResolucionModel> findByIdTipoResolucion(Integer idTipoResolucion);
-    public List<ResolucionModel> findByExpedienteAndIdEstado(Integer idExpediente, Integer idEstado);
+    public List<ResolucionModel> findByExpediente_IdExpedienteAndIdEstado(Integer idExpediente, Integer idEstado);
 
 }

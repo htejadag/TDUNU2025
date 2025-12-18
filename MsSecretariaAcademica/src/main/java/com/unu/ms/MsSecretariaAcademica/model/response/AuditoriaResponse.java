@@ -9,14 +9,16 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class SeguimientoResponse{
-    
-    Integer idSeguimiento;
-    Integer idUsuario;
-    Integer entidadCatalogoId;
+public class AuditoriaResponse {
+
+    Integer idAuditoria;
+    String nombreEntidad;
     Integer entidadId;
-    Integer idEstado;
-    String comentario;
-    LocalDateTime fechaRegistro;
-    
+    String accion;
+    Integer usuarioId;
+    String datosAntes;
+    String datosDespues;
+    LocalDateTime fechaAccion;
+    String observacion;
+
 }

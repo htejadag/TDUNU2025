@@ -5,25 +5,28 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.PrePersist;
+import jakarta.persistence.Index;
 import jakarta.persistence.Table;
 
 import java.time.LocalDateTime;
 
-import lombok.Data;
+import org.hibernate.annotations.CreationTimestamp;
 
 @Entity
-@Table(name = "seguimiento")
-@Data
-public class SeguimientoModel {
+@Table(name = "seguimiento", indexes = @Index(columnList = "entidadCatalogoId, entidadId"))
+public class Seguimiento {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_seguimiento")
     private Integer idSeguimiento;
 
-    @Column(name = "id_entidad_catalogo")
-    private Integer idEntidadCatalogo;
+    @Column(name = "id_usuario")
+    private Integer idUsuario;
+
+    // Catálogo: SOLICITUD / EXPEDIENTE / RESOLUCION
+    @Column(name = "entidad_catalogo_id")
+    private Integer entidadCatalogoId;
 
     @Column(name = "entidad_id")
     private Integer entidadId;
@@ -34,15 +37,8 @@ public class SeguimientoModel {
     @Column(name = "comentario")
     private String comentario;
 
-    @Column(name = "id_usuario")
-    private Integer idUsuario;
-
+    @CreationTimestamp
     @Column(name = "fecha_registro")
     private LocalDateTime fechaRegistro;
-
-    @PrePersist
-    protected void onCreate() {
-        this.fechaRegistro = LocalDateTime.now();
-    }
 
 }

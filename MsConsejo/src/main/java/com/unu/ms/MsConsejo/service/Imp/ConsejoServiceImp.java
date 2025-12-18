@@ -1,26 +1,23 @@
 package com.unu.ms.MsConsejo.service.Imp;
 
+import lombok.extern.slf4j.Slf4j;
+
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+
 import com.unu.ms.MsConsejo.model.entity.ConsejoModel;
 import com.unu.ms.MsConsejo.model.mapper.ConsejoMapper;
 import com.unu.ms.MsConsejo.model.request.ConsejoRequest;
 import com.unu.ms.MsConsejo.model.response.ConsejoResponse;
 import com.unu.ms.MsConsejo.repository.ConsejoRepository;
 import com.unu.ms.MsConsejo.service.ConsejoService;
-import lombok.extern.slf4j.Slf4j;
-
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 @Slf4j
 @Service
 public class ConsejoServiceImp implements ConsejoService {
 
-    @Autowired
     private ConsejoRepository consejoRepository;
-
-    @Autowired
     private ConsejoMapper mapper;
 
     @Override

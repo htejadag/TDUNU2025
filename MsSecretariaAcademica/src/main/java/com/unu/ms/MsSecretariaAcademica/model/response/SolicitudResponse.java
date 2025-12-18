@@ -1,7 +1,8 @@
 package com.unu.ms.MsSecretariaAcademica.model.response;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+
+import com.unu.ms.MsSecretariaAcademica.util.ApiRoutes.Expediente;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -12,16 +13,14 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class SolicitudResponse {
     
-    public Integer idSolicitud;
-    public String codigoSolicitud;
-    public Integer idPersona;
-    public Integer idTipoSolicitud;
-    public Integer idExpediente;
-    public String asunto;
-    public String detalle;
-    public Integer idEstado;
-    public LocalDate fechaSolicitud;
-    public Integer idUsuarioCreo;
-    public LocalDateTime fechaCreacion;
+    Integer idSolicitud;
+    String codigoSolicitud;
+    Integer idPersona;
+    Integer idTipoSolicitud;
+    String asunto;
+    String detalle;
+    Integer idEstado;
+    LocalDate fechaSolicitud;
+    Expediente expediente;
     
 }

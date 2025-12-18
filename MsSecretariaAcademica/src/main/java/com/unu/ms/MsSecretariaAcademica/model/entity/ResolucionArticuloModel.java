@@ -2,7 +2,6 @@ package com.unu.ms.MsSecretariaAcademica.model.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -22,10 +21,6 @@ public class ResolucionArticuloModel {
     @Column(name = "id_articulo")
     private Integer idArticulo;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_resolucion", insertable = false, updatable = false)
-    private ResolucionModel resolucion;
-
     @Column(name = "numero_articulo")
     private Integer numeroArticulo;
 
@@ -34,5 +29,9 @@ public class ResolucionArticuloModel {
 
     @Column(name = "contenido")
     private String contenido;
+
+    @ManyToOne
+    @JoinColumn(name = "id_resolucion")
+    private ResolucionModel resolucion;
     
 }

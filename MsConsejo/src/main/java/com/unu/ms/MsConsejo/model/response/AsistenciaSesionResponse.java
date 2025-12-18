@@ -8,13 +8,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AsistenciaSesionResponse {
-   
-    public Integer idAsistencia;
-    // public SesionConsejoModel idSesion;
-    // public MiembroConsejoModel idMiembro;
-    public Integer idEstadoAsistencia;
-    public Integer usuarioRegistro;
-    // public LocalDateTime fechaRegistro;
+
+    Integer idAsistencia;
+    // SesionConsejoModel idSesion;
+    // MiembroConsejoModel idMiembro;
+    Integer idEstadoAsistencia;
+    Integer usuarioRegistro;
+    // LocalDateTime fechaRegistro;
 
 }
-

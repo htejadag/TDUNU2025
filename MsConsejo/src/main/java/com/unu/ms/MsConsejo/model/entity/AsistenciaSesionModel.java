@@ -13,6 +13,8 @@ import jakarta.persistence.Table;
 
 import java.time.LocalDateTime;
 
+import org.hibernate.annotations.CreationTimestamp;
+
 import lombok.Data;
 
 @Entity
@@ -39,12 +41,8 @@ public class AsistenciaSesionModel {
     @Column(name = "id_usuario_registro")
     private Integer usuarioRegistro;
 
+    @CreationTimestamp
     @Column(name = "fecha_registro")
     private LocalDateTime fechaRegistro;
-
-    @PrePersist
-    protected void onCreate() {
-        this.fechaRegistro = LocalDateTime.now();
-    }
 
 }

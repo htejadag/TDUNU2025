@@ -7,12 +7,11 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ResolucionArticuloResponse {
+public class CatalogoResponse {
 
-    Integer idArticulo;
-    Integer numeroArticulo;
-    String titulo;
-    String contenido;
-    Integer idResolucion;
+    Integer idCatalogo;
+    String categoria;
+    String valor;
+    String descripcion;
 
 }

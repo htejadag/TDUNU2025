@@ -7,11 +7,12 @@ import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
-import org.hibernate.exception.ConstraintViolationException;
-import org.springframework.dao.DataAccessException;
 
 import com.unu.ms.MsConsejo.util.Mensajes;
 import com.unu.ms.MsConsejo.util.ResponseBase;
+
+import org.hibernate.exception.ConstraintViolationException;
+import org.springframework.dao.DataAccessException;
 
 import lombok.extern.slf4j.Slf4j;
 

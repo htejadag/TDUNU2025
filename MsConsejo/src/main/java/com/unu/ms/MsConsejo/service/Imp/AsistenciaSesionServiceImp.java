@@ -4,7 +4,6 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.unu.ms.MsConsejo.model.entity.AsistenciaSesionModel;
@@ -18,10 +17,7 @@ import com.unu.ms.MsConsejo.service.AsistenciaSesionService;
 @Service
 public class AsistenciaSesionServiceImp implements AsistenciaSesionService {
 
-        @Autowired
         AsistenciaSesionRepository asistenciaSesionRepository;
-
-        @Autowired
         AsistenciaSesionMapper mapper;
 
         @Override

@@ -13,6 +13,7 @@ import com.unu.ms.MsSecretariaAcademica.model.response.ResolucionArticuloRespons
 @Mapper(componentModel = "spring")
 public interface ResolucionArticuloMapper {
 
+    @Mapping(target = "idResolucion", expression = "java(model.getResolucion() != null ? model.getResolucion().getIdResolucion() : null)")
     ResolucionArticuloResponse toResponse(ResolucionArticuloModel model);
     
     @Mapping(target = "idArticulo", ignore = true)

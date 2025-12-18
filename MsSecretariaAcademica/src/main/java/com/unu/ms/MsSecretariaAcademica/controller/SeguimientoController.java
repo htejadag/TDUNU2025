@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -29,45 +28,40 @@ import lombok.extern.slf4j.Slf4j;
 @Tag(name = "Seguimiento Controller")
 public class SeguimientoController {
 
-    @Autowired
     SeguimientoService seguimientoService;
 
     @GetMapping(value = ApiRoutes.Seguimiento.LISTAR)
-    public ResponseBase<List<SeguimientoResponse>> Listar() {
+    public ResponseBase<List<SeguimientoResponse>> listar() {
         List<SeguimientoResponse> listaResponse = seguimientoService.listar();
         return ResponseBase.ok(Mensajes.LISTAR_OK, listaResponse);
     }
 
     @PostMapping(value = ApiRoutes.Seguimiento.GUARDAR)
-    public ResponseBase<SeguimientoResponse> Guardar(@RequestBody SeguimientoRequest request) {
+    public ResponseBase<SeguimientoResponse> guardar(@RequestBody SeguimientoRequest request) {
         SeguimientoResponse response = seguimientoService.guardar(request);
         return ResponseBase.ok(Mensajes.CREADO_OK, response);
     }
 
     @DeleteMapping(value = ApiRoutes.Seguimiento.ELIMINAR)
-    public ResponseBase<?> Eliminar(@RequestParam(value = "id") Integer id) {
+    public ResponseBase<String> eliminar(@RequestParam(value = "id") Integer id) {
         seguimientoService.eliminar(id);
         return ResponseBase.ok(Mensajes.ELIMINADO_OK);
     }
 
     @PutMapping(value = ApiRoutes.Seguimiento.ACTUALIZAR)
-    public ResponseBase<SeguimientoResponse> Actualizar(
-            @RequestParam(value = "id") Integer id,
-            @RequestBody SeguimientoRequest request) {
+    public ResponseBase<SeguimientoResponse> actualizar(@RequestParam(value = "id") Integer id, @RequestBody SeguimientoRequest request) {
         SeguimientoResponse response = seguimientoService.actualizar(id, request);
         return ResponseBase.ok(Mensajes.ACTUALIZADO_OK, response);
     }
 
     @GetMapping(value = ApiRoutes.Seguimiento.OBTENER_POR_ID)
-    public ResponseBase<SeguimientoResponse> ObtenerPorId(@RequestParam(value = "id") Integer id) {
+    public ResponseBase<SeguimientoResponse> obtenerPorId(@RequestParam(value = "id") Integer id) {
         SeguimientoResponse response = seguimientoService.obtenerPorId(id);
         return ResponseBase.ok(Mensajes.OBTENER_POR_OK, response);
     }
 
     @GetMapping(value = ApiRoutes.Seguimiento.BUSCAR_POR_ENTIDAD)
-    public ResponseBase<List<SeguimientoResponse>> buscarPorEntidad(
-            @RequestParam Integer idEntidadCatalogo,
-            @RequestParam Integer entidadId) {
+    public ResponseBase<List<SeguimientoResponse>> buscarPorEntidad(@RequestParam Integer idEntidadCatalogo,@RequestParam Integer entidadId) {
         List<SeguimientoResponse> listaResponse = seguimientoService.buscarPorEntidad(idEntidadCatalogo, entidadId);
         return ResponseBase.ok(listaResponse);
     }

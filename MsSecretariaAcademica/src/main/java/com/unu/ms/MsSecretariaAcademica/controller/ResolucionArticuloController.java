@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -29,37 +28,34 @@ import lombok.extern.slf4j.Slf4j;
 @Tag(name = "ResolucionArticulo Controller")
 public class ResolucionArticuloController {
 
-    @Autowired
     ResolucionArticuloService resolucionArticuloService;
 
     @GetMapping(value = ApiRoutes.ResolucionArticulo.LISTAR)
-    public ResponseBase<List<ResolucionArticuloResponse>> Listar() {
+    public ResponseBase<List<ResolucionArticuloResponse>> listar() {
         List<ResolucionArticuloResponse> listaResponse = resolucionArticuloService.listar();
         return ResponseBase.ok(Mensajes.LISTAR_OK, listaResponse);
     }
 
     @PostMapping(value = ApiRoutes.ResolucionArticulo.GUARDAR)
-    public ResponseBase<ResolucionArticuloResponse> Guardar(@RequestBody ResolucionArticuloRequest request) {
+    public ResponseBase<ResolucionArticuloResponse> guardar(@RequestBody ResolucionArticuloRequest request) {
         ResolucionArticuloResponse response = resolucionArticuloService.guardar(request);
         return ResponseBase.ok(Mensajes.CREADO_OK, response);
     }
 
     @DeleteMapping(value = ApiRoutes.ResolucionArticulo.ELIMINAR)
-    public ResponseBase<?> Eliminar(@RequestParam(value = "id") Integer id) {
+    public ResponseBase<String> eliminar(@RequestParam(value = "id") Integer id) {
         resolucionArticuloService.eliminar(id);
         return ResponseBase.ok(Mensajes.ELIMINADO_OK);
     }
 
     @PutMapping(value = ApiRoutes.ResolucionArticulo.ACTUALIZAR)
-    public ResponseBase<ResolucionArticuloResponse> Actualizar(
-            @RequestParam(value = "id") Integer id,
-            @RequestBody ResolucionArticuloRequest request) {
+    public ResponseBase<ResolucionArticuloResponse> actualizar(@RequestParam(value = "id") Integer id, @RequestBody ResolucionArticuloRequest request) {
         ResolucionArticuloResponse response = resolucionArticuloService.actualizar(id, request);
         return ResponseBase.ok(Mensajes.ACTUALIZADO_OK, response);
     }
 
     @GetMapping(value = ApiRoutes.ResolucionArticulo.OBTENER_POR_ID)
-    public ResponseBase<ResolucionArticuloResponse> ObtenerPorId(@RequestParam(value = "id") Integer id) {
+    public ResponseBase<ResolucionArticuloResponse> obtenerPorId(@RequestParam(value = "id") Integer id) {
         ResolucionArticuloResponse response = resolucionArticuloService.obtenerPorId(id);
         return ResponseBase.ok(Mensajes.OBTENER_POR_OK, response);
     }

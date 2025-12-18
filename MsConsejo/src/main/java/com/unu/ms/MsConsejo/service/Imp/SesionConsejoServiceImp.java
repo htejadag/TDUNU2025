@@ -5,7 +5,6 @@ import lombok.extern.slf4j.Slf4j;
 import java.time.LocalDate;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.unu.ms.MsConsejo.model.entity.SesionConsejoModel;
@@ -19,10 +18,7 @@ import com.unu.ms.MsConsejo.service.SesionConsejoService;
 @Service
 public class SesionConsejoServiceImp implements SesionConsejoService {
 
-        @Autowired
         SesionConsejoRepository sesionConsejoRepository;
-
-        @Autowired
         SesionConsejoMapper mapper;
 
         @Override

@@ -4,7 +4,6 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.unu.ms.MsSecretariaAcademica.model.entity.ExpedienteModel;
@@ -18,10 +17,7 @@ import com.unu.ms.MsSecretariaAcademica.service.ExpedienteService;
 @Service
 public class ExpedienteServiceImp implements ExpedienteService {
 
-    @Autowired
     ExpedienteRepository expedienteRepository;
-
-    @Autowired
     ExpedienteMapper mapper;
 
     @Override
