@@ -23,17 +23,20 @@ public class DocumentoServiceImpl implements DocumentoService {
 
     @Override
     public List<Documento> listar() {
-        return repository.findAll();
+        return repository.findByActivoTrue();
     }
 
     @Override
     public Documento obtenerPorId(Integer id) {
-        return repository.findById(id).orElse(null);
+        return repository.findById(id).filter(Documento::getActivo).orElse(null);
     }
 
     @Override
     public void eliminar(Integer id) {
-        repository.deleteById(id);
+        Documento documento = obtenerPorId(id);
+        if (documento != null) {
+            documento.setActivo(false);
+            repository.save(documento);
+        }
     }
 }
-

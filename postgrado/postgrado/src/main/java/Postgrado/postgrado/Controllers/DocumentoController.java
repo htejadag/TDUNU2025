@@ -2,6 +2,9 @@ package Postgrado.postgrado.Controllers;
 
 import Postgrado.postgrado.Model.Documento;
 import Postgrado.postgrado.Service.DocumentoService;
+import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,34 +20,47 @@ public class DocumentoController {
     }
 
     @PostMapping
-    public Documento crear(@RequestBody Documento documento) {
-        return service.crear(documento);
+    public ResponseEntity<Documento> crear(@Valid @RequestBody Documento documento) {
+        Documento nuevoDocumento = service.crear(documento);
+        return new ResponseEntity<>(nuevoDocumento, HttpStatus.CREATED);
     }
 
     @GetMapping
-    public List<Documento> listar() {
-        return service.listar();
+    public ResponseEntity<List<Documento>> listar() {
+        return ResponseEntity.ok(service.listar());
     }
 
     @GetMapping("/{id}")
-    public Documento obtener(@PathVariable Integer id) {
-        return service.obtenerPorId(id);
+    public ResponseEntity<Documento> obtener(@PathVariable Integer id) {
+        Documento documento = service.obtenerPorId(id);
+        if (documento == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(documento);
     }
 
     @PutMapping("/{id}")
-    public Documento actualizar(@PathVariable Integer id, @RequestBody Documento data) {
+    public ResponseEntity<Documento> actualizar(@PathVariable Integer id, @Valid @RequestBody Documento data) {
         Documento d = service.obtenerPorId(id);
-        if (d == null) return null;
+        if (d == null) {
+            return ResponseEntity.notFound().build();
+        }
 
         d.setTipoDocumento(data.getTipoDocumento());
         d.setArchivoRuta(data.getArchivoRuta());
-        d.setFechaDocumento(data.getFechaDocumento());
+        // Fecha y auditoría se mantienen
 
-        return service.crear(d);
+        Documento actualizado = service.crear(d);
+        return ResponseEntity.ok(actualizado);
     }
 
     @DeleteMapping("/{id}")
-    public void eliminar(@PathVariable Integer id) {
+    public ResponseEntity<Void> eliminar(@PathVariable Integer id) {
+        Documento d = service.obtenerPorId(id);
+        if (d == null) {
+            return ResponseEntity.notFound().build();
+        }
         service.eliminar(id);
+        return ResponseEntity.noContent().build();
     }
 }

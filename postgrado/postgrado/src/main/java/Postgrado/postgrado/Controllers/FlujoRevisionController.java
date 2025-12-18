@@ -68,8 +68,8 @@ public class FlujoRevisionController {
             revision.setTesis(tesis);
             revision.setJurado(jurado);
 
-            revision.setTipoRevision((String) req.get("tipoRevision"));  // REVISION_PT o REVISION_IF
-            revision.setDictamen((String) req.get("dictamen"));          // OBSERVADO o APROBADO
+            revision.setTipoRevision((String) req.get("tipoRevision")); // REVISION_PT o REVISION_IF
+            revision.setDictamen((String) req.get("dictamen")); // OBSERVADO o APROBADO
             revision.setComentario((String) req.get("comentario"));
             revision.setFechaRevision(LocalDateTime.now());
 
@@ -103,12 +103,12 @@ public class FlujoRevisionController {
             Documento doc = new Documento();
             doc.setArchivoRuta("dictamen/dictamen_" + revision.getIdRevision() + ".pdf");
             doc.setTipoDocumento("DICTAMEN_JURADO");
-            doc.setFechaDocumento(LocalDateTime.now());
+            // doc.setFechaDocumento(LocalDateTime.now());
 
             // Creamos solicitud automática
             Solicitud solicitud = new Solicitud();
             solicitud.setExpediente(tesis.getExpediente());
-            solicitud.setFechaSolicitud(LocalDateTime.now());
+            // Fecha se asigna automáticamente en auditoría
             solicitud.setEstadoSolicitud("FINALIZADO");
 
             if (revision.getTipoRevision().equals("REVISION_PT")) {

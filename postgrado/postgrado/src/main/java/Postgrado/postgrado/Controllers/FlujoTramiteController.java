@@ -61,7 +61,7 @@ public class FlujoTramiteController {
             solicitud.setExpediente(expediente);
             solicitud.setTipoSolicitud("DESIGNACION_ASESOR");
             solicitud.setEstadoSolicitud("PENDIENTE");
-            solicitud.setFechaSolicitud(LocalDateTime.now());
+            // Fecha se asigna automáticamente en auditoría
             solicitud.setDescripcion("Solicitud generada automáticamente al registrar expediente.");
 
             solicitud = solicitudService.crear(solicitud);
@@ -73,7 +73,7 @@ public class FlujoTramiteController {
             documento.setSolicitud(solicitud);
             documento.setTipoDocumento("DESIGNACION_ASESOR");
             documento.setArchivoRuta("documentos/designacion_asesor_" + expediente.getIdExpediente() + ".pdf");
-            documento.setFechaDocumento(LocalDateTime.now());
+            // documento.setFechaDocumento(LocalDateTime.now());
 
             documento = documentoService.crear(documento);
 

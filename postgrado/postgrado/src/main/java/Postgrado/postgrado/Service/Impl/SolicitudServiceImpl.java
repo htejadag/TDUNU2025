@@ -23,16 +23,20 @@ public class SolicitudServiceImpl implements SolicitudService {
 
     @Override
     public List<Solicitud> listar() {
-        return repository.findAll();
+        return repository.findByActivoTrue();
     }
 
     @Override
     public Solicitud obtenerPorId(Integer id) {
-        return repository.findById(id).orElse(null);
+        return repository.findById(id).filter(Solicitud::getActivo).orElse(null);
     }
 
     @Override
     public void eliminar(Integer id) {
-        repository.deleteById(id);
+        Solicitud solicitud = obtenerPorId(id);
+        if (solicitud != null) {
+            solicitud.setActivo(false);
+            repository.save(solicitud);
+        }
     }
 }
