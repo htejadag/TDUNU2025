@@ -7,6 +7,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
 
@@ -19,8 +21,9 @@ public class RecargaModel {
     @Column(name = "id")
     private Integer id;
 
-    @Column(name = "id_cuenta_usuario")
-    private Integer id_cuenta_usuario;
+    @ManyToOne
+    @JoinColumn(name = "id_cuenta_usuario", referencedColumnName = "id")
+    private CuentaUsuarioModel id_cuenta_usuario;
 
     @Column(name = "metodo_pago")
     private String metodo_pago;

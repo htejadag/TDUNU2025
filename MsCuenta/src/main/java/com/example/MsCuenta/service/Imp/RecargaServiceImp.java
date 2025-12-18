@@ -51,7 +51,7 @@ public class RecargaServiceImp implements RecargaService {
         CuentaUsuarioModel idCuentaUsuario = cuentaUsuarioRepository.findById(recargaRequest.getId_cuenta_usuario())
         .orElseThrow(() -> new RuntimeException("No existe una cuenta de usuario con id: " + recargaRequest.getId_cuenta_usuario()));
 
-        model.setId_cuenta_usuario(idCuentaUsuario.getId());
+        model.setId_cuenta_usuario(idCuentaUsuario);
         model.setMetodo_pago(recargaRequest.getMetodo_pago());
         model.setReferencia(recargaRequest.getReferencia());
         model.setMonto(recargaRequest.getMonto());
@@ -89,7 +89,7 @@ public class RecargaServiceImp implements RecargaService {
         CuentaUsuarioModel idCuentaUsuario = cuentaUsuarioRepository.findById(recargaRequest.getId_cuenta_usuario())
         .orElseThrow(() -> new RuntimeException("No existe una cuenta de usuario con id: " + recargaRequest.getId_cuenta_usuario()));
         
-        model1.setId_cuenta_usuario(idCuentaUsuario.getId());
+        model1.setId_cuenta_usuario(idCuentaUsuario);
         model1.setMetodo_pago(recargaRequest.getMetodo_pago());
         model1.setReferencia(recargaRequest.getReferencia());
         model1.setMonto(recargaRequest.getMonto());

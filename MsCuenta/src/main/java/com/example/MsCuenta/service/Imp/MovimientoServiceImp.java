@@ -6,10 +6,12 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.MsCuenta.model.entity.CatalogoModel;
 import com.example.MsCuenta.model.entity.CuentaUsuarioModel;
 import com.example.MsCuenta.model.entity.MovimientoModel;
 import com.example.MsCuenta.model.request.MovimientoRquest;
 import com.example.MsCuenta.model.response.MovimientoResponse;
+import com.example.MsCuenta.repository.CatalogoRepository;
 import com.example.MsCuenta.repository.CuentaUsuarioRepository;
 import com.example.MsCuenta.repository.MovimientoRepository;
 import com.example.MsCuenta.service.MovimientoService;
@@ -26,6 +28,7 @@ public class MovimientoServiceImp implements MovimientoService {
     @Autowired
     CuentaUsuarioRepository cuentaUsuarioRepository;
     @Autowired
+    CatalogoRepository catalogoRepository;
 
     
     
@@ -52,8 +55,11 @@ public class MovimientoServiceImp implements MovimientoService {
         CuentaUsuarioModel idCuentaUsuario = cuentaUsuarioRepository.findById(movimientoRequest.getId_cuenta_usuario())
         .orElseThrow(() -> new RuntimeException("No existe una cuenta de usuario con id: " + movimientoRequest.getId_cuenta_usuario()));
 
-        model.setId_cuenta_usuario(idCuentaUsuario.getId());
-        model.setId_tipo_movimiento(movimientoRequest.getId_tipo_movimiento());
+        CatalogoModel idTipoMovimiento = catalogoRepository.findById(movimientoRequest.getId_tipo_movimiento())
+        .orElseThrow(() -> new RuntimeException("No existe un tipo de movimiento con id: " + movimientoRequest.getId_tipo_movimiento()));
+
+        model.setId_cuenta_usuario(idCuentaUsuario);
+        model.setId_tipo_movimiento(idTipoMovimiento);
         model.setId_operacion(movimientoRequest.getId_operacion());
         model.setMonto(movimientoRequest.getMonto());
         model.setFecha_movimiento(movimientoRequest.getFecha_movimiento());
@@ -88,9 +94,12 @@ public class MovimientoServiceImp implements MovimientoService {
 
         CuentaUsuarioModel idCuentaUsuario = cuentaUsuarioRepository.findById(movimientoRequest.getId_cuenta_usuario())
         .orElseThrow(() -> new RuntimeException("No existe una cuenta de usuario con id: " + movimientoRequest.getId_cuenta_usuario()));
+
+        CatalogoModel idTipoMovimiento = catalogoRepository.findById(movimientoRequest.getId_tipo_movimiento())
+        .orElseThrow(() -> new RuntimeException("No existe un tipo de movimiento con id: " + movimientoRequest.getId_tipo_movimiento()));
         
-        model1.setId_cuenta_usuario(idCuentaUsuario.getId());
-        model1.setId_tipo_movimiento(movimientoRequest.getId_tipo_movimiento());
+        model1.setId_cuenta_usuario(idCuentaUsuario);
+        model1.setId_tipo_movimiento(idTipoMovimiento);
         model1.setId_operacion(movimientoRequest.getId_operacion());
         model1.setMonto(movimientoRequest.getMonto());
         model1.setFecha_movimiento(movimientoRequest.getFecha_movimiento());
