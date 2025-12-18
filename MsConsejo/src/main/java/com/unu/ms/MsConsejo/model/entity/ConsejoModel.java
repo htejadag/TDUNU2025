@@ -10,8 +10,10 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
+
+import org.hibernate.annotations.CreationTimestamp;
 
 import lombok.Data;
 
@@ -34,13 +36,15 @@ public class ConsejoModel {
     @Column(name = "id_estado")
     private Integer idEstado;
 
+    @CreationTimestamp
     @Column(name = "fecha_creacion")
-    private Timestamp fechaCreacion;
+    private LocalDateTime fechaCreacion;
 
     @OneToMany(mappedBy = "consejo", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<MiembroConsejoModel> miembros;
 
     @OneToMany(mappedBy = "consejo", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<SesionConsejoModel> sesiones;
+
 
 }

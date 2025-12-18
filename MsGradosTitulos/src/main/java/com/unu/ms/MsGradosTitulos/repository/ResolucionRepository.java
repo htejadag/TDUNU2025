@@ -16,6 +16,6 @@ public interface ResolucionRepository extends JpaRepository<ResolucionModel, Int
     public List<ResolucionModel> findByIdSolicitud(Integer idSolicitud);
     public List<ResolucionModel> findByIdEstado(Integer idEstado);
     public List<ResolucionModel> findByIdTipoResolucion(Integer idTipoResolucion);
-    public List<ResolucionModel> findByIdExpedienteAndIdEstado(Integer idExpediente, Integer idEstado);
+    public List<ResolucionModel> findByExpedienteAndIdEstado(Integer idExpediente, Integer idEstado);
 
 }

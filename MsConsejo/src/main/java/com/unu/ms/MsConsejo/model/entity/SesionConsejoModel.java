@@ -1,7 +1,7 @@
 package com.unu.ms.MsConsejo.model.entity;
 
-import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
@@ -14,6 +14,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 
 import lombok.Data;
@@ -54,10 +55,15 @@ public class SesionConsejoModel {
     private Integer usuarioRegistro;
 
     @Column(name = "fecha_creacion")
-    private Timestamp fechaCreacion;
+    private LocalDateTime fechaCreacion;
 
     @OneToMany(mappedBy = "sesion", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<AsistenciaSesionModel> asistencias;
+
+    @PrePersist
+    protected void onCreate() {
+        this.fechaCreacion = LocalDateTime.now();
+    }
 
 }
 

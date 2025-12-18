@@ -1,0 +1,21 @@
+package com.unu.ms.MsSecretariaAcademica.repository;
+ 
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.stereotype.Repository;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.unu.ms.MsSecretariaAcademica.model.entity.ResolucionModel;
+
+@Repository
+public interface ResolucionRepository extends JpaRepository<ResolucionModel, Integer> {
+  
+    public Optional<ResolucionModel> findByNumeroResolucion(String numeroResolucion);
+    public List<ResolucionModel> findByExpediente_IdExpediente(Integer idExpediente);
+    public List<ResolucionModel> findByIdEstado(Integer idEstado);
+    public List<ResolucionModel> findByIdTipoResolucion(Integer idTipoResolucion);
+    public List<ResolucionModel> findByAprobadoEnSesion(Integer aprobadoEnSesion);
+    public List<ResolucionModel> findByIdTipoResolucionAndIdEstado(Integer idTipoResolucion, Integer idEstado);
+
+}
