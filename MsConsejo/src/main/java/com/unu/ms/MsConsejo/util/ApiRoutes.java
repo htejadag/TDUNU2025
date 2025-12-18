@@ -54,4 +54,20 @@ public class ApiRoutes {
         public static final String BUSCAR_POR_TIPO = "/buscarPorTipo";
     }
 
+    public static class Catalogo {
+        public static final String BASE = "/api/catalogo";
+        public static final String LISTAR = "/listar";
+        public static final String ACTUALIZAR = "/actualizar";
+        public static final String GUARDAR = "/guardar";
+        public static final String ELIMINAR = "/eliminar";
+        public static final String OBTENER_POR_ID = "/obtenerPorId";
+
+        public static final String BUSCAR_POR_DESCRIPCION = "/buscarPorDescripcion";
+        public static final String BUSCAR_POR_ABREVIATURA = "/buscarPorAbreviatura";
+        public static final String BUSCAR_POR_ESTADO = "/buscarPorEstado";
+        public static final String BUSCAR_HIJOS_POR_PADRE = "/buscarHijosPorPadre";
+        public static final String BUSCAR_CATALOGOS_RAIZ = "/buscarCatalogosRaiz";
+        public static final String BUSCAR_POR_PADRE_Y_ESTADO = "/buscarPorPadreYEstado";
+    }
+
 }

@@ -20,10 +20,10 @@ import com.unu.ms.MsConsejo.service.SesionConsejoService;
 public class SesionConsejoServiceImp implements SesionConsejoService {
 
         @Autowired
-        SesionConsejoRepository sesionConsejoRepository;
+        private SesionConsejoRepository sesionConsejoRepository;
 
         @Autowired
-        SesionConsejoMapper mapper;
+        private SesionConsejoMapper mapper;
 
         @Override
         public List<SesionConsejoResponse> listar() {
@@ -78,5 +78,4 @@ public class SesionConsejoServiceImp implements SesionConsejoService {
         public List<SesionConsejoResponse> buscarPorTipoSesion(Integer idTipoSesion) {
                 return sesionConsejoRepository.findByIdTipoSesion(idTipoSesion).stream().map(mapper::toResponse).toList();
         }
-
 }
