@@ -65,4 +65,14 @@ public class ExpedienteServiceImp implements ExpedienteService {
         return expedienteRepository.findByIdPersona(idPersona).stream().map(mapper:: toResponse).toList();
     }
 
+    @Override
+    public List<ExpedienteResponse> buscarPorPersonaYEstado(Integer idPersona, Integer idEstado) {
+        return expedienteRepository.findByIdPersonaAndIdEstado(idPersona, idEstado).stream().map(mapper:: toResponse).toList();
+    }
+
+    @Override
+    public List<ExpedienteResponse> buscarPorEstado(Integer idEstado) {
+        return expedienteRepository.findByIdEstado(idEstado).stream().map(mapper:: toResponse).toList();
+    }
+
 }

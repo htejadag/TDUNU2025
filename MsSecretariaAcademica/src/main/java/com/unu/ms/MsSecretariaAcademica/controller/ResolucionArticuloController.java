@@ -65,5 +65,5 @@ public class ResolucionArticuloController {
         List<ResolucionArticuloResponse> listaResponse = resolucionArticuloService.buscarPorResolucion(idResolucion);
         return ResponseBase.ok(Mensajes.LISTAR_OK, listaResponse);
     }
-
+    
 }

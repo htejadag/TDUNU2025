@@ -69,4 +69,27 @@ public class ResolucionServiceImp implements ResolucionService {
         return resolucionRepository.findByNumeroResolucion(numeroResolucion).map(mapper:: toResponse).orElse(null);
     }
 
+    @Override
+    public List<ResolucionResponse> buscarPorTipo(Integer idTipoResolucion) {   
+        return resolucionRepository.findByIdTipoResolucion(idTipoResolucion).stream().map(mapper:: toResponse).toList();
+    }   
+
+    @Override
+    public List<ResolucionResponse> buscarPorEstado(Integer idEstado) {   
+        return resolucionRepository.findByIdEstado(idEstado).stream().map(mapper:: toResponse).toList();
+    }  
+
+    @Override
+    public List<ResolucionResponse> buscarPorTipoYEstado(Integer idTipoResolucion, Integer idEstado) {
+        return resolucionRepository.findByIdTipoResolucionAndIdEstado(idTipoResolucion, idEstado).stream()
+                .filter(resolucion -> resolucion.getIdEstado().equals(idEstado))
+                .map(mapper::toResponse)
+                .toList();
+    }
+
+    @Override
+    public List<ResolucionResponse> buscarPorAprobadoEnSesion(Integer aprobadoEnSesion) {
+        return resolucionRepository.findByAprobadoEnSesion(aprobadoEnSesion).stream().map(mapper:: toResponse).toList();
+    }   
+
 }

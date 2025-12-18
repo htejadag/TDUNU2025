@@ -16,5 +16,7 @@ public interface ExpedienteService {
 
     public ExpedienteResponse buscarPorCodigo(String codigo);
     public List<ExpedienteResponse> buscarPorPersona(Integer idPersona);
+    public List<ExpedienteResponse> buscarPorEstado(Integer idEstado);
+    public List<ExpedienteResponse> buscarPorPersonaYEstado(Integer idPersona, Integer idEstado);
 
 }

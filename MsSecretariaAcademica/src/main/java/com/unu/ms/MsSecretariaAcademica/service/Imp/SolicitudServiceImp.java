@@ -54,5 +54,35 @@ public class SolicitudServiceImp implements SolicitudService {
     public boolean existePorId(Integer id) {
         return solicitudRepository.existsById(id);
     }
+
+    @Override
+    public List<SolicitudResponse> obtenerPorPersona(Integer idPersona) {
+        return solicitudRepository.findByIdPersona(idPersona).stream().map(mapper:: toResponse).toList();
+    }
+
+    @Override
+    public List<SolicitudResponse> obtenerPorEstado(Integer idEstado) {
+        return solicitudRepository.findByIdEstado(idEstado).stream().map(mapper:: toResponse).toList();
+    }
+
+    @Override
+    public List<SolicitudResponse> obtenerPorTipo(Integer idTipoSolicitud) {
+        return solicitudRepository.findByIdTipoSolicitud(idTipoSolicitud).stream().map(mapper:: toResponse).toList();
+    }
+
+    @Override
+    public List<SolicitudResponse> obtenerPorPersonaYEstado(Integer idPersona, Integer idEstado) {
+        return solicitudRepository.findByIdPersonaAndIdEstado(idPersona, idEstado).stream().map(mapper:: toResponse).toList();
+    }   
+
+    @Override
+    public List<SolicitudResponse> obtenerPorTipoYEstado(Integer idTipoSolicitud, Integer idEstado) {
+        return solicitudRepository.findByIdTipoSolicitudAndIdEstado(idTipoSolicitud, idEstado).stream().map(mapper:: toResponse).toList();
+    }
+
+    @Override
+    public List<SolicitudResponse> obtenerPorFechaRango(String fechaInicio, String fechaFin) {
+        return solicitudRepository.findByFechaSolicitudBetween(fechaInicio, fechaFin).stream().map(mapper:: toResponse).toList();
+    }
     
 }

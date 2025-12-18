@@ -71,5 +71,16 @@ public class ExpedienteController {
         List<ExpedienteResponse> listaResponse = expedienteService.buscarPorPersona(idPersona);
         return ResponseBase.ok(Mensajes.LISTAR_OK, listaResponse);
     }
+    @GetMapping(value =  ApiRoutes.Expediente.BUSCAR_POR_TIPO_Y_ESTADO)
+    public ResponseBase<List<ExpedienteResponse>> buscarPorPersonaYEstado(@RequestParam Integer idPersona, @RequestParam Integer idEstado) {
+        List<ExpedienteResponse> listaResponse = expedienteService.buscarPorPersonaYEstado(idPersona, idEstado);
+        return ResponseBase.ok(Mensajes.LISTAR_OK, listaResponse);
+    }  
+    
+    @GetMapping(value =  ApiRoutes.Expediente.BUSCAR_POR_ESTADO)
+    public ResponseBase<List<ExpedienteResponse>> buscarPorEstado(@RequestParam Integer idEstado) {
+        List<ExpedienteResponse> listaResponse = expedienteService.buscarPorEstado(idEstado);
+        return ResponseBase.ok(Mensajes.LISTAR_OK, listaResponse);
+    }
 
 }

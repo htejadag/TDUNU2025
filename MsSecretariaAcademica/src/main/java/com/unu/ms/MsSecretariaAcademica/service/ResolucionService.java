@@ -16,5 +16,9 @@ public interface ResolucionService {
 
     public List<ResolucionResponse> buscarPorExpediente(Integer idExpediente);
     public ResolucionResponse buscarPorNumero(String numeroResolucion);
+    public List<ResolucionResponse> buscarPorTipo(Integer idTipoResolucion);
+    public List<ResolucionResponse> buscarPorEstado(Integer idEstado);
+    public List<ResolucionResponse> buscarPorTipoYEstado(Integer idTipoResolucion, Integer idEstado);
+    public List<ResolucionResponse> buscarPorAprobadoEnSesion(Integer aprobadoEnSesion);
 
 }

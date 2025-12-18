@@ -59,5 +59,44 @@ public class SolicitudController {
         SolicitudResponse response = solicitudService.obtenerPorId(id);
         return ResponseBase.ok(Mensajes.OBTENER_POR_OK, response);
     }
+
+    @GetMapping(value = ApiRoutes.Solicitud.OBTENER_POR_PERSONA)
+    public ResponseBase<List<SolicitudResponse>> obtenerPorPersona(@RequestParam(value = "idPersona") Integer idPersona) {
+        List<SolicitudResponse> listaResponse = solicitudService.obtenerPorPersona(idPersona);
+        return ResponseBase.ok(Mensajes.OBTENER_POR_OK, listaResponse);
+    }
+
+    @GetMapping(value = ApiRoutes.Solicitud.OBTENER_POR_ESTADO)
+    public ResponseBase<List<SolicitudResponse>> obtenerPorEstado(@RequestParam(value = "idEstado") Integer idEstado) {
+        List<SolicitudResponse> listaResponse = solicitudService.obtenerPorEstado(idEstado);
+        return ResponseBase.ok(Mensajes.OBTENER_POR_OK, listaResponse);
+    }
+
+    @GetMapping(value = ApiRoutes.Solicitud.OBTENER_POR_TIPO)
+    public ResponseBase<List<SolicitudResponse>> obtenerPorTipo(@RequestParam(value = "idTipoSolicitud") Integer idTipoSolicitud) {
+        List<SolicitudResponse> listaResponse = solicitudService.obtenerPorTipo(idTipoSolicitud);
+        return ResponseBase.ok(Mensajes.OBTENER_POR_OK, listaResponse);
+    }
+
+    @GetMapping(value = ApiRoutes.Solicitud.OBTENER_POR_PERSONA_Y_ESTADO)
+    public ResponseBase<List<SolicitudResponse>> obtenerPorPersonaYEstado(@RequestParam(value = "idPersona") Integer idPersona,
+                                                                           @RequestParam(value = "idEstado") Integer idEstado) {
+        List<SolicitudResponse> listaResponse = solicitudService.obtenerPorPersonaYEstado(idPersona, idEstado);
+        return ResponseBase.ok(Mensajes.OBTENER_POR_OK, listaResponse);
+    }
+
+    @GetMapping(value = ApiRoutes.Solicitud.OBTENER_POR_TIPO_Y_ESTADO)
+    public ResponseBase<List<SolicitudResponse>> obtenerPorTipoYEstado(@RequestParam(value = "idTipoSolicitud") Integer idTipoSolicitud,
+                                                                       @RequestParam(value = "idEstado") Integer idEstado) {
+        List<SolicitudResponse> listaResponse = solicitudService.obtenerPorTipoYEstado(idTipoSolicitud, idEstado);
+        return ResponseBase.ok(Mensajes.OBTENER_POR_OK, listaResponse);
+    }
+
+    @GetMapping(value = ApiRoutes.Solicitud.OBTENER_POR_FECHA_RANGO)
+    public ResponseBase<List<SolicitudResponse>> obtenerPorFechaRango(@RequestParam(value = "fechaInicio") String fechaInicio,
+                                                                      @RequestParam(value = "fechaFin") String fechaFin) {
+        List<SolicitudResponse> listaResponse = solicitudService.obtenerPorFechaRango(fechaInicio, fechaFin);
+        return ResponseBase.ok(Mensajes.OBTENER_POR_OK, listaResponse);
+    }
     
 }

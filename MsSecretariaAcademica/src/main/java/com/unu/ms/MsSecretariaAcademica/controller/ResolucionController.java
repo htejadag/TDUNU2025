@@ -71,5 +71,28 @@ public class ResolucionController {
         ResolucionResponse response = resolucionService.buscarPorNumero(numero);
         return ResponseBase.ok(Mensajes.OBTENER_POR_OK, response);
     }
+    @GetMapping(value = ApiRoutes.Resolucion.BUSCAR_POR_TIPO)
+    public ResponseBase<List<ResolucionResponse>> buscarPorTipo(@RequestParam Integer idTipoResolucion) {
+        List<ResolucionResponse> listaResponse = resolucionService.buscarPorTipo(idTipoResolucion);
+         return ResponseBase.ok(Mensajes.LISTAR_OK, listaResponse);
+    }
+
+    @GetMapping(value = ApiRoutes.Resolucion.BUSCAR_POR_ESTADO)
+    public ResponseBase<List<ResolucionResponse>> buscarPorEstado(@RequestParam Integer idEstado) {
+        List<ResolucionResponse> listaResponse = resolucionService.buscarPorEstado(idEstado);
+         return ResponseBase.ok(Mensajes.LISTAR_OK, listaResponse);
+    }
+
+    @GetMapping(value = ApiRoutes.Resolucion.BUSCAR_POR_TIPO_Y_ESTADO)
+    public ResponseBase<List<ResolucionResponse>> buscarPorTipoYEstado(@RequestParam Integer idTipoResolucion, @RequestParam Integer idEstado) {
+        List<ResolucionResponse> listaResponse = resolucionService.buscarPorTipoYEstado(idTipoResolucion, idEstado);
+         return ResponseBase.ok(Mensajes.LISTAR_OK, listaResponse);
+    }
+
+    @GetMapping(value = ApiRoutes.Resolucion.BUSCAR_POR_APROBADO_EN_SESION)
+    public ResponseBase<List<ResolucionResponse>> buscarPorAprobadoEnSesion(@RequestParam Integer aprobadoEnSesion) {
+        List<ResolucionResponse> listaResponse = resolucionService.buscarPorAprobadoEnSesion(aprobadoEnSesion);
+         return ResponseBase.ok(Mensajes.LISTAR_OK, listaResponse);
+    }
 
 }
