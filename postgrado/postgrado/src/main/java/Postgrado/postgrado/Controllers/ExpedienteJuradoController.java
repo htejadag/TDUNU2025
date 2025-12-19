@@ -2,6 +2,9 @@ package Postgrado.postgrado.Controllers;
 
 import Postgrado.postgrado.Model.ExpedienteJurado;
 import Postgrado.postgrado.Service.ExpedienteJuradoService;
+import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,35 +20,49 @@ public class ExpedienteJuradoController {
     }
 
     @PostMapping
-    public ExpedienteJurado crear(@RequestBody ExpedienteJurado ej) {
-        return service.crear(ej);
+    public ResponseEntity<ExpedienteJurado> crear(@Valid @RequestBody ExpedienteJurado ej) {
+        ExpedienteJurado nuevoEj = service.crear(ej);
+        return new ResponseEntity<>(nuevoEj, HttpStatus.CREATED);
     }
 
     @GetMapping
-    public List<ExpedienteJurado> listar() {
-        return service.listar();
+    public ResponseEntity<List<ExpedienteJurado>> listar() {
+        return ResponseEntity.ok(service.listar());
     }
 
     @GetMapping("/{id}")
-    public ExpedienteJurado obtener(@PathVariable Integer id) {
-        return service.obtenerPorId(id);
+    public ResponseEntity<ExpedienteJurado> obtener(@PathVariable Integer id) {
+        ExpedienteJurado ej = service.obtenerPorId(id);
+        if (ej == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(ej);
     }
 
     @PutMapping("/{id}")
-    public ExpedienteJurado actualizar(@PathVariable Integer id, @RequestBody ExpedienteJurado data) {
+    public ResponseEntity<ExpedienteJurado> actualizar(@PathVariable Integer id,
+            @Valid @RequestBody ExpedienteJurado data) {
         ExpedienteJurado ej = service.obtenerPorId(id);
-        if (ej == null) return null;
+        if (ej == null) {
+            return ResponseEntity.notFound().build();
+        }
 
         ej.setExpediente(data.getExpediente());
         ej.setJurado(data.getJurado());
         ej.setRol(data.getRol());
-        ej.setFechaDesignacion(data.getFechaDesignacion());
+        // fechaDesignacion eliminada, se controla por auditoría
 
-        return service.crear(ej);
+        ExpedienteJurado actualizado = service.crear(ej);
+        return ResponseEntity.ok(actualizado);
     }
 
     @DeleteMapping("/{id}")
-    public void eliminar(@PathVariable Integer id) {
+    public ResponseEntity<Void> eliminar(@PathVariable Integer id) {
+        ExpedienteJurado ej = service.obtenerPorId(id);
+        if (ej == null) {
+            return ResponseEntity.notFound().build();
+        }
         service.eliminar(id);
+        return ResponseEntity.noContent().build();
     }
 }

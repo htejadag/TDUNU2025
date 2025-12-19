@@ -23,16 +23,20 @@ public class ExpedienteJuradoServiceImpl implements ExpedienteJuradoService {
 
     @Override
     public List<ExpedienteJurado> listar() {
-        return repository.findAll();
+        return repository.findByActivoTrue();
     }
 
     @Override
     public ExpedienteJurado obtenerPorId(Integer id) {
-        return repository.findById(id).orElse(null);
+        return repository.findById(id).filter(ExpedienteJurado::getActivo).orElse(null);
     }
 
     @Override
     public void eliminar(Integer id) {
-        repository.deleteById(id);
+        ExpedienteJurado ej = obtenerPorId(id);
+        if (ej != null) {
+            ej.setActivo(false);
+            repository.save(ej);
+        }
     }
 }

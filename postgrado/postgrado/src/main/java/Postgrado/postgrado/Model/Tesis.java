@@ -1,18 +1,21 @@
 package Postgrado.postgrado.Model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
+@EqualsAndHashCode(callSuper = false)
 @Entity
 @Table(name = "tesis")
 @Data
-public class Tesis {
+public class Tesis extends AuditoriaEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,13 +24,16 @@ public class Tesis {
     @ManyToOne
     @JoinColumn(name = "id_expediente")
     @JsonBackReference(value = "exp-tesis")
+    @NotNull(message = "El expediente es obligatorio")
     private Expediente expediente;
-    
+
     @OneToMany(mappedBy = "tesis")
     @JsonManagedReference(value = "tesis-revision")
     private List<Revision> revisiones;
 
+    @NotBlank(message = "El título es obligatorio")
     private String titulo;
+
     private String proyectoPdf;
     private String informeFinalPdf;
     private String antiplagioProyectoPdf;
@@ -36,5 +42,5 @@ public class Tesis {
     private String estadoProyecto;
     private String estadoInformeFinal;
 
-    private LocalDateTime fechaRegistro = LocalDateTime.now();
+    // fechaRegistro eliminada, se usa auditoría
 }

@@ -2,6 +2,9 @@ package Postgrado.postgrado.Controllers;
 
 import Postgrado.postgrado.Model.Tesis;
 import Postgrado.postgrado.Service.TesisService;
+import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,24 +20,31 @@ public class TesisController {
     }
 
     @PostMapping
-    public Tesis crear(@RequestBody Tesis tesis) {
-        return service.crear(tesis);
+    public ResponseEntity<Tesis> crear(@Valid @RequestBody Tesis tesis) {
+        Tesis nuevaTesis = service.crear(tesis);
+        return new ResponseEntity<>(nuevaTesis, HttpStatus.CREATED);
     }
 
     @GetMapping
-    public List<Tesis> listar() {
-        return service.listar();
+    public ResponseEntity<List<Tesis>> listar() {
+        return ResponseEntity.ok(service.listar());
     }
 
     @GetMapping("/{id}")
-    public Tesis obtener(@PathVariable Integer id) {
-        return service.obtenerPorId(id);
+    public ResponseEntity<Tesis> obtener(@PathVariable Integer id) {
+        Tesis tesis = service.obtenerPorId(id);
+        if (tesis == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(tesis);
     }
 
     @PutMapping("/{id}")
-    public Tesis actualizar(@PathVariable Integer id, @RequestBody Tesis data) {
+    public ResponseEntity<Tesis> actualizar(@PathVariable Integer id, @Valid @RequestBody Tesis data) {
         Tesis t = service.obtenerPorId(id);
-        if (t == null) return null;
+        if (t == null) {
+            return ResponseEntity.notFound().build();
+        }
 
         t.setTitulo(data.getTitulo());
         t.setProyectoPdf(data.getProyectoPdf());
@@ -43,13 +53,19 @@ public class TesisController {
         t.setAntiplagioFinalPdf(data.getAntiplagioFinalPdf());
         t.setEstadoProyecto(data.getEstadoProyecto());
         t.setEstadoInformeFinal(data.getEstadoInformeFinal());
-        t.setFechaRegistro(data.getFechaRegistro());
+        // fechaRegistro eliminada, se controla por auditoría
 
-        return service.crear(t);
+        Tesis actualizada = service.crear(t);
+        return ResponseEntity.ok(actualizada);
     }
 
     @DeleteMapping("/{id}")
-    public void eliminar(@PathVariable Integer id) {
+    public ResponseEntity<Void> eliminar(@PathVariable Integer id) {
+        Tesis t = service.obtenerPorId(id);
+        if (t == null) {
+            return ResponseEntity.notFound().build();
+        }
         service.eliminar(id);
+        return ResponseEntity.noContent().build();
     }
 }

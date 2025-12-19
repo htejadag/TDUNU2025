@@ -117,3 +117,77 @@ ACTUALIZAR:  PUT http://localhost:8080/api/documentos/{id}
 
 ELIMINAR:  DELETE http://localhost:8080/api/documentos/{id}
 
+--------------------------------------------------------------------
+
+EXPEDIENTE JURADO:
+
+CREAR:  POST http://localhost:8080/api/expediente-jurado
+{
+    "expediente": {
+        "idExpediente": 1
+    },
+    "jurado": {
+        "idJurado": 1
+    },
+    "rol": "PRESIDENTE"
+}
+
+OBTENER POR ID:  GET http://localhost:8080/api/expediente-jurado/{id}
+
+ACTUALIZAR:  PUT http://localhost:8080/api/expediente-jurado/{id}
+{
+    "rol": "SECRETARIO"
+}
+
+ELIMINAR:  DELETE http://localhost:8080/api/expediente-jurado/{id}
+
+--------------------------------------------------------------------
+
+REVISION:
+
+CREAR:  POST http://localhost:8080/api/revisiones
+{
+    "tesis": {
+        "idTesis": 1
+    },
+    "jurado": {
+        "idJurado": 1
+    },
+    "tipoRevision": "REVISION_PT",
+    "dictamen": "APROBADO",
+    "comentario": "El proyecto cumple con los requisitos."
+}
+
+OBTENER POR ID:  GET http://localhost:8080/api/revisiones/{id}
+
+ACTUALIZAR:  PUT http://localhost:8080/api/revisiones/{id}
+{
+    "dictamen": "OBSERVADO",
+    "comentario": "Se encontraron errores menores."
+}
+
+ELIMINAR:  DELETE http://localhost:8080/api/revisiones/{id}
+
+--------------------------------------------------------------------
+
+TESIS:
+
+CREAR:  POST http://localhost:8080/api/tesis
+{
+    "expediente": {
+        "idExpediente": 1
+    },
+    "titulo": "Implementación de IA en Salud",
+    "estadoProyecto": "EN_REVISION"
+}
+
+OBTENER POR ID:  GET http://localhost:8080/api/tesis/{id}
+
+ACTUALIZAR:  PUT http://localhost:8080/api/tesis/{id}
+{
+    "titulo": "Título corregido de la tesis",
+    "estadoProyecto": "APROBADO"
+}
+
+ELIMINAR:  DELETE http://localhost:8080/api/tesis/{id}
+

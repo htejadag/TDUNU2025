@@ -23,16 +23,20 @@ public class TesisServiceImpl implements TesisService {
 
     @Override
     public List<Tesis> listar() {
-        return repository.findAll();
+        return repository.findByActivoTrue();
     }
 
     @Override
     public Tesis obtenerPorId(Integer id) {
-        return repository.findById(id).orElse(null);
+        return repository.findById(id).filter(Tesis::getActivo).orElse(null);
     }
 
     @Override
     public void eliminar(Integer id) {
-        repository.deleteById(id);
+        Tesis tesis = obtenerPorId(id);
+        if (tesis != null) {
+            tesis.setActivo(false);
+            repository.save(tesis);
+        }
     }
 }

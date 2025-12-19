@@ -71,7 +71,7 @@ public class FlujoRevisionController {
             revision.setTipoRevision((String) req.get("tipoRevision")); // REVISION_PT o REVISION_IF
             revision.setDictamen((String) req.get("dictamen")); // OBSERVADO o APROBADO
             revision.setComentario((String) req.get("comentario"));
-            revision.setFechaRevision(LocalDateTime.now());
+            // revision.setFechaRevision(LocalDateTime.now());
 
             revision = revisionService.crear(revision);
 
