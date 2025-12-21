@@ -16,32 +16,32 @@ import tdunu.MsPersona.util.ApiRoutes;
 import tdunu.MsPersona.util.ResponseBase;
 
 @RestController
-@RequestMapping(ApiRoutes.Estudiante.BASE)  // Cambiado a Estudiante.BASE
-public class EstudianteController {  // Nombre correcto de la clase
+@RequestMapping(ApiRoutes.Estudiante.BASE)  
+public class EstudianteController {  
 
     @Autowired
-    EstudianteService estudianteService;  // Correcto: servicio de Estudiante
+    EstudianteService estudianteService;  
 
-    @GetMapping(value = ApiRoutes.Estudiante.LISTAR)  // Cambiado a Estudiante.LISTAR
-    public ResponseBase<List<EstudianteResponse>> listar() {  // Cambiado a EstudianteResponse
+    @GetMapping(value = ApiRoutes.Estudiante.LISTAR)  
+    public ResponseBase<List<EstudianteResponse>> listar() { 
         List<EstudianteResponse> lista = estudianteService.listar();
         return ResponseBase.ok(lista);
     }
 
-    @GetMapping(value = ApiRoutes.Estudiante.OBTENER_POR_ID)  // Cambiado
-    public ResponseBase<EstudianteResponse> obtenerPorId(@RequestParam(value = "id") Integer id) {  // Cambiado
+    @GetMapping(value = ApiRoutes.Estudiante.OBTENER_POR_ID)  
+    public ResponseBase<EstudianteResponse> obtenerPorId(@RequestParam(value = "id") Integer id) { 
         EstudianteResponse response = estudianteService.obtenerPorId(id);
         return ResponseBase.ok(response);
     }
 
-    @PostMapping(value = ApiRoutes.Estudiante.GUARDAR)  // Cambiado
-    public ResponseBase<EstudianteResponse> guardar(@RequestBody EstudianteRequest request) {  // Cambiado
+    @PostMapping(value = ApiRoutes.Estudiante.GUARDAR)  
+    public ResponseBase<EstudianteResponse> guardar(@RequestBody EstudianteRequest request) {  
         EstudianteResponse response = estudianteService.guardar(request);
         return ResponseBase.ok(response);
     }
 
-    @DeleteMapping(value = ApiRoutes.Estudiante.ELIMINAR)  // Cambiado
-    public ResponseBase<Void> eliminar(@RequestParam(value = "id") Integer id) {  // Cambiado tipo de retorno
+    @DeleteMapping(value = ApiRoutes.Estudiante.ELIMINAR) 
+    public ResponseBase<Void> eliminar(@RequestParam(value = "id") Integer id) {  
         estudianteService.eliminar(id);
         return ResponseBase.ok(null);
     }
