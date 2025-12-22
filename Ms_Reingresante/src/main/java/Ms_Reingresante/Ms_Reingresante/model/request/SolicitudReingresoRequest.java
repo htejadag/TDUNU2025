@@ -3,18 +3,22 @@ package Ms_Reingresante.Ms_Reingresante.model.request;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+import lombok.Data;
+
+@Data
+
 public class SolicitudReingresoRequest {
     
-    public Integer idProceso;
-    public String solNumRegistro;
-    public LocalDate solFechaPresentacion;
-    public LocalDate solFechaRespuesta;
-    public String solContenido;
-    public String solEstado;
-    public String solObservaciones;
-    public Integer resolucionIdResolucion;
-    public LocalDateTime fechaCreacion;
-    public String usuarioCreacion;
-    public LocalDateTime fechaModificacion;
-    public String usuarioModificacion;
+    private Integer idProceso;
+    private String solNumRegistro;
+    private LocalDate solFechaPresentacion;
+    private LocalDate solFechaRespuesta;
+    private String solContenido;
+    private String solEstado;
+    private String solObservaciones;
+    private Integer resolucionIdResolucion;
+    private LocalDateTime fechaCreacion;
+    private String usuarioCreacion;
+    private LocalDateTime fechaModificacion;
+    private String usuarioModificacion;
 }

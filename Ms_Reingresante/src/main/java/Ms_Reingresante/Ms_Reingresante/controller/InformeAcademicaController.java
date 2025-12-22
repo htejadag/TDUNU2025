@@ -23,6 +23,7 @@ import Ms_Reingresante.Ms_Reingresante.util.InformeAcademicoBase;
 import Ms_Reingresante.Ms_Reingresante.util.procesoReingresanteBase;
 
 
+
 @RestController
 @RequestMapping(ApiRoutes.InformeAcademico.BASE)
 public class InformeAcademicaController {
@@ -35,25 +36,26 @@ public class InformeAcademicaController {
      */
     @GetMapping(value = ApiRoutes.InformeAcademico.LISTAR)
     public procesoReingresanteBase<List<InformeAcademicoResponse>> listar() {
-        List<InformeAcademicoResponse> lista = InformeAcademicoService.listar();
+        List<InformeAcademicoResponse> lista = InformeAcademicoService.listarInformeAcademico();
         return procesoReingresanteBase.ok(lista);
     }
 
     @GetMapping(value = ApiRoutes.InformeAcademico.OBTENER_POR_ID)
   public InformeAcademicoBase<InformeAcademicoResponse> obtenerPorId(@RequestParam(value = "id") Integer id) {
-    InformeAcademicoResponse response =InformeAcademicoService.obtenerPorId(id);
+    InformeAcademicoResponse response =InformeAcademicoService.obtenerPorIdInformeAcademico(id);
     return InformeAcademicoBase.ok(response);
   }
 
-  @PostMapping(value = ApiRoutes.InformeAcademico.GUARDAR)
+   @PostMapping(value = ApiRoutes.InformeAcademico.GUARDAR)
   public InformeAcademicoBase<InformeAcademicoResponse> guardar(@RequestBody InformeAcademicoRequest model) {
-   InformeAcademicoResponse response = InformeAcademicoService.guardar(model);
+    InformeAcademicoResponse response = InformeAcademicoService.guardarInformeAcademico(model);
     return InformeAcademicoBase.ok(response);
   }
+
 
    @DeleteMapping(value = ApiRoutes.InformeAcademico.ELIMINAR)
   public InformeAcademicoResponse eliminar(@RequestParam(value = "id") Integer id) {
-   InformeAcademicoService.eliminar(id);
+   InformeAcademicoService.eliminarInformeAcademico(id);
     return null;
   }
 

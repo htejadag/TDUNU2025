@@ -29,25 +29,25 @@ public class procesoReingresanteController {
 
   @GetMapping(value = ApiRoutes.ProcesoReingresante.LISTAR)
   public procesoReingresanteBase<List<procesoReingresoResponse>> listar() {
-    List<procesoReingresoResponse> lista = ProcesoReingresoService.listar();
+    List<procesoReingresoResponse> lista = ProcesoReingresoService.listarProcesoReingreso();
     return procesoReingresanteBase.ok(lista);
   }
 
 @GetMapping(value = ApiRoutes.ProcesoReingresante.OBTENER_POR_ID)
   public procesoReingresanteBase<procesoReingresoResponse> obtenerPorId(@RequestParam(value = "id") Integer id) {
-    procesoReingresoResponse response = ProcesoReingresoService.obtenerPorId(id);
+    procesoReingresoResponse response = ProcesoReingresoService.obtenerPorIdProcesoReingreso(id);
     return procesoReingresanteBase.ok(response);
   }
 
 @PostMapping(value = ApiRoutes.ProcesoReingresante.GUARDAR)
   public procesoReingresanteBase<procesoReingresoResponse> guardar(@RequestBody procesoReingresoRequest model) {
-    procesoReingresoResponse response = ProcesoReingresoService.guardar(model);
+    procesoReingresoResponse response = ProcesoReingresoService.guardarProcesoReingreso(model);
     return procesoReingresanteBase.ok(response);
   }
 
     @DeleteMapping(value = ApiRoutes.ProcesoReingresante.ELIMINAR)
   public procesoReingresoResponse eliminar(@RequestParam(value = "id") Integer id) {
-    ProcesoReingresoService.eliminar(id);
+    ProcesoReingresoService.eliminarProcesoReingreso(id);
     return null;
   }
 
