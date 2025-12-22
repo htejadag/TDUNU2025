@@ -1,10 +1,7 @@
 package Ms_Reingresante.Ms_Reingresante.model.entity;
 
 
-
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -31,10 +28,10 @@ public class procesoReingresoModel {
     private String procCodigo;
 
     @Column(name = "Proc_Fecha_Inicio")
-    private LocalDate procFechaInicio;
+    private LocalDateTime procFechaInicio;
 
     @Column(name = "Proc_Fecha_Fin")
-    private LocalDate procFechaFin;
+    private LocalDateTime procFechaFin;
 
     @Column(name = "Proc_Estado")
     private String procEstado;
@@ -43,19 +40,19 @@ public class procesoReingresoModel {
     private String procObservaciones;
 
     @Column(name = "Proc_Fecha_Pago_Ficha")
-    private LocalDate procFechaPagoFicha;
+    private LocalDateTime procFechaPagoFicha;
 
     @Column(name = "Proc_Fecha_Emision_Ficha")
-    private LocalDate procFechaEmisionFicha;
+    private LocalDateTime procFechaEmisionFicha;
 
     @Column(name = "Proc_Fecha_Pago_Informe")
-    private LocalDate procFechaPagoInforme;
+    private LocalDateTime procFechaPagoInforme;
 
     @Column(name = "Proc_Fecha_Solicitud_Informe")
-    private LocalDate procFechaSolicitudInforme;
+    private LocalDateTime procFechaSolicitudInforme;
 
     @Column(name = "Proc_Fecha_Emision_Informe")
-    private LocalDate procFechaEmisionInforme;
+    private LocalDateTime procFechaEmisionInforme;
 
     @Column(name = "Proc_Fecha_Solicitud_Reingreso")
     private LocalDateTime procFechaSolicitudReingreso;

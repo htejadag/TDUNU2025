@@ -25,25 +25,25 @@ public class FichaNoAdeudoModel {
     @Column(name = "id_Proceso")
     private Integer idProceso; // id Proceso INT (Clave Foránea) [cite: 107]
 
-    @Column(name = "Ficha_Numero", length = 50)
+    @Column(name = "Ficha_Numero")
     private String fichaNumero; // Ficha Numero VARCHAR(50) [cite: 108]
 
     @Column(name = "Ficha_Fecha_Emision")
     private LocalDate fechaEmision; // Ficha Fecha Emision DATE [cite: 109]
 
-    @Column(name = "Ficha_Emitido_Por", length = 50)
+    @Column(name = "Ficha_Emitido_Por")
     private String emitidoPor; // Ficha Emitido Por VARCHAR(50) [cite: 110]
 
     // Campos de Auditoría
     @Column(name = "FECHA_CREACION")
     private LocalDateTime fechaCreacion; // FECHA CREACION DATETIME [cite: 111]
 
-    @Column(name = "USUARIO_CREACION", length = 50)
+    @Column(name = "USUARIO_CREACION")
     private String usuarioCreacion; // USUARIO CREACION VARCHAR(50) [cite: 111]
 
     @Column(name = "FECHA_MODIFICACION")
     private LocalDateTime fechaModificacion; // FECHA MODIFICACION DATETIME [cite: 111]
 
-    @Column(name = "USUARIO_MODIFICACION", length = 5) // Se ajusta el length a 50 si es necesario
+    @Column(name = "USUARIO_MODIFICACION") // Se ajusta el length a 50 si es necesario
     private String usuarioModificacion; // USUARIO MODIFICACION VARCHAR(5) [cite: 111]
 }

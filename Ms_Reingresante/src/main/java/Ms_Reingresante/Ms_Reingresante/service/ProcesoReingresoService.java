@@ -6,15 +6,16 @@ import Ms_Reingresante.Ms_Reingresante.model.request.procesoReingresoRequest;
 import Ms_Reingresante.Ms_Reingresante.model.response.procesoReingresoResponse;
 
 
+
 public interface ProcesoReingresoService {
 
- List<procesoReingresoResponse> listar();
+  List<procesoReingresoResponse> listarProcesoReingreso();
 
-  procesoReingresoResponse obtenerPorId(Integer id);
+  procesoReingresoResponse obtenerPorIdProcesoReingreso(Integer id);
 
-  procesoReingresoResponse guardar(procesoReingresoRequest producto);
+  procesoReingresoResponse guardarProcesoReingreso(procesoReingresoRequest producto);
 
-  void eliminar(Integer id);
+  void eliminarProcesoReingreso(Integer id);
 
 
 }

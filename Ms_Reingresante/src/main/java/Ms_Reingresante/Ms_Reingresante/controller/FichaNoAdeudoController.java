@@ -21,6 +21,7 @@ import Ms_Reingresante.Ms_Reingresante.util.FichaNoAdeudoBase;
 
 
 
+
 @RestController
 @RequestMapping(ApiRoutes.FichaNoAdeudo.BASE)
 public class FichaNoAdeudoController {
@@ -30,25 +31,27 @@ public class FichaNoAdeudoController {
 
     @GetMapping(value = ApiRoutes.FichaNoAdeudo.LISTAR)
     public FichaNoAdeudoBase<List<FichaNoAdeudoResponse>> listar() {
-        List<FichaNoAdeudoResponse> lista = FichaNoAdeudoService.listar();
+        List<FichaNoAdeudoResponse> lista = FichaNoAdeudoService.listarFichaNoAdeudo();
         return FichaNoAdeudoBase.ok(lista);
     }
 
     @GetMapping(value = ApiRoutes.FichaNoAdeudo.OBTENER_POR_ID)
   public FichaNoAdeudoBase<FichaNoAdeudoResponse> obtenerPorId(@RequestParam(value = "id") Integer id) {
-    FichaNoAdeudoResponse response = FichaNoAdeudoService.obtenerPorId(id);
+    FichaNoAdeudoResponse response = FichaNoAdeudoService.obtenerPorIdFichaNoAdeudo(id);
     return FichaNoAdeudoBase.ok(response);
   }
 
-  @PostMapping(value = ApiRoutes.FichaNoAdeudo.GUARDAR)
+ 
+  
+ @PostMapping(value = ApiRoutes.FichaNoAdeudo.GUARDAR)
   public FichaNoAdeudoBase<FichaNoAdeudoResponse> guardar(@RequestBody FichaNoAdeudoRequest model) {
-   FichaNoAdeudoResponse response = FichaNoAdeudoService.guardar(model);
+    FichaNoAdeudoResponse response = FichaNoAdeudoService.guardarFichaNoAdeudo(model);
     return FichaNoAdeudoBase.ok(response);
   }
 
    @DeleteMapping(value = ApiRoutes.FichaNoAdeudo.ELIMINAR)
   public FichaNoAdeudoResponse eliminar(@RequestParam(value = "id") Integer id) {
-   FichaNoAdeudoService.eliminar(id);
+   FichaNoAdeudoService.eliminarFichaNoAdeudo(id);
     return null;
   }
 
