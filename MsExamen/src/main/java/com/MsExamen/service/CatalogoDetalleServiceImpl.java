@@ -12,6 +12,8 @@ import com.MsExamen.utils.AppConstants;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -32,6 +34,7 @@ public class CatalogoDetalleServiceImpl implements ICatalogoDetalleService {
     private ModelMapper modelMapper;
 
     @Override
+    @Cacheable(value = "catalogoDetalles", key = "'all'")
     public List<CatalogoDetalleDto> getAllCatalogoDetalles() {
         return catalogoDetalleRepository.findAll().stream()
                 .map(detalle -> modelMapper.map(detalle, CatalogoDetalleDto.class))
@@ -39,6 +42,7 @@ public class CatalogoDetalleServiceImpl implements ICatalogoDetalleService {
     }
 
     @Override
+    @Cacheable(value = "catalogoDetalles", key = "#id")
     public CatalogoDetalleDto getCatalogoDetalleById(Integer id) {
         CatalogoDetalle detalle = catalogoDetalleRepository.findById(id)
                 .orElseThrow(() -> {
@@ -49,6 +53,7 @@ public class CatalogoDetalleServiceImpl implements ICatalogoDetalleService {
     }
 
     @Override
+    @CacheEvict(value = "catalogoDetalles", allEntries = true)
     public CatalogoDetalleDto createCatalogoDetalle(CatalogoDetalleRequest request) {
         log.info("Creating new CatalogoDetalle with name: {}", request.getNombre());
 
@@ -72,6 +77,7 @@ public class CatalogoDetalleServiceImpl implements ICatalogoDetalleService {
     }
 
     @Override
+    @CacheEvict(value = "catalogoDetalles", allEntries = true)
     public CatalogoDetalleDto updateCatalogoDetalle(Integer id, CatalogoDetalleRequest request) {
         log.info("Updating CatalogoDetalle with ID: {}", id);
         CatalogoDetalle existingDetalle = catalogoDetalleRepository.findById(id)
@@ -100,6 +106,7 @@ public class CatalogoDetalleServiceImpl implements ICatalogoDetalleService {
     }
 
     @Override
+    @CacheEvict(value = "catalogoDetalles", allEntries = true)
     public void deleteCatalogoDetalle(Integer id) {
         if (!catalogoDetalleRepository.existsById(id)) {
             log.error("Cannot delete. CatalogoDetalle not found with ID: {}", id);

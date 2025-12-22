@@ -10,6 +10,8 @@ import com.MsExamen.utils.AppConstants;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -27,6 +29,7 @@ public class CatalogoServiceImpl implements ICatalogoService {
     private ModelMapper modelMapper;
 
     @Override
+    @Cacheable(value = "catalogos", key = "'all'")
     public List<CatalogoDto> getAllCatalogos() {
         return catalogoRepository.findAll().stream()
                 .map(catalogo -> modelMapper.map(catalogo, CatalogoDto.class))
@@ -34,6 +37,7 @@ public class CatalogoServiceImpl implements ICatalogoService {
     }
 
     @Override
+    @Cacheable(value = "catalogos", key = "#id")
     public CatalogoDto getCatalogoById(Integer id) {
         Catalogo catalogo = catalogoRepository.findById(id)
                 .orElseThrow(() -> {
@@ -44,6 +48,7 @@ public class CatalogoServiceImpl implements ICatalogoService {
     }
 
     @Override
+    @CacheEvict(value = "catalogos", allEntries = true)
     public CatalogoDto createCatalogo(CatalogoRequest catalogoRequest) {
         log.info("Creating new Catalogo with name: {}", catalogoRequest.getNombre());
         Catalogo catalogo = modelMapper.map(catalogoRequest, Catalogo.class);
@@ -62,6 +67,7 @@ public class CatalogoServiceImpl implements ICatalogoService {
     }
 
     @Override
+    @CacheEvict(value = "catalogos", allEntries = true)
     public CatalogoDto updateCatalogo(Integer id, CatalogoRequest catalogoRequest) {
         log.info("Updating Catalogo with ID: {}", id);
         Catalogo existingCatalogo = catalogoRepository.findById(id)
@@ -84,6 +90,7 @@ public class CatalogoServiceImpl implements ICatalogoService {
     }
 
     @Override
+    @CacheEvict(value = "catalogos", allEntries = true)
     public void deleteCatalogo(Integer id) {
         if (!catalogoRepository.existsById(id)) {
             log.error("Cannot delete. Catalogo not found with ID: {}", id);
