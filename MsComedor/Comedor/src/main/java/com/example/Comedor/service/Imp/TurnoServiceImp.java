@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.Comedor.model.entity.TurnoModel;
-import com.example.Comedor.model.request.TurnoRequest;
+import com.example.Comedor.model.request.turno.TurnoRequest;
 import com.example.Comedor.model.response.TurnoResponse;
 import com.example.Comedor.repository.TurnoRepository;
 import com.example.Comedor.service.TurnoService;

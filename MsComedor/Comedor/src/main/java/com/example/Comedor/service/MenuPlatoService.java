@@ -2,7 +2,7 @@ package com.example.Comedor.service;
 
 import java.util.List;
 
-import com.example.Comedor.model.request.MenuPlatoRequest;
+import com.example.Comedor.model.request.plato.MenuPlatoRequest;
 import com.example.Comedor.model.response.MenuPlatoResponse;
 
 public interface MenuPlatoService {

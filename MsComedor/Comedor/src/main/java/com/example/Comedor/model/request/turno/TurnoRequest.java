@@ -1,4 +1,4 @@
-package com.example.Comedor.model.request;
+package com.example.Comedor.model.request.turno;
 
 
 import java.sql.Date;

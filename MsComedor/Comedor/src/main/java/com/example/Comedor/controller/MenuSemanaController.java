@@ -12,11 +12,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-// import com.example.Comedor.model.request.ComedorRequest;
-import com.example.Comedor.model.request.MenuSemanaRequest;
-// import com.example.Comedor.model.response.ComedorResponse;
+import com.example.Comedor.model.request.menuSemana.MenuSemanaRequest;
+import com.example.Comedor.model.request.menuSemana.MenuSemanaUpdateRequest;
 import com.example.Comedor.model.response.MenuSemanaResponse;
-// import com.example.Comedor.service.ComedorService;
 import com.example.Comedor.service.MenuSemanaService;
 import com.example.Comedor.util.ApiRoutes;
 import com.example.Comedor.util.ResponseBase;
@@ -27,7 +25,7 @@ public class MenuSemanaController {
 
     @Autowired
     MenuSemanaService menuSemanaService;
-    //pruebita pa que funcione el de patrick
+
 
     @GetMapping(value = ApiRoutes.Comedor.LISTAR)
     public ResponseBase<List<MenuSemanaResponse>> listar() {
@@ -51,7 +49,7 @@ public class MenuSemanaController {
     @PutMapping(value = ApiRoutes.Comedor.MODIFICAR)
     public ResponseBase<MenuSemanaResponse> modificar(
             @RequestParam(value = "id") Integer id,
-            @RequestBody MenuSemanaRequest request) {
+            @RequestBody MenuSemanaUpdateRequest request) {
         
         MenuSemanaResponse response = menuSemanaService.modificar(id, request);
         return ResponseBase.ok(response);
@@ -59,9 +57,12 @@ public class MenuSemanaController {
 
 
      @DeleteMapping(value = ApiRoutes.Comedor.ELIMINAR)
-    public MenuSemanaResponse eliminar(@RequestParam(value = "id") Integer id) {
-        menuSemanaService.eliminar(id);
-        return null;
+    public ResponseBase<MenuSemanaResponse>eliminar(
+            @RequestParam(value = "id") Integer id ) {
+
+        MenuSemanaResponse response = menuSemanaService.eliminar(id);
+        return ResponseBase.ok(response);
+        
     }
   
 }

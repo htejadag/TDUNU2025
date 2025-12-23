@@ -20,6 +20,7 @@ public class PlatoResponse {
     private String tipo;
 
     private boolean activo;
+    
 
     private Integer usuarioCreacion;
 

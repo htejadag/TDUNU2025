@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.Comedor.model.request.MenuPlatoRequest;
+import com.example.Comedor.model.request.plato.MenuPlatoRequest;
 import com.example.Comedor.model.response.MenuPlatoResponse;
 import com.example.Comedor.service.MenuPlatoService;
 import com.example.Comedor.util.ApiRoutes;

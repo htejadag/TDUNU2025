@@ -11,7 +11,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import com.example.Comedor.model.request.TurnoRequest;
+
+import com.example.Comedor.model.request.turno.TurnoRequest;
 import com.example.Comedor.model.response.TurnoResponse;
 import com.example.Comedor.service.TurnoService;
 import com.example.Comedor.util.ApiRoutes;

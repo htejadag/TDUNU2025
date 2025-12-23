@@ -1,6 +1,7 @@
 package com.example.Comedor.model.response;
 
-import java.sql.Date;
+
+import java.time.LocalDate;
 
 import lombok.Data;
 
@@ -9,19 +10,19 @@ public class MenuSemanaResponse {
 
     private Integer id;
     
-    private Date fechaInicio;
+    private LocalDate fechaInicio;
   
-    private Date fechaFin;
+    private LocalDate fechaFin;
 
     private boolean activo;
 
     private Integer usuarioCreacion;
 
-    private Date fechaCreacion;
+    private LocalDate fechaCreacion;
 
     private Integer usuarioModificacion;
     
-    private Date fechaModificacion;
+    private LocalDate fechaModificacion;
 
     
 }

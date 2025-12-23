@@ -1,17 +1,14 @@
-package com.example.Comedor.model.request;
+package com.example.Comedor.model.request.plato;
 
 import java.sql.Date;
 
 import lombok.Data;
 
 @Data
-public class MenuSemanaRequest {
+public class MenuPlatoRequest {
 
-    private Date fechaInicio;
-  
-    private Date fechaFin;
-
-    private boolean activo;
+    private Integer idMenuDia;
+    private Integer idPlato;
 
     private Integer usuarioCreacion;
 
@@ -20,4 +17,6 @@ public class MenuSemanaRequest {
     private Integer usuarioModificacion;
     
     private Date fechaModificacion;
+    
+    
 }

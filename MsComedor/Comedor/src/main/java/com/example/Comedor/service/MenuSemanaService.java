@@ -2,9 +2,8 @@ package com.example.Comedor.service;
 
 import java.util.List;
 
-// import com.example.Comedor.model.request.ComedorRequest;
-import com.example.Comedor.model.request.MenuSemanaRequest;
-// import com.example.Comedor.model.response.ComedorResponse;
+import com.example.Comedor.model.request.menuSemana.MenuSemanaRequest;
+import com.example.Comedor.model.request.menuSemana.MenuSemanaUpdateRequest;
 import com.example.Comedor.model.response.MenuSemanaResponse;
 
 public interface MenuSemanaService {
@@ -15,9 +14,9 @@ public interface MenuSemanaService {
 
     MenuSemanaResponse guardar(MenuSemanaRequest menuSemanaRequest);
     
-    MenuSemanaResponse modificar(Integer id,MenuSemanaRequest menuSemanaRequest);
+    MenuSemanaResponse modificar(Integer id,MenuSemanaUpdateRequest menuSemanaRequest);
 
-    void eliminar(Integer id);
+    MenuSemanaResponse eliminar(Integer id);
 
 
 

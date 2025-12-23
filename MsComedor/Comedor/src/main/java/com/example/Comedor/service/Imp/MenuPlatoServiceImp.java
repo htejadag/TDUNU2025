@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import com.example.Comedor.model.entity.MenuDiaModel;
 import com.example.Comedor.model.entity.MenuPlatoModel;
 import com.example.Comedor.model.entity.PlatoModel;
-import com.example.Comedor.model.request.MenuPlatoRequest;
+import com.example.Comedor.model.request.plato.MenuPlatoRequest;
 import com.example.Comedor.model.response.MenuPlatoResponse;
 import com.example.Comedor.repository.MenuDiaRepository;
 import com.example.Comedor.repository.MenuPlatoRepository;

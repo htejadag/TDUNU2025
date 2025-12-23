@@ -1,6 +1,7 @@
 package com.example.Comedor.model.entity;
 
 
+import java.time.LocalDate;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -15,23 +16,23 @@ import lombok.Data;
 public class MenuSemanaModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "id",nullable = false)
     private Integer id;
-    @Column(name = "fecha_inicio")
-    private String fechaInicio;
-    @Column(name = "fecha_fin")
-    private String fechaFin;
-    @Column(name = "activo")
+    @Column(name = "fecha_inicio",nullable = false)
+    private LocalDate fechaInicio;
+    @Column(name = "fecha_fin",nullable = false)
+    private LocalDate fechaFin;
+    @Column(name = "activo",nullable = false)
     private boolean activo;
 
     //auditoria
-    @Column(name = "usuario_creacion", nullable = false, length = 100)
+    @Column(name = "usuario_creacion",nullable = false)
     private Integer usuarioCreacion;
-    @Column(name = "fecha_creacion", nullable = false)
-    private String fechaCreacion;
-    @Column(name = "usuario_modificacion", length = 100)
+    @Column(name = "fecha_creacion",nullable = false)
+    private LocalDate fechaCreacion;
+    @Column(name = "usuario_modificacion")
     private Integer usuarioModificacion;
     @Column(name = "fecha_modificacion")
-    private String fechaModificacion;
+    private LocalDate fechaModificacion;
  
 }
