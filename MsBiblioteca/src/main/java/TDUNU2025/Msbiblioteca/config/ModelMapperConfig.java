@@ -1,11 +1,12 @@
-package com.unu.TDUNU2025.Msbiblioteca.config;
+package TDUNU2025.Msbiblioteca.config;
 
-import com.unu.TDUNU2025.Msbiblioteca.model.entity.DetalleLibro;
-import com.unu.TDUNU2025.Msbiblioteca.model.response.DetalleLibroResponse;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.PropertyMap;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import TDUNU2025.Msbiblioteca.model.entity.DetalleLibro;
+import TDUNU2025.Msbiblioteca.model.response.DetalleLibroResponse;
 
 @Configuration
 public class ModelMapperConfig {

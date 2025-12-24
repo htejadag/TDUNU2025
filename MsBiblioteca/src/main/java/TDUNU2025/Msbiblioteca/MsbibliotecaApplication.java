@@ -1,4 +1,4 @@
-package com.unu.TDUNU2025.Msbiblioteca;
+package TDUNU2025.Msbiblioteca;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

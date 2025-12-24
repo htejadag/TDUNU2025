@@ -1,4 +1,4 @@
-package com.unu.TDUNU2025.Msbiblioteca.config;
+package TDUNU2025.Msbiblioteca.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

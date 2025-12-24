@@ -1,13 +1,14 @@
-package com.unu.TDUNU2025.Msbiblioteca.controller;
+package TDUNU2025.Msbiblioteca.controller;
 
-import com.unu.TDUNU2025.Msbiblioteca.model.request.CategoriaLibroRequest;
-import com.unu.TDUNU2025.Msbiblioteca.model.response.CategoriaLibroResponse;
-import com.unu.TDUNU2025.Msbiblioteca.service.CategoriaLibroService;
 import jakarta.validation.Valid;
 //import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import TDUNU2025.Msbiblioteca.model.request.CategoriaLibroRequest;
+import TDUNU2025.Msbiblioteca.model.response.CategoriaLibroResponse;
+import TDUNU2025.Msbiblioteca.service.CategoriaLibroService;
 
 import java.util.List;
 

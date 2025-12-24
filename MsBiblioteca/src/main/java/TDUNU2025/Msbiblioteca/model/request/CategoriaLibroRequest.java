@@ -1,4 +1,4 @@
-package com.unu.TDUNU2025.Msbiblioteca.model.request;
+package TDUNU2025.Msbiblioteca.model.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotBlank;

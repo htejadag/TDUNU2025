@@ -1,9 +1,9 @@
-package com.unu.TDUNU2025.Msbiblioteca.service;
-
-import com.unu.TDUNU2025.Msbiblioteca.model.request.DetalleLibroRequest;
-import com.unu.TDUNU2025.Msbiblioteca.model.response.DetalleLibroResponse;
+package TDUNU2025.Msbiblioteca.service;
 
 import java.util.List;
+
+import TDUNU2025.Msbiblioteca.model.request.DetalleLibroRequest;
+import TDUNU2025.Msbiblioteca.model.response.DetalleLibroResponse;
 
 public interface DetalleLibroService {
 

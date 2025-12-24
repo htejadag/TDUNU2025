@@ -1,9 +1,9 @@
-package com.unu.TDUNU2025.Msbiblioteca.service;
+package TDUNU2025.Msbiblioteca.service;
 
 import java.util.List;
 
-import com.unu.TDUNU2025.Msbiblioteca.model.request.EditorialRequest;
-import com.unu.TDUNU2025.Msbiblioteca.model.response.EditorialResponse;
+import TDUNU2025.Msbiblioteca.model.request.EditorialRequest;
+import TDUNU2025.Msbiblioteca.model.response.EditorialResponse;
 
 public interface EditorialService {
 
