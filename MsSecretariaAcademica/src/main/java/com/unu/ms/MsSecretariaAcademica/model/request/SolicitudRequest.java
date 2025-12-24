@@ -2,8 +2,6 @@ package com.unu.ms.MsSecretariaAcademica.model.request;
 
 import java.time.LocalDate;
 
-import com.unu.ms.MsSecretariaAcademica.model.entity.ExpedienteModel;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,7 +11,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class SolicitudRequest {
 
-    Integer idSolicitud;
     String codigoSolicitud;
     Integer idPersona;
     Integer idTipoSolicitud;
@@ -21,6 +18,5 @@ public class SolicitudRequest {
     String detalle;
     Integer idEstado;
     LocalDate fechaSolicitud;
-    ExpedienteModel expediente;
 
 }

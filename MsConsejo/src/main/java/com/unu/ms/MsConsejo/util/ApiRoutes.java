@@ -53,5 +53,9 @@ public class ApiRoutes {
         public static final String BUSCAR_POR_FECHA = "/buscarPorFecha";
         public static final String BUSCAR_POR_TIPO = "/buscarPorTipo";
     }
+    public static class KafkaTest {
+        public static final String BASE = "/api/kafkatest";
+        public static final String ENVIAR_MENSAJE = "/enviarMensaje";
+    }
 
 }

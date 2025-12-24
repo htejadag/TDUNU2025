@@ -20,12 +20,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RestController
 @RequestMapping(ApiRoutes.Solicitud.BASE)
 @Tag(name = "Solicitud Controller")
+@AllArgsConstructor
 public class SolicitudController {
 
     SolicitudService solicitudService;

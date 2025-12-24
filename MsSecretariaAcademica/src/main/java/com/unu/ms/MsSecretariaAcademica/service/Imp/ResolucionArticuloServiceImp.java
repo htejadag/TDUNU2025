@@ -1,5 +1,6 @@
 package com.unu.ms.MsSecretariaAcademica.service.Imp;
 
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
@@ -11,15 +12,14 @@ import com.unu.ms.MsSecretariaAcademica.model.mapper.ResolucionArticuloMapper;
 import com.unu.ms.MsSecretariaAcademica.model.request.ResolucionArticuloRequest;
 import com.unu.ms.MsSecretariaAcademica.model.response.ResolucionArticuloResponse;
 import com.unu.ms.MsSecretariaAcademica.repository.ResolucionArticuloRepository;
-import com.unu.ms.MsSecretariaAcademica.repository.ResolucionRepository;
 import com.unu.ms.MsSecretariaAcademica.service.ResolucionArticuloService;
 
 @Slf4j
 @Service
+@AllArgsConstructor
 public class ResolucionArticuloServiceImp implements ResolucionArticuloService {
 
     ResolucionArticuloRepository resolucionArticuloRepository;
-    ResolucionRepository resolucionRepository;
     ResolucionArticuloMapper mapper;
 
     @Override

@@ -11,13 +11,13 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class SesionConsejoResponse {
 
-    // Integer idSesion;
+     Integer idSesion;
     // ConsejoModel consejo;
-    String numeroSesion;
-    String nombreSesion;
-    LocalDate fechaSesion;
-    Integer idTipoSesion;
-    String descripcion;
+     String numeroSesion;
+     String nombreSesion;
+     LocalDate fechaSesion;
+     Integer idTipoSesion;
+     String descripcion;
     // Integer idEstado;
     // Integer usuarioRegistro;
     // LocalDateTime fechaCreacion;

@@ -4,7 +4,6 @@ import lombok.Data;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List;
 
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -14,7 +13,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -39,20 +38,24 @@ public class ExpedienteModel {
     @Column(name = "descripcion")
     private String descripcion;
 
-    @Column(name = "fecha_aperura")
+    @Column(name = "fecha_apertura")
     private LocalDate fechaApertura;
 
     @Column(name = "fecha_cierre")
     private LocalDate fechaCierre;
 
-    @CreationTimestamp  
+    @CreationTimestamp
     @Column(name = "fecha_creacion")
     private LocalDateTime fechaCreacion;
 
-    @OneToMany(mappedBy = "expediente", cascade = CascadeType.ALL)
-    private List<SolicitudModel> solicitudes;
+    /** 
+     * Referencia lógica a la solicitud que originó el expediente
+     * (NO relación fuerte para evitar acoplamiento entre MS)
+     */
+    @Column(name = "id_solicitud_origen", nullable = false)
+    private Integer idSolicitudOrigen;
 
-    @OneToMany(mappedBy = "expediente")
-    private List<ResolucionModel> resoluciones;
-
+    @OneToOne(mappedBy = "expediente", cascade = CascadeType.ALL)
+    private ResolucionModel resolucion;
 }
+

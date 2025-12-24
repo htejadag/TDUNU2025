@@ -11,11 +11,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class AsistenciaSesionRequest {
 
-    // Integer idAsistencia;
-    // SesionConsejoModel idSesion;
-    // MiembroConsejoModel idMiembro;
-    Integer idEstadoAsistencia;
-    Integer usuarioRegistro;
-    LocalDateTime fechaRegistro;
+    // private Integer idAsistencia;
+    // private SesionConsejoModel idSesion;
+    // private MiembroConsejoModel idMiembro;
+    private Integer idEstadoAsistencia;
+    private Integer usuarioRegistro;
+    private LocalDateTime fechaRegistro;
 
 }

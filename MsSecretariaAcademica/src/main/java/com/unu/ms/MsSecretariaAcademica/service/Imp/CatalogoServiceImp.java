@@ -1,9 +1,12 @@
 package com.unu.ms.MsSecretariaAcademica.service.Imp;
 
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
 
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import com.unu.ms.MsSecretariaAcademica.model.entity.Catalogo;
@@ -15,6 +18,8 @@ import com.unu.ms.MsSecretariaAcademica.service.CatalogoService;
 
 @Slf4j
 @Service
+@AllArgsConstructor
+@CacheConfig(cacheNames = "catalogo")
 public class CatalogoServiceImp implements CatalogoService {
 
     CatalogoRepository catalogoRepository;
@@ -26,6 +31,7 @@ public class CatalogoServiceImp implements CatalogoService {
     }
 
     @Override
+    @Cacheable(key = "'catalogo:' + #id", unless = "#result == null")
     public CatalogoResponse obtenerPorId(Integer id) {
         return catalogoRepository.findById(id)
                 .map(mapper::toResponse).orElse(null);

@@ -7,12 +7,12 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import lombok.Data;
 
 @Entity
 @Table(name = "solicitud")
+@Data
 public class SolicitudModel {
 
     @Id
@@ -28,7 +28,7 @@ public class SolicitudModel {
 
     @Column(name = "id_tipo_solicitud")
     private Integer idTipoSolicitud;
-    
+
     @Column(name = "id_estado")
     private Integer idEstado;
 
@@ -40,9 +40,5 @@ public class SolicitudModel {
 
     @Column(name = "fecha_solicitud")
     private LocalDate fechaSolicitud;
-
-    @ManyToOne
-    @JoinColumn(name = "id_expediente")
-    private ExpedienteModel expediente;
-
 }
+

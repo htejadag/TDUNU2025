@@ -31,7 +31,6 @@ public class ResolucionArticuloModel {
     private String contenido;
 
     @ManyToOne
-    @JoinColumn(name = "id_resolucion")
+    @JoinColumn(name = "id_resolucion", nullable = false)
     private ResolucionModel resolucion;
-    
 }

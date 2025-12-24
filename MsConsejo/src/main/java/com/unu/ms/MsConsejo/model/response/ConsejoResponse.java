@@ -9,10 +9,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class ConsejoResponse {
 
-    Integer idConsejo;
-    String nombre;
-    String descripcion;
-    Integer idEstado;
+     Integer idConsejo;
+     String nombre;
+     String descripcion;
+     Integer idEstado;
     // LocalDateTime fechaCreacion;
     // List<MiembroConsejoModel> miembros;
     // List<SesionConsejoModel> sesiones;
