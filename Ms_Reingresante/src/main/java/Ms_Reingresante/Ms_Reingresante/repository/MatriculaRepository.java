@@ -5,6 +5,6 @@ import org.springframework.stereotype.Repository;
 import Ms_Reingresante.Ms_Reingresante.model.entity.MatriculaModel;
 
 @Repository
-public interface MatriculaRepository extends JpaRepository<MatriculaModel, Long> {
+public interface MatriculaRepository extends JpaRepository<MatriculaModel, Integer> {
     
 }

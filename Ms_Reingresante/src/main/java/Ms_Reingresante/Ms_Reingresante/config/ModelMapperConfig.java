@@ -5,11 +5,20 @@ import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+
 @Configuration
 public class ModelMapperConfig {
 
-  @Bean
+@Bean
   public ModelMapper modelMapper() {
-    return new ModelMapper();
+    ModelMapper mapper = new ModelMapper();
+
+    // Evita coincidencias ambiguas como idProceso -> idMatricula
+    mapper.getConfiguration()
+          .setAmbiguityIgnored(true);
+
+    return mapper;
   }
 }
+
+
