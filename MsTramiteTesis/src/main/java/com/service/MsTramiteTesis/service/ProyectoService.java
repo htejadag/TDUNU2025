@@ -9,6 +9,8 @@ import com.service.MsTramiteTesis.model.entity.ProyectoTesis;
 import com.service.MsTramiteTesis.model.Error.ResourceNotFoundException;
 import com.service.MsTramiteTesis.repository.ProyectoRepository;
 import com.service.MsTramiteTesis.client.PersonasClient;
+import com.service.MsTramiteTesis.kafka.producer.ProyectoEventProducer;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,6 +21,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@Slf4j
 public class ProyectoService {
 
     @Autowired
@@ -29,6 +32,9 @@ public class ProyectoService {
 
     @Autowired
     private PersonasClient personasClient;
+
+    @Autowired
+    private ProyectoEventProducer kafkaProducer;
 
     /**
      * Crear un nuevo proyecto (ESTUDIANTE)
@@ -45,6 +51,19 @@ public class ProyectoService {
         proyecto.setFechaRegistro(OffsetDateTime.now());
 
         ProyectoTesis saved = proyectoRepository.save(proyecto);
+
+        // 🔥 Publicar evento KAFKA
+        try {
+            kafkaProducer.publicarProyectoCreado(
+                    saved.getIdProyecto().toString(),
+                    saved.getTituloProyecto(),
+                    "Proyecto creado",
+                    saved.getEstadoProyectoCodigo());
+            log.info("✅ Evento Kafka CREADO publicado para proyecto ID: {}", saved.getIdProyecto());
+        } catch (Exception e) {
+            log.error("❌ Error publicando evento Kafka: ", e);
+        }
+
         return modelMapper.map(saved, ProyectoResponse.class);
     }
 
@@ -226,5 +245,56 @@ public class ProyectoService {
         response.setAsesor(asesor);
 
         return response;
+    }
+
+    // ═══════════════════════════════════════════════════════════════════════════
+    // MÉTODOS DE TESTING - SOLO PARA DESARROLLO
+    // ⚠️ ELIMINAR ESTOS MÉTODOS EN PRODUCCIÓN ⚠️
+    // ═══════════════════════════════════════════════════════════════════════════
+
+    /**
+     * 🧪 TESTING - Actualizar estado y publicar evento Kafka
+     */
+    @Transactional
+    public ProyectoResponse actualizarEstadoTest(Long idProyecto, String estadoNuevo) {
+        ProyectoTesis proyecto = proyectoRepository.findById(idProyecto)
+                .orElseThrow(() -> new ResourceNotFoundException("Proyecto no encontrado"));
+
+        String estadoAnterior = proyecto.getEstadoProyectoCodigo();
+        proyecto.setEstadoProyectoCodigo(estadoNuevo);
+
+        ProyectoTesis updated = proyectoRepository.save(proyecto);
+
+        // 🔥 Publicar evento KAFKA
+        try {
+            kafkaProducer.publicarProyectoActualizado(
+                    updated.getIdProyecto().toString(),
+                    estadoAnterior,
+                    estadoNuevo);
+            log.info("✅ Evento Kafka ESTADO_CAMBIADO publicado: {} -> {}", estadoAnterior, estadoNuevo);
+        } catch (Exception e) {
+            log.error("❌ Error publicando evento Kafka: ", e);
+        }
+
+        return modelMapper.map(updated, ProyectoResponse.class);
+    }
+
+    /**
+     * 🧪 TESTING - Eliminar proyecto y publicar evento Kafka
+     */
+    @Transactional
+    public void eliminarProyectoTest(Long idProyecto) {
+        ProyectoTesis proyecto = proyectoRepository.findById(idProyecto)
+                .orElseThrow(() -> new ResourceNotFoundException("Proyecto no encontrado"));
+
+        proyectoRepository.delete(proyecto);
+
+        // 🔥 Publicar evento KAFKA
+        try {
+            kafkaProducer.publicarProyectoEliminado(idProyecto.toString());
+            log.info("✅ Evento Kafka ELIMINADO publicado para proyecto ID: {}", idProyecto);
+        } catch (Exception e) {
+            log.error("❌ Error publicando evento Kafka: ", e);
+        }
     }
 }

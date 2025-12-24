@@ -160,4 +160,58 @@ public class ProyectoController {
         ProyectoResponse response = proyectoService.obtenerProyecto(id);
         return ResponseEntity.ok(response);
     }
+
+    // ═══════════════════════════════════════════════════════════════════════════
+    // ENDPOINTS DE TESTING - SOLO PARA DESARROLLO
+    // ⚠️ ELIMINAR ESTOS ENDPOINTS EN PRODUCCIÓN ⚠️
+    // ═══════════════════════════════════════════════════════════════════════════
+
+    /**
+     * 🧪 TESTING KAFKA - Crear proyecto sin autenticación
+     * Este endpoint NO requiere JWT y debe ser ELIMINADO en producción
+     */
+    @PostMapping("/test/kafka")
+    @Operation(summary = "🧪 TEST Kafka - Crear proyecto (SIN AUTH)", description = "⚠️ SOLO PARA TESTING - Crea un proyecto y dispara evento Kafka sin requerir autenticación. ELIMINAR EN PRODUCCIÓN.")
+    public ResponseEntity<ProyectoResponse> testKafkaCrearProyecto(
+            @Valid @RequestBody ProyectoRequest request) {
+
+        // ID de estudiante fijo para testing
+        Long idEstudianteTest = 1L;
+
+        ProyectoResponse response = proyectoService.crearProyecto(idEstudianteTest, request);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    }
+
+    /**
+     * 🧪 TESTING KAFKA - Actualizar estado sin autenticación
+     */
+    @PutMapping("/test/kafka/{id}/estado")
+    @Operation(summary = "🧪 TEST Kafka - Actualizar estado (SIN AUTH)", description = "⚠️ SOLO PARA TESTING - Actualiza estado del proyecto sin autenticación. ELIMINAR EN PRODUCCIÓN.")
+    public ResponseEntity<ProyectoResponse> testKafkaActualizarEstado(
+            @PathVariable Long id,
+            @RequestParam String estadoNuevo) {
+
+        ProyectoResponse response = proyectoService.actualizarEstadoTest(id, estadoNuevo);
+        return ResponseEntity.ok(response);
+    }
+
+    /**
+     * 🧪 TESTING KAFKA - Eliminar proyecto sin autenticación
+     */
+    @DeleteMapping("/test/kafka/{id}")
+    @Operation(summary = "🧪 TEST Kafka - Eliminar proyecto (SIN AUTH)", description = "⚠️ SOLO PARA TESTING - Elimina proyecto sin autenticación. ELIMINAR EN PRODUCCIÓN.")
+    public ResponseEntity<Void> testKafkaEliminarProyecto(@PathVariable Long id) {
+        proyectoService.eliminarProyectoTest(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    /**
+     * 🧪 TESTING - Listar todos los proyectos sin autenticación
+     */
+    @GetMapping("/test/all")
+    @Operation(summary = "🧪 TEST - Listar todos (SIN AUTH)", description = "⚠️ SOLO PARA TESTING - Lista todos los proyectos sin autenticación.")
+    public ResponseEntity<List<ProyectoResponse>> testListarTodos() {
+        List<ProyectoResponse> proyectos = proyectoService.listarTodosProyectos();
+        return ResponseEntity.ok(proyectos);
+    }
 }
