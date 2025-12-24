@@ -13,9 +13,9 @@ public class MatriculaModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_Matricula")
-    private Long idMatricula;
+    private Integer idMatricula;
     
-    @Column(name = "id_Processo")
+    @Column(name = "id_Proceso")
     private Integer idProceso;
     
     @Column(name = "id_Resolucion")

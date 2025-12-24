@@ -14,54 +14,46 @@ import java.util.List;
 @Service
 public class MatriculaServiceImp implements MatriculaService {
     
-    private final MatriculaRepository matriculaRepository;
-    private final ModelMapper modelMapper;
-    
     @Autowired
-    public MatriculaServiceImp(MatriculaRepository matriculaRepository, ModelMapper modelMapper) {
-        this.matriculaRepository = matriculaRepository;
-        this.modelMapper = modelMapper;
-    }
-    
+    private MatriculaRepository MatriculaRepository;
+
+    @Autowired
+    private ModelMapper modelMapper;
+
     @Override
-    public List<MatriculaResponse> listar() {
-        return matriculaRepository.findAll()
+    public List<MatriculaResponse> listarMatricula() {
+        return MatriculaRepository.findAll()
             .stream()
-            .map(entity -> modelMapper.map(entity, MatriculaResponse.class))
+            .map(model -> modelMapper.map(model, MatriculaResponse.class))
             .toList();
     }
-    
-    @Override
-    public MatriculaResponse obtenerPorId(Long id) {
-        MatriculaModel entity = matriculaRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("Matrícula no encontrada con ID: " + id));
-        return modelMapper.map(entity, MatriculaResponse.class);
-    }
-    
-    @Override
-    public MatriculaResponse guardar(MatriculaRequest request) {
-        MatriculaModel model = modelMapper.map(request, MatriculaModel.class);
-        MatriculaModel saved = matriculaRepository.save(model);
-        return modelMapper.map(saved, MatriculaResponse.class);
-    }
-    
-    @Override
-    public MatriculaResponse actualizar(Long id, MatriculaRequest request) {
-        MatriculaModel existing = matriculaRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("Matrícula no encontrada con ID: " + id));
-        
-        modelMapper.map(request, existing);
-        existing.setIdMatricula(id);
-        
-        MatriculaModel updated = matriculaRepository.save(existing);
-        return modelMapper.map(updated, MatriculaResponse.class);
-    }
-    
-    @Override
-    public void eliminar(Long id) {
-        if (!matriculaRepository.existsById(id)) {
-            throw new RuntimeException("Matrícula no encontrada con ID: " + id);
-        }
-        matriculaRepository.deleteById(id);
-    }
+
+
+
+  @Override
+  public MatriculaResponse obtenerPorIdMatricula(Integer id) {
+    return MatriculaRepository.findById(id)
+        .map(model -> modelMapper.map(model, MatriculaResponse.class))
+        .orElse(null);
+  }
+
+  @Override
+  public MatriculaResponse guardarMatricula(MatriculaRequest request) {
+    // 1. Request -> Model
+    MatriculaModel model = modelMapper.map(request,MatriculaModel.class);
+
+    // 2. Guardar en BD
+    MatriculaModel saved = MatriculaRepository.save(model);
+
+    // 3. Model -> Response
+   MatriculaResponse response = modelMapper.map(saved, MatriculaResponse.class);
+
+    return response;
+  }
+
+  @Override
+  public void eliminarMatricula(Integer id) {
+    MatriculaRepository.deleteById(id);
+  }
+
 }

@@ -44,4 +44,13 @@ public class ApiRoutes {
     public static final String ELIMINAR = "/eliminar";
 }
 
+public static class MatriculaReingresante {
+    public static final String BASE = "/api/Matricula";
+    public static final String LISTAR = "/listar";
+    public static final String OBTENER_POR_ID = "/obtenerPorId";
+    public static final String GUARDAR = "/guardar";
+    public static final String ELIMINAR = "/eliminar";
+}
+
+
 }
