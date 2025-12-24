@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.Comedor.model.request.turno.TurnoRequest;
+import com.example.Comedor.model.request.turno.TurnoUpdateRequest;
 import com.example.Comedor.model.response.TurnoResponse;
 import com.example.Comedor.service.TurnoService;
 import com.example.Comedor.util.ApiRoutes;
@@ -47,7 +48,7 @@ public class TurnoController {
     @PutMapping(value = ApiRoutes.Comedor.MODIFICAR_TURNO)
     public ResponseBase<TurnoResponse> modificar(
             @RequestParam(value = "id") Integer id,
-            @RequestBody TurnoRequest request) {
+            @RequestBody TurnoUpdateRequest request) {
         
         TurnoResponse response = turnoService.modificar(id, request);
         return ResponseBase.ok(response);
@@ -55,9 +56,10 @@ public class TurnoController {
 
 
     @DeleteMapping(value = ApiRoutes.Comedor.ELIMINAR_TURNO)
-    public TurnoResponse eliminar(@RequestParam(value = "id") Integer id) {
-        turnoService.eliminar(id);
-        return null;
+    public ResponseBase<TurnoResponse> eliminar(@RequestParam(value = "id") Integer id) {
+        
+        TurnoResponse response=turnoService.eliminar(id);
+        return ResponseBase.ok(response);
     }
 
     

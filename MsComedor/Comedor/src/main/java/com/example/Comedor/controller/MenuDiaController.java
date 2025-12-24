@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.Comedor.model.request.MenuDiaRequest;
+import com.example.Comedor.model.request.menuDia.MenuDiaRequest;
+import com.example.Comedor.model.request.menuDia.MenuDiaUpdateRequest;
 import com.example.Comedor.model.response.MenuDiaResponse;
-import com.example.Comedor.model.response.MenuSemanaResponse;
 import com.example.Comedor.service.MenuDiaService;
 import com.example.Comedor.util.ApiRoutes;
 import com.example.Comedor.util.ResponseBase;
@@ -48,7 +48,7 @@ public class MenuDiaController {
     @PutMapping(value = ApiRoutes.Comedor.MODIFICAR_MENU_DIA)
     public ResponseBase<MenuDiaResponse> modificar(
             @RequestParam(value = "id") Integer id,
-            @RequestBody MenuDiaRequest request) {
+            @RequestBody MenuDiaUpdateRequest request) {
         
         MenuDiaResponse response = menuDiaService.modificar(id, request);
         return ResponseBase.ok(response);
@@ -56,9 +56,10 @@ public class MenuDiaController {
 
 
     @DeleteMapping(value = ApiRoutes.Comedor.ELIMINAR_MENU_DIA)
-    public MenuSemanaResponse eliminar(@RequestParam(value = "id") Integer id) {
-        menuDiaService.eliminar(id);
-        return null;
+    public ResponseBase<MenuDiaResponse>eliminar(@RequestParam(value = "id") Integer id) {
+        
+        MenuDiaResponse response = menuDiaService.eliminar(id);
+        return ResponseBase.ok(response);
     }
 
 

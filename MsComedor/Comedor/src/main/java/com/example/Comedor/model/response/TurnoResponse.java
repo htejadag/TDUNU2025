@@ -1,8 +1,8 @@
 package com.example.Comedor.model.response;
 
 
-
-import java.sql.Date;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 import lombok.Data;
  
@@ -11,16 +11,16 @@ public class TurnoResponse {
 
     private Integer id;
     private String descripcion;
-    private String horaApertura;
-    private String horaCierre;
+    private LocalTime horaApertura;
+    private LocalTime horaCierre;
     private boolean activo;
 
     private Integer usuarioCreacion;
 
-    private Date fechaCreacion;
+    private LocalDate fechaCreacion;
 
     private Integer usuarioModificacion;
     
-    private Date fechaModificacion;
+    private LocalDate fechaModificacion;
     
 }

@@ -1,5 +1,6 @@
 package com.example.Comedor.service.Imp;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.modelmapper.ModelMapper;
@@ -8,12 +9,11 @@ import org.springframework.stereotype.Service;
 
 import com.example.Comedor.model.entity.MenuDiaModel;
 import com.example.Comedor.model.entity.MenuSemanaModel;
-import com.example.Comedor.model.entity.TurnoModel;
-import com.example.Comedor.model.request.MenuDiaRequest;
+import com.example.Comedor.model.request.menuDia.MenuDiaRequest;
+import com.example.Comedor.model.request.menuDia.MenuDiaUpdateRequest;
 import com.example.Comedor.model.response.MenuDiaResponse;
 import com.example.Comedor.repository.MenuDiaRepository;
 import com.example.Comedor.repository.MenuSemanaRepository;
-import com.example.Comedor.repository.TurnoRepository;
 import com.example.Comedor.service.MenuDiaService;
 import lombok.extern.slf4j.Slf4j;
 
@@ -26,9 +26,6 @@ public class MenuDiaServiceImp implements MenuDiaService {
 
     @Autowired
     private MenuSemanaRepository menuSemanaRepository;
-
-    @Autowired
-    private TurnoRepository turnoRepository;
 
     
     @Autowired
@@ -58,54 +55,44 @@ public class MenuDiaServiceImp implements MenuDiaService {
     @Override
     public MenuDiaResponse guardar(MenuDiaRequest req) {
 
-        MenuDiaModel model = new MenuDiaModel();
+        MenuDiaModel model = modelMapper.map(req, MenuDiaModel.class);
 
-        //Cargar las entidades por ID
+        
         MenuSemanaModel semana = menuSemanaRepository.findById(req.getIdMenuSemana())
             .orElseThrow(() -> new RuntimeException("No existe menu semana con id: " + req.getIdMenuSemana()));
 
-        TurnoModel turno = turnoRepository.findById(req.getIdTurno())
-            .orElseThrow(() -> new RuntimeException("No existe turno con id: " + req.getIdTurno()));
-
-        // Asignar relaciones correctamente
+        
         model.setMenuSemana(semana);
-        model.setTurno(turno);
-
         model.setRacionesTotales(req.getRacionesTotales());
         model.setRacionesRestantes(req.getRacionesRestantes());
         model.setActivo(req.isActivo());
-
-        //AGREGAR ESTO
         model.setUsuarioCreacion(req.getUsuarioCreacion());
-        model.setFechaCreacion(req.getFechaCreacion().toString());
-        model.setUsuarioModificacion(req.getUsuarioModificacion());
-        model.setFechaModificacion(req.getFechaModificacion().toString());
-
-       
-
-        // Guardar
+        model.setFechaCreacion(LocalDate.now());
+    
         MenuDiaModel saved = menuDiaRepository.save(model);
 
-        return modelMapper.map(saved, MenuDiaResponse.class);
+        MenuDiaResponse response = modelMapper.map(saved, MenuDiaResponse.class);
+
+        return response;
     }
 
 
     @Override
-    public MenuDiaResponse modificar(Integer id, MenuDiaRequest menuDiaRequest) {
+    public MenuDiaResponse modificar(Integer id, MenuDiaUpdateRequest menuDiaRequest) {
         MenuDiaModel model = menuDiaRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("No existe un comedor con id: " + id));
+            .orElseThrow(() -> new RuntimeException("No existe un menu dia con id: " + id));
 
-
-     
-        if (menuDiaRequest.getFechaModificacion() != null) {
-            model.setFechaModificacion(menuDiaRequest.getFechaModificacion().toString());
-        } else {
-            model.setFechaModificacion(null);
-        }
-
-    
+        MenuSemanaModel semana = menuSemanaRepository.findById(menuDiaRequest.getIdMenuSemana())
+            .orElseThrow(() -> new RuntimeException("No existe un menu semana con id: " + id));
 
         modelMapper.map(menuDiaRequest, model);
+
+        model.setMenuSemana(semana);
+        model.setRacionesTotales(menuDiaRequest.getRacionesTotales());
+        model.setRacionesRestantes(menuDiaRequest.getRacionesRestantes());
+        model.setActivo(menuDiaRequest.isActivo());
+        model.setUsuarioCreacion(menuDiaRequest.getUsuarioModificacion());
+        model.setFechaModificacion(LocalDate.now());
 
         MenuDiaModel actualizado = menuDiaRepository.save(model);
 
@@ -113,8 +100,17 @@ public class MenuDiaServiceImp implements MenuDiaService {
     }
 
     @Override
-    public void eliminar(Integer id) {
-        menuDiaRepository.deleteById(id);
+    public MenuDiaResponse eliminar(Integer id) {
+
+         MenuDiaModel model = menuDiaRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("No existe un menu dia con id: " + id));
+
+    model.setActivo(false);
+
+    MenuDiaModel actualizado = menuDiaRepository.save(model);
+
+    return modelMapper.map(actualizado, MenuDiaResponse.class);
+        
         
     
     }

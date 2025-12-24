@@ -1,5 +1,6 @@
 package com.example.Comedor.service.Imp;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.modelmapper.ModelMapper;
@@ -7,7 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.Comedor.model.entity.PlatoModel;
-import com.example.Comedor.model.request.PlatoRequest;
+import com.example.Comedor.model.request.plato.PlatoRequest;
+import com.example.Comedor.model.request.plato.PlatoUpdateRequest;
 import com.example.Comedor.model.response.PlatoResponse;
 import com.example.Comedor.repository.PlatoRepository;
 import com.example.Comedor.service.PlatoService;
@@ -51,6 +53,16 @@ public class PlatoServiceImp implements PlatoService {
 
         PlatoModel model = modelMapper.map(platoRequest, PlatoModel.class);
 
+        model.setNombre(platoRequest.getNombre());
+        model.setDescripcion(platoRequest.getDescripcion());
+        model.setImagenUrl(platoRequest.getImagenUrl());
+        model.setCalorias(platoRequest.getCalorias());
+        model.setTipo(platoRequest.getTipo());
+        model.setActivo(platoRequest.isActivo());
+        model.setUsuarioCreacion(platoRequest.getUsuarioCreacion());
+        model.setFechaCreacion(LocalDate.now());
+
+
        
         PlatoModel saved = platoRepository.save(model);
 
@@ -62,11 +74,20 @@ public class PlatoServiceImp implements PlatoService {
     }
 
     @Override
-    public PlatoResponse modificar(Integer id, PlatoRequest platoRequest) {
+    public PlatoResponse modificar(Integer id, PlatoUpdateRequest platoRequest) {
         PlatoModel model = platoRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("No existe un comedor con id: " + id));
+            .orElseThrow(() -> new RuntimeException("No existe un plato con id: " + id));
 
         modelMapper.map(platoRequest, model);
+
+        model.setNombre(platoRequest.getNombre());
+        model.setDescripcion(platoRequest.getDescripcion());
+        model.setImagenUrl(platoRequest.getImagenUrl());
+        model.setCalorias(platoRequest.getCalorias());
+        model.setTipo(platoRequest.getTipo());
+        model.setActivo(platoRequest.isActivo());
+        model.setUsuarioModificacion(platoRequest.getUsuarioModificacion());
+        model.setFechaModificacion(LocalDate.now());
 
         PlatoModel actualizado = platoRepository.save(model);
 
@@ -74,8 +95,15 @@ public class PlatoServiceImp implements PlatoService {
     }
 
     @Override
-    public void eliminar(Integer id) {
-        platoRepository.deleteById(id);
+    public PlatoResponse eliminar(Integer id) {
+        PlatoModel model = platoRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("No existe un plato con id: " + id));
+    
+    model.setActivo(false);
+
+    PlatoModel actualizado = platoRepository.save(model);
+
+    return modelMapper.map(actualizado, PlatoResponse.class);
         
     }
 

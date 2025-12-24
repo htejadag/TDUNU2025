@@ -1,5 +1,6 @@
 package com.example.Comedor.model.entity;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
 
 import jakarta.persistence.Column;
@@ -32,10 +33,10 @@ public class TurnoModel {
     @Column(name = "usuario_creacion", nullable = false, length = 100)
     private Integer usuarioCreacion;
     @Column(name = "fecha_creacion", nullable = false)
-    private String fechaCreacion;
+    private LocalDate fechaCreacion;
     @Column(name = "usuario_modificacion", length = 100)
     private Integer usuarioModificacion;
     @Column(name = "fecha_modificacion")
-    private String fechaModificacion;
+    private LocalDate fechaModificacion;
     
 }

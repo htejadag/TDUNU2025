@@ -1,6 +1,7 @@
 package com.example.Comedor.model.response;
 
-import java.sql.Date;
+
+import java.time.LocalDate;
 
 import lombok.Data;
 
@@ -24,10 +25,10 @@ public class PlatoResponse {
 
     private Integer usuarioCreacion;
 
-    private Date fechaCreacion;
+    private LocalDate fechaCreacion;
 
     private Integer usuarioModificacion;
     
-    private Date fechaModificacion;
+    private LocalDate fechaModificacion;
     
 }

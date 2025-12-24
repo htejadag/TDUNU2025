@@ -1,6 +1,6 @@
 package com.example.Comedor.model.entity;
 
-import java.sql.Date;
+import java.time.LocalDate;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -26,19 +26,22 @@ public class ConsumoRacionModel {
     private Integer idCuentaUsuario;
 
     @ManyToOne
-    @JoinColumn(name = "id_menu_dia")
-    private MenuDiaModel idMenuDia;
+    @JoinColumn(name = "id_menu_plato", nullable = false)
+    private MenuPlatoModel idMenuPlato;
 
-    @Column(name = "fecha_consumo")
-    private Date fechaConsumo;
+    @Column(name = "fecha_consumo", nullable = false)
+    private LocalDate fechaConsumo;
+
+    @Column(name = "activo",nullable = false)
+    private boolean activo;
 
     //auditoria
-    @Column(name = "usuario_creacion", nullable = false, length = 100)
+    @Column(name = "usuario_creacion", nullable = false)
     private Integer usuarioCreacion;
     @Column(name = "fecha_creacion", nullable = false)
-    private String fechaCreacion;
-    @Column(name = "usuario_modificacion", length = 100)
+    private LocalDate fechaCreacion;
+    @Column(name = "usuario_modificacion")
     private Integer usuarioModificacion;
     @Column(name = "fecha_modificacion")
-    private String fechaModificacion;
+    private LocalDate fechaModificacion;
 }

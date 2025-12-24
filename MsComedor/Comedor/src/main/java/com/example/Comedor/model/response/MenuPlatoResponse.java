@@ -1,6 +1,6 @@
 package com.example.Comedor.model.response;
 
-import java.sql.Date;
+import java.time.LocalDate;
 
 import lombok.Data;
 
@@ -8,15 +8,19 @@ import lombok.Data;
 public class MenuPlatoResponse {
 
     private Integer id;
+
     private Integer idMenuDia;
+
     private Integer idPlato;
+
+    private Integer idTurno;
 
     private Integer usuarioCreacion;
 
-    private Date fechaCreacion;
+    private LocalDate fechaCreacion;
 
     private Integer usuarioModificacion;
     
-    private Date fechaModificacion;
+    private LocalDate fechaModificacion;
     
 }

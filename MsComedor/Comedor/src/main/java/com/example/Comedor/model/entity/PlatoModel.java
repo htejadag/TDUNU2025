@@ -1,6 +1,6 @@
 package com.example.Comedor.model.entity;
 
-import java.sql.Date;
+import java.time.LocalDate;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -17,30 +17,30 @@ public class PlatoModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "id",nullable = false)
     private Integer id;
-    @Column(name = "nombre")
+    @Column(name = "nombre",nullable = false)
     private String nombre;
-    @Column(name = "descripcion")
+    @Column(name = "descripcion",nullable = false)
     private String descripcion;
-    @Column(name = "imagen_url")
+    @Column(name = "imagen_url",nullable = false)
     private String imagenUrl;
-    @Column(name = "calorias")
+    @Column(name = "calorias",nullable = false)
     private Integer calorias;
-    @Column(name = "tipo")
+    @Column(name = "tipo",nullable = false)
     private String tipo;
-     @Column(name = "activo")
+    @Column(name = "activo",nullable = false)
     private boolean activo;
 
 
     //auditoria
-    @Column(name = "usuario_creacion", nullable = false, length = 100)
-    private String usuarioCreacion;
+    @Column(name = "usuario_creacion",nullable = false)
+    private Integer usuarioCreacion;
     @Column(name = "fecha_creacion", nullable = false)
-    private Date fechaCreacion;
-    @Column(name = "usuario_modificacion", length = 100)
-    private String usuarioModificacion;
+    private LocalDate fechaCreacion;
+    @Column(name = "usuario_modificacion")
+    private Integer usuarioModificacion;
     @Column(name = "fecha_modificacion")
-    private Date fechaModificacion;
+    private LocalDate fechaModificacion;
     
 }

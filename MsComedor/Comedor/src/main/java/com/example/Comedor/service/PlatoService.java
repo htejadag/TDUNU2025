@@ -2,7 +2,8 @@ package com.example.Comedor.service;
 
 import java.util.List;
 
-import com.example.Comedor.model.request.PlatoRequest;
+import com.example.Comedor.model.request.plato.PlatoRequest;
+import com.example.Comedor.model.request.plato.PlatoUpdateRequest;
 import com.example.Comedor.model.response.PlatoResponse;
 
 public interface PlatoService {
@@ -13,8 +14,8 @@ public interface PlatoService {
 
     PlatoResponse guardar(PlatoRequest platoRequest);
 
-    PlatoResponse modificar(Integer id,PlatoRequest platoRequest);
+    PlatoResponse modificar(Integer id,PlatoUpdateRequest platoRequest);
 
-    void eliminar(Integer id);
+    PlatoResponse eliminar(Integer id);
     
 }

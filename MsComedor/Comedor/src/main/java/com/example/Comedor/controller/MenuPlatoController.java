@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.example.Comedor.model.request.plato.MenuPlatoRequest;
+import com.example.Comedor.model.request.menuPlato.MenuPlatoRequest;
+import com.example.Comedor.model.request.menuPlato.MenuPlatoUpdateRequest;
 import com.example.Comedor.model.response.MenuPlatoResponse;
 import com.example.Comedor.service.MenuPlatoService;
 import com.example.Comedor.util.ApiRoutes;
@@ -50,16 +50,19 @@ public class MenuPlatoController {
     @PutMapping(ApiRoutes.Comedor.MODIFICAR_MENU_PLATO)
     public ResponseBase<MenuPlatoResponse> modificar(
             @RequestParam("id") Integer id,
-            @RequestBody MenuPlatoRequest request) {
+            @RequestBody MenuPlatoUpdateRequest request) {
 
         MenuPlatoResponse response = menuPlatoService.modificar(id, request);
         return ResponseBase.ok(response);
     }
 
     @DeleteMapping(ApiRoutes.Comedor.ELIMINAR_MENU_PLATO)
-    public MenuPlatoResponse eliminar(@RequestParam("id") Integer id) {
-        menuPlatoService.eliminar(id);
-        return null;
+    public ResponseBase<MenuPlatoResponse> eliminar(@RequestParam("id") Integer id) {
+        
+        MenuPlatoResponse response = menuPlatoService.eliminar(id);
+        return ResponseBase.ok(response);
+
+
     }
     
 }

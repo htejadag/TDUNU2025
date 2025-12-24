@@ -1,6 +1,6 @@
-package com.example.Comedor.model.request;
+package com.example.Comedor.model.request.menuDia;
 
-import java.sql.Date;
+
 
 import lombok.Data;
 
@@ -8,17 +8,15 @@ import lombok.Data;
 public class MenuDiaRequest {
 
     private Integer idMenuSemana;   
-    private Integer idTurno;        
+
     private Integer racionesTotales;
+
     private Integer racionesRestantes;
+
     private boolean activo;
 
     private Integer usuarioCreacion;
 
-    private Date fechaCreacion;
-
-    private Integer usuarioModificacion;
     
-    private Date fechaModificacion;
     
 }

@@ -12,7 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.Comedor.model.request.PlatoRequest;
+import com.example.Comedor.model.request.plato.PlatoRequest;
+import com.example.Comedor.model.request.plato.PlatoUpdateRequest;
 import com.example.Comedor.model.response.PlatoResponse;
 import com.example.Comedor.service.PlatoService;
 import com.example.Comedor.util.ApiRoutes;
@@ -47,7 +48,7 @@ public class PlatoController {
     @PutMapping(value = ApiRoutes.Comedor.MODIFICAR_PLATO)
     public ResponseBase<PlatoResponse> modificar(
             @RequestParam(value = "id") Integer id,
-            @RequestBody PlatoRequest request) {
+            @RequestBody PlatoUpdateRequest request) {
         
         PlatoResponse response = platoService.modificar(id, request);
         return ResponseBase.ok(response);
@@ -55,9 +56,10 @@ public class PlatoController {
 
 
      @DeleteMapping(value = ApiRoutes.Comedor.ELIMINAR_PLATO)
-    public PlatoResponse eliminar(@RequestParam(value = "id") Integer id) {
-        platoService.eliminar(id);
-        return null;
+    public ResponseBase<PlatoResponse> eliminar(@RequestParam(value = "id") Integer id) {
+        
+        PlatoResponse response=platoService.eliminar(id);
+        return ResponseBase.ok(response);
     }
 
 

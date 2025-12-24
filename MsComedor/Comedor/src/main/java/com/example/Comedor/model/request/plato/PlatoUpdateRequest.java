@@ -1,11 +1,9 @@
-package com.example.Comedor.model.request;
-
-import java.sql.Date;
+package com.example.Comedor.model.request.plato;
 
 import lombok.Data;
 
 @Data
-public class PlatoRequest {
+public class PlatoUpdateRequest {
 
     private String nombre;
   
@@ -19,12 +17,7 @@ public class PlatoRequest {
 
     private boolean activo;
 
-    private Integer usuarioCreacion;
-
-    private Date fechaCreacion;
-
     private Integer usuarioModificacion;
-    
-    private Date fechaModificacion;
+
     
 }

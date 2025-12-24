@@ -2,9 +2,8 @@ package com.example.Comedor.service;
 
 import java.util.List;
 
-import com.example.Comedor.model.request.ConsumoRacionRequest;
-// import com.example.Comedor.model.request.MenuDiaRequest;
-// import com.example.Comedor.model.response.MenuDiaResponse;
+import com.example.Comedor.model.request.consumoRacion.ConsumoRacionRequest;
+import com.example.Comedor.model.request.consumoRacion.ConsumoRacionUpdateRequest;
 import com.example.Comedor.model.response.ConsumoRacionResponse;
 
 public interface ConsumoRacionService {
@@ -14,7 +13,7 @@ public interface ConsumoRacionService {
 
     ConsumoRacionResponse guardar(ConsumoRacionRequest consumoRacionRequest);
     
-    ConsumoRacionResponse modificar(Integer id,ConsumoRacionRequest consumoRacionRequest);
+    ConsumoRacionResponse modificar(Integer id,ConsumoRacionUpdateRequest consumoRacionRequest);
 
-    void eliminar(Integer id);
+    ConsumoRacionResponse eliminar(Integer id);
 }

@@ -1,5 +1,6 @@
 package com.example.Comedor.service.Imp;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.Comedor.model.entity.TurnoModel;
 import com.example.Comedor.model.request.turno.TurnoRequest;
+import com.example.Comedor.model.request.turno.TurnoUpdateRequest;
 import com.example.Comedor.model.response.TurnoResponse;
 import com.example.Comedor.repository.TurnoRepository;
 import com.example.Comedor.service.TurnoService;
@@ -29,24 +31,14 @@ public class TurnoServiceImp implements TurnoService {
     public List<TurnoResponse> listar() {
         return turnoRepository.findAll()
                 .stream()
-                .map(model -> {
-                    TurnoResponse resp = modelMapper.map(model, TurnoResponse.class);
-                    resp.setHoraApertura(model.getHoraApertura().toString());
-                    resp.setHoraCierre(model.getHoraCierre().toString());
-                    return resp;
-                })
+                .map(model -> modelMapper.map(model, TurnoResponse.class))
                 .toList();
     }
 
     @Override
     public TurnoResponse obtenerPorId(Integer id) {
         return turnoRepository.findById(id)
-                .map(model -> {
-                    TurnoResponse resp = modelMapper.map(model, TurnoResponse.class);
-                    resp.setHoraApertura(model.getHoraApertura().toString());
-                    resp.setHoraCierre(model.getHoraCierre().toString());
-                    return resp;
-                })
+                .map(model -> modelMapper.map(model, TurnoResponse.class))
                 .orElse(null);
     }
 
@@ -56,19 +48,18 @@ public class TurnoServiceImp implements TurnoService {
 
         TurnoModel model = modelMapper.map(turnoRequest, TurnoModel.class);
 
-        // String -> LocalTime
+        model.setDescripcion(turnoRequest.getDescripcion());
         model.setHoraApertura(LocalTime.parse(turnoRequest.getHoraApertura()));
         model.setHoraCierre(LocalTime.parse(turnoRequest.getHoraCierre()));
+        model.setActivo(turnoRequest.isActivo());
+        model.setUsuarioCreacion(turnoRequest.getUsuarioCreacion());
+        model.setFechaCreacion(LocalDate.now());
+
 
        
         TurnoModel saved = turnoRepository.save(model);
 
-       
         TurnoResponse response = modelMapper.map(saved, TurnoResponse.class);
-
-        // Convertimos al response
-        response.setHoraApertura(saved.getHoraApertura().toString());
-        response.setHoraCierre(saved.getHoraCierre().toString());
 
         return response;
         
@@ -76,27 +67,38 @@ public class TurnoServiceImp implements TurnoService {
     }
 
     @Override
-    public TurnoResponse modificar(Integer id, TurnoRequest turnoRequest) {
+    public TurnoResponse modificar(Integer id, TurnoUpdateRequest turnoRequest) {
 
     TurnoModel model = turnoRepository.findById(id)
             .orElseThrow(() -> new RuntimeException("No existe un turno con id: " + id));
 
-
-    
     model.setDescripcion(turnoRequest.getDescripcion());
     model.setHoraApertura(LocalTime.parse(turnoRequest.getHoraApertura()));
     model.setHoraCierre(LocalTime.parse(turnoRequest.getHoraCierre()));
+    model.setActivo(turnoRequest.isActivo());
+    model.setUsuarioModificacion(turnoRequest.getUsuarioModificacion());
+    model.setFechaModificacion(LocalDate.now());
 
- 
+
     TurnoModel actualizado = turnoRepository.save(model);
 
     return modelMapper.map(actualizado, TurnoResponse.class);
 }
 
     @Override
-    public void eliminar(Integer id) {
+    public TurnoResponse eliminar(Integer id) {
 
-        turnoRepository.deleteById(id);
+         TurnoModel model = turnoRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("No existe un turno con id: " + id));
+
+    model.setActivo(false);
+
+    TurnoModel actualizado = turnoRepository.save(model);
+
+    return modelMapper.map(actualizado, TurnoResponse.class);
+
+
+        
         
     }
     

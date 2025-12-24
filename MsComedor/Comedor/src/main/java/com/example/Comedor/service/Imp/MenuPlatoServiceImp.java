@@ -1,5 +1,6 @@
 package com.example.Comedor.service.Imp;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.modelmapper.ModelMapper;
@@ -9,11 +10,14 @@ import org.springframework.stereotype.Service;
 import com.example.Comedor.model.entity.MenuDiaModel;
 import com.example.Comedor.model.entity.MenuPlatoModel;
 import com.example.Comedor.model.entity.PlatoModel;
-import com.example.Comedor.model.request.plato.MenuPlatoRequest;
+import com.example.Comedor.model.entity.TurnoModel;
+import com.example.Comedor.model.request.menuPlato.MenuPlatoRequest;
+import com.example.Comedor.model.request.menuPlato.MenuPlatoUpdateRequest;
 import com.example.Comedor.model.response.MenuPlatoResponse;
 import com.example.Comedor.repository.MenuDiaRepository;
 import com.example.Comedor.repository.MenuPlatoRepository;
 import com.example.Comedor.repository.PlatoRepository;
+import com.example.Comedor.repository.TurnoRepository;
 import com.example.Comedor.service.MenuPlatoService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -31,6 +35,9 @@ public class MenuPlatoServiceImp implements MenuPlatoService {
 
     @Autowired
     private PlatoRepository platoRepository;
+
+    @Autowired
+    private TurnoRepository turnoRepository;
 
     @Autowired
     private ModelMapper modelMapper;
@@ -65,24 +72,28 @@ public class MenuPlatoServiceImp implements MenuPlatoService {
         PlatoModel plato = platoRepository.findById(req.getIdPlato())
                 .orElseThrow(() -> new RuntimeException("No existe plato con id: " + req.getIdPlato()));
 
+        TurnoModel turno = turnoRepository.findById(req.getIdTurno())
+                .orElseThrow(() -> new RuntimeException("No existe turno con id: " + req.getIdTurno()));
+
  
         model.setMenuDia(menuDia);
         model.setPlato(plato);
-
+        model.setTurno(turno);
+        model.setActivo(req.isActivo());
         model.setUsuarioCreacion(req.getUsuarioCreacion());
-        model.setFechaCreacion(req.getFechaCreacion().toString());
-        model.setUsuarioModificacion(req.getUsuarioModificacion());
-        model.setFechaModificacion(req.getFechaModificacion().toString());
+        model.setFechaCreacion(LocalDate.now());
 
   
         MenuPlatoModel saved = menuPlatoRepository.save(model);
 
-        return modelMapper.map(saved, MenuPlatoResponse.class);
+        MenuPlatoResponse response = modelMapper.map(saved, MenuPlatoResponse.class);
+
+        return response;
     }
 
 
     @Override
-    public MenuPlatoResponse modificar(Integer id, MenuPlatoRequest req) {
+    public MenuPlatoResponse modificar(Integer id, MenuPlatoUpdateRequest req) {
 
         MenuPlatoModel model = menuPlatoRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("No existe menu_plato con id: " + id));
@@ -93,17 +104,16 @@ public class MenuPlatoServiceImp implements MenuPlatoService {
         PlatoModel plato = platoRepository.findById(req.getIdPlato())
                 .orElseThrow(() -> new RuntimeException("No existe plato con id: " + req.getIdPlato()));
 
+        TurnoModel turno = turnoRepository.findById(req.getIdTurno())
+                .orElseThrow(() -> new RuntimeException("No existe turno con id: " + req.getIdTurno()));
+
         model.setMenuDia(menuDia);
         model.setPlato(plato);
-        model.setUsuarioCreacion(req.getUsuarioCreacion());
-        model.setFechaCreacion(req.getFechaCreacion().toString());
+        model.setTurno(turno);
+        model.setActivo(req.isActivo());
         model.setUsuarioModificacion(req.getUsuarioModificacion());
-        if (req.getFechaModificacion() != null) {
-            model.setFechaModificacion(req.getFechaModificacion().toString());
-        } else {
-            model.setFechaModificacion(null);
-        }
-
+        model.setFechaModificacion(LocalDate.now());
+     
         MenuPlatoModel actualizado = menuPlatoRepository.save(model);
 
         return modelMapper.map(actualizado, MenuPlatoResponse.class);
@@ -111,8 +121,18 @@ public class MenuPlatoServiceImp implements MenuPlatoService {
 
    
     @Override
-    public void eliminar(Integer id) {
-        menuPlatoRepository.deleteById(id);
+    public MenuPlatoResponse eliminar(Integer id) {
+
+        MenuPlatoModel model = menuPlatoRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("No existe menu_plato con id: " + id));
+
+    model.setActivo(false);
+
+    MenuPlatoModel actualizado = menuPlatoRepository.save(model);
+
+    return modelMapper.map(actualizado, MenuPlatoResponse.class);
+
+        
     }
     
 }

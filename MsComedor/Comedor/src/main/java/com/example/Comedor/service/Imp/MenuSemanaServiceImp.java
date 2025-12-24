@@ -64,7 +64,7 @@ public class MenuSemanaServiceImp implements MenuSemanaService{
     public MenuSemanaResponse modificar(Integer id, MenuSemanaUpdateRequest request) {
 
     MenuSemanaModel model = menuSemanaRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("No existe un comedor con id: " + id));
+            .orElseThrow(() -> new RuntimeException("No existe un menu semana con id: " + id));
 
     modelMapper.map(request, model);
 
@@ -85,7 +85,7 @@ public class MenuSemanaServiceImp implements MenuSemanaService{
     public MenuSemanaResponse eliminar(Integer id) {
 
         MenuSemanaModel model = menuSemanaRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("No existe un comedor con id: " + id));
+            .orElseThrow(() -> new RuntimeException("No existe un menu semana con id: " + id));
 
     model.setActivo(false);
    

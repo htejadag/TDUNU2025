@@ -3,6 +3,7 @@ package com.example.Comedor.service;
 import java.util.List;
 
 import com.example.Comedor.model.request.turno.TurnoRequest;
+import com.example.Comedor.model.request.turno.TurnoUpdateRequest;
 import com.example.Comedor.model.response.TurnoResponse;
 
 public interface TurnoService {
@@ -13,8 +14,8 @@ public interface TurnoService {
 
     TurnoResponse guardar(TurnoRequest turnoRequest);
 
-    TurnoResponse modificar(Integer id,TurnoRequest turnoRequest);
+    TurnoResponse modificar(Integer id,TurnoUpdateRequest turnoRequest);
 
-    void eliminar(Integer id);
+    TurnoResponse eliminar(Integer id);
     
 }

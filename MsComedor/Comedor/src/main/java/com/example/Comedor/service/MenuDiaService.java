@@ -2,7 +2,8 @@ package com.example.Comedor.service;
 
 import java.util.List;
 
-import com.example.Comedor.model.request.MenuDiaRequest;
+import com.example.Comedor.model.request.menuDia.MenuDiaRequest;
+import com.example.Comedor.model.request.menuDia.MenuDiaUpdateRequest;
 import com.example.Comedor.model.response.MenuDiaResponse;
 
 public interface MenuDiaService {
@@ -13,8 +14,8 @@ public interface MenuDiaService {
 
     MenuDiaResponse guardar(MenuDiaRequest menuDiaRequest);
     
-    MenuDiaResponse modificar(Integer id,MenuDiaRequest menuDiaRequest);
+    MenuDiaResponse modificar(Integer id,MenuDiaUpdateRequest menuDiaRequest);
 
-    void eliminar(Integer id);
+    MenuDiaResponse eliminar(Integer id);
     
 }

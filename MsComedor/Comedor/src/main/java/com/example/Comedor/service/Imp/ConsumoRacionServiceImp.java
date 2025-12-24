@@ -1,5 +1,6 @@
 package com.example.Comedor.service.Imp;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.modelmapper.ModelMapper;
@@ -7,14 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.Comedor.model.entity.ConsumoRacionModel;
-import com.example.Comedor.model.entity.MenuDiaModel;
-// import com.example.Comedor.model.entity.MenuSemanaModel;
-// import com.example.Comedor.model.entity.TurnoModel;
-import com.example.Comedor.model.request.ConsumoRacionRequest;
+import com.example.Comedor.model.entity.MenuPlatoModel;
+import com.example.Comedor.model.request.consumoRacion.ConsumoRacionRequest;
+import com.example.Comedor.model.request.consumoRacion.ConsumoRacionUpdateRequest;
 import com.example.Comedor.model.response.ConsumoRacionResponse;
-// import com.example.Comedor.model.response.MenuDiaResponse;
 import com.example.Comedor.repository.ConsumoRacionRepository;
-import com.example.Comedor.repository.MenuDiaRepository;
+import com.example.Comedor.repository.MenuPlatoRepository;
 import com.example.Comedor.service.ConsumoRacionService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -23,7 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 public class ConsumoRacionServiceImp implements ConsumoRacionService {
     @Autowired
-    MenuDiaRepository menuDiaRepository;
+    MenuPlatoRepository menuPlatoRepository;
     @Autowired
     ConsumoRacionRepository consumoRacionRepository;
 
@@ -47,56 +46,64 @@ public class ConsumoRacionServiceImp implements ConsumoRacionService {
 
     @Override
     public ConsumoRacionResponse guardar(ConsumoRacionRequest consumoRacionRequest) {
-        // MenuDiaModel model = new MenuDiaModel();
+      
 
         ConsumoRacionModel modelRa = new ConsumoRacionModel();
 
-        //
-        MenuDiaModel dia = menuDiaRepository.findById(consumoRacionRequest.getIdMenuDia())
-            .orElseThrow(() -> new RuntimeException("No existe menu dia con id: " + consumoRacionRequest.getIdMenuDia()));
+    
+        MenuPlatoModel plato = menuPlatoRepository.findById(consumoRacionRequest.getIdMenuPlato())
+            .orElseThrow(() -> new RuntimeException("No existe menu dia con id: " + consumoRacionRequest.getIdMenuPlato()));
 
-        // Asignar relaciones correctamente
-        modelRa.setIdMenuDia(dia);
+      
+        modelRa.setIdMenuPlato(plato);
         modelRa.setIdCuentaUsuario(consumoRacionRequest.getIdCuentaUsuario());
-        modelRa.setFechaConsumo(consumoRacionRequest.getFechaConsumo());
+        modelRa.setFechaConsumo(LocalDate.now());
 
         modelRa.setUsuarioCreacion(consumoRacionRequest.getUsuarioCreacion());
-        modelRa.setFechaCreacion(consumoRacionRequest.getFechaCreacion().toString());
-        modelRa.setUsuarioModificacion(consumoRacionRequest.getUsuarioModificacion());
-        modelRa.setFechaModificacion(consumoRacionRequest.getFechaModificacion().toString());
-        // Guardar
+        modelRa.setFechaCreacion(LocalDate.now());
+       
         ConsumoRacionModel saved = consumoRacionRepository.save(modelRa);
 
-        return modelMapper.map(saved, ConsumoRacionResponse.class);
+        ConsumoRacionResponse response = modelMapper.map(saved, ConsumoRacionResponse.class);
+
+        return response;
     }
 
     @Override
-    public ConsumoRacionResponse modificar(Integer id, ConsumoRacionRequest consumoRacionRequest) {
-        ConsumoRacionModel existingModel = consumoRacionRepository.findById(id)
+    public ConsumoRacionResponse modificar(Integer id, ConsumoRacionUpdateRequest consumoRacionRequest) {
+
+        ConsumoRacionModel model = consumoRacionRepository.findById(id)
             .orElseThrow(() -> new RuntimeException("No existe consumo racion con id: " + id));
 
-        MenuDiaModel dia = menuDiaRepository.findById(consumoRacionRequest.getIdMenuDia())
-            .orElseThrow(() -> new RuntimeException("No existe menu dia con id: " + consumoRacionRequest.getIdMenuDia()));
+        MenuPlatoModel plato = menuPlatoRepository.findById(consumoRacionRequest.getIdMenuPlato())
+            .orElseThrow(() -> new RuntimeException("No existe menu plato con id: " + consumoRacionRequest.getIdMenuPlato()));
 
-        existingModel.setIdCuentaUsuario(consumoRacionRequest.getIdCuentaUsuario());
-        existingModel.setIdMenuDia(dia);
-        existingModel.setUsuarioCreacion(consumoRacionRequest.getUsuarioCreacion());
+        model.setIdMenuPlato(plato);
+        model.setIdCuentaUsuario(consumoRacionRequest.getIdCuentaUsuario());
+        model.setFechaConsumo(LocalDate.now());
 
-        existingModel.setUsuarioModificacion(consumoRacionRequest.getUsuarioModificacion());
-        if (consumoRacionRequest.getFechaModificacion() != null) {
-            existingModel.setFechaModificacion(consumoRacionRequest.getFechaModificacion().toString());
-        } else {
-            existingModel.setFechaModificacion(null);
-        }
-        
-        ConsumoRacionModel updatedModel = consumoRacionRepository.save(existingModel);
+        model.setUsuarioModificacion(consumoRacionRequest.getUsuarioModificacion());
+        model.setFechaModificacion(LocalDate.now());
 
-        return modelMapper.map(updatedModel, ConsumoRacionResponse.class);
+        ConsumoRacionModel actualizado=consumoRacionRepository.save(model);
+
+        return modelMapper.map(actualizado, ConsumoRacionResponse.class);
+     
     }
 
     @Override
-    public void eliminar(Integer id) {
-        consumoRacionRepository.deleteById(id);
+    public ConsumoRacionResponse eliminar(Integer id) {
+
+        ConsumoRacionModel model = consumoRacionRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("No existe consumo racion con id: " + id));
+
+        model.setActivo(false);
+
+        ConsumoRacionModel actualizado=consumoRacionRepository.save(model);
+
+        return modelMapper.map(actualizado, ConsumoRacionResponse.class);
+
+
     }
     
    
