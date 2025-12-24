@@ -2,9 +2,13 @@ package com.service.MsTramiteTesis.service;
 
 import com.service.MsTramiteTesis.model.dto.ProyectoRequest;
 import com.service.MsTramiteTesis.model.dto.ProyectoResponse;
+import com.service.MsTramiteTesis.model.dto.ProyectoResponseEnriquecido;
+import com.service.MsTramiteTesis.model.dto.external.DocenteDTO;
+import com.service.MsTramiteTesis.model.dto.external.EstudianteDTO;
 import com.service.MsTramiteTesis.model.entity.ProyectoTesis;
 import com.service.MsTramiteTesis.model.Error.ResourceNotFoundException;
 import com.service.MsTramiteTesis.repository.ProyectoRepository;
+import com.service.MsTramiteTesis.client.PersonasClient;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,6 +26,9 @@ public class ProyectoService {
 
     @Autowired
     private ModelMapper modelMapper;
+
+    @Autowired
+    private PersonasClient personasClient;
 
     /**
      * Crear un nuevo proyecto (ESTUDIANTE)
@@ -150,5 +157,74 @@ public class ProyectoService {
                 .stream()
                 .map(p -> modelMapper.map(p, ProyectoResponse.class))
                 .collect(Collectors.toList());
+    }
+
+    // ========== MÉTODOS CON DATOS ENRIQUECIDOS ==========
+
+    /**
+     * Obtener un proyecto enriquecido con información del MS Personas
+     */
+    public ProyectoResponseEnriquecido obtenerProyectoEnriquecido(Long idProyecto) {
+        ProyectoTesis proyecto = proyectoRepository.findById(idProyecto)
+                .orElseThrow(() -> new ResourceNotFoundException("Proyecto no encontrado"));
+
+        return enriquecerProyecto(proyecto);
+    }
+
+    /**
+     * Listar proyectos enriquecidos del estudiante
+     */
+    public List<ProyectoResponseEnriquecido> listarProyectosEnriquecidosPorEstudiante(Long idEstudiante) {
+        return proyectoRepository.findByIdEstudianteExt(idEstudiante)
+                .stream()
+                .map(this::enriquecerProyecto)
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * Listar proyectos enriquecidos del asesor
+     */
+    public List<ProyectoResponseEnriquecido> listarProyectosEnriquecidosPorAsesor(Long idAsesor) {
+        return proyectoRepository.findByIdAsesorExt(idAsesor)
+                .stream()
+                .map(this::enriquecerProyecto)
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * Listar todos los proyectos enriquecidos (para coordinador)
+     */
+    public List<ProyectoResponseEnriquecido> listarTodosProyectosEnriquecidos() {
+        return proyectoRepository.findAll()
+                .stream()
+                .map(this::enriquecerProyecto)
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * Método auxiliar para enriquecer un proyecto con datos del MS Personas
+     */
+    private ProyectoResponseEnriquecido enriquecerProyecto(ProyectoTesis proyecto) {
+        ProyectoResponseEnriquecido response = new ProyectoResponseEnriquecido();
+
+        // Copiar datos básicos
+        response.setIdProyecto(proyecto.getIdProyecto());
+        response.setIdEstudianteExt(proyecto.getIdEstudianteExt());
+        response.setIdAsesorExt(proyecto.getIdAsesorExt());
+        response.setIdEspecialidadExt(proyecto.getIdEspecialidadExt());
+        response.setTituloProyecto(proyecto.getTituloProyecto());
+        response.setRutaPdfProyecto(proyecto.getRutaPdfProyecto());
+        response.setEstadoProyectoCodigo(proyecto.getEstadoProyectoCodigo());
+        response.setFechaRegistro(proyecto.getFechaRegistro());
+        response.setFechaAprobacionFinal(proyecto.getFechaAprobacionFinal());
+
+        // Enriquecer con datos del MS Personas
+        EstudianteDTO estudiante = personasClient.obtenerEstudiante(proyecto.getIdEstudianteExt());
+        response.setEstudiante(estudiante);
+
+        DocenteDTO asesor = personasClient.obtenerDocente(proyecto.getIdAsesorExt());
+        response.setAsesor(asesor);
+
+        return response;
     }
 }
