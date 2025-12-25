@@ -13,6 +13,8 @@ import org.springframework.data.mongodb.core.mapping.Field;
 @Document(collection  = "UnidadOrganica")
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class UnidadOrganica {
 
     @Id

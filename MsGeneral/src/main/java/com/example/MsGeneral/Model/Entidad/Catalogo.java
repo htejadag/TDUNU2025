@@ -11,6 +11,8 @@ import org.springframework.data.mongodb.core.mapping.Field;
 @Document(collection  = "Catalogo")
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Catalogo {
 
     @Id
