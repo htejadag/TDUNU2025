@@ -27,7 +27,7 @@ public class PlanEstudiosModel {
     private String año;
 
     @Column(name = "estado")
-    private boolean estado;
+    private Boolean estado;
 
     @Column(name = "usuarioCreacion")
     private Integer usuarioCreacion;

@@ -1,24 +1,21 @@
 package com.unu.ms.MsGradosTitulos.repository;
-
-import com.unu.ms.MsGradosTitulos.model.entity.Resolucion;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
-
+ 
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.stereotype.Repository;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.unu.ms.MsGradosTitulos.model.entity.ResolucionModel;
+
 @Repository
-public interface ResolucionRepository extends JpaRepository<Resolucion, Integer> {
-    
-    Optional<Resolucion> findByNumeroResolucion(String numeroResolucion);
-    
-    List<Resolucion> findByIdExpediente(Integer idExpediente);
-    
-    List<Resolucion> findByIdSolicitud(Integer idSolicitud);
-    
-    List<Resolucion> findByIdEstado(Integer idEstado);
-    
-    List<Resolucion> findByIdTipoResolucion(Integer idTipoResolucion);
-    
-    List<Resolucion> findByIdExpedienteAndIdEstado(Integer idExpediente, Integer idEstado);
+public interface ResolucionRepository extends JpaRepository<ResolucionModel, Integer> {
+  
+    public Optional<ResolucionModel> findByNumeroResolucion(String numeroResolucion);
+    public List<ResolucionModel> findByExpediente(Integer idExpediente);
+    public List<ResolucionModel> findByIdSolicitud(Integer idSolicitud);
+    public List<ResolucionModel> findByIdEstado(Integer idEstado);
+    public List<ResolucionModel> findByIdTipoResolucion(Integer idTipoResolucion);
+    public List<ResolucionModel> findByIdExpedienteAndIdEstado(Integer idExpediente, Integer idEstado);
+
 }

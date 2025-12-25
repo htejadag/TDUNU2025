@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true">
+
+    <!-- Ruta definida en application.properties -->
+    <springProperty scope="context" name="logPath" source="app.log.path"/>
+
+    <!-- ==== VARIABLES ==== -->
+    <property name="APP_NAME" value="MICROSERVICIO-GRADOS-TITULOS"/>
+
+    <!-- ==== PATRÓN PARA ARCHIVOS ==== -->
+    <property name="FILE_PATTERN"
+              value="%d{yyyy-MM-dd HH:mm:ss.SSS} | %-5level | %logger{36}:%line | %X{method} %X{uri} | %msg%n"/>
+
+    <!-- ==== PATRÓN PARA CONSOLA (COLOR) ==== -->
+    <property name="CONSOLE_PATTERN"
+              value="%cyan(%d{HH:mm:ss}) %highlight(%-5level) %yellow([${APP_NAME}]) %blue(%X{method} %X{uri}) - %msg%n"/>
+
+    <!-- ========================================= -->
+    <!--             ROOT LOGGER                    -->
+    <!-- ========================================= -->
+    <root level="INFO">
+        <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="FILE_APP"/>
+        <appender-ref ref="FILE_ERROR"/>
+    </root>
+
+    <!-- ========================================= -->
+    <!--             CONSOLA COLOR                  -->
+    <!-- ========================================= -->
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>${CONSOLE_PATTERN}</pattern>
+        </encoder>
+    </appender>
+
+    <!-- ========================================= -->
+    <!--        ARCHIVO GENERAL INFO-ERROR          -->
+    <!-- ========================================= -->
+    <appender name="FILE_APP" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${logPath}/app.log</file>
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${logPath}/app-%d{yyyy-MM-dd}.log.gz</fileNamePattern>
+            <maxHistory>30</maxHistory>
+            <totalSizeCap>1GB</totalSizeCap>
+        </rollingPolicy>
+
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>${FILE_PATTERN}</pattern>
+        </encoder>
+    </appender>
+
+    <!-- ========================================= -->
+    <!--               ARCHIVO ERRORES              -->
+    <!-- ========================================= -->
+    <appender name="FILE_ERROR" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${logPath}/error.log</file>
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${logPath}/error-%d{yyyy-MM-dd}.log.gz</fileNamePattern>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>
+                %d{yyyy-MM-dd HH:mm:ss.SSS} | ERROR | [%thread]
+                | %logger{36}:%line
+                | MENSAJE: %msg%n
+                | EXCEPCIÓN: %ex%n
+            </pattern>
+        </encoder>
+
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>ERROR</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
+
+</configuration>

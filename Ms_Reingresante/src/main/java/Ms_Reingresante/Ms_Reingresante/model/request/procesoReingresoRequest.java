@@ -1,60 +1,60 @@
 package Ms_Reingresante.Ms_Reingresante.model.request;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+import lombok.Data;
 
+@Data
 
 public class procesoReingresoRequest {
      
-    public Integer idEstudiante;
+         private Integer idEstudiante;
 
-     public String procCodigo;
+     private String procCodigo;
 
-     public LocalDate procFechaInicio;
-
-   
-     public LocalDate procFechaFin;
-
-  
-     public String procEstado;
+     private LocalDateTime procFechaInicio;
 
    
-     public String procObservaciones;
-
-     public LocalDate procFechaPagoFicha;
+     private LocalDateTime procFechaFin;
 
   
-     public LocalDate procFechaEmisionFicha;
+     private String procEstado;
 
-      public LocalDate procFechaPagoInforme;
+   
+     private String procObservaciones;
+
+    private LocalDateTime procFechaPagoFicha;
+
+  
+     private LocalDateTime procFechaEmisionFicha;
+
+    private LocalDateTime procFechaPagoInforme;
 
 
-    public LocalDate procFechaSolicitudInforme;
+    private LocalDateTime procFechaSolicitudInforme;
 
-     public LocalDate procFechaEmisionInforme;
+    private LocalDateTime procFechaEmisionInforme;
 
 
-     public LocalDate procFechaSolicitudReingreso;
+    private LocalDateTime procFechaSolicitudReingreso;
 
-     public LocalDate procFechaResolucion;
+     private LocalDateTime procFechaResolucion;
 
-     public LocalDate procFechaMatricula;
+     private LocalDateTime procFechaMatricula;
 
     
-     public String procFaseActual;
+    private String procFaseActual;
 
     
-     public LocalDateTime fechaCreacion;
+    private LocalDateTime fechaCreacion;
 
 
-     public String usuarioCreacion;
+     private String usuarioCreacion;
 
 
-     public LocalDateTime fechaModificacion;
+    private LocalDateTime fechaModificacion;
 
 
-     public String usuarioModificacion;
-
+     private String usuarioModificacion;
 
 }

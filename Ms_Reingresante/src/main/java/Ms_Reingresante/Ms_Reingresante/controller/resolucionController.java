@@ -2,12 +2,8 @@ package Ms_Reingresante.Ms_Reingresante.controller;
 
 
 
-import io.swagger.v3.oas.models.responses.ApiResponse;
-
-
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -31,25 +27,25 @@ public class resolucionController {
 
   @GetMapping(value = ApiRoutes.Resolucion.LISTAR)
   public resolucionBase<List<resolucionResponse>> listar() {
-    List<resolucionResponse> lista = resolucionService.listar();
+    List<resolucionResponse> lista = resolucionService.listarResolucion();
     return resolucionBase.ok(lista);
   }
    
    @GetMapping(value = ApiRoutes.Resolucion.OBTENER_POR_ID)
   public resolucionBase<resolucionResponse> obtenerPorId(@RequestParam(value = "id") Integer id) {
-    resolucionResponse response = resolucionService.obtenerPorId(id);
+    resolucionResponse response = resolucionService.obtenerPorIdResolucion(id);
     return resolucionBase.ok(response);
   }
 
  @PostMapping(value = ApiRoutes.Resolucion.GUARDAR)
   public resolucionBase<resolucionResponse> guardar(@RequestBody resolucionRequest model) {
-    resolucionResponse response = resolucionService.guardar(model);
+    resolucionResponse response = resolucionService.guardarResolucion(model);
     return resolucionBase.ok(response);
   }
 
    @DeleteMapping(value = ApiRoutes.Resolucion.ELIMINAR)
   public resolucionResponse eliminar(@RequestParam(value = "id") Integer id) {
-    resolucionService.eliminar(id);
+    resolucionService.eliminarResolucion(id);
     return null;
   }
 

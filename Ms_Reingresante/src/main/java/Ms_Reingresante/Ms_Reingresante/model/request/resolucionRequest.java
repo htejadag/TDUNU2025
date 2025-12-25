@@ -7,14 +7,13 @@ import lombok.Data;
 @Data
 public class resolucionRequest {
     
-    public String resNumero;
-    public String resCodigoActivacion;
-    public  LocalDateTime resFechaEmision;
-    public String resEmitidoPor;
-    public String usuarioCreacion;
-    public String usuarioModificacion;
-    public LocalDateTime fechaModificacion;
-    public LocalDateTime fechaCreacion;
-    
-   
+    private String resNumero;
+    private String resCodigoActivacion;
+    private LocalDateTime resFechaEmision;
+    private String resEmitidoPor;
+    private String usuarioCreacion;
+    private LocalDateTime fechaCreacion;  
+    private String usuarioModificacion;
+    private LocalDateTime fechaModificacion; 
+
 }

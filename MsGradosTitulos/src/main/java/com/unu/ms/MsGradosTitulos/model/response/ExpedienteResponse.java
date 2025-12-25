@@ -1,23 +1,26 @@
 package com.unu.ms.MsGradosTitulos.model.response;
 
+import java.sql.Timestamp;
+import java.time.LocalDate;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class ExpedienteResponse {
-    private Integer idExpediente;
-    private String codigoExpediente;
-    private Integer idPersona;
-    private Integer idEstado;
-    private String descripcion;
-    private LocalDate fechaApertura;
-    private LocalDate fechaCierre;
-    private Integer idUsuarioCreo;
-    private LocalDateTime fechaCreacion;
+    
+    public Integer idExpediente;
+    public String codigoExpediente;
+    public Integer idPersona;
+    public Integer idEstado;
+    public String descripcion;
+    public LocalDate fechaApertura;
+    public LocalDate fechaCierre;
+    public Integer usuarioCreo;
+    public Timestamp fechaCreacion;
+    // public List<ResolucionModel> resoluciones;
+    
 }
