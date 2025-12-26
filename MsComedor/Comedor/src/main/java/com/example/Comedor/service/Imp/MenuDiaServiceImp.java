@@ -55,16 +55,15 @@ public class MenuDiaServiceImp implements MenuDiaService {
     @Override
     public MenuDiaResponse guardar(MenuDiaRequest req) {
 
-        MenuDiaModel model = modelMapper.map(req, MenuDiaModel.class);
-
-        
         MenuSemanaModel semana = menuSemanaRepository.findById(req.getIdMenuSemana())
             .orElseThrow(() -> new RuntimeException("No existe menu semana con id: " + req.getIdMenuSemana()));
+
+        MenuDiaModel model = new MenuDiaModel();
 
         
         model.setMenuSemana(semana);
         model.setRacionesTotales(req.getRacionesTotales());
-        model.setRacionesRestantes(req.getRacionesRestantes());
+        model.setRacionesRestantes(req.getRacionesTotales());
         model.setActivo(req.isActivo());
         model.setUsuarioCreacion(req.getUsuarioCreacion());
         model.setFechaCreacion(LocalDate.now());
@@ -79,11 +78,13 @@ public class MenuDiaServiceImp implements MenuDiaService {
 
     @Override
     public MenuDiaResponse modificar(Integer id, MenuDiaUpdateRequest menuDiaRequest) {
+       
+       
         MenuDiaModel model = menuDiaRepository.findById(id)
             .orElseThrow(() -> new RuntimeException("No existe un menu dia con id: " + id));
 
         MenuSemanaModel semana = menuSemanaRepository.findById(menuDiaRequest.getIdMenuSemana())
-            .orElseThrow(() -> new RuntimeException("No existe un menu semana con id: " + id));
+            .orElseThrow(() -> new RuntimeException("No existe un menu semana con id:"+menuDiaRequest.getIdMenuSemana()));
 
         modelMapper.map(menuDiaRequest, model);
 

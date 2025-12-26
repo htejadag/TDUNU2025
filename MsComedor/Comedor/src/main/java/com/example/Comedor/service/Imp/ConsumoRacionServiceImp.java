@@ -7,10 +7,12 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.Comedor.message.ConsumoMessagePublish;
 import com.example.Comedor.model.entity.ConsumoRacionModel;
 import com.example.Comedor.model.entity.MenuPlatoModel;
 import com.example.Comedor.model.request.consumoRacion.ConsumoRacionRequest;
 import com.example.Comedor.model.request.consumoRacion.ConsumoRacionUpdateRequest;
+import com.example.Comedor.model.request.consumoRacion.KafkaEvent;
 import com.example.Comedor.model.response.ConsumoRacionResponse;
 import com.example.Comedor.repository.ConsumoRacionRepository;
 import com.example.Comedor.repository.MenuPlatoRepository;
@@ -28,6 +30,11 @@ public class ConsumoRacionServiceImp implements ConsumoRacionService {
 
     @Autowired
     private ModelMapper modelMapper;
+
+    @Autowired
+    private ConsumoMessagePublish consumoMessagePublish;
+
+    
 
     @Override
     public List<ConsumoRacionResponse> listar() {
@@ -48,11 +55,11 @@ public class ConsumoRacionServiceImp implements ConsumoRacionService {
     public ConsumoRacionResponse guardar(ConsumoRacionRequest consumoRacionRequest) {
       
 
-        ConsumoRacionModel modelRa = new ConsumoRacionModel();
-
-    
+      
         MenuPlatoModel plato = menuPlatoRepository.findById(consumoRacionRequest.getIdMenuPlato())
             .orElseThrow(() -> new RuntimeException("No existe menu dia con id: " + consumoRacionRequest.getIdMenuPlato()));
+
+        ConsumoRacionModel modelRa = new ConsumoRacionModel();
 
       
         modelRa.setIdMenuPlato(plato);
@@ -63,6 +70,20 @@ public class ConsumoRacionServiceImp implements ConsumoRacionService {
         modelRa.setFechaCreacion(LocalDate.now());
        
         ConsumoRacionModel saved = consumoRacionRepository.save(modelRa);
+
+        try {
+
+            KafkaEvent event =new KafkaEvent();
+
+            event.setIdCuentaUsuario(saved.getIdCuentaUsuario());
+            consumoMessagePublish.sendConsumoEvent(event);
+            
+        } catch (Exception e) {
+
+            System.out.println("Error enviando evento kafka:"+e.getMessage());
+            
+        }
+
 
         ConsumoRacionResponse response = modelMapper.map(saved, ConsumoRacionResponse.class);
 
@@ -77,6 +98,8 @@ public class ConsumoRacionServiceImp implements ConsumoRacionService {
 
         MenuPlatoModel plato = menuPlatoRepository.findById(consumoRacionRequest.getIdMenuPlato())
             .orElseThrow(() -> new RuntimeException("No existe menu plato con id: " + consumoRacionRequest.getIdMenuPlato()));
+
+        modelMapper.map(consumoRacionRequest, model);
 
         model.setIdMenuPlato(plato);
         model.setIdCuentaUsuario(consumoRacionRequest.getIdCuentaUsuario());

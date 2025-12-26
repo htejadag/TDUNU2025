@@ -63,9 +63,6 @@ public class MenuPlatoServiceImp implements MenuPlatoService {
     @Override
     public MenuPlatoResponse guardar(MenuPlatoRequest req) {
 
-        MenuPlatoModel model = new MenuPlatoModel();
-
-      
         MenuDiaModel menuDia = menuDiaRepository.findById(req.getIdMenuDia())
                 .orElseThrow(() -> new RuntimeException("No existe menuDia con id: " + req.getIdMenuDia()));
 
@@ -74,6 +71,8 @@ public class MenuPlatoServiceImp implements MenuPlatoService {
 
         TurnoModel turno = turnoRepository.findById(req.getIdTurno())
                 .orElseThrow(() -> new RuntimeException("No existe turno con id: " + req.getIdTurno()));
+
+        MenuPlatoModel model = new MenuPlatoModel();
 
  
         model.setMenuDia(menuDia);
@@ -106,6 +105,8 @@ public class MenuPlatoServiceImp implements MenuPlatoService {
 
         TurnoModel turno = turnoRepository.findById(req.getIdTurno())
                 .orElseThrow(() -> new RuntimeException("No existe turno con id: " + req.getIdTurno()));
+
+        modelMapper.map(req, model);
 
         model.setMenuDia(menuDia);
         model.setPlato(plato);

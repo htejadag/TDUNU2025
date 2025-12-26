@@ -25,6 +25,7 @@ public class ConsumoRacionController {
     @Autowired
     private ConsumoRacionService consumoRacionService;
 
+
     @GetMapping(value = ApiRoutes.Comedor.LISTAR_CONSUMO)
     public List<ConsumoRacionResponse> listar() {
         return consumoRacionService.listar();
@@ -39,6 +40,7 @@ public class ConsumoRacionController {
      @PostMapping(value = ApiRoutes.Comedor.GUARDAR_CONSUMO)
     public ResponseBase<ConsumoRacionResponse> guardar(@RequestBody ConsumoRacionRequest model) {
         ConsumoRacionResponse response = consumoRacionService.guardar(model);
+
         return ResponseBase.ok(response);
     }
 

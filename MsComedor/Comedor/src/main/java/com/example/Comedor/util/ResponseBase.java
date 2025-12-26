@@ -27,6 +27,8 @@ private boolean success;
         .build();
   }
 
+
+
   public static <T> ResponseBase<T> error(String message) {
     return ResponseBase.<T>builder()
         .success(false)
