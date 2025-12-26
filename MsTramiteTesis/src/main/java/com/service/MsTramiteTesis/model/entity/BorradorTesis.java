@@ -3,6 +3,13 @@ package com.service.MsTramiteTesis.model.entity;
 import jakarta.persistence.*;
 import java.time.OffsetDateTime;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "borrador_tesis", indexes = {
         @Index(name = "idx_borrador_proyecto", columnList = "id_proyecto"),
@@ -43,102 +50,6 @@ public class BorradorTesis {
 
     @Column(name = "fecha_registro_borrador", nullable = false, columnDefinition = "TIMESTAMPTZ DEFAULT now()")
     private OffsetDateTime fechaRegistroBorrador;
-
-    // Constructors
-    public BorradorTesis() {
-        this.fechaRegistroBorrador = OffsetDateTime.now();
-        this.versionNum = 1;
-        this.cumplePlazoEjecucion = false;
-    }
-
-    public BorradorTesis(Long idProyecto, String estadoBorradorCodigo) {
-        this.idProyecto = idProyecto;
-        this.estadoBorradorCodigo = estadoBorradorCodigo;
-        this.fechaRegistroBorrador = OffsetDateTime.now();
-        this.versionNum = 1;
-        this.cumplePlazoEjecucion = false;
-    }
-
-    // Getters and Setters
-    public Long getIdBorrador() {
-        return idBorrador;
-    }
-
-    public void setIdBorrador(Long idBorrador) {
-        this.idBorrador = idBorrador;
-    }
-
-    public Long getIdProyecto() {
-        return idProyecto;
-    }
-
-    public void setIdProyecto(Long idProyecto) {
-        this.idProyecto = idProyecto;
-    }
-
-    public Integer getVersionNum() {
-        return versionNum;
-    }
-
-    public void setVersionNum(Integer versionNum) {
-        this.versionNum = versionNum;
-    }
-
-    public String getResumenAbstract() {
-        return resumenAbstract;
-    }
-
-    public void setResumenAbstract(String resumenAbstract) {
-        this.resumenAbstract = resumenAbstract;
-    }
-
-    public String getPalabrasClave() {
-        return palabrasClave;
-    }
-
-    public void setPalabrasClave(String palabrasClave) {
-        this.palabrasClave = palabrasClave;
-    }
-
-    public String getConclusiones() {
-        return conclusiones;
-    }
-
-    public void setConclusiones(String conclusiones) {
-        this.conclusiones = conclusiones;
-    }
-
-    public Boolean getCumplePlazoEjecucion() {
-        return cumplePlazoEjecucion;
-    }
-
-    public void setCumplePlazoEjecucion(Boolean cumplePlazoEjecucion) {
-        this.cumplePlazoEjecucion = cumplePlazoEjecucion;
-    }
-
-    public String getEstadoBorradorCodigo() {
-        return estadoBorradorCodigo;
-    }
-
-    public void setEstadoBorradorCodigo(String estadoBorradorCodigo) {
-        this.estadoBorradorCodigo = estadoBorradorCodigo;
-    }
-
-    public String getRutaPdfBorrador() {
-        return rutaPdfBorrador;
-    }
-
-    public void setRutaPdfBorrador(String rutaPdfBorrador) {
-        this.rutaPdfBorrador = rutaPdfBorrador;
-    }
-
-    public OffsetDateTime getFechaRegistroBorrador() {
-        return fechaRegistroBorrador;
-    }
-
-    public void setFechaRegistroBorrador(OffsetDateTime fechaRegistroBorrador) {
-        this.fechaRegistroBorrador = fechaRegistroBorrador;
-    }
 
     @PrePersist
     protected void onCreate() {

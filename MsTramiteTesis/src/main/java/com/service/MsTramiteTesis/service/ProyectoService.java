@@ -36,9 +36,6 @@ public class ProyectoService {
     @Autowired
     private ProyectoEventProducer kafkaProducer;
 
-    /**
-     * Crear un nuevo proyecto (ESTUDIANTE)
-     */
     @Transactional
     public ProyectoResponse crearProyecto(Long idEstudiante, ProyectoRequest request) {
         ProyectoTesis proyecto = new ProyectoTesis();
@@ -52,30 +49,29 @@ public class ProyectoService {
 
         ProyectoTesis saved = proyectoRepository.save(proyecto);
 
-        // 🔥 Publicar evento KAFKA
         try {
             kafkaProducer.publicarProyectoCreado(
                     saved.getIdProyecto().toString(),
                     saved.getTituloProyecto(),
                     "Proyecto creado",
                     saved.getEstadoProyectoCodigo());
-            log.info("✅ Evento Kafka CREADO publicado para proyecto ID: {}", saved.getIdProyecto());
+            log.info("Evento Kafka CREADO publicado para proyecto ID: {}", saved.getIdProyecto());
         } catch (Exception e) {
-            log.error("❌ Error publicando evento Kafka: ", e);
+            log.error("Error publicando evento Kafka: ", e);
         }
 
         return modelMapper.map(saved, ProyectoResponse.class);
     }
 
-    /**
-     * Actualizar PDF del proyecto (ESTUDIANTE - cuando es rechazado)
-     */
     @Transactional
     public ProyectoResponse actualizarPdf(Long idProyecto, Long idEstudiante, String rutaPdf) {
-        ProyectoTesis proyecto = proyectoRepository.findById(idProyecto)
-                .orElseThrow(() -> new ResourceNotFoundException("Proyecto no encontrado"));
+        Long validatedId = java.util.Objects.requireNonNull(idProyecto, "idProyecto no puede ser null");
 
-        // Validar que el proyecto pertenece al estudiante
+        ProyectoTesis proyecto = java.util.Objects.requireNonNull(
+                proyectoRepository.findById(validatedId)
+                        .orElseThrow(() -> new ResourceNotFoundException("Proyecto no encontrado")),
+                "El proyecto no puede ser null");
+
         if (!proyecto.getIdEstudianteExt().equals(idEstudiante)) {
             throw new RuntimeException("No tienes permiso para modificar este proyecto");
         }
@@ -87,13 +83,14 @@ public class ProyectoService {
         return modelMapper.map(updated, ProyectoResponse.class);
     }
 
-    /**
-     * Revisión del coordinador
-     */
     @Transactional
     public ProyectoResponse revisionCoordinador(Long idProyecto, Boolean aprobado) {
-        ProyectoTesis proyecto = proyectoRepository.findById(idProyecto)
-                .orElseThrow(() -> new ResourceNotFoundException("Proyecto no encontrado"));
+        Long validatedId = java.util.Objects.requireNonNull(idProyecto, "idProyecto no puede ser null");
+
+        ProyectoTesis proyecto = java.util.Objects.requireNonNull(
+                proyectoRepository.findById(validatedId)
+                        .orElseThrow(() -> new ResourceNotFoundException("Proyecto no encontrado")),
+                "El proyecto no puede ser null");
 
         if (aprobado) {
             proyecto.setEstadoProyectoCodigo("APROBADO_COORDINADOR");
@@ -105,15 +102,15 @@ public class ProyectoService {
         return modelMapper.map(updated, ProyectoResponse.class);
     }
 
-    /**
-     * Revisión del asesor
-     */
     @Transactional
     public ProyectoResponse revisionAsesor(Long idProyecto, Long idAsesor, Boolean aprobado) {
-        ProyectoTesis proyecto = proyectoRepository.findById(idProyecto)
-                .orElseThrow(() -> new ResourceNotFoundException("Proyecto no encontrado"));
+        Long validatedId = java.util.Objects.requireNonNull(idProyecto, "idProyecto no puede ser null");
 
-        // Validar que el docente es el asesor del proyecto
+        ProyectoTesis proyecto = java.util.Objects.requireNonNull(
+                proyectoRepository.findById(validatedId)
+                        .orElseThrow(() -> new ResourceNotFoundException("Proyecto no encontrado")),
+                "El proyecto no puede ser null");
+
         if (!proyecto.getIdAsesorExt().equals(idAsesor)) {
             throw new RuntimeException("No eres el asesor de este proyecto");
         }
@@ -129,9 +126,6 @@ public class ProyectoService {
         return modelMapper.map(updated, ProyectoResponse.class);
     }
 
-    /**
-     * Listar proyectos del estudiante
-     */
     public List<ProyectoResponse> listarProyectosPorEstudiante(Long idEstudiante) {
         return proyectoRepository.findByIdEstudianteExt(idEstudiante)
                 .stream()
@@ -139,9 +133,6 @@ public class ProyectoService {
                 .collect(Collectors.toList());
     }
 
-    /**
-     * Listar proyectos del asesor
-     */
     public List<ProyectoResponse> listarProyectosPorAsesor(Long idAsesor) {
         return proyectoRepository.findByIdAsesorExt(idAsesor)
                 .stream()
@@ -149,9 +140,6 @@ public class ProyectoService {
                 .collect(Collectors.toList());
     }
 
-    /**
-     * Listar proyectos pendientes para coordinador
-     */
     public List<ProyectoResponse> listarProyectosPendientesCoordinador() {
         return proyectoRepository.findByEstadoProyectoCodigo("PENDIENTE_COORDINADOR")
                 .stream()
@@ -159,18 +147,16 @@ public class ProyectoService {
                 .collect(Collectors.toList());
     }
 
-    /**
-     * Obtener un proyecto por ID
-     */
     public ProyectoResponse obtenerProyecto(Long idProyecto) {
-        ProyectoTesis proyecto = proyectoRepository.findById(idProyecto)
-                .orElseThrow(() -> new ResourceNotFoundException("Proyecto no encontrado"));
+        Long validatedId = java.util.Objects.requireNonNull(idProyecto, "idProyecto no puede ser null");
+
+        ProyectoTesis proyecto = java.util.Objects.requireNonNull(
+                proyectoRepository.findById(validatedId)
+                        .orElseThrow(() -> new ResourceNotFoundException("Proyecto no encontrado")),
+                "El proyecto no puede ser null");
         return modelMapper.map(proyecto, ProyectoResponse.class);
     }
 
-    /**
-     * Listar todos los proyectos (para coordinador)
-     */
     public List<ProyectoResponse> listarTodosProyectos() {
         return proyectoRepository.findAll()
                 .stream()
@@ -178,21 +164,17 @@ public class ProyectoService {
                 .collect(Collectors.toList());
     }
 
-    // ========== MÉTODOS CON DATOS ENRIQUECIDOS ==========
-
-    /**
-     * Obtener un proyecto enriquecido con información del MS Personas
-     */
     public ProyectoResponseEnriquecido obtenerProyectoEnriquecido(Long idProyecto) {
-        ProyectoTesis proyecto = proyectoRepository.findById(idProyecto)
-                .orElseThrow(() -> new ResourceNotFoundException("Proyecto no encontrado"));
+        Long validatedId = java.util.Objects.requireNonNull(idProyecto, "idProyecto no puede ser null");
+
+        ProyectoTesis proyecto = java.util.Objects.requireNonNull(
+                proyectoRepository.findById(validatedId)
+                        .orElseThrow(() -> new ResourceNotFoundException("Proyecto no encontrado")),
+                "El proyecto no puede ser null");
 
         return enriquecerProyecto(proyecto);
     }
 
-    /**
-     * Listar proyectos enriquecidos del estudiante
-     */
     public List<ProyectoResponseEnriquecido> listarProyectosEnriquecidosPorEstudiante(Long idEstudiante) {
         return proyectoRepository.findByIdEstudianteExt(idEstudiante)
                 .stream()
@@ -200,9 +182,6 @@ public class ProyectoService {
                 .collect(Collectors.toList());
     }
 
-    /**
-     * Listar proyectos enriquecidos del asesor
-     */
     public List<ProyectoResponseEnriquecido> listarProyectosEnriquecidosPorAsesor(Long idAsesor) {
         return proyectoRepository.findByIdAsesorExt(idAsesor)
                 .stream()
@@ -210,9 +189,6 @@ public class ProyectoService {
                 .collect(Collectors.toList());
     }
 
-    /**
-     * Listar todos los proyectos enriquecidos (para coordinador)
-     */
     public List<ProyectoResponseEnriquecido> listarTodosProyectosEnriquecidos() {
         return proyectoRepository.findAll()
                 .stream()
@@ -220,13 +196,9 @@ public class ProyectoService {
                 .collect(Collectors.toList());
     }
 
-    /**
-     * Método auxiliar para enriquecer un proyecto con datos del MS Personas
-     */
     private ProyectoResponseEnriquecido enriquecerProyecto(ProyectoTesis proyecto) {
         ProyectoResponseEnriquecido response = new ProyectoResponseEnriquecido();
 
-        // Copiar datos básicos
         response.setIdProyecto(proyecto.getIdProyecto());
         response.setIdEstudianteExt(proyecto.getIdEstudianteExt());
         response.setIdAsesorExt(proyecto.getIdAsesorExt());
@@ -237,7 +209,6 @@ public class ProyectoService {
         response.setFechaRegistro(proyecto.getFechaRegistro());
         response.setFechaAprobacionFinal(proyecto.getFechaAprobacionFinal());
 
-        // Enriquecer con datos del MS Personas
         EstudianteDTO estudiante = personasClient.obtenerEstudiante(proyecto.getIdEstudianteExt());
         response.setEstudiante(estudiante);
 
@@ -247,54 +218,50 @@ public class ProyectoService {
         return response;
     }
 
-    // ═══════════════════════════════════════════════════════════════════════════
-    // MÉTODOS DE TESTING - SOLO PARA DESARROLLO
-    // ⚠️ ELIMINAR ESTOS MÉTODOS EN PRODUCCIÓN ⚠️
-    // ═══════════════════════════════════════════════════════════════════════════
-
-    /**
-     * 🧪 TESTING - Actualizar estado y publicar evento Kafka
-     */
     @Transactional
     public ProyectoResponse actualizarEstadoTest(Long idProyecto, String estadoNuevo) {
-        ProyectoTesis proyecto = proyectoRepository.findById(idProyecto)
-                .orElseThrow(() -> new ResourceNotFoundException("Proyecto no encontrado"));
+        Long validatedId = java.util.Objects.requireNonNull(idProyecto, "idProyecto no puede ser null");
+
+        ProyectoTesis proyecto = java.util.Objects.requireNonNull(
+                proyectoRepository.findById(validatedId)
+                        .orElseThrow(() -> new ResourceNotFoundException("Proyecto no encontrado")),
+                "El proyecto no puede ser null");
 
         String estadoAnterior = proyecto.getEstadoProyectoCodigo();
         proyecto.setEstadoProyectoCodigo(estadoNuevo);
 
         ProyectoTesis updated = proyectoRepository.save(proyecto);
 
-        // 🔥 Publicar evento KAFKA
         try {
             kafkaProducer.publicarProyectoActualizado(
                     updated.getIdProyecto().toString(),
                     estadoAnterior,
                     estadoNuevo);
-            log.info("✅ Evento Kafka ESTADO_CAMBIADO publicado: {} -> {}", estadoAnterior, estadoNuevo);
+            log.info("Evento Kafka ESTADO_CAMBIADO publicado: {} -> {}", estadoAnterior, estadoNuevo);
         } catch (Exception e) {
-            log.error("❌ Error publicando evento Kafka: ", e);
+            log.error("Error publicando evento Kafka: ", e);
         }
 
         return modelMapper.map(updated, ProyectoResponse.class);
     }
 
-    /**
-     * 🧪 TESTING - Eliminar proyecto y publicar evento Kafka
-     */
     @Transactional
     public void eliminarProyectoTest(Long idProyecto) {
-        ProyectoTesis proyecto = proyectoRepository.findById(idProyecto)
-                .orElseThrow(() -> new ResourceNotFoundException("Proyecto no encontrado"));
+        Long validatedId = java.util.Objects.requireNonNull(idProyecto, "idProyecto no puede ser null");
 
-        proyectoRepository.delete(proyecto);
+        ProyectoTesis proyecto = java.util.Objects.requireNonNull(
+                proyectoRepository.findById(validatedId)
+                        .orElseThrow(() -> new ResourceNotFoundException("Proyecto no encontrado")),
+                "El proyecto no puede ser null");
 
-        // 🔥 Publicar evento KAFKA
+        proyectoRepository.delete(java.util.Objects.requireNonNull(proyecto,
+                "El proyecto a eliminar no puede ser null"));
+
         try {
             kafkaProducer.publicarProyectoEliminado(idProyecto.toString());
-            log.info("✅ Evento Kafka ELIMINADO publicado para proyecto ID: {}", idProyecto);
+            log.info("Evento Kafka ELIMINADO publicado para proyecto ID: {}", idProyecto);
         } catch (Exception e) {
-            log.error("❌ Error publicando evento Kafka: ", e);
+            log.error("Error publicando evento Kafka: ", e);
         }
     }
 }

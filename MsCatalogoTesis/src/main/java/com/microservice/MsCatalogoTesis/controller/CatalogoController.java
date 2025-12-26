@@ -1,5 +1,6 @@
 package com.microservice.MsCatalogoTesis.controller;
 
+import com.microservice.MsCatalogoTesis.config.ApiRoutes;
 import com.microservice.MsCatalogoTesis.model.Catalogo;
 import com.microservice.MsCatalogoTesis.service.CatalogoService;
 import lombok.RequiredArgsConstructor;
@@ -9,48 +10,29 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-/**
- * Controlador REST para gestionar el catálogo
- */
 @RestController
-@RequestMapping("/api/catalogo")
+@RequestMapping(ApiRoutes.Catalogo.BASE)
 @RequiredArgsConstructor
 public class CatalogoController {
 
     private final CatalogoService catalogoService;
 
-    /**
-     * Obtener todos los elementos del catálogo
-     * GET /api/catalogo
-     */
     @GetMapping
     public ResponseEntity<List<Catalogo>> obtenerTodos() {
         return ResponseEntity.ok(catalogoService.obtenerTodos());
     }
 
-    /**
-     * Obtener elementos por grupo
-     * GET /api/catalogo/grupo/{grupo}
-     */
-    @GetMapping("/grupo/{grupo}")
+    @GetMapping(ApiRoutes.Catalogo.BY_GRUPO)
     public ResponseEntity<List<Catalogo>> obtenerPorGrupo(@PathVariable String grupo) {
         return ResponseEntity.ok(catalogoService.obtenerPorGrupo(grupo));
     }
 
-    /**
-     * Obtener elementos activos por grupo
-     * GET /api/catalogo/grupo/{grupo}/activos
-     */
-    @GetMapping("/grupo/{grupo}/activos")
+    @GetMapping(ApiRoutes.Catalogo.ACTIVOS_BY_GRUPO)
     public ResponseEntity<List<Catalogo>> obtenerActivosPorGrupo(@PathVariable String grupo) {
         return ResponseEntity.ok(catalogoService.obtenerActivosPorGrupo(grupo));
     }
 
-    /**
-     * Obtener un elemento específico por grupo y código
-     * GET /api/catalogo/grupo/{grupo}/codigo/{codigo}
-     */
-    @GetMapping("/grupo/{grupo}/codigo/{codigo}")
+    @GetMapping(ApiRoutes.Catalogo.BY_GRUPO_AND_CODIGO)
     public ResponseEntity<Catalogo> obtenerPorGrupoYCodigo(
             @PathVariable String grupo,
             @PathVariable String codigo) {
@@ -59,21 +41,13 @@ public class CatalogoController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    /**
-     * Crear o actualizar un elemento del catálogo
-     * POST /api/catalogo
-     */
     @PostMapping
     public ResponseEntity<Catalogo> crear(@RequestBody Catalogo catalogo) {
         Catalogo guardado = catalogoService.guardar(catalogo);
         return ResponseEntity.status(HttpStatus.CREATED).body(guardado);
     }
 
-    /**
-     * Actualizar un elemento del catálogo
-     * PUT /api/catalogo/{id}
-     */
-    @PutMapping("/{id}")
+    @PutMapping(ApiRoutes.Catalogo.BY_ID)
     public ResponseEntity<Catalogo> actualizar(
             @PathVariable String id,
             @RequestBody Catalogo catalogo) {
@@ -82,11 +56,7 @@ public class CatalogoController {
         return ResponseEntity.ok(actualizado);
     }
 
-    /**
-     * Eliminar un elemento del catálogo
-     * DELETE /api/catalogo/{id}
-     */
-    @DeleteMapping("/{id}")
+    @DeleteMapping(ApiRoutes.Catalogo.BY_ID)
     public ResponseEntity<Void> eliminar(@PathVariable String id) {
         catalogoService.eliminar(id);
         return ResponseEntity.noContent().build();

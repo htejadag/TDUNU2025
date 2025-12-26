@@ -13,9 +13,6 @@ import org.springframework.web.context.request.WebRequest;
 
 import java.time.LocalDateTime;
 
-/**
- * Manejador global de excepciones
- */
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 

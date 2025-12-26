@@ -3,65 +3,59 @@ package com.microservice.MsCatalogoTesis.service;
 import com.microservice.MsCatalogoTesis.model.Catalogo;
 import com.microservice.MsCatalogoTesis.repository.CatalogoRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
-/**
- * Servicio para gestionar operaciones del catálogo
- */
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class CatalogoService {
 
     private final CatalogoRepository catalogoRepository;
 
-    /**
-     * Obtener todos los elementos del catálogo
-     */
+    @Cacheable(value = "catalogo", key = "'all'")
     public List<Catalogo> obtenerTodos() {
+        log.debug("Consultando todos los elementos del catálogo desde MongoDB");
         return catalogoRepository.findAllByOrderByGrupoAscOrdenAsc();
     }
 
-    /**
-     * Obtener elementos de un grupo específico
-     */
+    @Cacheable(value = "catalogoPorGrupo", key = "#grupo")
     public List<Catalogo> obtenerPorGrupo(String grupo) {
+        log.debug("Consultando elementos del grupo '{}' desde MongoDB", grupo);
         return catalogoRepository.findByGrupoOrderByOrdenAsc(grupo);
     }
 
-    /**
-     * Obtener elementos activos de un grupo
-     */
+    @Cacheable(value = "catalogoActivosPorGrupo", key = "#grupo")
     public List<Catalogo> obtenerActivosPorGrupo(String grupo) {
+        log.debug("Consultando elementos activos del grupo '{}' desde MongoDB", grupo);
         return catalogoRepository.findByGrupoAndActivoTrueOrderByOrdenAsc(grupo);
     }
 
-    /**
-     * Obtener un elemento específico por grupo y código
-     */
+    @Cacheable(value = "catalogoElemento", key = "#grupo + ':' + #codigo")
     public Optional<Catalogo> obtenerPorGrupoYCodigo(String grupo, String codigo) {
+        log.debug("Consultando elemento grupo='{}', codigo='{}' desde MongoDB", grupo, codigo);
         return catalogoRepository.findByGrupoAndCodigo(grupo, codigo);
     }
 
-    /**
-     * Crear o actualizar un elemento del catálogo
-     */
+    @CacheEvict(value = { "catalogo", "catalogoPorGrupo", "catalogoActivosPorGrupo",
+            "catalogoElemento" }, allEntries = true)
     public Catalogo guardar(Catalogo catalogo) {
+        log.debug("Guardando elemento del catálogo e invalidando caché");
         return catalogoRepository.save(catalogo);
     }
 
-    /**
-     * Eliminar un elemento del catálogo
-     */
+    @CacheEvict(value = { "catalogo", "catalogoPorGrupo", "catalogoActivosPorGrupo",
+            "catalogoElemento" }, allEntries = true)
     public void eliminar(String id) {
+        log.debug("Eliminando elemento del catálogo e invalidando caché");
         catalogoRepository.deleteById(id);
     }
 
-    /**
-     * Verificar si existe un elemento
-     */
     public boolean existe(String grupo, String codigo) {
         return catalogoRepository.existsByGrupoAndCodigo(grupo, codigo);
     }

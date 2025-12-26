@@ -2,6 +2,13 @@ package com.service.MsTramiteTesis.model.entity;
 
 import jakarta.persistence.*;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "jurado_asignacion", indexes = {
         @Index(name = "idx_jurado_proyecto", columnList = "id_proyecto"),
@@ -28,59 +35,6 @@ public class JuradoAsignacion {
 
     @Column(name = "habilitado", nullable = false)
     private Boolean habilitado = true;
-
-    // Constructors
-    public JuradoAsignacion() {
-        this.habilitado = true;
-    }
-
-    public JuradoAsignacion(Long idProyecto, Long idDocenteExt, String rolJuradoCodigo) {
-        this.idProyecto = idProyecto;
-        this.idDocenteExt = idDocenteExt;
-        this.rolJuradoCodigo = rolJuradoCodigo;
-        this.habilitado = true;
-    }
-
-    // Getters and Setters
-    public Long getIdAsignacion() {
-        return idAsignacion;
-    }
-
-    public void setIdAsignacion(Long idAsignacion) {
-        this.idAsignacion = idAsignacion;
-    }
-
-    public Long getIdProyecto() {
-        return idProyecto;
-    }
-
-    public void setIdProyecto(Long idProyecto) {
-        this.idProyecto = idProyecto;
-    }
-
-    public Long getIdDocenteExt() {
-        return idDocenteExt;
-    }
-
-    public void setIdDocenteExt(Long idDocenteExt) {
-        this.idDocenteExt = idDocenteExt;
-    }
-
-    public String getRolJuradoCodigo() {
-        return rolJuradoCodigo;
-    }
-
-    public void setRolJuradoCodigo(String rolJuradoCodigo) {
-        this.rolJuradoCodigo = rolJuradoCodigo;
-    }
-
-    public Boolean getHabilitado() {
-        return habilitado;
-    }
-
-    public void setHabilitado(Boolean habilitado) {
-        this.habilitado = habilitado;
-    }
 
     @PrePersist
     protected void onCreate() {

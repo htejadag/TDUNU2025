@@ -9,9 +9,7 @@ import java.util.List;
 @Repository
 public interface JuradoRepository extends JpaRepository<JuradoAsignacion, Long> {
 
-    // Buscar jurados por proyecto
     List<JuradoAsignacion> findByIdProyecto(Long idProyecto);
 
-    // Buscar asignaciones activas de un docente
     List<JuradoAsignacion> findByIdDocenteExtAndHabilitado(Long idDocenteExt, Boolean habilitado);
 }
