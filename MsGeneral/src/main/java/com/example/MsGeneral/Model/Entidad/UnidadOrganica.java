@@ -18,7 +18,6 @@ import org.springframework.data.mongodb.core.mapping.Field;
 public class UnidadOrganica {
 
     @Id
-    @Field("UNIDAD_ORGANICA_ID")
     private String id;
 
     @Field("NOMBRE")

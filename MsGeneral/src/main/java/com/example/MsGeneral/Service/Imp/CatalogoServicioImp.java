@@ -10,6 +10,10 @@ import com.example.MsGeneral.Model.Request.CatalogoRequest;
 import com.example.MsGeneral.Model.Response.CatalogoResponse;
 import com.example.MsGeneral.Repository.CatalogoRepository;
 import com.example.MsGeneral.Service.CatalogoService;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.CacheEvict;
+
 
 @Service
 public class CatalogoServicioImp implements CatalogoService {
@@ -21,7 +25,9 @@ public class CatalogoServicioImp implements CatalogoService {
     private ModelMapper modelMapper;
 
     @Override
+    @Cacheable(value = "catalogoListar")
     public List<CatalogoResponse> listar() {
+        System.out.println("👉 CONSULTANDO MONGODB - listar()");
         return catalogoRepository.findAll()
                 .stream()
                 .map(model->modelMapper.map(model, CatalogoResponse.class))
@@ -29,7 +35,9 @@ public class CatalogoServicioImp implements CatalogoService {
     }
 
     @Override
+    @Cacheable(value = "catalogoCategoria", key = "#categoria")
     public List<CatalogoResponse> listarPorCategoria(String categoria) {
+        System.out.println("👉 CONSULTANDO MONGODB - listarPorCategoria()");
         return catalogoRepository.findByCategoria(categoria)
                 .stream()
                 .map(model->modelMapper.map(model,CatalogoResponse.class ))
@@ -37,13 +45,19 @@ public class CatalogoServicioImp implements CatalogoService {
     }
 
     @Override
+    @Cacheable(value = "catalogoId", key = "#id")
     public CatalogoResponse obtenerPorId(String id) {
+        System.out.println("👉 CONSULTANDO MONGODB - obtenerPorId()");
         return catalogoRepository.findById(id)
-                .map(model->modelMapper.map(model, CatalogoResponse.class))
+                .map(model -> modelMapper.map(model, CatalogoResponse.class))
                 .orElse(null);
     }
 
+
+
     @Override
+    @CachePut(value = "catalogoId", key = "#result.idCatalogo")
+    @CacheEvict(value = { "catalogoListar", "catalogoCategoria" }, allEntries = true)
     public CatalogoResponse guardar(CatalogoRequest request) {
         Catalogo model = modelMapper.map(request, Catalogo.class);
 
@@ -63,6 +77,8 @@ public class CatalogoServicioImp implements CatalogoService {
     }
 
     @Override
+    @CachePut(value = "catalogoId", key = "#id")
+    @CacheEvict(value = { "catalogoListar", "catalogoCategoria" }, allEntries = true)
     public CatalogoResponse actualizar(String id, CatalogoRequest request) {
         Catalogo modelExistente = catalogoRepository.findById(id).orElse(null);
 
@@ -79,6 +95,7 @@ public class CatalogoServicioImp implements CatalogoService {
     }
 
     @Override
+    @CacheEvict(value = { "catalogoId", "catalogoListar", "catalogoCategoria" }, allEntries = true)
     public void cambiarEstado(String id, boolean activo) {
         
         Catalogo model = catalogoRepository.findById(id).orElse(null);
@@ -90,6 +107,7 @@ public class CatalogoServicioImp implements CatalogoService {
     }
 
     @Override
+    @CacheEvict(value = { "catalogoId", "catalogoListar", "catalogoCategoria" }, allEntries = true)
     public void eliminar(String id) {
         catalogoRepository.deleteById(id);
     }

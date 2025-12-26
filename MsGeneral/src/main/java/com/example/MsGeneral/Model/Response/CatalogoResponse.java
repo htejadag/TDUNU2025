@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class CatalogoResponse {
-    private String id;
+    private String idCatalogo;
     private String categoria;
     private Integer codigo;
     private String descripcion; 

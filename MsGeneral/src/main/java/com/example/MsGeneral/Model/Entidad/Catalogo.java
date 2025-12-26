@@ -16,7 +16,6 @@ import org.springframework.data.mongodb.core.mapping.Field;
 public class Catalogo {
 
     @Id
-    @Field("CATALOGO_ID")
     private String idCatalogo;
 
     @Field("CATEGORIA")
