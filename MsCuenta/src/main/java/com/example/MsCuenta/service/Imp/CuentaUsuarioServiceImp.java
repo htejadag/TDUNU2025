@@ -14,6 +14,7 @@ import com.example.MsCuenta.model.response.CuentaUsuarioResponse;
 import com.example.MsCuenta.repository.CuentaUsuarioRepository;
 import com.example.MsCuenta.service.CuentaUsuarioService;
 
+import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -87,6 +88,24 @@ public class CuentaUsuarioServiceImp implements CuentaUsuarioService {
     @Override
     public void eliminar(Integer id) {
         cuentaUsuarioRepository.deleteById(id);
+    }
+
+    @Override
+    @Transactional
+    public void descontarSaldo(Integer id) {
+        
+         CuentaUsuarioModel cuenta = cuentaUsuarioRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Cuenta no existe"));
+
+        if (cuenta == null |!cuenta.isActivo()) {
+        throw new RuntimeException("Cuenta inactiva");
+        
+         }
+
+        cuenta.setSaldo(cuenta.getSaldo() - 1);
+
+        cuentaUsuarioRepository.save(cuenta);
+
     }
 
 

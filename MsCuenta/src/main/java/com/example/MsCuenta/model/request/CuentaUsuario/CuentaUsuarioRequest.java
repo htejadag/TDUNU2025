@@ -6,7 +6,9 @@ import lombok.Data;
 public class CuentaUsuarioRequest {
     
     private Integer idUsuarioRol;
+
     private double saldo;
+    
     private boolean activo;
 
     private Integer usuarioCreacion;
