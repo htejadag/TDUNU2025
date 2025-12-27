@@ -9,7 +9,8 @@ import org.springframework.stereotype.Service;
 import com.example.MsCuenta.model.entity.CatalogoModel;
 import com.example.MsCuenta.model.entity.CuentaUsuarioModel;
 import com.example.MsCuenta.model.entity.MovimientoModel;
-import com.example.MsCuenta.model.request.MovimientoRquest;
+import com.example.MsCuenta.model.request.Movimiento.MovimientoRquest;
+import com.example.MsCuenta.model.request.Movimiento.MovimientoUpdateRequest;
 import com.example.MsCuenta.model.response.MovimientoResponse;
 import com.example.MsCuenta.repository.CatalogoRepository;
 import com.example.MsCuenta.repository.CuentaUsuarioRepository;
@@ -66,20 +67,6 @@ public class MovimientoServiceImp implements MovimientoService {
     
         model.setUsuarioCreacion(movimientoRequest.getUsuarioCreacion());
 
-        if (movimientoRequest.getFechaCreacion() != null) {
-            model.setFechaCreacion(movimientoRequest.getFechaCreacion().toString());
-        } else {
-            model.setFechaCreacion(null);
-        }
-
-
-        model.setUsuarioModificacion(movimientoRequest.getUsuarioModificacion());
-
-        if (movimientoRequest.getFechaModificacion() != null) {
-            model.setFechaModificacion(movimientoRequest.getFechaModificacion().toString());
-        } else {
-            model.setFechaModificacion(null);
-        }
 
         MovimientoModel saved = movimientoRepository.save(model);
 
@@ -87,30 +74,24 @@ public class MovimientoServiceImp implements MovimientoService {
     }
 
     @Override
-    public MovimientoResponse modificar(Integer id, MovimientoRquest movimientoRequest) {
+    public MovimientoResponse modificar(Integer id, MovimientoUpdateRequest movimientoUpdateRequest) {
 
         MovimientoModel model1 = movimientoRepository.findById(id)
         .orElseThrow(() -> new RuntimeException("No existe un movimiento con id: " + id));
 
-        CuentaUsuarioModel idCuentaUsuario = cuentaUsuarioRepository.findById(movimientoRequest.getId_cuenta_usuario())
-        .orElseThrow(() -> new RuntimeException("No existe una cuenta de usuario con id: " + movimientoRequest.getId_cuenta_usuario()));
+        CuentaUsuarioModel idCuentaUsuario = cuentaUsuarioRepository.findById(movimientoUpdateRequest.getId_cuenta_usuario())
+        .orElseThrow(() -> new RuntimeException("No existe una cuenta de usuario con id: " + movimientoUpdateRequest.getId_cuenta_usuario()));
 
-        CatalogoModel idTipoMovimiento = catalogoRepository.findById(movimientoRequest.getId_tipo_movimiento())
-        .orElseThrow(() -> new RuntimeException("No existe un tipo de movimiento con id: " + movimientoRequest.getId_tipo_movimiento()));
+        CatalogoModel idTipoMovimiento = catalogoRepository.findById(movimientoUpdateRequest.getId_tipo_movimiento())
+        .orElseThrow(() -> new RuntimeException("No existe un tipo de movimiento con id: " + movimientoUpdateRequest.getId_tipo_movimiento()));
         
         model1.setId_cuenta_usuario(idCuentaUsuario);
         model1.setId_tipo_movimiento(idTipoMovimiento);
-        model1.setId_operacion(movimientoRequest.getId_operacion());
-        model1.setMonto(movimientoRequest.getMonto());
-        model1.setFecha_movimiento(movimientoRequest.getFecha_movimiento());
+        model1.setId_operacion(movimientoUpdateRequest.getId_operacion());
+        model1.setMonto(movimientoUpdateRequest.getMonto());
+        model1.setFecha_movimiento(movimientoUpdateRequest.getFecha_movimiento());
 
-        model1.setUsuarioModificacion(movimientoRequest.getUsuarioModificacion());
-
-        if (movimientoRequest.getFechaModificacion() != null) {
-            model1.setFechaModificacion(movimientoRequest.getFechaModificacion().toString());
-        } else {
-            model1.setFechaModificacion(null);
-        }
+        model1.setUsuarioModificacion(movimientoUpdateRequest.getUsuarioModificacion());
 
         MovimientoModel actualizado = movimientoRepository.save(model1);
 

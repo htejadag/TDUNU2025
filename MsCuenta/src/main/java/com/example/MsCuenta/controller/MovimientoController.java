@@ -4,7 +4,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.MsCuenta.Util.ApiRoutes;
 import com.example.MsCuenta.Util.ResponseBase;
-import com.example.MsCuenta.model.request.MovimientoRquest;
+import com.example.MsCuenta.model.request.Movimiento.MovimientoRquest;
+import com.example.MsCuenta.model.request.Movimiento.MovimientoUpdateRequest;
 import com.example.MsCuenta.model.response.MovimientoResponse;
 import com.example.MsCuenta.service.MovimientoService;
 
@@ -48,7 +49,7 @@ public class MovimientoController {
     @PutMapping(value = ApiRoutes.Movimiento.MODIFICAR_MOVIMIENTO)
     public ResponseBase<MovimientoResponse> modificar(
             @RequestParam(value = "id") Integer id,
-            @RequestBody MovimientoRquest request) {
+            @RequestBody MovimientoUpdateRequest request) {
 
         MovimientoResponse response = movimientoService.modificar(id, request);
         return ResponseBase.ok(response);

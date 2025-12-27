@@ -14,7 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.MsCuenta.Util.ApiRoutes;
 import com.example.MsCuenta.Util.ResponseBase;
-import com.example.MsCuenta.model.request.RecargaRequest;
+import com.example.MsCuenta.model.request.Recarga.RecargaRequest;
+import com.example.MsCuenta.model.request.Recarga.RecargaUpdateRequest;
 import com.example.MsCuenta.model.response.RecargaResponse;
 import com.example.MsCuenta.service.RecargaService;
 
@@ -47,7 +48,7 @@ public class RecargaController {
     @PutMapping(value = ApiRoutes.Recarga.MODIFICAR_RECARGA)
     public ResponseBase<RecargaResponse> modificar(
             @RequestParam(value = "id") Integer id,
-            @RequestBody RecargaRequest request) {
+            @RequestBody RecargaUpdateRequest request) {
 
         RecargaResponse response = recargaService.modificar(id, request);
         return ResponseBase.ok(response);

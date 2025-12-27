@@ -14,7 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.MsCuenta.Util.ApiRoutes;
 import com.example.MsCuenta.Util.ResponseBase;
-import com.example.MsCuenta.model.request.CuentaUsuarioRequest;
+import com.example.MsCuenta.model.request.CuentaUsuario.CuentaUsuarioRequest;
+import com.example.MsCuenta.model.request.CuentaUsuario.CuentaUsuarioUpdateRequest;
 import com.example.MsCuenta.model.response.CuentaUsuarioResponse;
 import com.example.MsCuenta.service.CuentaUsuarioService;
 
@@ -48,7 +49,7 @@ public class CuentaUsuarioController {
     @PutMapping(value = ApiRoutes.CuentaUsuario.MODIFICAR)
     public ResponseBase<CuentaUsuarioResponse> modificar(
             @RequestParam(value = "id") Integer id,
-            @RequestBody CuentaUsuarioRequest request) {
+            @RequestBody CuentaUsuarioUpdateRequest request) {
         
         CuentaUsuarioResponse response = cuentaService.modificar(id, request);
         return ResponseBase.ok(response);

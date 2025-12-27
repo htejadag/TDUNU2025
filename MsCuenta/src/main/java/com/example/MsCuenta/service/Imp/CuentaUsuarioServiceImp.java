@@ -8,7 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.MsCuenta.model.entity.CuentaUsuarioModel;
-import com.example.MsCuenta.model.request.CuentaUsuarioRequest;
+import com.example.MsCuenta.model.request.CuentaUsuario.CuentaUsuarioRequest;
+import com.example.MsCuenta.model.request.CuentaUsuario.CuentaUsuarioUpdateRequest;
 import com.example.MsCuenta.model.response.CuentaUsuarioResponse;
 import com.example.MsCuenta.repository.CuentaUsuarioRepository;
 import com.example.MsCuenta.service.CuentaUsuarioService;
@@ -59,22 +60,6 @@ public class CuentaUsuarioServiceImp implements CuentaUsuarioService {
     
         model.setUsuarioCreacion(request.getUsuarioCreacion());
 
-    
-        if (request.getFechaCreacion() != null) {
-            model.setFechaCreacion(request.getFechaCreacion().toString());
-        } else {
-            model.setFechaCreacion(null);
-        }
-
-    
-        model.setUsuarioModificacion(request.getUsuarioModificacion());
-
-        if (request.getFechaModificacion() != null) {
-            model.setFechaModificacion(request.getFechaModificacion().toString());
-        } else {
-            model.setFechaModificacion(null);
-        }
-
         CuentaUsuarioModel saved = cuentaUsuarioRepository.save(model);
 
         return modelMapper.map(saved, CuentaUsuarioResponse.class);
@@ -82,7 +67,7 @@ public class CuentaUsuarioServiceImp implements CuentaUsuarioService {
 
 
     @Override
-public CuentaUsuarioResponse modificar(Integer id, CuentaUsuarioRequest request) {
+    public CuentaUsuarioResponse modificar(Integer id, CuentaUsuarioUpdateRequest request) {
 
     CuentaUsuarioModel model = cuentaUsuarioRepository.findById(id)
             .orElseThrow(() -> new RuntimeException("No existe una cuenta usuario con id: " + id));
@@ -91,14 +76,6 @@ public CuentaUsuarioResponse modificar(Integer id, CuentaUsuarioRequest request)
     model.setSaldo(request.getSaldo());
     model.setActivo(request.isActivo());
 
-    model.setUsuarioModificacion(request.getUsuarioModificacion());
-
-
-    if (request.getFechaModificacion() != null) {
-        model.setFechaModificacion(request.getFechaModificacion().toString());
-    } else {
-        model.setFechaModificacion(null);
-    }
 
     CuentaUsuarioModel actualizado = cuentaUsuarioRepository.save(model);
 

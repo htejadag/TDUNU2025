@@ -8,7 +8,8 @@ import org.springframework.stereotype.Service;
 
 import com.example.MsCuenta.model.entity.CuentaUsuarioModel;
 import com.example.MsCuenta.model.entity.RecargaModel;
-import com.example.MsCuenta.model.request.RecargaRequest;
+import com.example.MsCuenta.model.request.Recarga.RecargaRequest;
+import com.example.MsCuenta.model.request.Recarga.RecargaUpdateRequest;
 import com.example.MsCuenta.model.response.RecargaResponse;
 import com.example.MsCuenta.repository.CuentaUsuarioRepository;
 import com.example.MsCuenta.repository.RecargaRepository;
@@ -60,50 +61,28 @@ public class RecargaServiceImp implements RecargaService {
     
         model.setUsuarioCreacion(recargaRequest.getUsuarioCreacion());
 
-        if (recargaRequest.getFechaCreacion() != null) {
-            model.setFechaCreacion(recargaRequest.getFechaCreacion().toString());
-        } else {
-            model.setFechaCreacion(null);
-        }
-
-
-        model.setUsuarioModificacion(recargaRequest.getUsuarioModificacion());
-
-        if (recargaRequest.getFechaModificacion() != null) {
-            model.setFechaModificacion(recargaRequest.getFechaModificacion().toString());
-        } else {
-            model.setFechaModificacion(null);
-        }
-
         RecargaModel saved = recargaRepository.save(model);
 
         return modelMapper.map(saved, RecargaResponse.class);
     }
 
     @Override
-    public RecargaResponse modificar(Integer id, RecargaRequest recargaRequest) {
+    public RecargaResponse modificar(Integer id, RecargaUpdateRequest recargaUpdateRequest) {
     
         RecargaModel model1 = recargaRepository.findById(id)
         .orElseThrow(() -> new RuntimeException("No existe una recarga con id: " + id));
 
-        CuentaUsuarioModel idCuentaUsuario = cuentaUsuarioRepository.findById(recargaRequest.getId_cuenta_usuario())
-        .orElseThrow(() -> new RuntimeException("No existe una cuenta de usuario con id: " + recargaRequest.getId_cuenta_usuario()));
+        CuentaUsuarioModel idCuentaUsuario = cuentaUsuarioRepository.findById(recargaUpdateRequest.getId_cuenta_usuario())
+        .orElseThrow(() -> new RuntimeException("No existe una cuenta de usuario con id: " + recargaUpdateRequest.getId_cuenta_usuario()));
         
         model1.setId_cuenta_usuario(idCuentaUsuario);
-        model1.setMetodo_pago(recargaRequest.getMetodo_pago());
-        model1.setReferencia(recargaRequest.getReferencia());
-        model1.setMonto(recargaRequest.getMonto());
-        model1.setFecha_recarga(recargaRequest.getFecha_recarga());
+        model1.setMetodo_pago(recargaUpdateRequest.getMetodo_pago());
+        model1.setReferencia(recargaUpdateRequest.getReferencia());
+        model1.setMonto(recargaUpdateRequest.getMonto());
+        model1.setFecha_recarga(recargaUpdateRequest.getFecha_recarga());
 
-        model1.setUsuarioModificacion(recargaRequest.getUsuarioModificacion());
-        model1.setUsuarioCreacion(recargaRequest.getUsuarioCreacion());
+        model1.setUsuarioModificacion(recargaUpdateRequest.getUsuarioModificacion());
 
-
-        if (recargaRequest.getFechaModificacion() != null) {
-            model1.setFechaModificacion(recargaRequest.getFechaModificacion().toString());
-        } else {
-            model1.setFechaModificacion(null);
-        }
 
         RecargaModel actualizado = recargaRepository.save(model1);
 
