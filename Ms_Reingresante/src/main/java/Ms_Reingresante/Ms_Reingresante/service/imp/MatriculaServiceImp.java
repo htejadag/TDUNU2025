@@ -8,6 +8,7 @@ import Ms_Reingresante.Ms_Reingresante.model.request.MatriculaRequest;
 import Ms_Reingresante.Ms_Reingresante.model.response.MatriculaResponse;
 import Ms_Reingresante.Ms_Reingresante.repository.MatriculaRepository;
 import Ms_Reingresante.Ms_Reingresante.service.MatriculaService;
+import jakarta.transaction.Transactional;
 
 import java.util.List;
 
@@ -55,5 +56,17 @@ public class MatriculaServiceImp implements MatriculaService {
   public void eliminarMatricula(Integer id) {
     MatriculaRepository.deleteById(id);
   }
+
+   @Override
+    @Transactional
+    public MatriculaModel update(MatriculaModel accountModel) {
+        return MatriculaRepository.save(accountModel);
+    }
+ 
+    @Override
+    public MatriculaModel findById(Integer id) {
+        return MatriculaRepository.findById(id).orElse(null);
+    } 
+
 
 }

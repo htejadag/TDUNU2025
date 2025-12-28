@@ -1,7 +1,6 @@
 package Ms_Reingresante.Ms_Reingresante.model.response;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import lombok.Data;
 
 @Data
@@ -15,8 +14,8 @@ public class SolicitudReingresoResponse {
     private String solEstado;
     private String solObservaciones;
     private Integer resolucionIdResolucion;
-    private LocalDateTime fechaCreacion;
+    private LocalDate fechaCreacion;
     private String usuarioCreacion;
-    private LocalDateTime fechaModificacion;
+    private LocalDate fechaModificacion;
     private String usuarioModificacion;
 }

@@ -12,39 +12,54 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import Ms_Reingresante.Ms_Reingresante.model.request.resolucionRequest;
+import com.fasterxml.jackson.core.JsonProcessingException;
+
+import Ms_Reingresante.Ms_Reingresante.message.ProductorMessagePublish;
 import Ms_Reingresante.Ms_Reingresante.service.ResolucionService;
-import Ms_Reingresante.Ms_Reingresante.model.response.resolucionResponse;
+import Ms_Reingresante.Ms_Reingresante.model.request.ResolucionRequest;
+import Ms_Reingresante.Ms_Reingresante.model.response.ResolucionResponse;
 import Ms_Reingresante.Ms_Reingresante.util.ApiRoutes;
-import Ms_Reingresante.Ms_Reingresante.util.resolucionBase;
+import Ms_Reingresante.Ms_Reingresante.util.ResolucionBase;
 
 @RestController
 @RequestMapping(ApiRoutes.Resolucion.BASE)
-public class resolucionController {
-    
-    @Autowired
+
+public class ResolucionController {
+
+
+  @Autowired
   ResolucionService resolucionService;
 
+  @Autowired
+  ProductorMessagePublish messageEvent;
+
   @GetMapping(value = ApiRoutes.Resolucion.LISTAR)
-  public resolucionBase<List<resolucionResponse>> listar() {
-    List<resolucionResponse> lista = resolucionService.listarResolucion();
-    return resolucionBase.ok(lista);
+  public ResolucionBase<List<ResolucionResponse>> listar() {
+    List<ResolucionResponse> lista = resolucionService.listarResolucion();
+    return ResolucionBase.ok(lista);
   }
    
    @GetMapping(value = ApiRoutes.Resolucion.OBTENER_POR_ID)
-  public resolucionBase<resolucionResponse> obtenerPorId(@RequestParam(value = "id") Integer id) {
-    resolucionResponse response = resolucionService.obtenerPorIdResolucion(id);
-    return resolucionBase.ok(response);
+  public ResolucionBase<ResolucionResponse> obtenerPorId(@RequestParam(value = "id") Integer id) {
+    ResolucionResponse response = resolucionService.obtenerPorIdResolucion(id);
+    return ResolucionBase.ok(response);
   }
 
- @PostMapping(value = ApiRoutes.Resolucion.GUARDAR)
-  public resolucionBase<resolucionResponse> guardar(@RequestBody resolucionRequest model) {
-    resolucionResponse response = resolucionService.guardarResolucion(model);
-    return resolucionBase.ok(response);
-  }
+ 
+  @PostMapping(value = ApiRoutes.Resolucion.GUARDAR)
+  public ResolucionBase<ResolucionResponse> guardar(@RequestBody ResolucionRequest model)
+        throws JsonProcessingException {
+
+    ResolucionResponse response = resolucionService.guardarResolucion(model);
+
+    messageEvent.sendResolucionEvent(response);
+
+    return ResolucionBase.ok(response);
+ }
+
 
    @DeleteMapping(value = ApiRoutes.Resolucion.ELIMINAR)
-  public resolucionResponse eliminar(@RequestParam(value = "id") Integer id) {
+  public ResolucionResponse eliminar(@RequestParam(value = "id") Integer id) {
     resolucionService.eliminarResolucion(id);
     return null;
   }

@@ -7,12 +7,10 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import Ms_Reingresante.Ms_Reingresante.model.entity.procesoReingresoModel;
-import Ms_Reingresante.Ms_Reingresante.model.request.procesoReingresoRequest;
-import Ms_Reingresante.Ms_Reingresante.model.response.procesoReingresoResponse;
-import Ms_Reingresante.Ms_Reingresante.model.response.resolucionResponse;
-import Ms_Reingresante.Ms_Reingresante.repository.ResolucionRepository;
-import Ms_Reingresante.Ms_Reingresante.repository.procesoReingresoRepository;
+import Ms_Reingresante.Ms_Reingresante.model.entity.ProcesoReingresoModel;
+import Ms_Reingresante.Ms_Reingresante.model.request.ProcesoReingresoRequest;
+import Ms_Reingresante.Ms_Reingresante.model.response.ProcesoReingresoResponse;
+import Ms_Reingresante.Ms_Reingresante.repository.ProcesoReingresoRepository;
 import Ms_Reingresante.Ms_Reingresante.service.ProcesoReingresoService;
 
 
@@ -21,16 +19,16 @@ import Ms_Reingresante.Ms_Reingresante.service.ProcesoReingresoService;
 public class ProcesoReingresanteServiceImp implements ProcesoReingresoService {
  
    @Autowired
-    private procesoReingresoRepository procesoReingresoRepository;
+    private ProcesoReingresoRepository procesoReingresoRepository;
 
     @Autowired
     private ModelMapper modelMapper;
 
     @Override
-    public List<procesoReingresoResponse> listarProcesoReingreso() {
+    public List<ProcesoReingresoResponse> listarProcesoReingreso() {
         return procesoReingresoRepository.findAll()
             .stream()
-            .map(model -> modelMapper.map(model, procesoReingresoResponse.class))
+            .map(model -> modelMapper.map(model, ProcesoReingresoResponse.class))
             .toList();
     }  
 
@@ -38,26 +36,26 @@ public class ProcesoReingresanteServiceImp implements ProcesoReingresoService {
 
    
      @Override
-  public procesoReingresoResponse obtenerPorIdProcesoReingreso(Integer id) {
+  public ProcesoReingresoResponse obtenerPorIdProcesoReingreso(Integer id) {
     return procesoReingresoRepository.findById(id)
-        .map(model -> modelMapper.map(model, procesoReingresoResponse.class))
+        .map(model -> modelMapper.map(model, ProcesoReingresoResponse.class))
         .orElse(null);
   }
 
  
 @Override
-public procesoReingresoResponse guardarProcesoReingreso(procesoReingresoRequest request) {
+public ProcesoReingresoResponse guardarProcesoReingreso(ProcesoReingresoRequest request) {
 
-    procesoReingresoModel model =
-            modelMapper.map(request, procesoReingresoModel.class);
+    ProcesoReingresoModel model =
+            modelMapper.map(request, ProcesoReingresoModel.class);
 
     // 🔥 CLAVE: forzar INSERT
     model.setIdProceso(null);
 
-    procesoReingresoModel saved =
+    ProcesoReingresoModel saved =
             procesoReingresoRepository.save(model);
 
-    return modelMapper.map(saved, procesoReingresoResponse.class);
+    return modelMapper.map(saved, ProcesoReingresoResponse.class);
 }
 
 
