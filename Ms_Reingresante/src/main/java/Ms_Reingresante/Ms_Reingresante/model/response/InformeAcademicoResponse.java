@@ -1,7 +1,6 @@
 package Ms_Reingresante.Ms_Reingresante.model.response;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 import lombok.Data;
@@ -27,9 +26,9 @@ public class InformeAcademicoResponse {
     private String emitidoPor;
 
     // ✅ DATETIME
-    private LocalDateTime fechaCreacion;
+    private LocalDate fechaCreacion;
     private String usuarioCreacion;
-    private LocalDateTime fechaModificacion;
+    private LocalDate fechaModificacion;
     private String usuarioModificacion;
 
 } 

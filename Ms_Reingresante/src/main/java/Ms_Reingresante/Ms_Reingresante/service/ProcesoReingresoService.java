@@ -2,18 +2,18 @@ package Ms_Reingresante.Ms_Reingresante.service;
 
 import java.util.List;
 
-import Ms_Reingresante.Ms_Reingresante.model.request.procesoReingresoRequest;
-import Ms_Reingresante.Ms_Reingresante.model.response.procesoReingresoResponse;
+import Ms_Reingresante.Ms_Reingresante.model.request.ProcesoReingresoRequest;
+import Ms_Reingresante.Ms_Reingresante.model.response.ProcesoReingresoResponse;
 
 
 
 public interface ProcesoReingresoService {
 
-  List<procesoReingresoResponse> listarProcesoReingreso();
+  List<ProcesoReingresoResponse> listarProcesoReingreso();
 
-  procesoReingresoResponse obtenerPorIdProcesoReingreso(Integer id);
+  ProcesoReingresoResponse obtenerPorIdProcesoReingreso(Integer id);
 
-  procesoReingresoResponse guardarProcesoReingreso(procesoReingresoRequest producto);
+  ProcesoReingresoResponse guardarProcesoReingreso(ProcesoReingresoRequest producto);
 
   void eliminarProcesoReingreso(Integer id);
 

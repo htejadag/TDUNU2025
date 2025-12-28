@@ -1,7 +1,6 @@
 package Ms_Reingresante.Ms_Reingresante.model.entity;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime; // Para el campo TIME
 
 import jakarta.persistence.Column;
@@ -52,13 +51,13 @@ public class InformeAcademicoModel {
 
     // ✅ DATETIME
     @Column(name = "FECHA_CREACION")
-    private LocalDateTime fechaCreacion;
+    private LocalDate fechaCreacion;
 
     @Column(name = "USUARIO_CREACION")
     private String usuarioCreacion;
 
     @Column(name = "FECHA_MODIFICACION")
-    private LocalDateTime fechaModificacion;
+    private LocalDate fechaModificacion;
 
     @Column(name = "USUARIO_MODIFICACION")
     private String usuarioModificacion;

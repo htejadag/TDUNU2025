@@ -2,7 +2,6 @@ package Ms_Reingresante.Ms_Reingresante.model.response;
 
 import lombok.Data;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Data
 public class MatriculaResponse {
@@ -13,8 +12,8 @@ public class MatriculaResponse {
     private String realizadoPor;
     
     // Campos de Auditoría
-    private LocalDateTime fechaCreacion;
+    private LocalDate fechaCreacion;
     private String usuarioCreacion;
-    private LocalDateTime fechaModificacion;
+    private LocalDate fechaModificacion;
     private String usuarioModificacion;
 }

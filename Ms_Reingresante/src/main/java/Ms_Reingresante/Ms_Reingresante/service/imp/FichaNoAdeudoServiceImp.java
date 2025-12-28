@@ -1,21 +1,17 @@
 package Ms_Reingresante.Ms_Reingresante.service.imp;
 
-import java.time.LocalDate;
 import java.util.List;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import Ms_Reingresante.Ms_Reingresante.model.entity.FichaNoAdeudoModel;
-import Ms_Reingresante.Ms_Reingresante.model.entity.resolucionModel;
+
 
 // Importaciones de Modelos y Repositorios
 
 import Ms_Reingresante.Ms_Reingresante.model.request.FichaNoAdeudoRequest;
-import Ms_Reingresante.Ms_Reingresante.model.request.resolucionRequest;
 import Ms_Reingresante.Ms_Reingresante.model.response.FichaNoAdeudoResponse;
-import Ms_Reingresante.Ms_Reingresante.model.response.resolucionResponse;
 import Ms_Reingresante.Ms_Reingresante.repository.FichaNoAdeudoRepository;
 import Ms_Reingresante.Ms_Reingresante.service.FichaNoAdeudoService;
 
@@ -49,20 +45,21 @@ public class FichaNoAdeudoServiceImp implements FichaNoAdeudoService {
             .orElseThrow(() -> new RuntimeException("Ficha No Adeudo no encontrada con ID: " + id)); 
     }
 
-  @Override
-  public FichaNoAdeudoResponse guardarFichaNoAdeudo(FichaNoAdeudoRequest request) {
-    // 1. Request -> Model
-    FichaNoAdeudoModel model = modelMapper.map(request, FichaNoAdeudoModel.class);
+  
+     @Override
+ public FichaNoAdeudoResponse guardarFichaNoAdeudo(FichaNoAdeudoRequest request) {
 
-    // 2. Guardar en BD
-    FichaNoAdeudoModel saved = FichaNoAdeudoRepository.save(model);
+    FichaNoAdeudoModel model =
+            modelMapper.map(request, FichaNoAdeudoModel.class);
 
-    // 3. Model -> Response
-   FichaNoAdeudoResponse response = modelMapper.map(saved,  FichaNoAdeudoResponse.class);
+    // 🔥 CLAVE
+    model.setIdFicha(null);
 
-    return response;
-  }
-
+    return modelMapper.map(
+            FichaNoAdeudoRepository.save(model),
+            FichaNoAdeudoResponse.class
+    );
+      }
 
    @Override
   public void eliminarFichaNoAdeudo(Integer id) {

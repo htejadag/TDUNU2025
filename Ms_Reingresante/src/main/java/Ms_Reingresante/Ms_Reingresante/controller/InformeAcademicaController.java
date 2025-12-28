@@ -10,7 +10,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 
+import Ms_Reingresante.Ms_Reingresante.message.ProductorMessagePublish;
 import Ms_Reingresante.Ms_Reingresante.model.request.InformeAcademicoRequest;
 
 // Importaciones para Informe Académico
@@ -20,7 +22,7 @@ import Ms_Reingresante.Ms_Reingresante.service.InformeAcademicoService;
 // Importaciones de Utilidades
 import Ms_Reingresante.Ms_Reingresante.util.ApiRoutes;
 import Ms_Reingresante.Ms_Reingresante.util.InformeAcademicoBase;
-import Ms_Reingresante.Ms_Reingresante.util.procesoReingresanteBase;
+import Ms_Reingresante.Ms_Reingresante.util.ProcesoReingresanteBase;
 
 
 
@@ -29,44 +31,42 @@ import Ms_Reingresante.Ms_Reingresante.util.procesoReingresanteBase;
 public class InformeAcademicaController {
     
     @Autowired
-    InformeAcademicoService InformeAcademicoService;
+    InformeAcademicoService informeAcademicoService;
 
-    /**
-     * Endpoint para obtener todos los informes académicos.
-     */
+     @Autowired
+   ProductorMessagePublish messageEvent;
+   
+   
     @GetMapping(value = ApiRoutes.InformeAcademico.LISTAR)
-    public procesoReingresanteBase<List<InformeAcademicoResponse>> listar() {
-        List<InformeAcademicoResponse> lista = InformeAcademicoService.listarInformeAcademico();
-        return procesoReingresanteBase.ok(lista);
+    public ProcesoReingresanteBase<List<InformeAcademicoResponse>> listar() {
+        List<InformeAcademicoResponse> lista = informeAcademicoService.listarInformeAcademico();
+        return ProcesoReingresanteBase.ok(lista);
     }
 
     @GetMapping(value = ApiRoutes.InformeAcademico.OBTENER_POR_ID)
   public InformeAcademicoBase<InformeAcademicoResponse> obtenerPorId(@RequestParam(value = "id") Integer id) {
-    InformeAcademicoResponse response =InformeAcademicoService.obtenerPorIdInformeAcademico(id);
+    InformeAcademicoResponse response =informeAcademicoService.obtenerPorIdInformeAcademico(id);
     return InformeAcademicoBase.ok(response);
   }
 
    @PostMapping(value = ApiRoutes.InformeAcademico.GUARDAR)
-  public InformeAcademicoBase<InformeAcademicoResponse> guardar(@RequestBody InformeAcademicoRequest model) {
-    InformeAcademicoResponse response = InformeAcademicoService.guardarInformeAcademico(model);
+    public InformeAcademicoBase<InformeAcademicoResponse> guardar(@RequestBody InformeAcademicoRequest model)
+        throws JsonProcessingException {
+
+    InformeAcademicoResponse response = informeAcademicoService.guardarInformeAcademico(model);
+
+    messageEvent.sendProcesoInformeAcademicoEvent(response);
+
     return InformeAcademicoBase.ok(response);
-  }
+}
 
 
    @DeleteMapping(value = ApiRoutes.InformeAcademico.ELIMINAR)
   public InformeAcademicoResponse eliminar(@RequestParam(value = "id") Integer id) {
-   InformeAcademicoService.eliminarInformeAcademico(id);
+   informeAcademicoService.eliminarInformeAcademico(id);
     return null;
   }
 
 
-    /**
-     * Endpoint para obtener un informe por su ID.
-     */
-   
-    /**
-     * Endpoint para solicitar o generar un nuevo Informe Académico asociado a un proceso.
-     * El Service manejará la consulta de datos históricos del estudiante.
-     */
     
 }
