@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "MsEvaluacionApplication",
+            "request": "launch",
+            "mainClass": "com.example.MsEvaluacion.MsEvaluacionApplication",
+            "projectName": ""
+        },
+        {
+            "type": "java",
             "name": "MsGradosTitulosApplication",
             "request": "launch",
             "mainClass": "com.unu.ms.MsGradosTitulos.MsGradosTitulosApplication",

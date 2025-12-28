@@ -26,7 +26,6 @@ public class EDetalleServiceImpl implements IEDetalleService {
 
     @Override
     public void eliminar(String id) {
-        // TODO Auto-generated method stub
 
     }
 
@@ -36,6 +35,11 @@ public class EDetalleServiceImpl implements IEDetalleService {
         EvaluacionDetalleModel saved = eDetalleRepository.save(evaluacionDetalleModel);
         EDetalleResponse response = modelMapper.map(saved, EDetalleResponse.class);
         return response;
+    }
+
+    @Override
+    public List<EvaluacionDetalleModel> listarPorEvaluacion(String idEvaluacion) {
+        return eDetalleRepository.findByIdEvaluacion(idEvaluacion);
     }
 
     @Override

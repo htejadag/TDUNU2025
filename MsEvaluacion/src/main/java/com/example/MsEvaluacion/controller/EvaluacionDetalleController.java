@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.MsEvaluacion.model.entity.EvaluacionDetalleModel;
 import com.example.MsEvaluacion.model.request.EDetalleResquest;
 import com.example.MsEvaluacion.model.response.EDetalleResponse;
 import com.example.MsEvaluacion.services.Imp.EDetalleServiceImpl;
@@ -19,7 +20,6 @@ import com.example.MsEvaluacion.util.Routes;
 @RequestMapping(Routes.evaluacionDetalle.EVALUACIONDETALLE)
 public class EvaluacionDetalleController {
 
-    
     @Autowired
     EDetalleServiceImpl eDetalleService;
 
@@ -33,7 +33,7 @@ public class EvaluacionDetalleController {
         return eDetalleService.guardar(eDetalleRequest);
     }
 
-    @GetMapping(Routes.evaluacionDetalle.LISTAR)    
+    @GetMapping(Routes.evaluacionDetalle.LISTAR)
     public List<EDetalleResponse> listar() {
         return eDetalleService.listar();
     }
@@ -43,6 +43,9 @@ public class EvaluacionDetalleController {
         return eDetalleService.obtenerPorId(id);
     }
 
-    
-    
+    @GetMapping(Routes.evaluacionDetalle.LISTAR_POR_EVALUACION)
+    public List<EvaluacionDetalleModel> listarPorEvaluacion(@PathVariable String idEvaluacion) {
+        return eDetalleService.listarPorEvaluacion(idEvaluacion);
+    }
+
 }

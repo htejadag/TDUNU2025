@@ -17,7 +17,6 @@ public class EvaluacionDetalleModel {
     private String id;
 
     private String idEvaluacion;
-    private Integer idEvaluacionPlan;
     private BigDecimal nota;
     private LocalDateTime fechaPrueba;
 
@@ -26,5 +25,4 @@ public class EvaluacionDetalleModel {
 
     private LocalDateTime fechaCreacion;
     private LocalDateTime fechaModificacion;
-    
 }
