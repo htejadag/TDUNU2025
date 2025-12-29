@@ -1,6 +1,6 @@
-package com.unu.TDUNU2025.Msbiblioteca.repository;
+package TDUNU2025.Msbiblioteca.repository;
 
-import com.unu.TDUNU2025.Msbiblioteca.model.entity.Multa;
+import TDUNU2025.Msbiblioteca.model.entity.Multa;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import java.util.List;

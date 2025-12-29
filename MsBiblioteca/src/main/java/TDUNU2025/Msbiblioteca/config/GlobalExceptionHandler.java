@@ -1,7 +1,7 @@
-package com.unu.TDUNU2025.Msbiblioteca.config;
+package TDUNU2025.Msbiblioteca.config;
 
-import com.unu.TDUNU2025.Msbiblioteca.util.Mensaje;
-import com.unu.TDUNU2025.Msbiblioteca.util.ResponseBase;
+import TDUNU2025.Msbiblioteca.util.Mensaje;
+import TDUNU2025.Msbiblioteca.util.ResponseBase;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;

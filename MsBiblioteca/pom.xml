@@ -12,7 +12,7 @@
 		<relativePath />
 	</parent>
 
-	<groupId>com.unu.TDUNU2025</groupId>
+	<groupId>TDUNU2025</groupId>
 	<artifactId>Msbiblioteca</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>Msbiblioteca</name>
@@ -81,6 +81,12 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
+		</dependency>
+		
+		<!-- redis -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-redis</artifactId>
 		</dependency>
 
 		<!-- Agregar dentro de la sección <dependencies> de tu archivo pom.xml -->

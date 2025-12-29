@@ -1,12 +1,12 @@
-package com.unu.TDUNU2025.Msbiblioteca.controller;
+package TDUNU2025.Msbiblioteca.controller;
 
-import com.unu.TDUNU2025.Msbiblioteca.model.entity.Autor;
-import com.unu.TDUNU2025.Msbiblioteca.model.request.AutorRequest;
-import com.unu.TDUNU2025.Msbiblioteca.model.response.AutorResponse;
-import com.unu.TDUNU2025.Msbiblioteca.service.AutorService;
-import com.unu.TDUNU2025.Msbiblioteca.util.ApiRoutes;
-import com.unu.TDUNU2025.Msbiblioteca.util.Mensaje;
-import com.unu.TDUNU2025.Msbiblioteca.util.ResponseBase;
+import TDUNU2025.Msbiblioteca.model.entity.Autor;
+import TDUNU2025.Msbiblioteca.model.request.AutorRequest;
+import TDUNU2025.Msbiblioteca.model.response.AutorResponse;
+import TDUNU2025.Msbiblioteca.service.AutorService;
+import TDUNU2025.Msbiblioteca.util.ApiRoutes;
+import TDUNU2025.Msbiblioteca.util.Mensaje;
+import TDUNU2025.Msbiblioteca.util.ResponseBase;
 import org.modelmapper.ModelMapper; // Importamos ModelMapper
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

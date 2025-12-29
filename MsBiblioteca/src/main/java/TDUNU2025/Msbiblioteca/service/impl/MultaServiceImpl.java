@@ -1,10 +1,10 @@
-package com.unu.TDUNU2025.Msbiblioteca.service.impl;
+package TDUNU2025.Msbiblioteca.service.impl;
 
-import com.unu.TDUNU2025.Msbiblioteca.model.entity.Multa;
-import com.unu.TDUNU2025.Msbiblioteca.model.request.MultaRequest;
-import com.unu.TDUNU2025.Msbiblioteca.model.response.MultaResponse;
-import com.unu.TDUNU2025.Msbiblioteca.repository.MultaRepository;
-import com.unu.TDUNU2025.Msbiblioteca.service.MultaService;
+import TDUNU2025.Msbiblioteca.model.entity.Multa;
+import TDUNU2025.Msbiblioteca.model.request.MultaRequest;
+import TDUNU2025.Msbiblioteca.model.response.MultaResponse;
+import TDUNU2025.Msbiblioteca.repository.MultaRepository;
+import TDUNU2025.Msbiblioteca.service.MultaService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

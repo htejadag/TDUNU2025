@@ -1,4 +1,4 @@
-package main.java.com.unu.TDUNU2025.Msbiblioteca.config;
+package TDUNU2025.Msbiblioteca.config;
 
 import org.apache.kafka.clients.admin.NewTopic;
 import org.springframework.context.annotation.Bean;
