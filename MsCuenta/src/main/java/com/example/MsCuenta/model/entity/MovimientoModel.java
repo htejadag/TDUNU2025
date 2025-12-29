@@ -1,6 +1,7 @@
 package com.example.MsCuenta.model.entity;
 
-import java.sql.Date;
+
+import java.time.LocalDate;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -22,27 +23,29 @@ public class MovimientoModel {
     private Integer id;
     @ManyToOne
     @JoinColumn(name = "id_cuenta_usuario", referencedColumnName = "id")
-    private CuentaUsuarioModel id_cuenta_usuario;
+    private CuentaUsuarioModel idCuentaUsuario;
 
     @ManyToOne
     @JoinColumn(name = "id_tipo_movimiento", referencedColumnName = "id")
-    private CatalogoModel id_tipo_movimiento;
+    private CatalogoModel idTipoMovimiento;
 
     
     @Column (name = "id_operacion")
-    private Integer id_operacion;
+    private Integer idOperacion;
     @Column (name = "monto")
     private Integer monto;
     @Column (name = "fecha_movimiento")
-    private Date fecha_movimiento;
+    private LocalDate fechaMovimiento;
+    @Column (name = "activo")
+    private boolean activo;
     
     //auditoria
     @Column(name = "usuario_creacion", nullable = false, length = 100)
     private Integer usuarioCreacion;
     @Column(name = "fecha_creacion", nullable = false)
-    private String fechaCreacion;
+    private LocalDate fechaCreacion;
     @Column(name = "usuario_modificacion", length = 100)
     private Integer usuarioModificacion;
     @Column(name = "fecha_modificacion")
-    private String fechaModificacion;
+    private LocalDate fechaModificacion;
 }

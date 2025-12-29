@@ -56,9 +56,9 @@ public class RecargaController {
 
 
      @DeleteMapping(value = ApiRoutes.Recarga.ELIMINAR_RECARGA)
-    public RecargaResponse eliminar(@RequestParam(value = "id") Integer id) {
-        recargaService.eliminar(id);
-        return null;
+    public ResponseBase<RecargaResponse> eliminar(@RequestParam(value = "id") Integer id) {
+        RecargaResponse response = recargaService.eliminar(id);
+        return ResponseBase.ok(response);
     }
 
 }

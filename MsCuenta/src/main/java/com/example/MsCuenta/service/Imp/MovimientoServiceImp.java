@@ -1,5 +1,6 @@
 package com.example.MsCuenta.service.Imp;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.modelmapper.ModelMapper;
@@ -9,7 +10,7 @@ import org.springframework.stereotype.Service;
 import com.example.MsCuenta.model.entity.CatalogoModel;
 import com.example.MsCuenta.model.entity.CuentaUsuarioModel;
 import com.example.MsCuenta.model.entity.MovimientoModel;
-import com.example.MsCuenta.model.request.Movimiento.MovimientoRquest;
+import com.example.MsCuenta.model.request.Movimiento.MovimientoRequest;
 import com.example.MsCuenta.model.request.Movimiento.MovimientoUpdateRequest;
 import com.example.MsCuenta.model.response.MovimientoResponse;
 import com.example.MsCuenta.repository.CatalogoRepository;
@@ -49,7 +50,7 @@ public class MovimientoServiceImp implements MovimientoService {
     }
 
     @Override
-    public MovimientoResponse guardar(MovimientoRquest movimientoRequest) {
+    public MovimientoResponse guardar(MovimientoRequest movimientoRequest) {
 
         MovimientoModel model = new MovimientoModel();
 
@@ -59,14 +60,14 @@ public class MovimientoServiceImp implements MovimientoService {
         CatalogoModel idTipoMovimiento = catalogoRepository.findById(movimientoRequest.getId_tipo_movimiento())
         .orElseThrow(() -> new RuntimeException("No existe un tipo de movimiento con id: " + movimientoRequest.getId_tipo_movimiento()));
 
-        model.setId_cuenta_usuario(idCuentaUsuario);
-        model.setId_tipo_movimiento(idTipoMovimiento);
-        model.setId_operacion(movimientoRequest.getId_operacion());
+        model.setIdCuentaUsuario(idCuentaUsuario);
+        model.setIdTipoMovimiento(idTipoMovimiento);
+        model.setIdOperacion(movimientoRequest.getId_operacion());
         model.setMonto(movimientoRequest.getMonto());
-        model.setFecha_movimiento(movimientoRequest.getFecha_movimiento());
-    
+        model.setFechaCreacion(LocalDate.now());
+        model.setActivo(movimientoRequest.isActivo());
         model.setUsuarioCreacion(movimientoRequest.getUsuarioCreacion());
-
+        model.setFechaCreacion(LocalDate.now());
 
         MovimientoModel saved = movimientoRepository.save(model);
 
@@ -76,7 +77,7 @@ public class MovimientoServiceImp implements MovimientoService {
     @Override
     public MovimientoResponse modificar(Integer id, MovimientoUpdateRequest movimientoUpdateRequest) {
 
-        MovimientoModel model1 = movimientoRepository.findById(id)
+        MovimientoModel model = movimientoRepository.findById(id)
         .orElseThrow(() -> new RuntimeException("No existe un movimiento con id: " + id));
 
         CuentaUsuarioModel idCuentaUsuario = cuentaUsuarioRepository.findById(movimientoUpdateRequest.getId_cuenta_usuario())
@@ -85,22 +86,33 @@ public class MovimientoServiceImp implements MovimientoService {
         CatalogoModel idTipoMovimiento = catalogoRepository.findById(movimientoUpdateRequest.getId_tipo_movimiento())
         .orElseThrow(() -> new RuntimeException("No existe un tipo de movimiento con id: " + movimientoUpdateRequest.getId_tipo_movimiento()));
         
-        model1.setId_cuenta_usuario(idCuentaUsuario);
-        model1.setId_tipo_movimiento(idTipoMovimiento);
-        model1.setId_operacion(movimientoUpdateRequest.getId_operacion());
-        model1.setMonto(movimientoUpdateRequest.getMonto());
-        model1.setFecha_movimiento(movimientoUpdateRequest.getFecha_movimiento());
+        model.setIdCuentaUsuario(idCuentaUsuario);
+        model.setIdTipoMovimiento(idTipoMovimiento);
+        model.setIdOperacion(movimientoUpdateRequest.getId_operacion());
+        model.setMonto(movimientoUpdateRequest.getMonto());
+        model.setActivo(movimientoUpdateRequest.isActivo());
+        model.setUsuarioModificacion(movimientoUpdateRequest.getUsuarioModificacion());
+        model.setFechaModificacion(LocalDate.now());
 
-        model1.setUsuarioModificacion(movimientoUpdateRequest.getUsuarioModificacion());
+        model.setUsuarioModificacion(movimientoUpdateRequest.getUsuarioModificacion());
 
-        MovimientoModel actualizado = movimientoRepository.save(model1);
+        MovimientoModel actualizado = movimientoRepository.save(model);
 
         return modelMapper.map(actualizado, MovimientoResponse.class);
     }
 
     @Override
-    public void eliminar(Integer id) {
-        movimientoRepository.deleteById(id);
+    public MovimientoResponse eliminar(Integer id) {
+         MovimientoModel model = movimientoRepository.findById(id)
+        .orElseThrow(() -> new RuntimeException("No existe un movimiento con id: " + id));
+
+         model.setActivo(false);
+
+         MovimientoModel actualizado = movimientoRepository.save(model);
+
+        return modelMapper.map(actualizado, MovimientoResponse.class);
+
+
     }
     
 }

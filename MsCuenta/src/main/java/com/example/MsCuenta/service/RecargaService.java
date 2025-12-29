@@ -15,5 +15,5 @@ public interface RecargaService {
     
     RecargaResponse modificar(Integer id,RecargaUpdateRequest recargaUpdateRequest);
 
-    void eliminar(Integer id);
+    RecargaResponse eliminar(Integer id);
 }

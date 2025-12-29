@@ -1,5 +1,6 @@
 package com.example.MsCuenta.service.Imp;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.modelmapper.ModelMapper;
@@ -46,20 +47,19 @@ public class RecargaServiceImp implements RecargaService {
     @Override
     public RecargaResponse guardar(RecargaRequest recargaRequest) {
             
-        // CuentaUsuarioModel model1 = new CuentaUsuarioModel();
         RecargaModel model = new RecargaModel();
 
         CuentaUsuarioModel idCuentaUsuario = cuentaUsuarioRepository.findById(recargaRequest.getId_cuenta_usuario())
         .orElseThrow(() -> new RuntimeException("No existe una cuenta de usuario con id: " + recargaRequest.getId_cuenta_usuario()));
 
-        model.setId_cuenta_usuario(idCuentaUsuario);
-        model.setMetodo_pago(recargaRequest.getMetodo_pago());
+        model.setIdCuentaUsuario(idCuentaUsuario);
+        model.setMetodoPago(recargaRequest.getMetodo_pago());
         model.setReferencia(recargaRequest.getReferencia());
         model.setMonto(recargaRequest.getMonto());
-        model.setFecha_recarga(recargaRequest.getFecha_recarga());
-
-    
+        model.setFechaRecarga(LocalDate.now());
+        model.setActivo(recargaRequest.isActivo());
         model.setUsuarioCreacion(recargaRequest.getUsuarioCreacion());
+        model.setFechaCreacion(LocalDate.now());
 
         RecargaModel saved = recargaRepository.save(model);
 
@@ -69,29 +69,39 @@ public class RecargaServiceImp implements RecargaService {
     @Override
     public RecargaResponse modificar(Integer id, RecargaUpdateRequest recargaUpdateRequest) {
     
-        RecargaModel model1 = recargaRepository.findById(id)
+        RecargaModel model = recargaRepository.findById(id)
         .orElseThrow(() -> new RuntimeException("No existe una recarga con id: " + id));
 
         CuentaUsuarioModel idCuentaUsuario = cuentaUsuarioRepository.findById(recargaUpdateRequest.getId_cuenta_usuario())
         .orElseThrow(() -> new RuntimeException("No existe una cuenta de usuario con id: " + recargaUpdateRequest.getId_cuenta_usuario()));
         
-        model1.setId_cuenta_usuario(idCuentaUsuario);
-        model1.setMetodo_pago(recargaUpdateRequest.getMetodo_pago());
-        model1.setReferencia(recargaUpdateRequest.getReferencia());
-        model1.setMonto(recargaUpdateRequest.getMonto());
-        model1.setFecha_recarga(recargaUpdateRequest.getFecha_recarga());
+        model.setIdCuentaUsuario(idCuentaUsuario);
+        model.setMetodoPago(recargaUpdateRequest.getMetodo_pago());
+        model.setReferencia(recargaUpdateRequest.getReferencia());
+        model.setMonto(recargaUpdateRequest.getMonto());
+        model.setActivo(recargaUpdateRequest.isActivo());
+        model.setUsuarioModificacion(recargaUpdateRequest.getUsuarioModificacion());
+        model.setFechaModificacion(LocalDate.now());
 
-        model1.setUsuarioModificacion(recargaUpdateRequest.getUsuarioModificacion());
 
-
-        RecargaModel actualizado = recargaRepository.save(model1);
+        RecargaModel actualizado = recargaRepository.save(model);
 
         return modelMapper.map(actualizado, RecargaResponse.class);
     }
 
     @Override
-    public void eliminar(Integer id) {
-        recargaRepository.deleteById(id);
+    public RecargaResponse eliminar(Integer id) {
+
+        RecargaModel model = recargaRepository.findById(id)
+        .orElseThrow(() -> new RuntimeException("No existe una recarga con id: " + id));
+
+        model.setActivo(false);
+
+        RecargaModel actualizado = recargaRepository.save(model);
+
+        return modelMapper.map(actualizado, RecargaResponse.class);
+
+        
     }
     
 }

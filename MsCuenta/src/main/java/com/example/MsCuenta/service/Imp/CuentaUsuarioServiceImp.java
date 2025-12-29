@@ -1,6 +1,7 @@
 package com.example.MsCuenta.service.Imp;
 
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.modelmapper.ModelMapper;
@@ -57,9 +58,8 @@ public class CuentaUsuarioServiceImp implements CuentaUsuarioService {
         model.setIdUsuarioRol(request.getIdUsuarioRol());
         model.setSaldo(request.getSaldo());
         model.setActivo(request.isActivo());
-
-    
         model.setUsuarioCreacion(request.getUsuarioCreacion());
+        model.setFechaCreacion(LocalDate.now());
 
         CuentaUsuarioModel saved = cuentaUsuarioRepository.save(model);
 
@@ -76,7 +76,8 @@ public class CuentaUsuarioServiceImp implements CuentaUsuarioService {
     model.setIdUsuarioRol(request.getIdUsuarioRol());
     model.setSaldo(request.getSaldo());
     model.setActivo(request.isActivo());
-
+    model.setUsuarioModificacion(request.getUsuarioModificacion());
+    model.setFechaModificacion(LocalDate.now());
 
     CuentaUsuarioModel actualizado = cuentaUsuarioRepository.save(model);
 
@@ -86,8 +87,18 @@ public class CuentaUsuarioServiceImp implements CuentaUsuarioService {
 
 
     @Override
-    public void eliminar(Integer id) {
-        cuentaUsuarioRepository.deleteById(id);
+    public CuentaUsuarioResponse eliminar(Integer id) {
+
+         CuentaUsuarioModel model = cuentaUsuarioRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("No existe una cuenta usuario con id: " + id));
+
+
+    model.setActivo(false);
+
+    CuentaUsuarioModel actualizado = cuentaUsuarioRepository.save(model);
+
+    return modelMapper.map(actualizado, CuentaUsuarioResponse.class);
+        
     }
 
     @Override

@@ -1,5 +1,7 @@
 package com.example.MsCuenta.model.entity;
 
+import java.time.LocalDate;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -18,23 +20,23 @@ public class CuentaUsuarioModel {
     @Column(name = "id")
     private Integer id;
 
-    @Column(name = "id_usuario_rol")
+    @Column(name = "id_usuario_rol", nullable = false)
     private Integer idUsuarioRol;
 
-    @Column(name = "saldo")
+    @Column(name = "saldo", nullable = false)
     private double saldo;
-    @Column (name = "activo")
+    @Column (name = "activo", nullable = false)
     private boolean activo;
     
     //auditoria
-    @Column(name = "usuario_creacion", nullable = false, length = 100)
+    @Column(name = "usuario_creacion", nullable = false)
     private Integer usuarioCreacion;
     @Column(name = "fecha_creacion", nullable = false)
-    private String fechaCreacion;
-    @Column(name = "usuario_modificacion", length = 100)
+    private LocalDate fechaCreacion;
+    @Column(name = "usuario_modificacion")
     private Integer usuarioModificacion;
     @Column(name = "fecha_modificacion")
-    private String fechaModificacion;
+    private LocalDate fechaModificacion;
 
    
     

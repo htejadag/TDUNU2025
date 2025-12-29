@@ -1,17 +1,19 @@
 package com.example.MsCuenta.service.Imp;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import com.example.MsCuenta.model.entity.CatalogoModel;
 import com.example.MsCuenta.model.request.Catalogo.CatalogoRequest;
+import com.example.MsCuenta.model.request.Catalogo.CatalogoUpdateRequest;
 import com.example.MsCuenta.model.response.CatalogoResponse;
 import com.example.MsCuenta.repository.CatalogoRepository;
+import com.example.MsCuenta.service.CatalogoCacheService;
 import com.example.MsCuenta.service.CatalogoService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -25,13 +27,16 @@ public class CatalogoServiceImpl implements CatalogoService {
     CatalogoRepository catalogoRepository;
 
     @Autowired
-    private ModelMapper modelMapper;
+    private ModelMapper modelMapper; 
+
+     @Autowired
+    private CatalogoCacheService cacheService;
+
 
     @Override
-    @Cacheable(value = "catalogos")
     public List<CatalogoResponse> listar() {
 
-         return catalogoRepository.findAll()
+         return cacheService.listarCacheado()
             .stream()
             .map(model -> modelMapper.map(model, CatalogoResponse.class))
             .toList();
@@ -39,12 +44,13 @@ public class CatalogoServiceImpl implements CatalogoService {
     }
 
     @Override
-    @Cacheable(value = "catalogo", key = "#id")
     public CatalogoResponse obtenerPorId(Integer id) {
 
-        return catalogoRepository.findById(id)
-            .map(model -> modelMapper.map(model, CatalogoResponse.class))
-            .orElse(null);
+        return cacheService.listarCacheado()
+        .stream()
+        .filter(c -> c.getId().equals(id))
+        .findFirst()
+        .orElse(null);
         
     }
 
@@ -52,45 +58,33 @@ public class CatalogoServiceImpl implements CatalogoService {
     @Override
     public CatalogoResponse guardar(CatalogoRequest catalogoRequest) {
 
-        CatalogoModel model = new CatalogoModel();
+        CatalogoModel model =modelMapper.map(catalogoRequest, CatalogoModel.class);
 
         model.setTipo(catalogoRequest.getTipo());
         model.setActivo(catalogoRequest.isActivo());
-
-    
         model.setUsuarioCreacion(catalogoRequest.getUsuarioCreacion());
-
-    
-        if (catalogoRequest.getFechaCreacion() != null) {
-            model.setFechaCreacion(catalogoRequest.getFechaCreacion().toString());
-        } else {
-            model.setFechaCreacion(null);
-        }
-
-    
-        model.setUsuarioModificacion(catalogoRequest.getUsuarioModificacion());
-
-        if (catalogoRequest.getFechaModificacion() != null) {
-            model.setFechaModificacion(catalogoRequest.getFechaModificacion().toString());
-        } else {
-            model.setFechaModificacion(null);
-        }
+        model.setFechaCreacion(LocalDate.now());
 
 
         CatalogoModel saved = catalogoRepository.save(model);
 
-        return modelMapper.map(saved, CatalogoResponse.class);
+        CatalogoResponse response = modelMapper.map(saved, CatalogoResponse.class);
+
+        return  response;
         
     }
 
     @CacheEvict(value = "catalogos", allEntries = true)
     @Override
-    public CatalogoResponse modificar(Integer id, CatalogoRequest catalogoRequest) {
+    public CatalogoResponse modificar(Integer id, CatalogoUpdateRequest catalogoRequest) {
 
          CatalogoModel model = catalogoRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("No existe una cuenta usuario con id: " + id));
+            .orElseThrow(() -> new RuntimeException("No existe un catalogocon id: " + id));
 
-   
+        model.setTipo(catalogoRequest.getTipo());
+        model.setActivo(catalogoRequest.isActivo());
+        model.setUsuarioModificacion(catalogoRequest.getUsuarioModificacion());
+        model.setFechaModificacion(LocalDate.now());
 
         CatalogoModel actualizado = catalogoRepository.save(model);
 
@@ -100,10 +94,19 @@ public class CatalogoServiceImpl implements CatalogoService {
        
     }
 
+    @CacheEvict(value = "catalogos", allEntries = true)
     @Override
-    public void eliminar(Integer id) {
+    public CatalogoResponse eliminar(Integer id) {
 
-        catalogoRepository.deleteById(id);
+        CatalogoModel model = catalogoRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("No existe un catalogocon id: " + id));
+
+        model.setActivo(false);
+
+        CatalogoModel actualizado = catalogoRepository.save(model);
+    
+        return modelMapper.map(actualizado, CatalogoResponse.class);
+      
         
     }
 

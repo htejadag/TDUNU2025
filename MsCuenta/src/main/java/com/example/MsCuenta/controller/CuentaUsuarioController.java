@@ -57,9 +57,10 @@ public class CuentaUsuarioController {
 
 
      @DeleteMapping(value = ApiRoutes.CuentaUsuario.ELIMINAR)
-    public CuentaUsuarioResponse eliminar(@RequestParam(value = "id") Integer id) {
-        cuentaService.eliminar(id);
-        return null;
+    public ResponseBase<CuentaUsuarioResponse> eliminar(@RequestParam(value = "id") Integer id) {
+        
+        CuentaUsuarioResponse response = cuentaService.eliminar(id);
+        return ResponseBase.ok(response);
     }
 
     

@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.annotation.EnableKafka;
 import org.springframework.kafka.annotation.KafkaListener;
 
-import com.example.MsCuenta.model.request.ConsumoKafkaRequest;
+import com.example.MsCuenta.model.request.KafkaEvent.ConsumoKafkaRequest;
 import com.example.MsCuenta.service.CuentaUsuarioService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 

@@ -16,7 +16,7 @@ public interface CuentaUsuarioService {
     
     CuentaUsuarioResponse modificar(Integer id,CuentaUsuarioUpdateRequest cuentaUsuarioUpdateRequest);
 
-    void eliminar(Integer id);
+    CuentaUsuarioResponse eliminar(Integer id);
 
     void descontarSaldo(Integer id);
  

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.MsCuenta.Util.ApiRoutes;
 import com.example.MsCuenta.Util.ResponseBase;
 import com.example.MsCuenta.model.request.Catalogo.CatalogoRequest;
+import com.example.MsCuenta.model.request.Catalogo.CatalogoUpdateRequest;
 import com.example.MsCuenta.model.response.CatalogoResponse;
 import com.example.MsCuenta.service.CatalogoService;
 
@@ -48,7 +49,7 @@ public class CatalogoController {
     @PutMapping(value = ApiRoutes.Catalogo.MODIFICAR_CATALOGO)
     public ResponseBase<CatalogoResponse> modificar(
             @RequestParam(value = "id") Integer id,
-            @RequestBody CatalogoRequest request) {
+            @RequestBody CatalogoUpdateRequest request) {
         
         CatalogoResponse response = catalogoService.modificar(id, request);
         return ResponseBase.ok(response);
@@ -56,9 +57,10 @@ public class CatalogoController {
 
 
      @DeleteMapping(value = ApiRoutes.Catalogo.ELIMINAR_CATALOGO)
-    public CatalogoResponse eliminar(@RequestParam(value = "id") Integer id) {
+    public ResponseBase<CatalogoResponse> eliminar(@RequestParam(value = "id") Integer id) {
         catalogoService.eliminar(id);
-        return null;
+        CatalogoResponse response = catalogoService.eliminar(id);
+        return ResponseBase.ok(response);
     }
     
 }

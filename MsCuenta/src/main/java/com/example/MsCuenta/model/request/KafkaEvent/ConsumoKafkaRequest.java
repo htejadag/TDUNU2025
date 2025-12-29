@@ -1,4 +1,4 @@
-package com.example.MsCuenta.model.request;
+package com.example.MsCuenta.model.request.KafkaEvent;
 
 import lombok.Data;
 

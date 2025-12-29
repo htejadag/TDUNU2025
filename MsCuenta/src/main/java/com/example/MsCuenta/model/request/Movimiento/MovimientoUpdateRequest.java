@@ -1,6 +1,5 @@
 package com.example.MsCuenta.model.request.Movimiento;
 
-import java.sql.Date;
 
 import lombok.Data;
 
@@ -14,7 +13,7 @@ public class MovimientoUpdateRequest {
     
     private Integer monto;
 
-    private Date fecha_movimiento;
+    private boolean activo;
 
     private Integer usuarioModificacion;
 }
