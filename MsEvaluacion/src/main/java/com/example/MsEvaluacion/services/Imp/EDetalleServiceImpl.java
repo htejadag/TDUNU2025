@@ -30,16 +30,55 @@ public class EDetalleServiceImpl implements IEDetalleService {
     }
 
     @Override
-    public EDetalleResponse guardar(EDetalleResquest eDetalleRequest) {
-        EvaluacionDetalleModel evaluacionDetalleModel = modelMapper.map(eDetalleRequest, EvaluacionDetalleModel.class);
-        EvaluacionDetalleModel saved = eDetalleRepository.save(evaluacionDetalleModel);
-        EDetalleResponse response = modelMapper.map(saved, EDetalleResponse.class);
-        return response;
+    public EDetalleResponse guardar(EDetalleResquest request) {
+
+        validarTipoEvaluacion(request.getCatalogoid());
+        validarNumero(request.getCatalogoid(), request.getNumero());
+        validarDuplicado(
+                request.getEvaluacion(),
+                request.getCatalogoid(),
+                request.getNumero());
+
+        EvaluacionDetalleModel entity = modelMapper.map(request, EvaluacionDetalleModel.class);
+
+        EvaluacionDetalleModel saved = eDetalleRepository.save(entity);
+
+        return modelMapper.map(saved, EDetalleResponse.class);
+    }
+
+    private void validarTipoEvaluacion(String catalogoid) {
+        if (!List.of("PC", "EP", "EF").contains(catalogoid)) {
+            throw new RuntimeException("Tipo de evaluación no válido");
+        }
+    }
+
+    private void validarNumero(String catalogoid, Integer numero) {
+        if ("PC".equals(catalogoid) && numero == null) {
+            throw new RuntimeException("La práctica requiere número");
+        }
+
+        if (!"PC".equals(catalogoid) && numero != null) {
+            throw new RuntimeException("Solo las prácticas llevan número");
+        }
+    }
+
+    private void validarDuplicado(
+            String evaluacion,
+            String catalogoid,
+            Integer numero) {
+
+        boolean existe = eDetalleRepository
+                .existsByEvaluacionAndCatalogoidAndNumero(
+                        evaluacion, catalogoid, numero);
+
+        if (existe) {
+            throw new RuntimeException("Ya existe esta evaluación");
+        }
     }
 
     @Override
-    public List<EvaluacionDetalleModel> listarPorEvaluacion(String idEvaluacion) {
-        return eDetalleRepository.findByIdEvaluacion(idEvaluacion);
+    public List<EvaluacionDetalleModel> listarPorEvaluacion(String evaluacion) {
+        return eDetalleRepository.findByEvaluacion(evaluacion);
     }
 
     @Override

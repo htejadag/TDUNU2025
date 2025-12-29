@@ -8,6 +8,11 @@ import com.example.MsEvaluacion.model.entity.EvaluacionDetalleModel;
 
 public interface IEDetalleRepository extends MongoRepository<EvaluacionDetalleModel, String> {
 
-    List<EvaluacionDetalleModel> findByIdEvaluacion(String idEvaluacion);
-    
+    List<EvaluacionDetalleModel> findByEvaluacion(String evaluacion);
+
+    boolean existsByEvaluacionAndCatalogoidAndNumero(
+            String evaluacion,
+            String catalogoid,
+            Integer numero);
+
 }

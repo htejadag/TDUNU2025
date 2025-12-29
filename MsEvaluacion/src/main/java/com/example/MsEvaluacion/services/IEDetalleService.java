@@ -10,7 +10,7 @@ public interface IEDetalleService {
     
     List<EDetalleResponse> listar();
     
-    List<EvaluacionDetalleModel> listarPorEvaluacion(String idEvaluacion);
+    List<EvaluacionDetalleModel> listarPorEvaluacion(String evaluacion);
 
     EDetalleResponse obtenerPorId(String id);
 

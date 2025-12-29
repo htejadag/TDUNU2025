@@ -1,28 +1,30 @@
 package com.example.MsEvaluacion.model.entity;
 
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 
 @Data
+@EqualsAndHashCode(callSuper = true)
 @Document(collection = "evaluacionDetalle")
-public class EvaluacionDetalleModel {
+public class EvaluacionDetalleModel extends AuditoriaModel {
 
     @Id
     private String id;
 
-    private String idEvaluacion;
-    private BigDecimal nota;
-    private LocalDateTime fechaPrueba;
+    private String evaluacion;
+
+    private String catalogoid;
+    private Integer numero;
+
+    private double nota;
+    private LocalDate fechaPrueba;
 
     private Integer usuarioCreacion;
     private Integer usuarioModificacion;
-
-    private LocalDateTime fechaCreacion;
-    private LocalDateTime fechaModificacion;
 }
