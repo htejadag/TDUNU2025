@@ -1,4 +1,4 @@
-package com.unu.TDUNU2025.Msbiblioteca.model.request;
+package TDUNU2025.Msbiblioteca.model.request;
 
 import lombok.Data;
 

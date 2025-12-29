@@ -1,8 +1,9 @@
-package com.unu.TDUNU2025.Msbiblioteca.service;
+package TDUNU2025.Msbiblioteca.service;
 
-import com.unu.TDUNU2025.Msbiblioteca.model.entity.Catalogo;
 import java.util.List;
 import java.util.Optional;
+
+import TDUNU2025.Msbiblioteca.model.entity.Catalogo;
 
 public interface CatalogoService {
     
