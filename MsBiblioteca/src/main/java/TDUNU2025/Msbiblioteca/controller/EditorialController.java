@@ -1,6 +1,7 @@
 package TDUNU2025.Msbiblioteca.controller;
 
 import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +18,7 @@ import jakarta.validation.Valid;
 public class EditorialController {
 
     private final EditorialService editorialService;
+
 
     public EditorialController (EditorialService editorialService){
         this.editorialService = editorialService;
@@ -53,4 +55,5 @@ public class EditorialController {
         editorialService.eliminar(id);
         return ResponseEntity.noContent().build();
     }
+    
 }
