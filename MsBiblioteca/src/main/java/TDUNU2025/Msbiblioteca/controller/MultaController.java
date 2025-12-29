@@ -38,7 +38,7 @@ public class MultaController {
     // ✅ PUT -> /api/multa/actualizar/{id}
     @PutMapping(ApiRoutes.Multa.ACTUALIZAR)
     public MultaResponse actualizar(@PathVariable Integer id,
-                                     @RequestBody MultaRequest r) {
+            @RequestBody MultaRequest r) {
         return service.actualizar(id, r);
     }
 
