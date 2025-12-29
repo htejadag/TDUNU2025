@@ -75,5 +75,11 @@ public class PlanEstudiosDetalleServiceImp implements PlanEstudiosDetalleService
     public void eliminar(Integer id) {
         planestudiosdetalleRepository.deleteById(id);
     }
+
+    @Override
+    public List<PlanEstudiosDetalleResponse> listarMallaPorPlan(Integer idPlanEstudio) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'listarMallaPorPlan'");
+    }
     
 }

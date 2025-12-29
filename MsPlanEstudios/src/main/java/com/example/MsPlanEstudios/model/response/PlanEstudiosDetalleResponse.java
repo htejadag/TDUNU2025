@@ -1,5 +1,7 @@
 package com.example.MsPlanEstudios.model.response;
 
+import java.util.List;
+
 import lombok.Data;
 
 @Data
@@ -14,4 +16,9 @@ public class PlanEstudiosDetalleResponse {
     private Integer usuarioModificacion;
     private String fechaCreacion;
     private String fechaModificacion;
+    private Integer creditos;
+    private Integer horasTeoricas;
+    private Integer horasPracticas;
+    private Integer ordenEnCiclo;
+    private List<Integer> prerrequisitos;
 }

@@ -43,4 +43,16 @@ public class PlanEstudiosDetalleModel {
 
     @Column(name = "fechaModificacion")
     private String fechaModificacion;
+
+    @Column(name = "creditos",nullable = false)
+    private Integer creditos;
+
+    @Column(nullable = false)
+    private Integer horasTeoricas;
+
+    @Column(nullable = false)
+    private Integer horasPracticas;
+
+    @Column(nullable = false)
+    private Integer ordenEnCiclo;
 }

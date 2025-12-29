@@ -13,4 +13,8 @@ public class PlanEstudiosDetalleRequest {
     private Integer usuarioModificacion;
     private String fechaCreacion;
     private String fechaModificacion;
+    private Integer creditos;
+    private Integer horasTeoricas;
+    private Integer horasPracticas;
+    private Integer ordenEnCiclo;
 }
