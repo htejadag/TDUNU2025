@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.unu.ms.MsConsejo.model.request.AsistenciaSesionRequest;
 import com.unu.ms.MsConsejo.model.response.AsistenciaSesionResponse;
+import com.unu.ms.MsConsejo.model.response.AsistenciaResumenResponse;
 
 public interface AsistenciaSesionService {
 
@@ -17,5 +18,8 @@ public interface AsistenciaSesionService {
         public List<AsistenciaSesionResponse> buscarPorSesion(Integer idSesion);
         public List<AsistenciaSesionResponse> buscarPorMiembro(Integer idMiembro);
         public List<AsistenciaSesionResponse> buscarPorEstadoAsistencia(Integer idEstadoAsistencia);
+        
+        // Nuevo método
+        public AsistenciaResumenResponse obtenerResumenPorSesion(Integer idSesion);
 
 }

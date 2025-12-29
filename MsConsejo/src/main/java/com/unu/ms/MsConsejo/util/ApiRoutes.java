@@ -29,6 +29,9 @@ public class ApiRoutes {
         public static final String BUSCAR_POR_SESION = "/buscarPorSesion";
         public static final String BUSCAR_POR_MIEMBRO = "/buscarPorMiembro";
         public static final String BUSCAR_POR_ESTADO = "/buscarPorEstado";
+        
+        // Nuevo endpoint
+        public static final String RESUMEN_POR_SESION = "/sesion/{id}/resumen";
     }
 
     public static class MiembroConsejo {
@@ -59,6 +62,12 @@ public class ApiRoutes {
         public static final String BUSCAR_POR_NUMERO = "/buscarPorNumero";
         public static final String BUSCAR_POR_FECHA = "/buscarPorFecha";
         public static final String BUSCAR_POR_TIPO = "/buscarPorTipo";
+        
+        // Nuevos endpoints
+        public static final String POR_CONSEJO_Y_TIPO = "/consejo/{id}/por-tipo/{tipoId}";
+        public static final String PENDIENTES_POR_CONSEJO = "/consejo/{id}/pendientes";
+        public static final String FINALIZAR = "/{id}/finalizar";
+        public static final String REPORTE_PERIODO = "/reporte-periodo";
     }
 
     public static class Catalogo {

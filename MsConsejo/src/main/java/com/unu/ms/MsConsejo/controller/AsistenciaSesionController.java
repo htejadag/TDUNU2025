@@ -2,12 +2,14 @@ package com.unu.ms.MsConsejo.controller;
 
 import java.util.List;
 
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.unu.ms.MsConsejo.model.request.AsistenciaSesionRequest;
 import com.unu.ms.MsConsejo.model.response.AsistenciaSesionResponse;
+import com.unu.ms.MsConsejo.model.response.AsistenciaResumenResponse;
 import com.unu.ms.MsConsejo.service.AsistenciaSesionService;
 import com.unu.ms.MsConsejo.util.ApiRoutes;
 import com.unu.ms.MsConsejo.util.Mensajes;
@@ -21,15 +23,17 @@ import org.springframework.web.bind.annotation.PutMapping;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RestController
 @RequestMapping(ApiRoutes.AsistenciaSesion.BASE)
 @Tag(name = "AsistenciaSesion Controller")
+@RequiredArgsConstructor
 public class AsistenciaSesionController {
 
-    private AsistenciaSesionService asistenciaSesionService;
+    private final AsistenciaSesionService asistenciaSesionService;
 
     @GetMapping(value = ApiRoutes.AsistenciaSesion.LISTAR)
     public ResponseBase<List<AsistenciaSesionResponse>> listar() {
@@ -79,6 +83,18 @@ public class AsistenciaSesionController {
     public ResponseBase<List<AsistenciaSesionResponse>> buscarPorEstadoAsistencia(@RequestParam Integer idEstadoAsistencia) {
         List<AsistenciaSesionResponse> listaResponse = asistenciaSesionService.buscarPorEstadoAsistencia(idEstadoAsistencia);
         return ResponseBase.ok(Mensajes.LISTAR_OK, listaResponse);
+    }
+
+    // ==================== NUEVO ENDPOINT ====================
+
+    /**
+     * Calcula y devuelve el número total de asistentes presentes vs. ausentes para la sesión
+     */
+    @GetMapping(value = ApiRoutes.AsistenciaSesion.RESUMEN_POR_SESION)
+    public ResponseBase<AsistenciaResumenResponse> obtenerResumenPorSesion(
+            @PathVariable("id") Integer idSesion) {
+        AsistenciaResumenResponse response = asistenciaSesionService.obtenerResumenPorSesion(idSesion);
+        return ResponseBase.ok(Mensajes.OBTENER_POR_OK, response);
     }
 
 }

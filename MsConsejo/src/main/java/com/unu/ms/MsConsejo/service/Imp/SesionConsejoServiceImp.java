@@ -1,5 +1,6 @@
 package com.unu.ms.MsConsejo.service.Imp;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import java.time.LocalDate;
@@ -11,15 +12,22 @@ import com.unu.ms.MsConsejo.model.entity.SesionConsejoModel;
 import com.unu.ms.MsConsejo.model.mapper.SesionConsejoMapper;
 import com.unu.ms.MsConsejo.model.request.SesionConsejoRequest;
 import com.unu.ms.MsConsejo.model.response.SesionConsejoResponse;
+import com.unu.ms.MsConsejo.model.response.SesionReportePeriodoResponse;
 import com.unu.ms.MsConsejo.repository.SesionConsejoRepository;
 import com.unu.ms.MsConsejo.service.SesionConsejoService;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class SesionConsejoServiceImp implements SesionConsejoService {
 
-        SesionConsejoRepository sesionConsejoRepository;
-        SesionConsejoMapper mapper;
+        private final SesionConsejoRepository sesionConsejoRepository;
+        private final SesionConsejoMapper mapper;
+        
+        // IDs de estados de sesión (basados en catálogo)
+        private static final Integer ESTADO_PROGRAMADA = 1;
+        private static final Integer ESTADO_FINALIZADA = 2;
+        private static final Integer ESTADO_CANCELADA = 3;
 
         @Override
         public List<SesionConsejoResponse> listar() {
@@ -73,6 +81,48 @@ public class SesionConsejoServiceImp implements SesionConsejoService {
         @Override
         public List<SesionConsejoResponse> buscarPorTipoSesion(Integer idTipoSesion) {
                 return sesionConsejoRepository.findByIdTipoSesion(idTipoSesion).stream().map(mapper::toResponse).toList();
+        }
+
+        @Override
+        public List<SesionConsejoResponse> buscarPorConsejoYTipo(Integer idConsejo, Integer idTipoSesion) {
+                return sesionConsejoRepository.findByConsejo_IdConsejoAndIdTipoSesion(idConsejo, idTipoSesion)
+                                .stream().map(mapper::toResponse).toList();
+        }
+
+        @Override
+        public List<SesionConsejoResponse> buscarPendientesPorConsejo(Integer idConsejo) {
+                LocalDate hoy = LocalDate.now();
+                return sesionConsejoRepository.findByConsejo_IdConsejoAndFechaSesionGreaterThanEqualAndIdEstado(
+                                idConsejo, hoy, ESTADO_PROGRAMADA)
+                                .stream().map(mapper::toResponse).toList();
+        }
+
+        @Override
+        public SesionConsejoResponse finalizarSesion(Integer idSesion) {
+                SesionConsejoModel model = sesionConsejoRepository.findById(idSesion)
+                                .orElseThrow(() -> new RuntimeException("Sesión no encontrada con id: " + idSesion));
+                model.setIdEstado(ESTADO_FINALIZADA);
+                return mapper.toResponse(sesionConsejoRepository.save(model));
+        }
+
+        @Override
+        public SesionReportePeriodoResponse obtenerReportePeriodo(LocalDate fechaInicio, LocalDate fechaFin) {
+                long totalSesiones = sesionConsejoRepository.countByFechaSesionBetween(fechaInicio, fechaFin);
+                long sesionesRealizadas = sesionConsejoRepository.countByFechaSesionBetweenAndIdEstado(
+                                fechaInicio, fechaFin, ESTADO_FINALIZADA);
+                long sesionesPendientes = sesionConsejoRepository.countByFechaSesionBetweenAndIdEstado(
+                                fechaInicio, fechaFin, ESTADO_PROGRAMADA);
+                long sesionesCanceladas = sesionConsejoRepository.countByFechaSesionBetweenAndIdEstado(
+                                fechaInicio, fechaFin, ESTADO_CANCELADA);
+
+                return SesionReportePeriodoResponse.builder()
+                                .fechaInicio(fechaInicio)
+                                .fechaFin(fechaFin)
+                                .totalSesiones(totalSesiones)
+                                .sesionesRealizadas(sesionesRealizadas)
+                                .sesionesPendientes(sesionesPendientes)
+                                .sesionesCanceladas(sesionesCanceladas)
+                                .build();
         }
 
 }

@@ -17,6 +17,11 @@ public interface AsistenciaSesionRepository extends JpaRepository<AsistenciaSesi
     public List<AsistenciaSesionModel> findByMiembro(Integer idMiembro);
     public List<AsistenciaSesionModel> findByIdEstadoAsistencia(Integer idEstadoAsistencia);
     public List<AsistenciaSesionModel> findBySesion_IdSesionAndMiembro(Integer idSesion, Integer idMiembro);
+    
+    // Nuevo método para contar por estado de asistencia en una sesión
+    long countBySesion_IdSesionAndIdEstadoAsistencia(Integer idSesion, Integer idEstadoAsistencia);
+    
+    long countBySesion_IdSesion(Integer idSesion);
 
     @Query(
 
