@@ -11,7 +11,7 @@ public class PlanEstudiosDetalleResponse {
     private Integer idCurso;
     private Integer idCiclo;
     private Integer idTipoCursoPlan;
-    private String estado;
+    private Boolean estado;
     private Integer usuarioCreacion;
     private Integer usuarioModificacion;
     private String fechaCreacion;

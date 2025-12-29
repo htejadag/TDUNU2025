@@ -30,7 +30,7 @@ public class PlanEstudiosDetalleModel {
     private Integer idTipoCursoPlan;
 
     @Column(name = "estado")
-    private String estado;
+    private Boolean estado;
 
     @Column(name = "usuarioCreacion")
     private Integer usuarioCreacion;
