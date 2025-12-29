@@ -33,6 +33,9 @@ public class ExamenServiceImpl implements IExamenService {
     @Autowired
     private ModelMapper modelMapper;
 
+    @Autowired
+    private KafkaProducerService kafkaProducerService;
+
     @Override
     public List<ExamenDTO> getAllExamenes() {
         return examenRepository.findAll().stream()
@@ -72,7 +75,11 @@ public class ExamenServiceImpl implements IExamenService {
 
         Examen savedExamen = examenRepository.save(examen);
         log.info("Examen created successfully with ID: {}", savedExamen.getIdExamen());
-        return modelMapper.map(savedExamen, ExamenDTO.class);
+
+        ExamenDTO savedExamenDTO = modelMapper.map(savedExamen, ExamenDTO.class);
+        kafkaProducerService.sendEvent("examen-created", "EXAMEN_CREATED", savedExamenDTO);
+
+        return savedExamenDTO;
     }
 
     @Override
@@ -99,7 +106,11 @@ public class ExamenServiceImpl implements IExamenService {
 
         Examen updatedExamen = examenRepository.save(existingExamen);
         log.info("Examen updated successfully with ID: {}", id);
-        return modelMapper.map(updatedExamen, ExamenDTO.class);
+
+        ExamenDTO updatedExamenDTO = modelMapper.map(updatedExamen, ExamenDTO.class);
+        kafkaProducerService.sendEvent("examen-updated", "EXAMEN_UPDATED", updatedExamenDTO);
+
+        return updatedExamenDTO;
     }
 
     @Override

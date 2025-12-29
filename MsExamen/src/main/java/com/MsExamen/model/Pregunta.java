@@ -33,8 +33,8 @@ public class Pregunta {
     private TipoPregunta tipo;
 
     public enum TipoPregunta {
-        opcion_multiple,
-        respuesta_corta
+        OPCION_MULTIPLE,
+        RESPUESTA_CORTA
     }
 
     @Column(name = "fecha_creacion", updatable = false)
@@ -52,7 +52,7 @@ public class Pregunta {
     @PrePersist
     public void prePersist() {
         if (this.tipo == null) {
-            this.tipo = TipoPregunta.opcion_multiple;
+            this.tipo = TipoPregunta.OPCION_MULTIPLE;
         }
         this.fechaCreacion = LocalDateTime.now();
         this.fechaModificacion = LocalDateTime.now();

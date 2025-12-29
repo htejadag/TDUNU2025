@@ -2,6 +2,10 @@ package com.MsExamen.utils;
 
 public class AppConstants {
 
+    private AppConstants() {
+        throw new IllegalStateException("Utility class");
+    }
+
     // Rutas Base
     public static final String EXAMENES_ROUTE = "/examenes";
     public static final String PREGUNTAS_ROUTE = "/preguntas";
