@@ -1,8 +1,9 @@
-package com.unu.TDUNU2025.Msbiblioteca.service.impl;
+package TDUNU2025.Msbiblioteca.service.impl;
 
-import com.unu.TDUNU2025.Msbiblioteca.model.entity.Autor;
-import com.unu.TDUNU2025.Msbiblioteca.repository.AutorRepository;
-import com.unu.TDUNU2025.Msbiblioteca.service.AutorService;
+import TDUNU2025.Msbiblioteca.model.entity.Autor;
+import TDUNU2025.Msbiblioteca.repository.AutorRepository;
+import TDUNU2025.Msbiblioteca.service.AutorService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -1,9 +1,9 @@
-package com.unu.TDUNU2025.Msbiblioteca.service;
+package TDUNU2025.Msbiblioteca.service;
 
 import java.util.List;
 import java.util.Optional;
 
-import com.unu.TDUNU2025.Msbiblioteca.model.entity.Autor;
+import TDUNU2025.Msbiblioteca.model.entity.Autor;
 
 // INTERFAZ: Solo declara los métodos, no la lógica.
 public interface AutorService {

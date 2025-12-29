@@ -1,4 +1,4 @@
-package com.unu.TDUNU2025.Msbiblioteca.util;
+package TDUNU2025.Msbiblioteca.util;
 
 public class Mensaje {
     public static final String CODE_OK = "200";

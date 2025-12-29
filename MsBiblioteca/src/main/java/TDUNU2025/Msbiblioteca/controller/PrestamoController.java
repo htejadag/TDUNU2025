@@ -1,12 +1,13 @@
-package com.unu.TDUNU2025.Msbiblioteca.controller;
+package TDUNU2025.Msbiblioteca.controller;
 
-import com.unu.TDUNU2025.Msbiblioteca.model.entity.Prestamo;
-import com.unu.TDUNU2025.Msbiblioteca.model.request.PrestamoRequest;
-import com.unu.TDUNU2025.Msbiblioteca.model.response.PrestamoResponse;
-import com.unu.TDUNU2025.Msbiblioteca.service.PrestamoService;
-import com.unu.TDUNU2025.Msbiblioteca.util.ApiRoutes;
-import com.unu.TDUNU2025.Msbiblioteca.util.Mensaje;
-import com.unu.TDUNU2025.Msbiblioteca.util.ResponseBase;
+import TDUNU2025.Msbiblioteca.model.entity.Prestamo;
+import TDUNU2025.Msbiblioteca.model.request.PrestamoRequest;
+import TDUNU2025.Msbiblioteca.model.response.PrestamoResponse;
+import TDUNU2025.Msbiblioteca.service.PrestamoService;
+import TDUNU2025.Msbiblioteca.util.ApiRoutes;
+import TDUNU2025.Msbiblioteca.util.Mensaje;
+import TDUNU2025.Msbiblioteca.util.ResponseBase;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

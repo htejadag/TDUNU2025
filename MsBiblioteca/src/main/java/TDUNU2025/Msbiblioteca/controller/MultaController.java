@@ -1,10 +1,9 @@
-package com.unu.TDUNU2025.Msbiblioteca.controller;
+package TDUNU2025.Msbiblioteca.controller;
 
-import com.unu.TDUNU2025.Msbiblioteca.model.request.MultaRequest;
-import com.unu.TDUNU2025.Msbiblioteca.model.response.MultaResponse;
-import com.unu.TDUNU2025.Msbiblioteca.service.MultaService;
-import com.unu.TDUNU2025.Msbiblioteca.util.ApiRoutes;
-
+import TDUNU2025.Msbiblioteca.model.request.MultaRequest;
+import TDUNU2025.Msbiblioteca.model.response.MultaResponse;
+import TDUNU2025.Msbiblioteca.service.MultaService;
+import TDUNU2025.Msbiblioteca.util.ApiRoutes;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 

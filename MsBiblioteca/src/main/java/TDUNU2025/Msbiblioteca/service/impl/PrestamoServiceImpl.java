@@ -1,8 +1,9 @@
-package com.unu.TDUNU2025.Msbiblioteca.service.impl;
+package TDUNU2025.Msbiblioteca.service.impl;
 
-import com.unu.TDUNU2025.Msbiblioteca.model.entity.Prestamo;
-import com.unu.TDUNU2025.Msbiblioteca.repository.PrestamoRepository;
-import com.unu.TDUNU2025.Msbiblioteca.service.PrestamoService;
+import TDUNU2025.Msbiblioteca.model.entity.Prestamo;
+import TDUNU2025.Msbiblioteca.repository.PrestamoRepository;
+import TDUNU2025.Msbiblioteca.service.PrestamoService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

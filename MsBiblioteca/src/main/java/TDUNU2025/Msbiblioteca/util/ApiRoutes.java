@@ -1,4 +1,4 @@
-package com.unu.TDUNU2025.Msbiblioteca.util;
+package TDUNU2025.Msbiblioteca.util;
 
 public class ApiRoutes {
 
