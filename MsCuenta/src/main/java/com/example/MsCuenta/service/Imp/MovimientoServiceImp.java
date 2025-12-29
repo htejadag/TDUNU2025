@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import com.example.MsCuenta.model.entity.CatalogoModel;
 import com.example.MsCuenta.model.entity.CuentaUsuarioModel;
 import com.example.MsCuenta.model.entity.MovimientoModel;
-import com.example.MsCuenta.model.request.Movimiento.MovimientoRequest;
 import com.example.MsCuenta.model.request.Movimiento.MovimientoUpdateRequest;
 import com.example.MsCuenta.model.response.MovimientoResponse;
 import com.example.MsCuenta.repository.CatalogoRepository;
@@ -50,23 +49,22 @@ public class MovimientoServiceImp implements MovimientoService {
     }
 
     @Override
-    public MovimientoResponse guardar(MovimientoRequest movimientoRequest) {
+    public MovimientoResponse guardar(Integer idCuentaUsuario) {
 
         MovimientoModel model = new MovimientoModel();
 
-        CuentaUsuarioModel idCuentaUsuario = cuentaUsuarioRepository.findById(movimientoRequest.getId_cuenta_usuario())
-        .orElseThrow(() -> new RuntimeException("No existe una cuenta de usuario con id: " + movimientoRequest.getId_cuenta_usuario()));
+        CuentaUsuarioModel cuenta = cuentaUsuarioRepository.findById(idCuentaUsuario)
+        .orElseThrow(() -> new RuntimeException("No existe una cuenta de usuario con id: " + idCuentaUsuario));
 
-        CatalogoModel idTipoMovimiento = catalogoRepository.findById(movimientoRequest.getId_tipo_movimiento())
-        .orElseThrow(() -> new RuntimeException("No existe un tipo de movimiento con id: " + movimientoRequest.getId_tipo_movimiento()));
+        CatalogoModel idTipoMovimiento = catalogoRepository.findById(1)
+        .orElseThrow(() -> new RuntimeException("No existe un tipo de movimiento con"));
 
-        model.setIdCuentaUsuario(idCuentaUsuario);
+        model.setIdCuentaUsuario(cuenta);
         model.setIdTipoMovimiento(idTipoMovimiento);
-        model.setIdOperacion(movimientoRequest.getId_operacion());
-        model.setMonto(movimientoRequest.getMonto());
-        model.setFechaCreacion(LocalDate.now());
-        model.setActivo(movimientoRequest.isActivo());
-        model.setUsuarioCreacion(movimientoRequest.getUsuarioCreacion());
+        model.setMonto(1);
+        model.setFechaMovimiento(LocalDate.now());
+        model.setActivo(true);
+        model.setUsuarioCreacion(1);
         model.setFechaCreacion(LocalDate.now());
 
         MovimientoModel saved = movimientoRepository.save(model);
@@ -88,7 +86,6 @@ public class MovimientoServiceImp implements MovimientoService {
         
         model.setIdCuentaUsuario(idCuentaUsuario);
         model.setIdTipoMovimiento(idTipoMovimiento);
-        model.setIdOperacion(movimientoUpdateRequest.getId_operacion());
         model.setMonto(movimientoUpdateRequest.getMonto());
         model.setActivo(movimientoUpdateRequest.isActivo());
         model.setUsuarioModificacion(movimientoUpdateRequest.getUsuarioModificacion());

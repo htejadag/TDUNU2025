@@ -68,9 +68,9 @@ public class CatalogoServiceImpl implements CatalogoService {
 
         CatalogoModel saved = catalogoRepository.save(model);
 
-        CatalogoResponse response = modelMapper.map(saved, CatalogoResponse.class);
+        return modelMapper.map(saved, CatalogoResponse.class);
 
-        return  response;
+    
         
     }
 

@@ -29,9 +29,6 @@ public class MovimientoModel {
     @JoinColumn(name = "id_tipo_movimiento", referencedColumnName = "id")
     private CatalogoModel idTipoMovimiento;
 
-    
-    @Column (name = "id_operacion")
-    private Integer idOperacion;
     @Column (name = "monto")
     private Integer monto;
     @Column (name = "fecha_movimiento")
