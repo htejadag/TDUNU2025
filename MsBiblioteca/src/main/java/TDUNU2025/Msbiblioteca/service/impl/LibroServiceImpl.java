@@ -1,8 +1,8 @@
 package TDUNU2025.Msbiblioteca.service.impl;
 
-import com.unu.TDUNU2025.Msbiblioteca.model.entity.Libro;
-import com.unu.TDUNU2025.Msbiblioteca.repository.LibroRepository;
-import com.unu.TDUNU2025.Msbiblioteca.service.LibroService;
+import TDUNU2025.Msbiblioteca.model.entity.Libro;
+import TDUNU2025.Msbiblioteca.repository.LibroRepository;
+import TDUNU2025.Msbiblioteca.service.LibroService;
 
 import TDUNU2025.Msbiblioteca.model.request.LibroRequest;
 import TDUNU2025.Msbiblioteca.model.response.LibroResponse;
