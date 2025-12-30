@@ -20,4 +20,6 @@ public interface CursoService {
     List<CursoResponse> listarPorEstado(Boolean estado);
 
     List<CursoResponse> listarPorCarreraYEstado(Integer idCarrera, Boolean estado);
+
+    void upsertDesdeKafka(CursoRequest req);
 }

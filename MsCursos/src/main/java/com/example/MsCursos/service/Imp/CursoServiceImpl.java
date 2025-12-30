@@ -11,6 +11,7 @@ import com.example.MsCursos.model.request.CursoRequest;
 import com.example.MsCursos.model.response.CursoResponse;
 import com.example.MsCursos.repository.CursoRepository;
 import com.example.MsCursos.service.CursoService;
+import org.springframework.transaction.annotation.Transactional;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -79,5 +80,32 @@ public class CursoServiceImpl implements CursoService {
                 .stream()
                 .map(model -> modelMapper.map(model, CursoResponse.class))
                 .toList();
+    }
+
+    @Override
+    @Transactional
+    public void upsertDesdeKafka(CursoRequest req) {
+
+        CursoModel model;
+
+        // Si viene ID: intenta actualizar; si no existe, crea nuevo
+        if (req.getId() != null) {
+            model = cursoRepository.findById(req.getId()).orElse(new CursoModel());
+            model.setId(req.getId()); // por si era nuevo
+        } else {
+            model = new CursoModel();
+        }
+
+        // Map DTO -> Entity
+        model.setNombre(req.getNombre());
+        model.setCodigo(req.getCodigo());
+        model.setIdCiclo(req.getIdCiclo());
+        model.setIdCarrera(req.getIdCarrera());
+        model.setCreditos(req.getCreditos());
+        model.setHorasTeoricas(req.getHorasTeoricas());
+        model.setHorasPracticas(req.getHorasPracticas());
+        model.setEstado(req.getEstado() != null ? req.getEstado() : true);
+
+        cursoRepository.save(model);
     }
 }
