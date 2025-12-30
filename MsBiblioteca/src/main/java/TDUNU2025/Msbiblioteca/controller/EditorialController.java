@@ -1,59 +1,51 @@
 package TDUNU2025.Msbiblioteca.controller;
 
-import java.util.List;
-
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
 import TDUNU2025.Msbiblioteca.model.request.EditorialRequest;
 import TDUNU2025.Msbiblioteca.model.response.EditorialResponse;
 import TDUNU2025.Msbiblioteca.service.EditorialService;
-import jakarta.validation.Valid;
-//import lombok.RequiredArgsConstructor; 
+
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
-@RequestMapping("/v1/editoriales") 
-//@RequiredArgsConstructor 
-public class EditorialController {
+@RequestMapping(ApiRoutes.RUTA_AUTOR)
+@RequiredArgsConstructor
+public class AutorController {
 
-    private final EditorialService editorialService;
-
-
-    public EditorialController (EditorialService editorialService){
-        this.editorialService = editorialService;
-    } 
+    private final AutorService service;
+    private final ModelMapper mapper;
 
     @GetMapping
-    public ResponseEntity<List<EditorialResponse>> listar() {
-        List<EditorialResponse> lista = editorialService.listar();
-        return ResponseEntity.ok(lista);
+    public List<AutorResponse> listar() {
+        return service.listarAutores().stream()
+                .map(a -> mapper.map(a, AutorResponse.class))
+                .toList();
     }
+
     @GetMapping("/{id}")
-    public ResponseEntity<EditorialResponse> obtenerPorId(@PathVariable Long id) {
-        EditorialResponse editorial = editorialService.obtenerPorId(id);
-        return ResponseEntity.ok(editorial); 
+    public AutorResponse obtener(@PathVariable Integer id) {
+        return mapper.map(service.obtenerAutorPorId(id)
+                .orElseThrow(() -> new RuntimeException("No encontrado")), AutorResponse.class);
     }
 
     @PostMapping
-    public ResponseEntity<EditorialResponse> guardar(@Valid @RequestBody EditorialRequest request) {
-        EditorialResponse guardado = editorialService.guardar(request);
-        return new ResponseEntity<>(guardado, HttpStatus.CREATED); 
+    public AutorResponse guardar(@RequestBody AutorRequest request) {
+        Autor entity = mapper.map(request, Autor.class);
+        return mapper.map(service.guardarAutor(entity), AutorResponse.class);
     }
-    
+
     @PutMapping("/{id}")
-    public ResponseEntity<EditorialResponse> actualizar(
-            @PathVariable Long id, 
-            @Valid @RequestBody EditorialRequest request) {
-        
-        EditorialResponse actualizado = editorialService.actualizar(id, request);
-        return ResponseEntity.ok(actualizado);
+    public AutorResponse actualizar(@PathVariable Integer id, @RequestBody AutorRequest request) {
+        Autor entity = mapper.map(request, Autor.class);
+        entity.setIdAutor(id);
+        return mapper.map(service.guardarAutor(entity), AutorResponse.class);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> eliminar(@PathVariable Long id) {
-        editorialService.eliminar(id);
-        return ResponseEntity.noContent().build();
+    public void eliminar(@PathVariable Integer id) {
+        service.eliminarAutor(id);
     }
-    
 }
+

@@ -1,5 +1,6 @@
 package TDUNU2025.Msbiblioteca.model.request;
 
+<<<<<<< HEAD
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.validation.constraints.NotBlank;
@@ -27,5 +28,18 @@ public class EditorialRequest {
     private String sitioWeb;
 
     @JsonProperty("pais")
+=======
+import lombok.Data;
+
+@Data
+public class EditorialRequest {
+
+    private String nombre;
+    private String direccion;
+    private String telefono;
+    private String email;
+    private String sitioWeb;
+    private String fechaPago; // Se convierte en LocalDate en el service
+>>>>>>> origin/origin/jordinTrujillo
     private String pais;
 }

@@ -1,8 +1,16 @@
 package TDUNU2025.Msbiblioteca.service.impl;
 
+<<<<<<< HEAD
 import TDUNU2025.Msbiblioteca.model.entity.Libro;
 import TDUNU2025.Msbiblioteca.repository.LibroRepository;
 import TDUNU2025.Msbiblioteca.service.LibroService;
+=======
+import TDUNU2025.model.entity.Libro;
+import TDUNU2025.model.request.LibroRequest;
+import TDUNU2025.model.LibroResponse; // ← CORRECTO
+import TDUNU2025.repository.LibroRepository;
+import TDUNU2025.service.LibroService;
+>>>>>>> origin/origin/jordinTrujillo
 
 import TDUNU2025.Msbiblioteca.model.request.LibroRequest;
 import TDUNU2025.Msbiblioteca.model.response.LibroResponse;

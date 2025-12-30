@@ -1,5 +1,6 @@
 package TDUNU2025.Msbiblioteca.model.request;
 
+<<<<<<< HEAD
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
@@ -35,3 +36,15 @@ public class DetalleLibroRequest {
     private String ubicacionFisica;  
 
 }
+=======
+import lombok.Data;
+
+@Data
+public class DetalleLibroRequest {
+
+    private Long idLibro;          // FK al libro
+    private Integer stockTotal;
+    private Integer stockDisponible;
+    private String ubicacionFisica;
+}
+>>>>>>> origin/origin/jordinTrujillo

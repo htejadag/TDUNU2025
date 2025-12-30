@@ -1,5 +1,6 @@
 package TDUNU2025.Msbiblioteca.model.response;
 
+<<<<<<< HEAD
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.AllArgsConstructor;
@@ -36,3 +37,16 @@ public class DetalleLibroResponse {
     private LocalDateTime fechaActualizacion;
 
 }
+=======
+import lombok.Data;
+
+@Data
+public class DetalleLibroResponse {
+
+    private Long id;
+    private Long idLibro;
+    private Integer stockTotal;
+    private Integer stockDisponible;
+    private String ubicacionFisica;
+}
+>>>>>>> origin/origin/jordinTrujillo

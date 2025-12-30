@@ -1,62 +1,150 @@
 package TDUNU2025.Msbiblioteca.controller;
 
-import jakarta.validation.Valid;
-//import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
+import TDUNU2025.Msbiblioteca.config.ResponseBase;
 import TDUNU2025.Msbiblioteca.model.request.DetalleLibroRequest;
 import TDUNU2025.Msbiblioteca.model.response.DetalleLibroResponse;
 import TDUNU2025.Msbiblioteca.service.DetalleLibroService;
+import TDUNU2025.Msbiblioteca.util.ApiRoutes;
+import TDUNU2025.Msbiblioteca.util.Mensaje;
+
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/v1/detalle-libros")
-//@RequiredArgsConstructor
+@RequestMapping(ApiRoutes.DetalleLibro.BASE)
+@RequiredArgsConstructor
 public class DetalleLibroController {
 
-    private final DetalleLibroService detalleLibroService;
+    private final DetalleLibroService service;
 
-    public DetalleLibroController(DetalleLibroService detalleLibroService) {
-        this.detalleLibroService = detalleLibroService;
-    }
-    // POST: Crear un nuevo detalle de libro (Inventario)
-    @PostMapping
-    public ResponseEntity<DetalleLibroResponse> createDetalleLibro(@Valid @RequestBody DetalleLibroRequest request) {
-        DetalleLibroResponse response = detalleLibroService.save(request);
-        return new ResponseEntity<>(response, HttpStatus.CREATED);
-    }
+    // POST -> /api/detalle-libro/guardar
+    @PostMapping(ApiRoutes.DetalleLibro.GUARDAR)
+    public ResponseEntity<ResponseBase<DetalleLibroResponse>> registrar(@RequestBody DetalleLibroRequest request) {
+        try {
+            DetalleLibroResponse response = service.registrar(request);
 
-    // GET: Obtener un detalle de libro por ID
-    @GetMapping("/{id}")
-    public ResponseEntity<DetalleLibroResponse> getDetalleLibroById(@PathVariable Integer id) {
-        DetalleLibroResponse response = detalleLibroService.findById(id);
-        return ResponseEntity.ok(response);
-    }
+            return ResponseEntity.ok(
+                new ResponseBase<>(
+                    Mensaje.CODE_OK,
+                    Mensaje.MENSAJE_EXITO,
+                    response
+                )
+            );
 
-    // GET: Listar todos los detalles de libros
-    @GetMapping
-    public ResponseEntity<List<DetalleLibroResponse>> getAllDetalleLibros() {
-        List<DetalleLibroResponse> responseList = detalleLibroService.findAll();
-        return ResponseEntity.ok(responseList);
-    }
-
-    // PUT: Actualizar un detalle de libro por ID
-    @PutMapping("/{id}")
-    public ResponseEntity<DetalleLibroResponse> updateDetalleLibro(
-            @PathVariable Integer id,
-            @Valid @RequestBody DetalleLibroRequest request) {
-        
-        DetalleLibroResponse response = detalleLibroService.update(id, request);
-        return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(
+                new ResponseBase<>(
+                    Mensaje.CODE_ERROR,
+                    e.getMessage(),
+                    null
+                )
+            );
+        }
     }
 
-    // DELETE: Eliminar un detalle de libro por ID
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteDetalleLibro(@PathVariable Integer id) {
-        detalleLibroService.delete(id);
-        return ResponseEntity.noContent().build();
+    // GET -> /api/detalle-libro/listar
+    @GetMapping(ApiRoutes.DetalleLibro.LISTAR)
+    public ResponseEntity<ResponseBase<List<DetalleLibroResponse>>> listar() {
+        try {
+            List<DetalleLibroResponse> lista = service.listar();
+
+            return ResponseEntity.ok(
+                new ResponseBase<>(
+                    Mensaje.CODE_OK,
+                    Mensaje.MENSAJE_EXITO,
+                    lista
+                )
+            );
+
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(
+                new ResponseBase<>(
+                    Mensaje.CODE_ERROR,
+                    e.getMessage(),
+                    null
+                )
+            );
+        }
+    }
+
+    // GET -> /api/detalle-libro/obtener/{id}
+    @GetMapping(ApiRoutes.DetalleLibro.OBTENER_POR_ID)
+    public ResponseEntity<ResponseBase<DetalleLibroResponse>> obtener(@PathVariable Long id) {
+        try {
+            DetalleLibroResponse response = service.obtener(id);
+
+            return ResponseEntity.ok(
+                new ResponseBase<>(
+                    Mensaje.CODE_OK,
+                    Mensaje.MENSAJE_EXITO,
+                    response
+                )
+            );
+
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(
+                new ResponseBase<>(
+                    Mensaje.CODE_ERROR,
+                    e.getMessage(),
+                    null
+                )
+            );
+        }
+    }
+
+    // PUT -> /api/detalle-libro/actualizar/{id}
+    @PutMapping(ApiRoutes.DetalleLibro.ACTUALIZAR)
+    public ResponseEntity<ResponseBase<DetalleLibroResponse>> actualizar(
+            @PathVariable Long id,
+            @RequestBody DetalleLibroRequest request
+    ) {
+        try {
+            DetalleLibroResponse response = service.actualizar(id, request);
+
+            return ResponseEntity.ok(
+                new ResponseBase<>(
+                    Mensaje.CODE_OK,
+                    Mensaje.MENSAJE_EXITO,
+                    response
+                )
+            );
+
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(
+                new ResponseBase<>(
+                    Mensaje.CODE_ERROR,
+                    e.getMessage(),
+                    null
+                )
+            );
+        }
+    }
+
+    // DELETE -> /api/detalle-libro/eliminar/{id}
+    @DeleteMapping(ApiRoutes.DetalleLibro.ELIMINAR)
+    public ResponseEntity<ResponseBase<Void>> eliminar(@PathVariable Long id) {
+        try {
+            service.eliminar(id);
+
+            return ResponseEntity.ok(
+                new ResponseBase<>(
+                    Mensaje.CODE_OK,
+                    Mensaje.MENSAJE_EXITO,
+                    null
+                )
+            );
+
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(
+                new ResponseBase<>(
+                    Mensaje.CODE_ERROR,
+                    e.getMessage(),
+                    null
+                )
+            );
+        }
     }
 }

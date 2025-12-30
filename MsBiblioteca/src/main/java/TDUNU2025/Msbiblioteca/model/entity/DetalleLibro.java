@@ -5,8 +5,8 @@ import lombok.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "detalleLibro")
-@Data 
+@Table(name = "detalle_libro")
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -14,26 +14,24 @@ public class DetalleLibro {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer idDetalleLibro;
+    private Long idDetalleLibro;
 
-    @ManyToOne(fetch = FetchType.LAZY) // Opcional: Eager si siempre necesitas los datos del libro
-    @JoinColumn(name = "idLibro", nullable = false)
-    private Libro libro;
-    
+    @Column(nullable = false)
+    private Long idLibro;   // FK hacia libro
+
     @Column(nullable = false)
     private Integer stockTotal;
 
     @Column(nullable = false)
     private Integer stockDisponible;
 
-    @Column(length = 100)
     private String ubicacionFisica;
 
     private LocalDateTime fechaActualizacion;
 
+    @PrePersist
     @PreUpdate
-    @PrePersist 
-    public void preUpdate() {
+    public void actualizarFecha() {
         fechaActualizacion = LocalDateTime.now();
     }
 }

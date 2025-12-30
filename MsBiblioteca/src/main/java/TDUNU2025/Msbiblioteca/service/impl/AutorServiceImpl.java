@@ -1,9 +1,16 @@
 package TDUNU2025.Msbiblioteca.service.impl;
+<<<<<<< HEAD
 
 import TDUNU2025.Msbiblioteca.model.entity.Autor;
 import TDUNU2025.Msbiblioteca.repository.AutorRepository;
 import TDUNU2025.Msbiblioteca.service.AutorService;
 
+=======
+
+import TDUNU2025.Msbiblioteca.model.entity.Autor;
+import TDUNU2025.Msbiblioteca.repository.AutorRepository;
+import TDUNU2025.Msbiblioteca.service.AutorService;
+>>>>>>> origin/origin/jordinTrujillo
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

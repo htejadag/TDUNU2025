@@ -3,7 +3,10 @@ package TDUNU2025.Msbiblioteca.model.entity;
 import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDateTime;
+<<<<<<< HEAD
 import java.util.Set; // Necesario para la colección de Categorias
+=======
+>>>>>>> origin/origin/jordinTrujillo
 
 @Entity
 @Table(name = "libro")
@@ -33,6 +36,7 @@ public class Libro {
     private String portadaUrl;
     private String archivoDigitalUrl;
 
+<<<<<<< HEAD
     // **********************************************
     // ********* IMPLEMENTACIÓN DE RELACIONES *********
     // **********************************************
@@ -79,6 +83,10 @@ public class Libro {
     // ********* CAMPOS DE AUDITORÍA *********
     // **********************************************
     private LocalDateTime fechaActualizacion;
+=======
+    private Long idEditorial;     // FK
+    private Long idEstadoLibro;   // FK catálogo
+>>>>>>> origin/origin/jordinTrujillo
 
     @Column(updatable = false)
     private LocalDateTime fechaRegistro;
@@ -86,6 +94,7 @@ public class Libro {
     @PrePersist
     public void prePersist() {
         fechaRegistro = LocalDateTime.now();
+<<<<<<< HEAD
         fechaActualizacion = LocalDateTime.now();
     }
 
@@ -94,3 +103,7 @@ public class Libro {
         fechaActualizacion = LocalDateTime.now();
     }
 }
+=======
+    }
+}
+>>>>>>> origin/origin/jordinTrujillo

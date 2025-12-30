@@ -1,4 +1,13 @@
 package TDUNU2025.Msbiblioteca.service.impl;
+<<<<<<< HEAD
+=======
+
+import TDUNU2025.Msbiblioteca.model.entity.Multa;
+import TDUNU2025.Msbiblioteca.model.request.MultaRequest;
+import TDUNU2025.Msbiblioteca.model.response.MultaResponse;
+import TDUNU2025.Msbiblioteca.repository.MultaRepository;
+import TDUNU2025.Msbiblioteca.service.MultaService;
+>>>>>>> origin/origin/jordinTrujillo
 
 import TDUNU2025.Msbiblioteca.model.entity.Multa;
 import TDUNU2025.Msbiblioteca.model.request.MultaRequest;
