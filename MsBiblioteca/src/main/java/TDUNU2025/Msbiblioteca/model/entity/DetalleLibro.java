@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDateTime;
 
+
 @Entity
 @Table(name = "detalle_libro")
 @Data
@@ -16,8 +17,10 @@ public class DetalleLibro {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idDetalleLibro;
 
-    @Column(nullable = false)
-    private Long idLibro;   // FK hacia libro
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="idLibro")
+    @ToString.Exclude
+    private Libro libro; 
 
     @Column(nullable = false)
     private Integer stockTotal;
