@@ -108,8 +108,9 @@ public class CuentaUsuarioServiceImp implements CuentaUsuarioService {
          CuentaUsuarioModel cuenta = cuentaUsuarioRepository.findById(id)
             .orElseThrow(() -> new RuntimeException("Cuenta no existe"));
 
-        if (cuenta == null |!cuenta.isActivo()) {
-        throw new RuntimeException("Cuenta inactiva");
+        if (!cuenta.isActivo()) {
+                
+            throw new RuntimeException("Cuenta inactiva");
         
          }
 

@@ -7,6 +7,7 @@ public class ConsumoKafkaRequest {
 
     
     private Integer idCuentaUsuario;
+    private Integer idUsuarioCreacion;
     private Integer saldo;
 
     

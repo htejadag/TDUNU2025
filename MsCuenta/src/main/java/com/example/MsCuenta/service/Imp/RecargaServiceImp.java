@@ -14,6 +14,7 @@ import com.example.MsCuenta.model.request.Recarga.RecargaUpdateRequest;
 import com.example.MsCuenta.model.response.RecargaResponse;
 import com.example.MsCuenta.repository.CuentaUsuarioRepository;
 import com.example.MsCuenta.repository.RecargaRepository;
+import com.example.MsCuenta.service.MovimientoService;
 import com.example.MsCuenta.service.RecargaService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -28,6 +29,8 @@ public class RecargaServiceImp implements RecargaService {
     ModelMapper modelMapper;
     @Autowired
     CuentaUsuarioRepository cuentaUsuarioRepository;
+    @Autowired
+    MovimientoService movimientoService;
 
     @Override
     public List<RecargaResponse> listar() {
@@ -62,6 +65,8 @@ public class RecargaServiceImp implements RecargaService {
         model.setFechaCreacion(LocalDate.now());
 
         RecargaModel saved = recargaRepository.save(model);
+
+        movimientoService.guardar(idCuentaUsuario.getId(), recargaRequest.getMonto(), recargaRequest.getUsuarioCreacion());
 
         return modelMapper.map(saved, RecargaResponse.class);
     }

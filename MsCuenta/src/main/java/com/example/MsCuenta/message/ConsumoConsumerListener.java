@@ -31,14 +31,14 @@ public class ConsumoConsumerListener {
     topics = "${spring.kafka.template.default-topic}",
     groupId = "${spring.kafka.consumer.group-id}"
 )
-    public void onMessage(ConsumerRecord<Integer, String> record) {
+    public void onMessage(ConsumerRecord<Integer, String> consumerRecord) {
 
         try {
             ConsumoKafkaRequest data =
-                objectMapper.readValue(record.value(), ConsumoKafkaRequest.class);
+                objectMapper.readValue(consumerRecord.value(), ConsumoKafkaRequest.class);
 
             cuentaUsuarioService.descontarSaldo(data.getIdCuentaUsuario());
-            movimientoService.guardar(data.getIdCuentaUsuario());
+            movimientoService.guardarConKafka(data.getIdCuentaUsuario(),data.getIdUsuarioCreacion());
 
             log.info("Saldo actualizado | Cuenta={}",
                     data.getIdCuentaUsuario());

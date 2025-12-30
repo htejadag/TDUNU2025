@@ -49,7 +49,7 @@ public class MovimientoServiceImp implements MovimientoService {
     }
 
     @Override
-    public MovimientoResponse guardar(Integer idCuentaUsuario) {
+    public MovimientoResponse guardarConKafka(Integer idCuentaUsuario,Integer idUsuarioCreacion) {
 
         MovimientoModel model = new MovimientoModel();
 
@@ -63,8 +63,8 @@ public class MovimientoServiceImp implements MovimientoService {
         model.setIdTipoMovimiento(idTipoMovimiento);
         model.setMonto(1);
         model.setFechaMovimiento(LocalDate.now());
-        model.setActivo(true);
-        model.setUsuarioCreacion(1);
+        model.setActivo(false);
+        model.setUsuarioCreacion(idUsuarioCreacion);
         model.setFechaCreacion(LocalDate.now());
 
         MovimientoModel saved = movimientoRepository.save(model);
@@ -91,8 +91,6 @@ public class MovimientoServiceImp implements MovimientoService {
         model.setUsuarioModificacion(movimientoUpdateRequest.getUsuarioModificacion());
         model.setFechaModificacion(LocalDate.now());
 
-        model.setUsuarioModificacion(movimientoUpdateRequest.getUsuarioModificacion());
-
         MovimientoModel actualizado = movimientoRepository.save(model);
 
         return modelMapper.map(actualizado, MovimientoResponse.class);
@@ -111,5 +109,33 @@ public class MovimientoServiceImp implements MovimientoService {
 
 
     }
+
+    @Override
+    public MovimientoResponse guardar(Integer idCuentaUsuario, Integer monto, Integer idUsuarioCreacion) {
+
+         CuentaUsuarioModel cuenta = cuentaUsuarioRepository.findById(idCuentaUsuario)
+            .orElseThrow(() -> new RuntimeException("No existe la cuenta"));
+
+        // 2 = RECARGA (catálogo)
+        CatalogoModel tipoMovimiento = catalogoRepository.findById(2)
+            .orElseThrow(() -> new RuntimeException("Tipo movimiento no existe"));
+
+        MovimientoModel model = new MovimientoModel();
+        model.setIdCuentaUsuario(cuenta);
+        model.setIdTipoMovimiento(tipoMovimiento);
+        model.setMonto(monto);
+        model.setFechaMovimiento(LocalDate.now());
+        model.setActivo(true);
+        model.setUsuarioCreacion(idUsuarioCreacion);
+        model.setFechaCreacion(LocalDate.now());
+
+        MovimientoModel saved = movimientoRepository.save(model);
+        return modelMapper.map(saved, MovimientoResponse.class);
+
+
+        
+    }
+
+    
     
 }
