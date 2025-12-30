@@ -12,8 +12,6 @@ public class ApiRoutes {
 
         public static final String BUSCAR_POR_NOMBRE = "/buscarPorNombre";
         public static final String BUSCAR_POR_ESTADO = "/buscarPorEstado";
-        
-        // Nuevos endpoints
         public static final String VIGENTES = "/vigentes";
         public static final String DETALLE_COMPLETO = "/{id}/detalle-completo";
     }
@@ -29,8 +27,6 @@ public class ApiRoutes {
         public static final String BUSCAR_POR_SESION = "/buscarPorSesion";
         public static final String BUSCAR_POR_MIEMBRO = "/buscarPorMiembro";
         public static final String BUSCAR_POR_ESTADO = "/buscarPorEstado";
-        
-        // Nuevo endpoint
         public static final String RESUMEN_POR_SESION = "/sesion/{id}/resumen";
     }
 
@@ -45,8 +41,6 @@ public class ApiRoutes {
         public static final String BUSCAR_POR_CONSEJO = "/buscarPorConsejo";
         public static final String BUSCAR_POR_PERSONA = "/buscarPorPersona";
         public static final String BUSCAR_POR_CARGO = "/buscarPorCargo";
-        
-        // Nuevo endpoint - miembros activos por cargo
         public static final String POR_CARGO = "/por-cargo/{idCargo}";
     }
 
@@ -62,8 +56,6 @@ public class ApiRoutes {
         public static final String BUSCAR_POR_NUMERO = "/buscarPorNumero";
         public static final String BUSCAR_POR_FECHA = "/buscarPorFecha";
         public static final String BUSCAR_POR_TIPO = "/buscarPorTipo";
-        
-        // Nuevos endpoints
         public static final String POR_CONSEJO_Y_TIPO = "/consejo/{id}/por-tipo/{tipoId}";
         public static final String PENDIENTES_POR_CONSEJO = "/consejo/{id}/pendientes";
         public static final String FINALIZAR = "/{id}/finalizar";

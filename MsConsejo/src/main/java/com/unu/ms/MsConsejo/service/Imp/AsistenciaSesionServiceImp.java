@@ -73,7 +73,7 @@ public class AsistenciaSesionServiceImp implements AsistenciaSesionService {
 
         @Override
         public List<AsistenciaSesionResponse> buscarPorMiembro(Integer idMiembro) {
-                return asistenciaSesionRepository.findByMiembro(idMiembro).stream().map(mapper::toResponse).toList();
+                return asistenciaSesionRepository.findByMiembro_IdMiembro(idMiembro).stream().map(mapper::toResponse).toList();
         }
 
         @Override

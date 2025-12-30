@@ -14,9 +14,9 @@ import org.springframework.data.repository.query.Param;
 public interface AsistenciaSesionRepository extends JpaRepository<AsistenciaSesionModel, Integer> {
 
     public List<AsistenciaSesionModel> findBySesion_IdSesion(Integer idSesion);
-    public List<AsistenciaSesionModel> findByMiembro(Integer idMiembro);
+    public List<AsistenciaSesionModel> findByMiembro_IdMiembro(Integer idMiembro);
     public List<AsistenciaSesionModel> findByIdEstadoAsistencia(Integer idEstadoAsistencia);
-    public List<AsistenciaSesionModel> findBySesion_IdSesionAndMiembro(Integer idSesion, Integer idMiembro);
+    public List<AsistenciaSesionModel> findBySesion_IdSesionAndMiembro_IdMiembro(Integer idSesion, Integer idMiembro);
     
     // Nuevo método para contar por estado de asistencia en una sesión
     long countBySesion_IdSesionAndIdEstadoAsistencia(Integer idSesion, Integer idEstadoAsistencia);
