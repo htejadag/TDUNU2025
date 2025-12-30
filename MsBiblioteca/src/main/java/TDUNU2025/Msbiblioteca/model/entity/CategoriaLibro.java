@@ -37,8 +37,8 @@ public class CategoriaLibro {
         fechaActualizacion = LocalDateTime.now();
     }
 
-    // Opcional: Relación inversa (no es estrictamente necesaria para JPA, pero útil)
-    @ManyToMany(mappedBy = "categorias")
+    // Opcional: Relación inversa 
+    @ManyToMany(mappedBy = "categoria")
     @ToString.Exclude // Evita StackOverflowError en toString()
     private Set<Libro> libros;
 }

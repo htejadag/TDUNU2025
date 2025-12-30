@@ -15,9 +15,13 @@
   <name>MsTemplate</name>
   <description>Plantilla base</description>
   <url />
+  <!--Versionados de dependencias -->
   <properties>
     <java.version>25</java.version>
     <lombok.version>1.18.42</lombok.version>
+    <redis.version>4.0.1</redis.version>
+    <modelmapper.version>3.2.6</modelmapper.version>
+    <springdoc.version>3.0.0</springdoc.version>
   </properties>
   <dependencies>
     <dependency>
@@ -42,13 +46,13 @@
     <dependency>
       <groupId>org.modelmapper</groupId>
       <artifactId>modelmapper</artifactId>
-      <version>3.2.6</version>
+      <version>${modelmapper.version}</version>
     </dependency>
 
     <dependency>
       <groupId>org.springdoc</groupId>
       <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
-      <version>3.0.0</version>
+      <version>${springdoc.version}</version>
     </dependency>
 
     <dependency>
@@ -67,7 +71,7 @@
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-data-redis</artifactId>
-      <version>4.0.1</version>
+      <version>${redis.version}</version>
     </dependency>
 
   </dependencies>

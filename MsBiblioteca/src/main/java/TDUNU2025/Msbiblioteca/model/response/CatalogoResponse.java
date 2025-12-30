@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class CatalogoResponse implements Serializable {
     private Integer idCatalogo;
-    private String nombre;
+    private String nombre;  
     private String descripcion;
     private Integer estado;
     
