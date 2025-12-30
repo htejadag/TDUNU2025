@@ -1,14 +1,17 @@
 package Ms_Reingresante.Ms_Reingresante.model.response;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+import lombok.Data;
 
-public class resolucionResponse {
-    
-    public String resNumero;
-    public String resCodigoActivacion;
-    public LocalDateTime resFechaEmision;
-    
-     
-   
+@Data
+public class ResolucionResponse {
+
+    private String resNumero;
+    private String resCodigoActivacion;
+    private LocalDate resFechaEmision;
+    private String resEmitidoPor;
+    private String usuarioCreacion;
+    private LocalDate fechaCreacion;  
+    private String usuarioModificacion;
+    private LocalDate fechaModificacion; 
 }
-

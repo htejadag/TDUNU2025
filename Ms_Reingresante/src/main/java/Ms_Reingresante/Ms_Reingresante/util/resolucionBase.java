@@ -7,29 +7,29 @@ import lombok.Data;
 @Data
 @Builder
 
-public class resolucionBase<T> {
-    private boolean success;
+public class ResolucionBase<T> {
+  private boolean success;
   private String message;
   private T data;
 
-  public static <T> resolucionBase<T> ok(T data) {
-    return resolucionBase.<T>builder()
+  public static <T> ResolucionBase<T> ok(T data) {
+    return ResolucionBase.<T>builder()
         .success(true)
         .message("Resolucion, operación exitosa")
         .data(data)
         .build();
   }
 
-  public static <T> resolucionBase<T> ok(String message, T data) {
-    return resolucionBase.<T>builder()
+  public static <T> ResolucionBase<T> ok(String message, T data) {
+    return ResolucionBase.<T>builder()
         .success(true)
         .message(message)
         .data(data)
         .build();
   }
 
-  public static <T> resolucionBase<T> error(String message) {
-    return resolucionBase.<T>builder()
+  public static <T> ResolucionBase<T> error(String message) {
+    return ResolucionBase.<T>builder()
         .success(false)
         .message(message)
         .build();

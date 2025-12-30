@@ -1,10 +1,7 @@
 package Ms_Reingresante.Ms_Reingresante.model.entity;
 
 
-
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -17,7 +14,7 @@ import lombok.Data;
 @Data
 @Entity
 @Table(name = "proceso_Reingreso")
-public class procesoReingresoModel {
+public class ProcesoReingresoModel {
  
        @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -58,25 +55,25 @@ public class procesoReingresoModel {
     private LocalDate procFechaEmisionInforme;
 
     @Column(name = "Proc_Fecha_Solicitud_Reingreso")
-    private LocalDateTime procFechaSolicitudReingreso;
+    private LocalDate procFechaSolicitudReingreso;
 
     @Column(name = "Proc_Fecha_Resolucion")
-    private LocalDateTime procFechaResolucion;
+    private LocalDate procFechaResolucion;
 
     @Column(name = "Proc_Fecha_Matricula")
-    private LocalDateTime procFechaMatricula;
+    private LocalDate procFechaMatricula;
 
     @Column(name = "Proc_Fase_Actual")
     private String procFaseActual;
 
     @Column(name = "FECHA_CREACION")
-    private LocalDateTime fechaCreacion;
+    private LocalDate fechaCreacion;
 
     @Column(name = "USUARIO_CREACION")
     private String usuarioCreacion;
 
     @Column(name = "FECHA_MODIFICACION")
-    private LocalDateTime fechaModificacion;
+    private LocalDate fechaModificacion;
 
     @Column(name = "USUARIO_MODIFICACION")
     private String usuarioModificacion;

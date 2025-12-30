@@ -11,4 +11,5 @@ public interface PlanEstudiosDetalleService {
     PlanEstudiosDetalleResponse guardar(PlanEstudiosDetalleRequest plan);
     PlanEstudiosDetalleResponse modificar(Integer id, PlanEstudiosDetalleRequest plan);
     void eliminar(Integer id);
+    List<PlanEstudiosDetalleResponse> listarMallaPorPlan(Integer idPlanEstudio);
 }

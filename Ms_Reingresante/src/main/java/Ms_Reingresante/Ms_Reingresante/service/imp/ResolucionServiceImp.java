@@ -8,9 +8,9 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import Ms_Reingresante.Ms_Reingresante.model.entity.resolucionModel;
-import Ms_Reingresante.Ms_Reingresante.model.request.resolucionRequest;
-import Ms_Reingresante.Ms_Reingresante.model.response.resolucionResponse;
+import Ms_Reingresante.Ms_Reingresante.model.entity.ResolucionModel;
+import Ms_Reingresante.Ms_Reingresante.model.request.ResolucionRequest;
+import Ms_Reingresante.Ms_Reingresante.model.response.ResolucionResponse;
 import Ms_Reingresante.Ms_Reingresante.repository.ResolucionRepository;
 import Ms_Reingresante.Ms_Reingresante.service.ResolucionService;
 
@@ -27,38 +27,38 @@ public class ResolucionServiceImp implements ResolucionService {
     private ModelMapper modelMapper;
 
     @Override
-    public List<resolucionResponse> listar() {
+    public List<ResolucionResponse> listarResolucion() {
         return resolucionRepository.findAll()
             .stream()
-            .map(model -> modelMapper.map(model, resolucionResponse.class))
+            .map(model -> modelMapper.map(model, ResolucionResponse.class))
             .toList();
     }
 
 
 
      @Override
-  public resolucionResponse obtenerPorId(Integer id) {
+  public ResolucionResponse obtenerPorIdResolucion(Integer id) {
     return resolucionRepository.findById(id)
-        .map(model -> modelMapper.map(model, resolucionResponse.class))
+        .map(model -> modelMapper.map(model, ResolucionResponse.class))
         .orElse(null);
   }
 
   @Override
-  public resolucionResponse guardar(resolucionRequest request) {
+  public ResolucionResponse guardarResolucion(ResolucionRequest request) {
     // 1. Request -> Model
-    resolucionModel model = modelMapper.map(request,resolucionModel.class);
+    ResolucionModel model = modelMapper.map(request,ResolucionModel.class);
 
     // 2. Guardar en BD
-    resolucionModel saved = resolucionRepository.save(model);
+    ResolucionModel saved = resolucionRepository.save(model);
 
     // 3. Model -> Response
-   resolucionResponse response = modelMapper.map(saved, resolucionResponse.class);
+   ResolucionResponse response = modelMapper.map(saved, ResolucionResponse.class);
 
     return response;
   }
 
   @Override
-  public void eliminar(Integer id) {
+  public void eliminarResolucion(Integer id) {
     resolucionRepository.deleteById(id);
   }
 
