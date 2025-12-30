@@ -10,8 +10,8 @@ import lombok.Data;
 public class ClasificadorIngresoModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "clasificador_ingresoid")
-    private Integer clasificador_ingresoid;
+    @Column(name = "clasificadoringresoid")
+    private Integer clasificadoringresoid;
 
     @Column(name = "codigo")
     private String codigo;

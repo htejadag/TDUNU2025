@@ -48,7 +48,7 @@ public class ConceptoPagoController {
                                    @RequestParam("id_usuario") int id_usuario) {
         ConceptoPagoModel c = new ConceptoPagoModel();
         ClasificadorIngresoModel clasificador = new ClasificadorIngresoModel();
-        clasificador.setClasificador_ingresoid(clasificadorid);
+        clasificador.setClasificadoringresoid(clasificadorid);
         c.setClasificador_ingreso(clasificador);
         c.setNombre_concepto(nombre_concepto);
         c.setPrecio_base(precio_base);
@@ -74,7 +74,7 @@ public class ConceptoPagoController {
             return resp;
         }
         ClasificadorIngresoModel clasificador = new ClasificadorIngresoModel();
-        clasificador.setClasificador_ingresoid(clasificadorid);
+        clasificador.setClasificadoringresoid(clasificadorid);
         c.setClasificador_ingreso(clasificador);
         c.setNombre_concepto(nombre_concepto);
         c.setPrecio_base(precio_base);
