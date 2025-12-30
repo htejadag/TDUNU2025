@@ -12,6 +12,7 @@ import com.example.MsPlanEstudios.model.request.PlanEstudiosDetalleRequest;
 import com.example.MsPlanEstudios.model.response.PlanEstudiosDetalleResponse;
 import com.example.MsPlanEstudios.repository.PlanEstudiosDetalleRepository;
 import com.example.MsPlanEstudios.repository.PlanEstudiosPrerequisitoRepository;
+import com.example.MsPlanEstudios.service.CatalogoService;
 import com.example.MsPlanEstudios.service.PlanEstudiosDetalleService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -27,6 +28,9 @@ public class PlanEstudiosDetalleServiceImp implements PlanEstudiosDetalleService
 
     @Autowired
     private ModelMapper modelMapper;
+
+    @Autowired
+    private CatalogoService catalogoService;
 
     @Override
     public List<PlanEstudiosDetalleResponse> listar() {
@@ -45,6 +49,9 @@ public class PlanEstudiosDetalleServiceImp implements PlanEstudiosDetalleService
 
     @Override
     public PlanEstudiosDetalleResponse guardar(PlanEstudiosDetalleRequest request) {
+        catalogoService.obtenerActivo(request.getIdCiclo());
+        //catalogoService.obtenerActivo(request.getIdTipoCursoPlan());
+        
         // 1. Request -> Model
         PlanEstudiosDetalleModel model = modelMapper.map(request, PlanEstudiosDetalleModel.class);
 
