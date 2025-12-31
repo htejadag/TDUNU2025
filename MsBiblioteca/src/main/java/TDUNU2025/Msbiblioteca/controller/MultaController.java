@@ -1,158 +1,103 @@
 package TDUNU2025.Msbiblioteca.controller;
 
-import TDUNU2025.Msbiblioteca.model.entity.Multa;
 import TDUNU2025.Msbiblioteca.model.request.MultaRequest;
 import TDUNU2025.Msbiblioteca.model.response.MultaResponse;
 import TDUNU2025.Msbiblioteca.service.MultaService;
 import TDUNU2025.Msbiblioteca.util.ApiRoutes;
 import TDUNU2025.Msbiblioteca.util.Mensaje;
 import TDUNU2025.Msbiblioteca.util.ResponseBase;
-
-import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(ApiRoutes.Multa.BASE)
+@RequiredArgsConstructor
 public class MultaController {
 
-    @Autowired
-    private MultaService multaService;
+    private final MultaService multaService;
 
-    @Autowired
-    private ModelMapper modelMapper;
-
-    // 1. LISTAR TODOS (GET /api/multa)
-    @GetMapping
-    public ResponseEntity<ResponseBase<List<MultaResponse>>> listarMultas() {
-        List<Multa> lista = multaService.listar();
-
-        List<MultaResponse> responseList = lista.stream()
-                .map(m -> modelMapper.map(m, MultaResponse.class))
-                .collect(Collectors.toList());
-
-        ResponseBase<List<MultaResponse>> response = new ResponseBase<>(
-                Mensaje.CODE_OK,
-                Mensaje.MENSAJE_EXITO,
-                responseList
+    @GetMapping(ApiRoutes.Multa.LISTAR)
+    public ResponseEntity<ResponseBase<List<MultaResponse>>> listar() {
+        return ResponseEntity.ok(
+                new ResponseBase<>(
+                        Mensaje.CODE_OK,
+                        Mensaje.MENSAJE_EXITO,
+                        multaService.listar()
+                )
         );
-
-        return ResponseEntity.ok(response);
     }
 
-    // 2. OBTENER POR ID (GET /api/multa/{id})
-    @GetMapping("/{id}")
-    public ResponseEntity<ResponseBase<MultaResponse>> obtenerMulta(@PathVariable Integer id) {
-        Optional<Multa> multaOpt = multaService.obtener(id);
-
-        if (multaOpt.isPresent()) {
-            MultaResponse multaRes = modelMapper.map(multaOpt.get(), MultaResponse.class);
-
-            ResponseBase<MultaResponse> response = new ResponseBase<>(
-                    Mensaje.CODE_OK,
-                    Mensaje.MENSAJE_EXITO,
-                    multaRes
-            );
-
-            return ResponseEntity.ok(response);
-        } else {
-            ResponseBase<MultaResponse> response = new ResponseBase<>(
-                    Mensaje.CODE_ERROR,
-                    Mensaje.MENSAJE_NO_ENCONTRADO,
-                    null
-            );
-
-            return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
-        }
-    }
-
-    // 3. GUARDAR (POST /api/multa)
-    @PostMapping
-    public ResponseEntity<ResponseBase<MultaResponse>> registrarMulta(@RequestBody MultaRequest request) {
-
-        Multa multaEntity = modelMapper.map(request, Multa.class);
-        Multa multaGuardada = multaService.registrar(multaEntity);
-
-        MultaResponse multaRes = modelMapper.map(multaGuardada, MultaResponse.class);
-
-        ResponseBase<MultaResponse> response = new ResponseBase<>(
-                Mensaje.CODE_OK,
-                Mensaje.MENSAJE_GUARDADO,
-                multaRes
+    @GetMapping(ApiRoutes.Multa.OBTENER_POR_ID)
+    public ResponseEntity<ResponseBase<MultaResponse>> obtener(@PathVariable Integer id) {
+        return ResponseEntity.ok(
+                new ResponseBase<>(
+                        Mensaje.CODE_OK,
+                        Mensaje.MENSAJE_EXITO,
+                        multaService.obtener(id)
+                )
         );
-
-        return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
-    // 4. ACTUALIZAR (PUT /api/multa/{id})
-    @PutMapping("/{id}")
-    public ResponseEntity<ResponseBase<MultaResponse>> actualizarMulta(
+    @PostMapping(ApiRoutes.Multa.GUARDAR)
+    public ResponseEntity<ResponseBase<MultaResponse>> registrar(@RequestBody MultaRequest request) {
+        MultaResponse response = multaService.registrar(request);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(
+                new ResponseBase<>(
+                        Mensaje.CODE_OK,
+                        Mensaje.MENSAJE_GUARDADO,
+                        response
+                )
+        );
+    }
+
+
+    @PutMapping(ApiRoutes.Multa.ACTUALIZAR)
+    public ResponseEntity<ResponseBase<MultaResponse>> actualizar(
             @PathVariable Integer id,
-            @RequestBody MultaRequest request
-    ) {
+            @RequestBody MultaRequest request) {
 
-        Optional<Multa> multaExistente = multaService.obtener(id);
+        MultaResponse response = multaService.actualizar(id, request);
 
-        if (multaExistente.isPresent()) {
-
-            Multa multaEntity = modelMapper.map(request, Multa.class);
-            multaEntity.setIdMulta(id);
-
-            Multa multaActualizada = multaService.actualizar(multaEntity);
-
-            MultaResponse multaRes = modelMapper.map(multaActualizada, MultaResponse.class);
-
-            ResponseBase<MultaResponse> response = new ResponseBase<>(
-                    Mensaje.CODE_OK,
-                    Mensaje.MENSAJE_ACTUALIZADO,
-                    multaRes
-            );
-
-            return ResponseEntity.ok(response);
-
-        } else {
-            ResponseBase<MultaResponse> response = new ResponseBase<>(
-                    Mensaje.CODE_ERROR,
-                    Mensaje.MENSAJE_NO_ENCONTRADO,
-                    null
-            );
-
-            return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
-        }
+        return ResponseEntity.ok(
+                new ResponseBase<>(
+                        Mensaje.CODE_OK,
+                        Mensaje.MENSAJE_ACTUALIZADO,
+                        response
+                )
+        );
     }
 
-    // 5. ELIMINAR (DELETE /api/multa/{id})
-    @DeleteMapping("/{id}")
-    public ResponseEntity<ResponseBase<Void>> eliminarMulta(@PathVariable Integer id) {
+ 
+    @DeleteMapping(ApiRoutes.Multa.ELIMINAR)
+    public ResponseEntity<ResponseBase<Void>> eliminar(@PathVariable Integer id) {
+        multaService.eliminar(id);
 
-        Optional<Multa> multaExistente = multaService.obtener(id);
+        return ResponseEntity.ok(
+                new ResponseBase<>(
+                        Mensaje.CODE_OK,
+                        Mensaje.MENSAJE_ELIMINADO,
+                        null
+                )
+        );
+    }
 
-        if (multaExistente.isPresent()) {
-            multaService.eliminar(id);
 
-            ResponseBase<Void> response = new ResponseBase<>(
-                    Mensaje.CODE_OK,
-                    Mensaje.MENSAJE_ELIMINADO,
-                    null
-            );
+    @PostMapping("/pagar/{id}")
+    public ResponseEntity<ResponseBase<MultaResponse>> pagarMulta(@PathVariable Integer id) {
 
-            return ResponseEntity.ok(response);
-        } else {
+        MultaResponse response = multaService.registrarPago(id);
 
-            ResponseBase<Void> response = new ResponseBase<>(
-                    Mensaje.CODE_ERROR,
-                    Mensaje.MENSAJE_NO_ENCONTRADO,
-                    null
-            );
-
-            return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
-        }
-
+        return ResponseEntity.ok(
+                new ResponseBase<>(
+                        Mensaje.CODE_OK,
+                        "Multa pagada correctamente",
+                        response
+                )
+        );
     }
 }

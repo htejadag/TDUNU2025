@@ -1,43 +1,46 @@
 package TDUNU2025.Msbiblioteca.model.entity;
 
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.AllArgsConstructor;
+import lombok.*;
+import java.io.Serializable;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "prestamo") // Nombre exacto de la tabla en BD
-@Data // Lombok genera Getters, Setters, toString, etc.
-@NoArgsConstructor // Constructor vacío (Obligatorio para JPA)
-@AllArgsConstructor // Constructor con argumentos
-public class Prestamo {
+@Table(name = "prestamo")
+@Getter
+@Setter
+@ToString
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+public class Prestamo implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @EqualsAndHashCode.Include
+    @Column(name = "id_prestamo")
     private Integer idPrestamo;
 
-    // --- CLAVES FORÁNEAS (Tratadas como campos simples) ---
-    @Column(nullable = false)
+    @Column(name = "id_usuario", nullable = false)
     private Integer idUsuario;
 
-    @Column(nullable = false)
-    private Integer idLibro;
+    @Column(name = "id_libro", nullable = false)
+    private Long idLibro; 
 
-    // --- FECHAS ---
-    // Usamos LocalDate, JPA lo mapea automáticamente a DATE en SQL
-    @Column(nullable = false)
+    @Column(name = "fecha_prestamo", nullable = false)
     private LocalDate fechaPrestamo;
 
-    @Column(nullable = false)
+    @Column(name = "fecha_vencimiento", nullable = false)
     private LocalDate fechaVencimiento;
 
-    // Puede ser nulo porque al crear el préstamo aún no se devuelve
+    @Column(name = "fecha_devolucion")
     private LocalDate fechaDevolucion;
 
-    // --- OTROS CAMPOS ---
-    @Column(nullable = false)
-    private Integer idEstadoPrestamo; // 1: Pendiente, 2: Devuelto, etc.
+    @Column(name = "id_estado_prestamo", nullable = false)
+    private Integer idEstadoPrestamo; 
 
     @Column(columnDefinition = "TEXT")
     private String observaciones;

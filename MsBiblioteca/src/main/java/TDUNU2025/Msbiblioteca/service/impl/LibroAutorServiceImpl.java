@@ -1,5 +1,6 @@
 package TDUNU2025.Msbiblioteca.service.impl;
 
+import TDUNU2025.Msbiblioteca.exception.BusinessException;
 import TDUNU2025.Msbiblioteca.model.entity.LibroAutor;
 import TDUNU2025.Msbiblioteca.model.request.LibroAutorRequest;
 import TDUNU2025.Msbiblioteca.model.response.LibroAutorResponse;
@@ -10,8 +11,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -21,64 +24,89 @@ public class LibroAutorServiceImpl implements LibroAutorService {
     private final LibroAutorRepository repo;
     private final ModelMapper modelMapper;
 
+    // CONSTANTES (SonarQube: Evitar duplicar strings literales)
+    private static final String MSG_NOT_FOUND = "La asignación Libro-Autor no existe";
+    private static final String MSG_DUPLICATE = "Este autor ya está asignado a este libro";
+    private static final String MSG_REQ_LIBRO = "El ID del libro es obligatorio";
+    private static final String MSG_REQ_AUTOR = "El ID del autor es obligatorio";
+
     @Override
+    @Transactional(readOnly = true)
     public List<LibroAutorResponse> listar() {
-        return repo.findAll()
-                .stream()
-                .map(libroAutor -> modelMapper.map(libroAutor, LibroAutorResponse.class))
-                .toList(); // Java 17+
+        List<LibroAutor> lista = repo.findAll();
+        
+        return lista.stream()
+                .map(entity -> modelMapper.map(entity, LibroAutorResponse.class))
+                .collect(Collectors.toList());
     }
 
     @Override
+    @Transactional(readOnly = true)
     public LibroAutorResponse obtener(Long id) {
-        LibroAutor libroAutor = repo.findById(id)
-                .orElseThrow(() -> new RuntimeException("Relación Libro-Autor no encontrada"));
+        LibroAutor entity = repo.findById(id)
+                .orElseThrow(() -> new BusinessException(MSG_NOT_FOUND));
 
-        return modelMapper.map(libroAutor, LibroAutorResponse.class);
+        return modelMapper.map(entity, LibroAutorResponse.class);
     }
 
     @Override
+    @Transactional
     public LibroAutorResponse registrar(LibroAutorRequest request) {
+        // 1. Validar integridad de datos (Request)
+        validarRequest(request);
 
-        if (repo.existsByIdLibroAndIdAutorAndRol(
-                request.getIdLibro(),
-                request.getIdAutor(),
-                request.getRol()
-        )) {
-            throw new RuntimeException("Este autor ya está registrado con ese rol en este libro");
+        // 2. Validar duplicados en BD
+        if (repo.existsByIdLibroAndIdAutor(request.getIdLibro(), request.getIdAutor())) {
+            throw new BusinessException(MSG_DUPLICATE);
         }
 
-        // Request -> Entity
         LibroAutor entity = modelMapper.map(request, LibroAutor.class);
 
-        // Guardar
         LibroAutor saved = repo.save(entity);
+        log.info("Relación guardada: Libro {} - Autor {}", saved.getIdLibro(), saved.getIdAutor());
 
-        // Entity -> Response
         return modelMapper.map(saved, LibroAutorResponse.class);
     }
 
     @Override
+    @Transactional
     public LibroAutorResponse actualizar(Long id, LibroAutorRequest request) {
+        LibroAutor entity = repo.findById(id)
+                .orElseThrow(() -> new BusinessException(MSG_NOT_FOUND));
 
-        LibroAutor libroAutor = repo.findById(id)
-                .orElseThrow(() -> new RuntimeException("Relación Libro-Autor no encontrada"));
+        validarRequest(request);
 
-        // Actualiza SOLO los datos del request
-        modelMapper.map(request, libroAutor);
+        boolean idsCambiaron = !entity.getIdLibro().equals(request.getIdLibro()) || 
+                               !entity.getIdAutor().equals(request.getIdAutor());
 
-        LibroAutor updated = repo.save(libroAutor);
+        if (idsCambiaron && repo.existsByIdLibroAndIdAutor(request.getIdLibro(), request.getIdAutor())) {
+             throw new BusinessException(MSG_DUPLICATE);
+        }
 
+        modelMapper.map(request, entity);
+        entity.setIdLibroAutor(id); 
+
+        LibroAutor updated = repo.save(entity);
+        
         return modelMapper.map(updated, LibroAutorResponse.class);
     }
 
     @Override
+    @Transactional
     public void eliminar(Long id) {
-
         if (!repo.existsById(id)) {
-            throw new RuntimeException("La relación Libro-Autor no existe");
+            throw new BusinessException(MSG_NOT_FOUND);
         }
-
         repo.deleteById(id);
+        log.warn("Relación Libro-Autor eliminada ID: {}", id);
+    }
+
+    private void validarRequest(LibroAutorRequest request) {
+        if (request.getIdLibro() == null) {
+            throw new BusinessException(MSG_REQ_LIBRO);
+        }
+        if (request.getIdAutor() == null) {
+            throw new BusinessException(MSG_REQ_AUTOR);
+        }
     }
 }

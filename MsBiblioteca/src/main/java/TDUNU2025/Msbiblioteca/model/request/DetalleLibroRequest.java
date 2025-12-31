@@ -1,12 +1,18 @@
 package TDUNU2025.Msbiblioteca.model.request;
 
-import lombok.Data;
+import lombok.*;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class DetalleLibroRequest {
 
-    private Long idLibro;          // FK al libro
+    private Long idLibro;         
+    
     private Integer stockTotal;
+    
     private Integer stockDisponible;
+    
     private String ubicacionFisica;
 }

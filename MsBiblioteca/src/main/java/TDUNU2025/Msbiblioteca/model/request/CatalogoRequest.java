@@ -1,11 +1,16 @@
 package TDUNU2025.Msbiblioteca.model.request;
 
-import lombok.Data;
+import lombok.*;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class CatalogoRequest {
-    // No incluimos idCatalogo porque es autogenerado por la base de datos
+    
     private String nombre;
+    
     private String descripcion;
-    private Integer estado; // 1: Activo, 0: Inactivo
+    
+    private Integer estado; 
 }

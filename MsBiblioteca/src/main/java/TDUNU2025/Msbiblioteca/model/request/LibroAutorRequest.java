@@ -8,7 +8,9 @@ import lombok.*;
 @Builder
 public class LibroAutorRequest {
 
-    private Long idLibro;   // FK hacia libro
-    private Long idAutor;   // FK hacia autor
-    private String rol;     // Autor principal, coautor, editor, etc.
+    private Long idLibro;   
+    
+    private Integer idAutor; 
+    
+    private String rol;    
 }

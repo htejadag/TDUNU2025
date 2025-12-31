@@ -1,17 +1,21 @@
 package TDUNU2025.Msbiblioteca.model.request;
 
-import lombok.Data;
+import lombok.*;
 import java.time.LocalDate;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class MultaRequest {
-    
+
     private Integer idUsuario;
-    private Integer idPrestamo;
+
+    private Long idPrestamo; 
+
     private Double monto;
-    private String concepto;
-    private LocalDate fechaGeneracion; // Se envía si se permite fecha manual, sino se puede omitir y usar LocalDate.now() en el Service
-    private LocalDate fechaPago;
-    private Integer idEstadoMulta;
-    
+
+    private String concepto; 
+
+    private Integer idEstadoMulta; 
 }

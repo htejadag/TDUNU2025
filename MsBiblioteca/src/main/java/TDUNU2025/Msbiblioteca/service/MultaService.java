@@ -16,4 +16,6 @@ public interface MultaService {
     MultaResponse actualizar(Integer id, MultaRequest request);
 
     void eliminar(Integer id);
+    
+    MultaResponse registrarPago(Integer id);
 }

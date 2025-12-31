@@ -1,12 +1,11 @@
 package TDUNU2025.Msbiblioteca.repository;
 
+import TDUNU2025.Msbiblioteca.model.entity.Autor;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import TDUNU2025.Msbiblioteca.model.entity.Autor;
-
-@Repository
+@Repository 
 public interface AutorRepository extends JpaRepository<Autor, Integer> {
-    // Al extender JpaRepository, ya tenemos listos los métodos:
-    // save(), findById(), findAll(), deleteById(), etc.
+    
+    boolean existsByIdPersona(Integer idPersona);
 }

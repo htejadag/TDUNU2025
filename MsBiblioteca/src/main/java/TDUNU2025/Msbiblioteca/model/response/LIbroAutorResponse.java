@@ -9,9 +9,13 @@ import java.time.LocalDateTime;
 @Builder
 public class LibroAutorResponse {
 
-    private Long idLibroAutor;   // PK
-    private Long idLibro;        // FK
-    private Long idAutor;        // FK
-    private String rol;          // Rol del autor
+    private Long idLibroAutor;   
+
+    private Long idLibro;        
+
+    private Integer idAutor;        
+
+    private String rol;          
+
     private LocalDateTime fechaRegistro;
 }

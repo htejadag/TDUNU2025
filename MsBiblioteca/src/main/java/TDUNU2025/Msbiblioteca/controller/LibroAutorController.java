@@ -19,134 +19,64 @@ import java.util.List;
 @RequiredArgsConstructor
 public class LibroAutorController {
 
-    private final LibroAutorService service;
-    private final ModelMapper modelMapper;
+        private final LibroAutorService service;
 
-    // POST -> /api/libro-autor/guardar
-    @PostMapping(ApiRoutes.LibroAutor.GUARDAR)
-    public ResponseEntity<ResponseBase<LibroAutorResponse>> registrar(@RequestBody LibroAutorRequest request) {
-        try {
-            LibroAutorResponse response = service.registrar(request);
+        @PostMapping(ApiRoutes.LibroAutor.GUARDAR)
+        public ResponseEntity<ResponseBase<LibroAutorResponse>> registrar(
+                        @RequestBody LibroAutorRequest request) {
 
-            return ResponseEntity.ok(
-                    new ResponseBase<>(
-                            Mensaje.CODE_OK,
-                            Mensaje.MENSAJE_EXITO,
-                            response
-                    )
-            );
+                LibroAutorResponse response = service.registrar(request);
 
-        } catch (Exception e) {
-            return ResponseEntity.internalServerError().body(
-                    new ResponseBase<>(
-                            Mensaje.CODE_ERROR,
-                            e.getMessage(),
-                            null
-                    )
-            );
+                return ResponseEntity.ok(
+                                new ResponseBase<>(
+                                                Mensaje.CODE_OK,
+                                                Mensaje.MENSAJE_EXITO,
+                                                response));
         }
-    }
 
-    // GET -> /api/libro-autor/listar
-    @GetMapping(ApiRoutes.LibroAutor.LISTAR)
-    public ResponseEntity<ResponseBase<List<LibroAutorResponse>>> listar() {
-        try {
-            List<LibroAutorResponse> lista = service.listar();
+        @GetMapping(ApiRoutes.LibroAutor.LISTAR)
+        public ResponseEntity<ResponseBase<List<LibroAutorResponse>>> listar() {
 
-            return ResponseEntity.ok(
-                    new ResponseBase<>(
-                            Mensaje.CODE_OK,
-                            Mensaje.MENSAJE_EXITO,
-                            lista
-                    )
-            );
-
-        } catch (Exception e) {
-            return ResponseEntity.internalServerError().body(
-                    new ResponseBase<>(
-                            Mensaje.CODE_ERROR,
-                            e.getMessage(),
-                            null
-                    )
-            );
+                return ResponseEntity.ok(
+                                new ResponseBase<>(
+                                                Mensaje.CODE_OK,
+                                                Mensaje.MENSAJE_EXITO,
+                                                service.listar()));
         }
-    }
 
-    // GET -> /api/libro-autor/obtener/{id}
-    @GetMapping(ApiRoutes.LibroAutor.OBTENER_POR_ID)
-    public ResponseEntity<ResponseBase<LibroAutorResponse>> obtener(@PathVariable Long id) {
-        try {
-            LibroAutorResponse response = service.obtener(id);
+        @GetMapping(ApiRoutes.LibroAutor.OBTENER_POR_ID)
+        public ResponseEntity<ResponseBase<LibroAutorResponse>> obtener(
+                        @PathVariable Long id) {
 
-            return ResponseEntity.ok(
-                    new ResponseBase<>(
-                            Mensaje.CODE_OK,
-                            Mensaje.MENSAJE_EXITO,
-                            response
-                    )
-            );
-
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(
-                    new ResponseBase<>(
-                            Mensaje.CODE_ERROR,
-                            e.getMessage(),
-                            null
-                    )
-            );
+                return ResponseEntity.ok(
+                                new ResponseBase<>(
+                                                Mensaje.CODE_OK,
+                                                Mensaje.MENSAJE_EXITO,
+                                                service.obtener(id)));
         }
-    }
 
-    // PUT -> /api/libro-autor/actualizar/{id}
-    @PutMapping(ApiRoutes.LibroAutor.ACTUALIZAR)
-    public ResponseEntity<ResponseBase<LibroAutorResponse>> actualizar(
-            @PathVariable Long id,
-            @RequestBody LibroAutorRequest request
-    ) {
-        try {
-            LibroAutorResponse response = service.actualizar(id, request);
+        @PutMapping(ApiRoutes.LibroAutor.ACTUALIZAR)
+        public ResponseEntity<ResponseBase<LibroAutorResponse>> actualizar(
+                        @PathVariable Long id,
+                        @RequestBody LibroAutorRequest request) {
 
-            return ResponseEntity.ok(
-                    new ResponseBase<>(
-                            Mensaje.CODE_OK,
-                            Mensaje.MENSAJE_EXITO,
-                            response
-                    )
-            );
-
-        } catch (Exception e) {
-            return ResponseEntity.internalServerError().body(
-                    new ResponseBase<>(
-                            Mensaje.CODE_ERROR,
-                            e.getMessage(),
-                            null
-                    )
-            );
+                return ResponseEntity.ok(
+                                new ResponseBase<>(
+                                                Mensaje.CODE_OK,
+                                                Mensaje.MENSAJE_EXITO,
+                                                service.actualizar(id, request)));
         }
-    }
 
-    // DELETE -> /api/libro-autor/eliminar/{id}
-    @DeleteMapping(ApiRoutes.LibroAutor.ELIMINAR)
-    public ResponseEntity<ResponseBase<Void>> eliminar(@PathVariable Long id) {
-        try {
-            service.eliminar(id);
+        @DeleteMapping(ApiRoutes.LibroAutor.ELIMINAR)
+        public ResponseEntity<ResponseBase<Void>> eliminar(
+                        @PathVariable Long id) {
 
-            return ResponseEntity.ok(
-                    new ResponseBase<>(
-                            Mensaje.CODE_OK,
-                            Mensaje.MENSAJE_EXITO,
-                            null
-                    )
-            );
+                service.eliminar(id);
 
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(
-                    new ResponseBase<>(
-                            Mensaje.CODE_ERROR,
-                            e.getMessage(),
-                            null
-                    )
-            );
+                return ResponseEntity.ok(
+                                new ResponseBase<>(
+                                                Mensaje.CODE_OK,
+                                                Mensaje.MENSAJE_EXITO,
+                                                null));
         }
-    }
 }

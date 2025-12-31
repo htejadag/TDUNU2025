@@ -8,6 +8,7 @@ import TDUNU2025.Msbiblioteca.util.ApiRoutes;
 import TDUNU2025.Msbiblioteca.util.Mensaje;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,13 +21,12 @@ public class LibroCategoriaController {
 
     private final LibroCategoriaService service;
 
-    // POST -> /api/libro-categoria/guardar
     @PostMapping(ApiRoutes.LibroCategoria.GUARDAR)
     public ResponseEntity<ResponseBase<LibroCategoriaResponse>> registrar(@RequestBody LibroCategoriaRequest request) {
         try {
             LibroCategoriaResponse response = service.registrar(request);
 
-            return ResponseEntity.ok(
+            return ResponseEntity.status(HttpStatus.CREATED).body(
                 new ResponseBase<>(
                     Mensaje.CODE_OK,
                     Mensaje.MENSAJE_GUARDADO,
@@ -45,7 +45,6 @@ public class LibroCategoriaController {
         }
     }
 
-    // GET -> /api/libro-categoria/listar
     @GetMapping(ApiRoutes.LibroCategoria.LISTAR)
     public ResponseEntity<ResponseBase<List<LibroCategoriaResponse>>> listar() {
         try {
@@ -70,7 +69,6 @@ public class LibroCategoriaController {
         }
     }
 
-    // GET -> /api/libro-categoria/obtener/{id}
     @GetMapping(ApiRoutes.LibroCategoria.OBTENER_POR_ID)
     public ResponseEntity<ResponseBase<LibroCategoriaResponse>> obtener(@PathVariable Long id) {
         try {
@@ -95,7 +93,6 @@ public class LibroCategoriaController {
         }
     }
 
-    // PUT -> /api/libro-categoria/actualizar/{id}
     @PutMapping(ApiRoutes.LibroCategoria.ACTUALIZAR)
     public ResponseEntity<ResponseBase<LibroCategoriaResponse>> actualizar(
             @PathVariable Long id,
@@ -123,7 +120,6 @@ public class LibroCategoriaController {
         }
     }
 
-    // DELETE -> /api/libro-categoria/eliminar/{id}
     @DeleteMapping(ApiRoutes.LibroCategoria.ELIMINAR)
     public ResponseEntity<ResponseBase<Void>> eliminar(@PathVariable Long id) {
         try {

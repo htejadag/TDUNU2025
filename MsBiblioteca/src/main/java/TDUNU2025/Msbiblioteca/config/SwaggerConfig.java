@@ -9,14 +9,23 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class SwaggerConfig {
 
+    private static final String API_TITLE = "API Msbiblioteca - TDUNU 2025";
+    private static final String API_VERSION = "1.0";
+    private static final String API_DESCRIPTION = "Documentación del microservicio de biblioteca para gestión de Autores.";
+    private static final String TERMS_OF_SERVICE_URL = "http://swagger.io/terms/";
+    private static final String LICENSE_NAME = "Apache 2.0";
+    private static final String LICENSE_URL = "http://springdoc.org";
+
     @Bean
     public OpenAPI customOpenAPI() {
         return new OpenAPI()
                 .info(new Info()
-                        .title("API Msbiblioteca - TDUNU 2025")
-                        .version("1.0")
-                        .description("Documentación del microservicio de biblioteca para gestión de Autores.")
-                        .termsOfService("http://swagger.io/terms/")
-                        .license(new License().name("Apache 2.0").url("http://springdoc.org")));
+                        .title(API_TITLE)
+                        .version(API_VERSION)
+                        .description(API_DESCRIPTION)
+                        .termsOfService(TERMS_OF_SERVICE_URL)
+                        .license(new License()
+                                .name(LICENSE_NAME)
+                                .url(LICENSE_URL)));
     }
 }

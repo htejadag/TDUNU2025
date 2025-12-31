@@ -1,16 +1,20 @@
 package TDUNU2025.Msbiblioteca.model.request;
 
-import lombok.Data;
+import lombok.*;
 import java.time.LocalDate;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class PrestamoRequest {
-    // No pedimos idPrestamo porque es autogenerado
+
     private Integer idUsuario;
-    private Integer idLibro;
-    private LocalDate fechaPrestamo;
+
+    private Long idLibro; 
+
     private LocalDate fechaVencimiento;
-    private LocalDate fechaDevolucion; // Puede ser null
-    private Integer idEstadoPrestamo;
+
+
     private String observaciones;
 }

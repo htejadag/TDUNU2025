@@ -4,8 +4,13 @@ import TDUNU2025.Msbiblioteca.model.entity.Prestamo;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface PrestamoRepository extends JpaRepository<Prestamo, Integer> {
-    // Heredamos todos los métodos CRUD básicos de JpaRepository:
-    // save(), findById(), findAll(), deleteById(), etc.
+    
+  
+    List<Prestamo> findByIdUsuario(Integer idUsuario);
+
+    boolean existsByIdLibroAndIdEstadoPrestamo(Long idLibro, Integer idEstadoPrestamo);
 }

@@ -1,16 +1,18 @@
 package TDUNU2025.Msbiblioteca.service;
 
-import TDUNU2025.Msbiblioteca.model.entity.Prestamo;
+import TDUNU2025.Msbiblioteca.model.request.PrestamoRequest;
+import TDUNU2025.Msbiblioteca.model.response.PrestamoResponse;
 import java.util.List;
-import java.util.Optional;
 
 public interface PrestamoService {
     
-    List<Prestamo> listarPrestamos();
+    List<PrestamoResponse> listarPrestamos();
     
-    Optional<Prestamo> obtenerPrestamoPorId(Integer id);
+    PrestamoResponse obtenerPrestamoPorId(Integer id);
     
-    Prestamo guardarPrestamo(Prestamo prestamo);
+    PrestamoResponse guardarPrestamo(PrestamoRequest request);
+
+    PrestamoResponse registrarDevolucion(Integer id, String observaciones);
     
     void eliminarPrestamo(Integer id);
 }

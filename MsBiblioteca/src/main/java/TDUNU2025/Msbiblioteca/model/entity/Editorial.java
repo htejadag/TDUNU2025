@@ -3,22 +3,32 @@ package TDUNU2025.Msbiblioteca.model.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "editorial")
 @Getter
 @Setter
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Editorial {
+
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+public class Editorial implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @EqualsAndHashCode.Include 
+    
+    @Column(name = "id_editorial")
     private Long idEditorial;
 
-    @Column(nullable = false, length = 100)
+    @Column(nullable = false, length = 100, unique = true) 
     private String nombre;
 
     @Column(length = 255)
@@ -30,11 +40,17 @@ public class Editorial {
     @Column(length = 120)
     private String email;
 
-    @Column(length = 150)
+    @Column(name = "sitio_web", length = 150)
     private String sitioWeb;
 
-    private LocalDate fechaPago;
+    @Column(name = "fecha_registro", updatable = false)
+    private LocalDateTime fechaRegistro;
 
     @Column(length = 50)
     private String pais;
+
+    @PrePersist
+    public void prePersist() {
+        this.fechaRegistro = LocalDateTime.now();
+    }
 }

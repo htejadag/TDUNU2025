@@ -1,22 +1,25 @@
 package TDUNU2025.Msbiblioteca.model.entity;
 
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.AllArgsConstructor;
-import java.io.Serializable; // Importante para Redis
+import lombok.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "catalogo")
-@Data
+@Getter
+@Setter
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class Catalogo implements Serializable { // Implementamos Serializable
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+public class Catalogo implements Serializable {
 
-    private static final long serialVersionUID = 1L; // Recomendado para versiones de clase
+    private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @EqualsAndHashCode.Include 
+    @Column(name = "id_catalogo")
     private Integer idCatalogo;
 
     @Column(nullable = false, length = 100)
@@ -25,6 +28,7 @@ public class Catalogo implements Serializable { // Implementamos Serializable
     @Column(length = 255)
     private String descripcion;
 
-    @Column(nullable = false)
-    private Integer estado; 
+    @Column(name = "estado", nullable = false)
+    private Integer estado;
+    
 }

@@ -5,7 +5,7 @@ import java.time.LocalDate;
 
 @Data
 public class PrestamoResponse {
-    private Integer idPrestamo; // Aquí SÍ incluimos el ID
+    private Integer idPrestamo; 
     private Integer idUsuario;
     private Integer idLibro;
     private LocalDate fechaPrestamo;

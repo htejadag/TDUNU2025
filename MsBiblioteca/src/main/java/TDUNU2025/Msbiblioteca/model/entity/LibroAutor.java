@@ -2,30 +2,45 @@ package TDUNU2025.Msbiblioteca.model.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "libro_autor")
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
+@Table(name = "libro_autor", uniqueConstraints = {
+
+    @UniqueConstraint(columnNames = {"id_libro", "id_autor"}) 
+})
+@Getter
+@Setter
+@ToString
 @Builder
-public class LibroAutor {
+@NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+public class LibroAutor implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idLibroAutor;   // PK de la tabla intermedia
+    @EqualsAndHashCode.Include
+    @Column(name = "id_libro_autor")
+    private Long idLibroAutor;
 
-    private Long idLibro;        // FK hacia libro
-    private Long idAutor;        // FK hacia autor
+    @Column(name = "id_libro", nullable = false)
+    private Long idLibro; 
 
-    private String rol;          // Autor principal, coautor, editor, etc.
+    @Column(name = "id_autor", nullable = false)
+    private Integer idAutor; 
 
-    @Column(updatable = false)
+    @Column(length = 50)
+    private String rol; 
+
+    @Column(name = "fecha_registro", updatable = false)
     private LocalDateTime fechaRegistro;
 
     @PrePersist
     public void prePersist() {
-        fechaRegistro = LocalDateTime.now();
+        this.fechaRegistro = LocalDateTime.now();
     }
 }

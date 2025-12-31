@@ -1,10 +1,19 @@
 package TDUNU2025.Msbiblioteca.repository;
 
-import org.springframework.data.jpa.repository.JpaRepository;
 import TDUNU2025.Msbiblioteca.model.entity.LibroCategoria;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
+@Repository
 public interface LibroCategoriaRepository extends JpaRepository<LibroCategoria, Long> {
 
-    // Evitar duplicados: un libro no debe tener misma categoría 2 veces
+    List<LibroCategoria> findByIdLibro(Long idLibro);
+
+    List<LibroCategoria> findByIdCategoria(Long idCategoria);
+
     boolean existsByIdLibroAndIdCategoria(Long idLibro, Long idCategoria);
+
+    void deleteByIdLibro(Long idLibro);
 }
