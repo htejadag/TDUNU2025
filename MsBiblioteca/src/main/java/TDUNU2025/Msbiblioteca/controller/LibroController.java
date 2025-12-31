@@ -1,18 +1,13 @@
 package TDUNU2025.Msbiblioteca.controller;
 
-import TDUNU2025.Msbiblioteca.config.ResponseBase;
-import TDUNU2025.Msbiblioteca.util.Mensaje;
-import TDUNU2025.model.request.LibroRequest;
-import TDUNU2025.model.LibroResponse;
-import TDUNU2025.service.LibroService;
-import TDUNU2025.util.ApiRoutes;
+import TDUNU2025.Msbiblioteca.model.request.LibroRequest;
+import TDUNU2025.Msbiblioteca.model.response.LibroResponse;
+import TDUNU2025.Msbiblioteca.service.LibroService;
+import TDUNU2025.Msbiblioteca.util.ApiRoutes;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(ApiRoutes.Libro.BASE)
@@ -20,7 +15,6 @@ import java.util.stream.Collectors;
 public class LibroController {
 
     private final LibroService service;
-    private final ModelMapper modelMapper;
 
     // POST -> /api/libro/guardar
     @PostMapping(ApiRoutes.Libro.GUARDAR)
@@ -35,7 +29,6 @@ public class LibroController {
                             response
                     )
             );
-
         } catch (Exception e) {
             return ResponseEntity.internalServerError().body(
                     new ResponseBase<>(
@@ -45,6 +38,12 @@ public class LibroController {
                     )
             );
         }
+    }
+
+    // POST -> /api/libro/guardar
+    @PostMapping(ApiRoutes.Libro.GUARDAR)
+    public LibroResponse registrar(@RequestBody LibroRequest r) {
+        return service.registrar(r);
     }
 
     // GET -> /api/libro/listar
@@ -146,5 +145,6 @@ public class LibroController {
                     )
             );
         }
+
     }
 }

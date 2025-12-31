@@ -1,7 +1,5 @@
 package TDUNU2025.Msbiblioteca.service;
 
-import TDUNU2025.model.request.LibroRequest;
-import TDUNU2025.model.LibroResponse;
 import java.util.List;
 
 public interface LibroService {

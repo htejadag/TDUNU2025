@@ -5,6 +5,11 @@ import TDUNU2025.model.request.LibroRequest;
 import TDUNU2025.model.LibroResponse; // ← CORRECTO
 import TDUNU2025.repository.LibroRepository;
 import TDUNU2025.service.LibroService;
+import TDUNU2025.Msbiblioteca.model.entity.Libro;
+import TDUNU2025.Msbiblioteca.model.request.LibroRequest;
+import TDUNU2025.Msbiblioteca.model.response.LibroResponse;
+import TDUNU2025.Msbiblioteca.repository.LibroRepository;
+import TDUNU2025.Msbiblioteca.service.LibroService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
