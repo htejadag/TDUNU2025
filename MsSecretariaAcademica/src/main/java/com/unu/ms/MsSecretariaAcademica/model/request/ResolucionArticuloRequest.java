@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class ResolucionArticuloRequest {
 
-    Integer idArticulo;
+    //Integer idArticulo;
     Integer numeroArticulo;
     String titulo;
     String contenido;

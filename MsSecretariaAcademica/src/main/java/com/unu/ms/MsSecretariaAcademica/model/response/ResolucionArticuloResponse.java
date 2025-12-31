@@ -13,6 +13,6 @@ public class ResolucionArticuloResponse {
     Integer numeroArticulo;
     String titulo;
     String contenido;
-    Integer idResolucion;
+    Integer resolucion;
 
 }

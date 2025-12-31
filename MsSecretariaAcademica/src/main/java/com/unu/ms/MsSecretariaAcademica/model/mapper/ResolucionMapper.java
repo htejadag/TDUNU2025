@@ -15,6 +15,7 @@ import com.unu.ms.MsSecretariaAcademica.model.response.ResolucionResponse;
 @Mapper(componentModel = "spring")
 public interface ResolucionMapper {
 
+    @Mapping(source = "expediente.idExpediente", target = "expediente")
     ResolucionResponse toResponse(ResolucionModel model);
 
     @Mapping(target = "idResolucion", ignore = true)
@@ -33,7 +34,7 @@ public interface ResolucionMapper {
         if (id == null)
             return null;
         ExpedienteModel c = new ExpedienteModel();
-        c.setIdEstado(id);
+        c.setIdExpediente(id);
         return c;
     }
 

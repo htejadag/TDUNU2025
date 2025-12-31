@@ -15,6 +15,7 @@ import com.unu.ms.MsConsejo.model.response.MiembroConsejoResponse;
 @Mapper(componentModel = "spring")
 public interface MiembroConsejoMapper {
 
+    @Mapping(source = "consejo.idConsejo", target = "consejo")
     MiembroConsejoResponse toResponse(MiembroConsejoModel model);
 
     @Mapping(target = "idMiembro", ignore = true)

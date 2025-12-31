@@ -2,8 +2,6 @@ package com.unu.ms.MsSecretariaAcademica.model.response;
 
 import java.time.LocalDate;
 
-import com.unu.ms.MsSecretariaAcademica.model.entity.ExpedienteModel;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -22,7 +20,7 @@ public class ResolucionResponse {
     String fundamento;
     String articuladoGeneral;
     Integer aprobadoEnSesion;
-    ExpedienteModel expediente;
+    Integer expediente;
     // List<ResolucionArticuloModel> articulos;
     
 }

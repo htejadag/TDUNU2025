@@ -16,6 +16,8 @@ import com.unu.ms.MsConsejo.model.response.AsistenciaSesionResponse;
 @Mapper(componentModel = "spring")
 public interface AsistenciaSesionMapper {
 
+    @Mapping(source = "sesion.idSesion", target = "sesion")
+    @Mapping(source = "miembro.idMiembro", target = "miembro")
     AsistenciaSesionResponse toResponse(AsistenciaSesionModel model);
 
     @Mapping(target = "idAsistencia", ignore = true)
@@ -33,7 +35,8 @@ public interface AsistenciaSesionMapper {
 
     @Named("mapIdToSesionConsejoModel")
     default SesionConsejoModel mapIdToSesionConsejoModel(Integer id) {
-        if (id == null) return null;
+        if (id == null)
+            return null;
         SesionConsejoModel c = new SesionConsejoModel();
         c.setIdSesion(id);
         return c;
@@ -41,7 +44,8 @@ public interface AsistenciaSesionMapper {
 
     @Named("mapIdToMiembroConsejoModel")
     default MiembroConsejoModel mapIdToMiembroConsejoModel(Integer id) {
-        if (id == null) return null;
+        if (id == null)
+            return null;
         MiembroConsejoModel c = new MiembroConsejoModel();
         c.setIdMiembro(id);
         return c;

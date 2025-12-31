@@ -3,8 +3,6 @@ package com.unu.ms.MsConsejo.model.response;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-import com.unu.ms.MsConsejo.model.entity.ConsejoModel;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,7 +13,7 @@ import lombok.NoArgsConstructor;
 public class SesionConsejoResponse {
 
     Integer idSesion;
-    ConsejoModel consejo;
+    Integer consejo;
     String numeroSesion;
     String nombreSesion;
     LocalDate fechaSesion;
