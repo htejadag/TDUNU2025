@@ -40,5 +40,6 @@ public class SolicitudModel {
 
     @Column(name = "fecha_solicitud")
     private LocalDate fechaSolicitud;
+    
 }
 

@@ -6,21 +6,18 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import com.unu.ms.MsSecretariaAcademica.model.entity.Auditoria;
-import com.unu.ms.MsSecretariaAcademica.model.mapper.AuditoriaMapper;
 import com.unu.ms.MsSecretariaAcademica.repository.AuditoriaRepository;
-import com.unu.ms.MsSecretariaAcademica.service.AuditoriaService;
 
 @Slf4j
 @Service
 @AllArgsConstructor
-public class AuditoriaServiceImp implements AuditoriaService {
+public class AuditoriaServiceImp {
 
     AuditoriaRepository auditoriaRepository;
-    AuditoriaMapper mapper;
 
-    @Override
-    public void registrar(String nombreEntidad, Integer entidadId, String accion, Integer usuarioId, String datosAntes,
-            String datosDespues, String observacion) {
+    public void registrarAccion(String nombreEntidad, Integer entidadId, String accion,
+                                Integer usuarioId, String datosAntes, String datosDespues,
+                                String observacion) {
         Auditoria auditoria = new Auditoria();
         auditoria.setNombreEntidad(nombreEntidad);
         auditoria.setEntidadId(entidadId);

@@ -24,42 +24,124 @@ public class SeguimientoServiceImp implements SeguimientoService {
 
     @Override
     public List<SeguimientoResponse> listar() {
-        return seguimientoRepository.findAll().stream().map(mapper::toResponse).toList();
+
+        log.info("Inicio servicio: listar seguimientos");
+
+        List<SeguimientoResponse> resultado =
+                seguimientoRepository.findAll()
+                        .stream()
+                        .map(mapper::toResponse)
+                        .toList();
+
+        log.info("Fin servicio: listar seguimientos. Total registros: {}", resultado.size());
+
+        return resultado;
     }
 
     @Override
     public SeguimientoResponse obtenerPorId(Integer id) {
-        return seguimientoRepository.findById(id)
-                .map(mapper::toResponse).orElse(null);
+
+        log.info("Inicio servicio: obtener seguimiento por id");
+        log.debug("Id seguimiento: {}", id);
+
+        SeguimientoResponse response = seguimientoRepository.findById(id)
+                .map(mapper::toResponse)
+                .orElse(null);
+
+        if (response == null) {
+            log.warn("Seguimiento no encontrado. Id: {}", id);
+        } else {
+            log.info("Seguimiento encontrado. Id: {}", id);
+        }
+
+        log.info("Fin servicio: obtener seguimiento por id");
+
+        return response;
     }
 
     @Override
     public SeguimientoResponse guardar(SeguimientoRequest seguimientoRequest) {
+
+        log.info("Inicio servicio: guardar seguimiento");
+        log.debug("Datos de entrada guardar seguimiento: {}", seguimientoRequest);
+
         Seguimiento model = mapper.toEntity(seguimientoRequest);
-        return mapper.toResponse(seguimientoRepository.save(model));
+
+        Seguimiento guardado = seguimientoRepository.save(model);
+
+        log.info("Seguimiento guardado correctamente. Id generado: {}", guardado.getIdSeguimiento());
+
+        log.info("Fin servicio: guardar seguimiento");
+
+        return mapper.toResponse(guardado);
     }
 
     @Override
     public void eliminar(Integer id) {
+
+        log.info("Inicio servicio: eliminar seguimiento");
+        log.debug("Id seguimiento a eliminar: {}", id);
+
         seguimientoRepository.deleteById(id);
+
+        log.info("Fin servicio: eliminar seguimiento. Id eliminado: {}", id);
     }
 
     @Override
     public SeguimientoResponse actualizar(Integer id, SeguimientoRequest seguimientoActualizado) {
+
+        log.info("Inicio servicio: actualizar seguimiento");
+        log.debug("Id seguimiento a actualizar: {}", id);
+        log.debug("Datos de entrada actualizar seguimiento: {}", seguimientoActualizado);
+
         Seguimiento model = seguimientoRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Seguimiento no encontrado con id: " + id));
+                .orElseThrow(() -> {
+                    log.warn("Seguimiento no encontrado para actualizar. Id: {}", id);
+                    return new RuntimeException("Seguimiento no encontrado con id: " + id);
+                });
+
         mapper.updateEntityFromRequest(seguimientoActualizado, model);
-        return mapper.toResponse(seguimientoRepository.save(model));
+
+        Seguimiento actualizado = seguimientoRepository.save(model);
+
+        log.info("Seguimiento actualizado correctamente. Id: {}", actualizado.getIdSeguimiento());
+
+        log.info("Fin servicio: actualizar seguimiento");
+
+        return mapper.toResponse(actualizado);
     }
 
     @Override
     public boolean existePorId(Integer id) {
-        return seguimientoRepository.existsById(id);
+
+        log.debug("Validando existencia de seguimiento. Id: {}", id);
+
+        boolean existe = seguimientoRepository.existsById(id);
+
+        log.debug("Resultado existencia seguimiento. Id: {}, Existe: {}", id, existe);
+
+        return existe;
     }
 
     @Override
     public List<SeguimientoResponse> buscarPorEntidad(Integer idEntidadCatalogo, Integer entidadId) {
-        return seguimientoRepository.findByEntidadCatalogoIdAndEntidadIdOrderByFechaRegistroDesc(idEntidadCatalogo, entidadId).stream().map(mapper::toResponse).toList();
+
+        log.info("Inicio servicio: buscar seguimientos por entidad");
+        log.debug("Id entidad catalogo: {}, Entidad id: {}", idEntidadCatalogo, entidadId);
+
+        List<SeguimientoResponse> resultado =
+                seguimientoRepository
+                        .findByEntidadCatalogoIdAndEntidadIdOrderByFechaRegistroDesc(idEntidadCatalogo, entidadId)
+                        .stream()
+                        .map(mapper::toResponse)
+                        .toList();
+
+        log.info(
+                "Fin servicio: buscar seguimientos por entidad. Total registros: {}",
+                resultado.size()
+        );
+
+        return resultado;
     }
 
 }

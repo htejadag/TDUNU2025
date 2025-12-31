@@ -13,6 +13,6 @@ public class ResolucionArticuloRequest {
     Integer numeroArticulo;
     String titulo;
     String contenido;
-    Integer idResolucion;
+    Integer resolucion;
 
 }

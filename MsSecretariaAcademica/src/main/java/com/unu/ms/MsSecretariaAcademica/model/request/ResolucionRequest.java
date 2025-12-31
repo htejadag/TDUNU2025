@@ -1,7 +1,6 @@
 package com.unu.ms.MsSecretariaAcademica.model.request;
 
 import java.time.LocalDate;
-import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -12,7 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class ResolucionRequest {
 
-    Integer idResolucion;
+    // Integer idResolucion;
     String numeroResolucion;
     Integer idEstado;
     Integer idTipoResolucion;
@@ -21,8 +20,7 @@ public class ResolucionRequest {
     String fundamento;
     String articuladoGeneral;
     Integer aprobadoEnSesion;
-    Integer idExpediente;
-    Integer idSolicitud;
-    List<Integer> idArticulos;
-    
+    Integer expediente;
+    // List<ResolucionArticuloModel> articulos;
+
 }

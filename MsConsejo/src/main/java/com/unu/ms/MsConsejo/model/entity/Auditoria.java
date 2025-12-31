@@ -5,6 +5,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Lob;
 import jakarta.persistence.Table;
 
 import java.time.LocalDateTime;
@@ -19,27 +20,33 @@ public class Auditoria {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idAuditoria;
+    private Integer idAuditoria;
 
-    @Column(nullable = false)
-    private String nombreEntidad;      // Solicitud, Expediente, Resolucion
+    @Column(name = "nombre_entidad", nullable = false)
+    private String nombreEntidad;
 
-    @Column(nullable = false)
-    private Long entidadId;
+    @Column(name = "entidad_id", nullable = false)
+    private Integer entidadId;
 
-    @Column(nullable = false)
-    private String accion;             // CREATE, UPDATE, DELETE, SOFT_DELETE
+    @Column(name = "accion", nullable = false)
+    private String accion; // CREATE, UPDATE, DELETE, SOFT_DELETE
 
-    private Long usuarioId;
+    @Column(name = "usuario_id", nullable = false)
+    private Integer usuarioId;
 
-    @Column(columnDefinition = "TEXT")
+    @Lob
+    @Column(name = "datos_antes", columnDefinition = "TEXT")
     private String datosAntes;
 
-    @Column(columnDefinition = "TEXT")
+    @Lob
+    @Column(name = "datos_despues", columnDefinition = "TEXT")
     private String datosDespues;
 
     @CreationTimestamp
+    @Column(name = "fecha_accion")
     private LocalDateTime fechaAccion;
 
+    @Column(name = "observacion")
     private String observacion;
+
 }

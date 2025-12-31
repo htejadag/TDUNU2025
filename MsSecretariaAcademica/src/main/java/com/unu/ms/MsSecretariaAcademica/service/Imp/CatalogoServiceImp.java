@@ -27,48 +27,141 @@ public class CatalogoServiceImp implements CatalogoService {
 
     @Override
     public List<CatalogoResponse> listar() {
-        return catalogoRepository.findAll().stream().map(mapper::toResponse).toList();
+
+        log.info("Inicio servicio: listar catalogos");
+
+        List<CatalogoResponse> resultado =
+                catalogoRepository.findAll()
+                        .stream()
+                        .map(mapper::toResponse)
+                        .toList();
+
+        log.info("Fin servicio: listar catalogos. Total registros: {}", resultado.size());
+
+        return resultado;
     }
 
     @Override
     @Cacheable(key = "'catalogo:' + #id", unless = "#result == null")
     public CatalogoResponse obtenerPorId(Integer id) {
-        return catalogoRepository.findById(id)
-                .map(mapper::toResponse).orElse(null);
+
+        log.info("Inicio servicio: obtener catalogo por id");
+        log.debug("Id catalogo: {}", id);
+
+        CatalogoResponse response = catalogoRepository.findById(id)
+                .map(mapper::toResponse)
+                .orElse(null);
+
+        if (response == null) {
+            log.warn("Catalogo no encontrado. Id: {}", id);
+        } else {
+            log.info("Catalogo encontrado. Id: {}", id);
+        }
+
+        log.info("Fin servicio: obtener catalogo por id");
+
+        return response;
     }
 
     @Override
     public CatalogoResponse guardar(CatalogoRequest catalogoRequest) {
+
+        log.info("Inicio servicio: guardar catalogo");
+        log.debug("Datos de entrada guardar catalogo: {}", catalogoRequest);
+
         Catalogo model = mapper.toEntity(catalogoRequest);
-        return mapper.toResponse(catalogoRepository.save(model));
+
+        log.debug("Entidad catalogo mapeada correctamente");
+
+        Catalogo modelGuardado = catalogoRepository.save(model);
+
+        log.info("Catalogo guardado correctamente. Id generado: {}", modelGuardado.getIdCatalogo());
+
+        return mapper.toResponse(modelGuardado);
     }
 
     @Override
     public void eliminar(Integer id) {
+
+        log.info("Inicio servicio: eliminar catalogo");
+        log.debug("Id catalogo a eliminar: {}", id);
+
         catalogoRepository.deleteById(id);
+
+        log.info("Fin servicio: eliminar catalogo. Id eliminado: {}", id);
     }
 
     @Override
     public CatalogoResponse actualizar(Integer id, CatalogoRequest catalogoActualizado) {
+
+        log.info("Inicio servicio: actualizar catalogo");
+        log.debug("Id catalogo a actualizar: {}", id);
+        log.debug("Datos de entrada actualizar catalogo: {}", catalogoActualizado);
+
         Catalogo model = catalogoRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Catalogo no encontrado con id: " + id));
+                .orElseThrow(() -> {
+                    log.warn("Catalogo no encontrado para actualizar. Id: {}", id);
+                    return new RuntimeException("Catalogo no encontrado con id: " + id);
+                });
+
+        log.debug("Catalogo encontrado. Aplicando cambios");
+
         mapper.updateEntityFromRequest(catalogoActualizado, model);
-        return mapper.toResponse(catalogoRepository.save(model));
+
+        Catalogo modelActualizado = catalogoRepository.save(model);
+
+        log.info("Catalogo actualizado correctamente. Id: {}", id);
+
+        return mapper.toResponse(modelActualizado);
     }
 
     @Override
     public boolean existePorId(Integer id) {
-        return catalogoRepository.existsById(id);
+
+        log.debug("Validando existencia de catalogo. Id: {}", id);
+
+        boolean existe = catalogoRepository.existsById(id);
+
+        log.debug("Resultado existencia catalogo. Id: {}, Existe: {}", id, existe);
+
+        return existe;
     }
 
     @Override
     public CatalogoResponse buscarPorCategoriaYValor(String categoria, String valor) {
-        return catalogoRepository.findByCategoriaAndValor(categoria, valor).map(mapper::toResponse).orElse(null);
+
+        log.info("Inicio servicio: buscar catalogo por categoria y valor");
+        log.debug("Categoria: {}, Valor: {}", categoria, valor);
+
+        CatalogoResponse response =
+                catalogoRepository.findByCategoriaAndValor(categoria, valor)
+                        .map(mapper::toResponse)
+                        .orElse(null);
+
+        if (response == null) {
+            log.warn("No se encontro catalogo para categoria y valor");
+        }
+
+        log.info("Fin servicio: buscar catalogo por categoria y valor");
+
+        return response;
     }
 
     @Override
     public List<CatalogoResponse> buscarPorCategoria(String categoria) {
-        return catalogoRepository.findByCategoria(categoria).stream().map(mapper::toResponse).toList();
+
+        log.info("Inicio servicio: buscar catalogos por categoria");
+        log.debug("Categoria: {}", categoria);
+
+        List<CatalogoResponse> resultado =
+                catalogoRepository.findByCategoria(categoria)
+                        .stream()
+                        .map(mapper::toResponse)
+                        .toList();
+
+        log.info("Fin servicio: buscar catalogos por categoria. Total registros: {}", resultado.size());
+
+        return resultado;
     }
 
 }

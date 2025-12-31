@@ -8,10 +8,15 @@ import com.unu.ms.MsSecretariaAcademica.model.response.SeguimientoResponse;
 public interface SeguimientoService {
 
     public List<SeguimientoResponse> listar();
+
     public SeguimientoResponse obtenerPorId(Integer id);
+
     public SeguimientoResponse guardar(SeguimientoRequest seguimientoRequest);
+
     public void eliminar(Integer id);
+
     public SeguimientoResponse actualizar(Integer id, SeguimientoRequest seguimientoActualizado);
+
     public boolean existePorId(Integer id);
 
     public List<SeguimientoResponse> buscarPorEntidad(Integer idEntidadCatalogo, Integer entidadId);

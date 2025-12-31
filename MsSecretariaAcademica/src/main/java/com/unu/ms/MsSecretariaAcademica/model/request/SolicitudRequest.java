@@ -11,12 +11,13 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class SolicitudRequest {
 
+    // Integer idSolicitud;
     String codigoSolicitud;
     Integer idPersona;
     Integer idTipoSolicitud;
+    Integer idEstado;
     String asunto;
     String detalle;
-    Integer idEstado;
     LocalDate fechaSolicitud;
 
 }

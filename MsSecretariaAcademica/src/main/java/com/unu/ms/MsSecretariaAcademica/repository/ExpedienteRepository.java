@@ -15,5 +15,6 @@ public interface ExpedienteRepository extends JpaRepository<ExpedienteModel, Int
     public List<ExpedienteModel> findByIdPersona(Integer idPersona);
     public List<ExpedienteModel> findByIdEstado(Integer idEstado);
     public List<ExpedienteModel> findByIdPersonaAndIdEstado(Integer idPersona, Integer idEstado);
+    public boolean existsByCodigoExpediente(String codigoExpediente);
 
 }

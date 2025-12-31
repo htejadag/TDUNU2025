@@ -11,11 +11,12 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class MiembroConsejoRequest {
 
-    // private Integer idMiembro;
-    // private ConsejoModel idConsejo;
-    private Integer idPersona;
-    private Integer idCargo;
-    private LocalDate fechaInicio;
-    // private LocalDate fechaFin;
-    // private List<AsistenciaSesionModel> asistencias;
+    // Integer idMiembro;
+    Integer consejo;
+    Integer idPersona;
+    Integer idCargo;
+    LocalDate fechaInicio;
+    LocalDate fechaFin;
+    // List<AsistenciaSesionModel> asistencias;
+    
 }

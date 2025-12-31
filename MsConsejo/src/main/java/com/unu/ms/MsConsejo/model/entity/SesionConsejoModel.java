@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import org.hibernate.annotations.CreationTimestamp;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -14,7 +16,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 
 import lombok.Data;
@@ -54,16 +55,12 @@ public class SesionConsejoModel {
     @Column(name = "id_usuario_registro")
     private Integer usuarioRegistro;
 
+    @CreationTimestamp
     @Column(name = "fecha_creacion")
     private LocalDateTime fechaCreacion;
 
     @OneToMany(mappedBy = "sesion", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<AsistenciaSesionModel> asistencias;
-
-    @PrePersist
-    protected void onCreate() {
-        this.fechaCreacion = LocalDateTime.now();
-    }
 
 }
 

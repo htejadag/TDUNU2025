@@ -15,9 +15,9 @@ public class SolicitudResponse {
     String codigoSolicitud;
     Integer idPersona;
     Integer idTipoSolicitud;
+    Integer idEstado;
     String asunto;
     String detalle;
-    Integer idEstado;
     LocalDate fechaSolicitud;
     
 }

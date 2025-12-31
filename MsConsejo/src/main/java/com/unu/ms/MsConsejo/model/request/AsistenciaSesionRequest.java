@@ -1,7 +1,5 @@
 package com.unu.ms.MsConsejo.model.request;
 
-import java.time.LocalDateTime;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,11 +9,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class AsistenciaSesionRequest {
 
-    // private Integer idAsistencia;
-    // private SesionConsejoModel idSesion;
-    // private MiembroConsejoModel idMiembro;
-    private Integer idEstadoAsistencia;
-    private Integer usuarioRegistro;
-    private LocalDateTime fechaRegistro;
+    // Integer idAsistencia;
+    Integer sesion;
+    Integer miembro;
+    Integer idEstadoAsistencia;
+    Integer usuarioRegistro;
+    // LocalDateTime fechaRegistro;
 
 }

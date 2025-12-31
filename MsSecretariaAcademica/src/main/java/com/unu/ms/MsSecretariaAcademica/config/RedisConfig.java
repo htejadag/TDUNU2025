@@ -26,8 +26,8 @@ public class RedisConfig {
         template.setValueSerializer(new GenericJackson2JsonRedisSerializer());
         template.setHashKeySerializer(new StringRedisSerializer());
         template.setHashValueSerializer(new GenericJackson2JsonRedisSerializer());
-        
         template.afterPropertiesSet();
+        
         return template;
     }
 
@@ -35,8 +35,10 @@ public class RedisConfig {
     public CacheManager cacheManager(RedisConnectionFactory connectionFactory) {
         RedisCacheManager.RedisCacheManagerBuilder builder = RedisCacheManager.builder(connectionFactory)
                 .cacheDefaults(RedisCacheConfiguration.defaultCacheConfig()
-                        .serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(new StringRedisSerializer()))
-                        .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new GenericJackson2JsonRedisSerializer())));
+                        .serializeKeysWith(
+                                RedisSerializationContext.SerializationPair.fromSerializer(new StringRedisSerializer()))
+                        .serializeValuesWith(RedisSerializationContext.SerializationPair
+                                .fromSerializer(new GenericJackson2JsonRedisSerializer())));
         return builder.build();
     }
 }

@@ -18,4 +18,6 @@ public interface SolicitudRepository extends JpaRepository<SolicitudModel, Integ
     public List<SolicitudModel> findByIdTipoSolicitud(Integer idTipoSolicitud);
     public List<SolicitudModel> findByIdTipoSolicitudAndIdEstado(Integer idTipoSolicitud, Integer idEstado);
     public List<SolicitudModel> findByFechaSolicitudBetween(String fechaInicio, String fechaFin);
+
+    public boolean existsByCodigoSolicitud(String codigoSolicitud);
 }

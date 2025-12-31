@@ -11,12 +11,12 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class SeguimientoRequest {
 
-    Integer idSeguimiento;
+    // Integer idSeguimiento;
     Integer idUsuario;
     Integer entidadCatalogoId;
     Integer entidadId;
     Integer idEstado;
     String comentario;
-    LocalDateTime fechaRegistro;
+    // LocalDateTime fechaRegistro;
 
 }

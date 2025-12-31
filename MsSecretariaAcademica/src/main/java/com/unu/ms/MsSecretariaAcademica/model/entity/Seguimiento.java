@@ -7,12 +7,14 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Index;
 import jakarta.persistence.Table;
+import lombok.Data;
 
 import java.time.LocalDateTime;
 
 import org.hibernate.annotations.CreationTimestamp;
 
 @Entity
+@Data
 @Table(name = "seguimiento", indexes = @Index(columnList = "entidadCatalogoId, entidadId"))
 public class Seguimiento {
 

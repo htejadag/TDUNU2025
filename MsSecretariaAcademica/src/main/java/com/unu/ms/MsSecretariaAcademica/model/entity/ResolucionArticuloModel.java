@@ -33,4 +33,5 @@ public class ResolucionArticuloModel {
     @ManyToOne
     @JoinColumn(name = "id_resolucion", nullable = false)
     private ResolucionModel resolucion;
+    
 }

@@ -54,5 +54,6 @@ public class ResolucionModel {
 
     @OneToMany(mappedBy = "resolucion", cascade = CascadeType.ALL)
     private List<ResolucionArticuloModel> articulos;
+    
 }
 

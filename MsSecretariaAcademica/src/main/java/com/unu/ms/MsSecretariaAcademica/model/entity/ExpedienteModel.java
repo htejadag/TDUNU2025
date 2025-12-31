@@ -48,14 +48,11 @@ public class ExpedienteModel {
     @Column(name = "fecha_creacion")
     private LocalDateTime fechaCreacion;
 
-    /** 
-     * Referencia lógica a la solicitud que originó el expediente
-     * (NO relación fuerte para evitar acoplamiento entre MS)
-     */
     @Column(name = "id_solicitud_origen", nullable = false)
     private Integer idSolicitudOrigen;
 
     @OneToOne(mappedBy = "expediente", cascade = CascadeType.ALL)
     private ResolucionModel resolucion;
+
 }
 

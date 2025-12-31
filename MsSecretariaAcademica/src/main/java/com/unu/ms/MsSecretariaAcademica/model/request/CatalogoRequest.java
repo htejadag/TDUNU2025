@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class CatalogoRequest {
 
-    // Integer idCatalogo;
+    Integer idCatalogo;
     String categoria;
     String valor;
     String descripcion;
