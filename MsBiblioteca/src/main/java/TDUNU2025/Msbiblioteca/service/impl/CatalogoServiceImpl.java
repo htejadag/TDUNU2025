@@ -8,7 +8,10 @@ import TDUNU2025.Msbiblioteca.repository.CatalogoRepository;
 import TDUNU2025.Msbiblioteca.service.CatalogoService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.cache.annotation.CacheEvict; // Importante
+import org.springframework.cache.annotation.Cacheable; // Importante
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -20,57 +23,61 @@ public class CatalogoServiceImpl implements CatalogoService {
     private final CatalogoRepository catalogoRepository;
     private final ModelMapper modelMapper;
 
+    // ⚡ REDIS: Si existe en caché "lista_catalogos", lo devuelve de ahí. Si no, va a BD.
     @Override
+    @Transactional(readOnly = true)
+    @Cacheable(value = "lista_catalogos") 
     public List<CatalogoResponse> listar() {
+        // Simulación de lentitud para que notes la diferencia (Quitar en producción)
+        try { Thread.sleep(2000); } catch (InterruptedException e) {} 
+
         List<Catalogo> catalogos = catalogoRepository.findAll();
-        
         return catalogos.stream()
-                // CORREGIDO: Mapeamos 'catalogo' (singular), no la lista
-                .map(catalogo -> modelMapper.map(catalogo, CatalogoResponse.class)) 
+                .map(c -> modelMapper.map(c, CatalogoResponse.class))
                 .collect(Collectors.toList());
     }
 
+    // ⚡ REDIS: Busca por ID especifico. La clave en Redis será "catalogo_1", "catalogo_2", etc.
     @Override
+    @Transactional(readOnly = true)
+    @Cacheable(value = "catalogo", key = "#id") 
     public CatalogoResponse obtener(Long id) {
         Catalogo catalogo = catalogoRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Catalogo", "id", id));
-        
         return modelMapper.map(catalogo, CatalogoResponse.class);
     }
 
+    // 🧹 LIMPIEZA: Al guardar nuevo, borramos la lista completa del caché para que se actualice.
     @Override
+    @Transactional
+    @CacheEvict(value = "lista_catalogos", allEntries = true) 
     public CatalogoResponse registrar(CatalogoRequest request) {
         Catalogo catalogo = modelMapper.map(request, Catalogo.class);
+        if(catalogo.getEstado() == null) catalogo.setEstado(1);
         
-        // Estado por defecto (si es null, lo ponemos activo 1)
-        if(catalogo.getEstado() == null) {
-            catalogo.setEstado(1);
-        }
-
-        Catalogo catalogoGuardado = catalogoRepository.save(catalogo);
-        return modelMapper.map(catalogoGuardado, CatalogoResponse.class);
+        Catalogo saved = catalogoRepository.save(catalogo);
+        return modelMapper.map(saved, CatalogoResponse.class);
     }
 
+    // 🧹 LIMPIEZA: Al actualizar, borramos la lista Y el ítem específico del caché.
     @Override
+    @Transactional
+    @CacheEvict(value = {"lista_catalogos", "catalogo"}, allEntries = true) 
     public CatalogoResponse actualizar(Long id, CatalogoRequest request) {
-        // 1. Verificar existencia
         Catalogo catalogoExistente = catalogoRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Catalogo", "id", id));
 
-        // 2. Actualizar datos
         modelMapper.map(request, catalogoExistente);
-
-        // 3. Asegurar ID
         catalogoExistente.setIdCatalogo(id);
 
-        // 4. Guardar (CORREGIDO: Tipo Catalogo, no Autor)
-        Catalogo catalogoActualizado = catalogoRepository.save(catalogoExistente);
-
-        // 5. Devolver
-        return modelMapper.map(catalogoActualizado, CatalogoResponse.class);
+        Catalogo updated = catalogoRepository.save(catalogoExistente);
+        return modelMapper.map(updated, CatalogoResponse.class);
     }
 
+    // 🧹 LIMPIEZA: Al eliminar, limpiamos el caché.
     @Override
+    @Transactional
+    @CacheEvict(value = {"lista_catalogos", "catalogo"}, allEntries = true)
     public void eliminar(Long id) {
         if (!catalogoRepository.existsById(id)) {
             throw new ResourceNotFoundException("Catalogo", "id", id);
