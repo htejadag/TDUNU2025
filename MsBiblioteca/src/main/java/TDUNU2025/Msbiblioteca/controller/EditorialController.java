@@ -3,49 +3,45 @@ package TDUNU2025.Msbiblioteca.controller;
 import TDUNU2025.Msbiblioteca.model.request.EditorialRequest;
 import TDUNU2025.Msbiblioteca.model.response.EditorialResponse;
 import TDUNU2025.Msbiblioteca.service.EditorialService;
-
+import TDUNU2025.Msbiblioteca.util.Mensaje;
+import TDUNU2025.Msbiblioteca.util.ResponseBase;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping(ApiRoutes.RUTA_AUTOR)
+@RequestMapping("/api/editorial") // Ajusta con ApiRoutes si lo tienes
 @RequiredArgsConstructor
-public class AutorController {
+public class EditorialController {
 
-    private final AutorService service;
-    private final ModelMapper mapper;
+    private final EditorialService service;
 
     @GetMapping
-    public List<AutorResponse> listar() {
-        return service.listarAutores().stream()
-                .map(a -> mapper.map(a, AutorResponse.class))
-                .toList();
+    public ResponseEntity<ResponseBase<List<EditorialResponse>>> listar() {
+        return ResponseEntity.ok(new ResponseBase<>(Mensaje.CODE_OK, Mensaje.MENSAJE_EXITO, service.listar()));
     }
 
     @GetMapping("/{id}")
-    public AutorResponse obtener(@PathVariable Integer id) {
-        return mapper.map(service.obtenerAutorPorId(id)
-                .orElseThrow(() -> new RuntimeException("No encontrado")), AutorResponse.class);
+    public ResponseEntity<ResponseBase<EditorialResponse>> obtener(@PathVariable Long id) {
+        return ResponseEntity.ok(new ResponseBase<>(Mensaje.CODE_OK, Mensaje.MENSAJE_EXITO, service.obtener(id)));
     }
 
     @PostMapping
-    public AutorResponse guardar(@RequestBody AutorRequest request) {
-        Autor entity = mapper.map(request, Autor.class);
-        return mapper.map(service.guardarAutor(entity), AutorResponse.class);
+    public ResponseEntity<ResponseBase<EditorialResponse>> registrar(@RequestBody EditorialRequest request) {
+        return new ResponseEntity<>(new ResponseBase<>(Mensaje.CODE_OK, Mensaje.MENSAJE_GUARDADO, service.registrar(request)), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public AutorResponse actualizar(@PathVariable Integer id, @RequestBody AutorRequest request) {
-        Autor entity = mapper.map(request, Autor.class);
-        entity.setIdAutor(id);
-        return mapper.map(service.guardarAutor(entity), AutorResponse.class);
+    public ResponseEntity<ResponseBase<EditorialResponse>> actualizar(@PathVariable Long id, @RequestBody EditorialRequest request) {
+        return ResponseEntity.ok(new ResponseBase<>(Mensaje.CODE_OK, Mensaje.MENSAJE_ACTUALIZADO, service.actualizar(id, request)));
     }
 
     @DeleteMapping("/{id}")
-    public void eliminar(@PathVariable Integer id) {
-        service.eliminarAutor(id);
+    public ResponseEntity<ResponseBase<Void>> eliminar(@PathVariable Long id) {
+        service.eliminar(id);
+        return ResponseEntity.ok(new ResponseBase<>(Mensaje.CODE_OK, Mensaje.MENSAJE_ELIMINADO, null));
     }
 }
-

@@ -1,14 +1,13 @@
 package TDUNU2025.Msbiblioteca.controller;
 
-import TDUNU2025.Msbiblioteca.config.ResponseBase;
 import TDUNU2025.Msbiblioteca.model.request.LibroAutorRequest;
 import TDUNU2025.Msbiblioteca.model.response.LibroAutorResponse;
 import TDUNU2025.Msbiblioteca.service.LibroAutorService;
 import TDUNU2025.Msbiblioteca.util.ApiRoutes;
 import TDUNU2025.Msbiblioteca.util.Mensaje;
-
+import TDUNU2025.Msbiblioteca.util.ResponseBase;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,133 +19,39 @@ import java.util.List;
 public class LibroAutorController {
 
     private final LibroAutorService service;
-    private final ModelMapper modelMapper;
 
-    // POST -> /api/libro-autor/guardar
-    @PostMapping(ApiRoutes.LibroAutor.GUARDAR)
-    public ResponseEntity<ResponseBase<LibroAutorResponse>> registrar(@RequestBody LibroAutorRequest request) {
-        try {
-            LibroAutorResponse response = service.registrar(request);
-
-            return ResponseEntity.ok(
-                    new ResponseBase<>(
-                            Mensaje.CODE_OK,
-                            Mensaje.MENSAJE_EXITO,
-                            response
-                    )
-            );
-
-        } catch (Exception e) {
-            return ResponseEntity.internalServerError().body(
-                    new ResponseBase<>(
-                            Mensaje.CODE_ERROR,
-                            e.getMessage(),
-                            null
-                    )
-            );
-        }
-    }
-
-    // GET -> /api/libro-autor/listar
+    // 1. LISTAR
     @GetMapping(ApiRoutes.LibroAutor.LISTAR)
     public ResponseEntity<ResponseBase<List<LibroAutorResponse>>> listar() {
-        try {
-            List<LibroAutorResponse> lista = service.listar();
-
-            return ResponseEntity.ok(
-                    new ResponseBase<>(
-                            Mensaje.CODE_OK,
-                            Mensaje.MENSAJE_EXITO,
-                            lista
-                    )
-            );
-
-        } catch (Exception e) {
-            return ResponseEntity.internalServerError().body(
-                    new ResponseBase<>(
-                            Mensaje.CODE_ERROR,
-                            e.getMessage(),
-                            null
-                    )
-            );
-        }
+        List<LibroAutorResponse> lista = service.listar();
+        return ResponseEntity.ok(new ResponseBase<>(Mensaje.CODE_OK, Mensaje.MENSAJE_EXITO, lista));
     }
 
-    // GET -> /api/libro-autor/obtener/{id}
+    // 2. OBTENER POR ID
     @GetMapping(ApiRoutes.LibroAutor.OBTENER_POR_ID)
     public ResponseEntity<ResponseBase<LibroAutorResponse>> obtener(@PathVariable Long id) {
-        try {
-            LibroAutorResponse response = service.obtener(id);
-
-            return ResponseEntity.ok(
-                    new ResponseBase<>(
-                            Mensaje.CODE_OK,
-                            Mensaje.MENSAJE_EXITO,
-                            response
-                    )
-            );
-
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(
-                    new ResponseBase<>(
-                            Mensaje.CODE_ERROR,
-                            e.getMessage(),
-                            null
-                    )
-            );
-        }
+        LibroAutorResponse response = service.obtener(id);
+        return ResponseEntity.ok(new ResponseBase<>(Mensaje.CODE_OK, Mensaje.MENSAJE_EXITO, response));
     }
 
-    // PUT -> /api/libro-autor/actualizar/{id}
+    // 3. REGISTRAR
+    @PostMapping(ApiRoutes.LibroAutor.GUARDAR)
+    public ResponseEntity<ResponseBase<LibroAutorResponse>> registrar(@RequestBody LibroAutorRequest request) {
+        LibroAutorResponse response = service.registrar(request);
+        return new ResponseEntity<>(new ResponseBase<>(Mensaje.CODE_OK, Mensaje.MENSAJE_GUARDADO, response), HttpStatus.CREATED);
+    }
+
+    // 4. ACTUALIZAR
     @PutMapping(ApiRoutes.LibroAutor.ACTUALIZAR)
-    public ResponseEntity<ResponseBase<LibroAutorResponse>> actualizar(
-            @PathVariable Long id,
-            @RequestBody LibroAutorRequest request
-    ) {
-        try {
-            LibroAutorResponse response = service.actualizar(id, request);
-
-            return ResponseEntity.ok(
-                    new ResponseBase<>(
-                            Mensaje.CODE_OK,
-                            Mensaje.MENSAJE_EXITO,
-                            response
-                    )
-            );
-
-        } catch (Exception e) {
-            return ResponseEntity.internalServerError().body(
-                    new ResponseBase<>(
-                            Mensaje.CODE_ERROR,
-                            e.getMessage(),
-                            null
-                    )
-            );
-        }
+    public ResponseEntity<ResponseBase<LibroAutorResponse>> actualizar(@PathVariable Long id, @RequestBody LibroAutorRequest request) {
+        LibroAutorResponse response = service.actualizar(id, request);
+        return ResponseEntity.ok(new ResponseBase<>(Mensaje.CODE_OK, Mensaje.MENSAJE_ACTUALIZADO, response));
     }
 
-    // DELETE -> /api/libro-autor/eliminar/{id}
+    // 5. ELIMINAR
     @DeleteMapping(ApiRoutes.LibroAutor.ELIMINAR)
     public ResponseEntity<ResponseBase<Void>> eliminar(@PathVariable Long id) {
-        try {
-            service.eliminar(id);
-
-            return ResponseEntity.ok(
-                    new ResponseBase<>(
-                            Mensaje.CODE_OK,
-                            Mensaje.MENSAJE_EXITO,
-                            null
-                    )
-            );
-
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(
-                    new ResponseBase<>(
-                            Mensaje.CODE_ERROR,
-                            e.getMessage(),
-                            null
-                    )
-            );
-        }
+        service.eliminar(id);
+        return ResponseEntity.ok(new ResponseBase<>(Mensaje.CODE_OK, Mensaje.MENSAJE_ELIMINADO, null));
     }
 }

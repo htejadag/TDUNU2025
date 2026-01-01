@@ -1,15 +1,14 @@
 package TDUNU2025.Msbiblioteca.service.impl;
 
-import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
-import org.springframework.stereotype.Service;
-
 import TDUNU2025.Msbiblioteca.exception.ResourceNotFoundException;
 import TDUNU2025.Msbiblioteca.model.entity.CategoriaLibro;
 import TDUNU2025.Msbiblioteca.model.request.CategoriaLibroRequest;
 import TDUNU2025.Msbiblioteca.model.response.CategoriaLibroResponse;
 import TDUNU2025.Msbiblioteca.repository.CategoriaLibroRepository;
 import TDUNU2025.Msbiblioteca.service.CategoriaLibroService;
+import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -21,49 +20,44 @@ public class CategoriaLibroServiceImpl implements CategoriaLibroService {
     private final CategoriaLibroRepository categoriaLibroRepository;
     private final ModelMapper modelMapper;
 
-    private CategoriaLibro findCategoriaLibroEntity(Long id) {
-        return categoriaLibroRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("CategoriaLibro", "idCategoria", id));
-    }
-
-    private CategoriaLibroResponse convertToResponse(CategoriaLibro categoria) {
-        return modelMapper.map(categoria, CategoriaLibroResponse.class);
-    }
-
     @Override
-    public CategoriaLibroResponse save(CategoriaLibroRequest request) {
-        CategoriaLibro categoriaLibro = modelMapper.map(request, CategoriaLibro.class);
-        CategoriaLibro savedCategoriaLibro = categoriaLibroRepository.save(categoriaLibro);
-        return convertToResponse(savedCategoriaLibro);
-    }
-
-    @Override
-    public CategoriaLibroResponse findById(Long idCategoria) {
-        CategoriaLibro categoriaLibro = findCategoriaLibroEntity(idCategoria);
-        return convertToResponse(categoriaLibro);
-    }
-
-    @Override
-    public List<CategoriaLibroResponse> findAll() {
+    public List<CategoriaLibroResponse> listar() {
         return categoriaLibroRepository.findAll().stream()
-                .map(this::convertToResponse)
+                .map(categoria -> modelMapper.map(categoria, CategoriaLibroResponse.class))
                 .collect(Collectors.toList());
     }
 
     @Override
-    public CategoriaLibroResponse update(Long idCategoria, CategoriaLibroRequest request) {
-        CategoriaLibro existingCategoria = findCategoriaLibroEntity(idCategoria);
-
-        // Mapeamos los campos del request a la entidad existente
-        modelMapper.map(request, existingCategoria); 
-        
-        CategoriaLibro updatedCategoria = categoriaLibroRepository.save(existingCategoria);
-        return convertToResponse(updatedCategoria);
+    public CategoriaLibroResponse obtener(Long id) {
+        CategoriaLibro categoria = categoriaLibroRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("CategoriaLibro", "id", id));
+        return modelMapper.map(categoria, CategoriaLibroResponse.class);
     }
 
     @Override
-    public void delete(Long idCategoria) {
-        CategoriaLibro categoriaLibro = findCategoriaLibroEntity(idCategoria);
-        categoriaLibroRepository.delete(categoriaLibro);
+    public CategoriaLibroResponse registrar(CategoriaLibroRequest request) {
+        CategoriaLibro categoria = modelMapper.map(request, CategoriaLibro.class);
+        CategoriaLibro saved = categoriaLibroRepository.save(categoria);
+        return modelMapper.map(saved, CategoriaLibroResponse.class);
+    }
+
+    @Override
+    public CategoriaLibroResponse actualizar(Long id, CategoriaLibroRequest request) {
+        CategoriaLibro existingCategoria = categoriaLibroRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("CategoriaLibro", "id", id));
+
+        modelMapper.map(request, existingCategoria);
+        existingCategoria.setIdCategoria(id);
+        
+        CategoriaLibro updated = categoriaLibroRepository.save(existingCategoria);
+        return modelMapper.map(updated, CategoriaLibroResponse.class);
+    }
+
+    @Override
+    public void eliminar(Long id) {
+        if (!categoriaLibroRepository.existsById(id)) {
+            throw new ResourceNotFoundException("CategoriaLibro", "id", id);
+        }
+        categoriaLibroRepository.deleteById(id);
     }
 }

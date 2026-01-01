@@ -2,7 +2,7 @@ package TDUNU2025.Msbiblioteca.util;
 
 public class ApiRoutes {
 
-    // Ruta base para Autores (Simple, sin clase anidada si prefieres, o la estandarizamos abajo)
+    // Ruta base para Autores (La mantenemos así para compatibilidad con tu AutorController actual)
     public static final String RUTA_AUTOR = "/api/autor";
 
     // =========================
@@ -30,7 +30,7 @@ public class ApiRoutes {
     }
 
     // =========================
-    // ✅ RUTAS DE PRESTAMO (Faltaba esta, la agrego por lógica)
+    // ✅ RUTAS DE PRESTAMO
     // =========================
     public static class Prestamo {
         public static final String BASE = "/api/prestamo";
@@ -73,7 +73,7 @@ public class ApiRoutes {
         public static final String GUARDAR = "/guardar";
         public static final String LISTAR = "/listar";
         public static final String OBTENER_POR_ID = "/obtener/{id}";
-        public static final String ACTUALIZAR = "/actualizar/{id}"; // Faltaban estos métodos comunes
+        public static final String ACTUALIZAR = "/actualizar/{id}";
         public static final String ELIMINAR = "/eliminar/{id}";
     }
 
@@ -82,6 +82,30 @@ public class ApiRoutes {
     // =========================
     public static class LibroCategoria {
         public static final String BASE = "/api/libro-categoria";
+        public static final String GUARDAR = "/guardar";
+        public static final String LISTAR = "/listar";
+        public static final String OBTENER_POR_ID = "/obtener/{id}";
+        public static final String ACTUALIZAR = "/actualizar/{id}";
+        public static final String ELIMINAR = "/eliminar/{id}";
+    }
+
+    // =========================
+    // ✅ RUTAS DE EDITORIAL 
+    // =========================
+    public static class Editorial {
+        public static final String BASE = "/api/editorial";
+        public static final String GUARDAR = "/guardar";
+        public static final String LISTAR = "/listar";
+        public static final String OBTENER_POR_ID = "/obtener/{id}";
+        public static final String ACTUALIZAR = "/actualizar/{id}";
+        public static final String ELIMINAR = "/eliminar/{id}";
+    }
+
+    // =========================
+    // ✅ RUTAS DE LIBRO AUTOR 
+    // =========================
+    public static class LibroAutor {
+        public static final String BASE = "/api/libro-autor";
         public static final String GUARDAR = "/guardar";
         public static final String LISTAR = "/listar";
         public static final String OBTENER_POR_ID = "/obtener/{id}";

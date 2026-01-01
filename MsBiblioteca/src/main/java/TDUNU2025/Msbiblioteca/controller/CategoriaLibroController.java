@@ -1,63 +1,49 @@
 package TDUNU2025.Msbiblioteca.controller;
 
+import TDUNU2025.Msbiblioteca.model.request.CategoriaLibroRequest;
+import TDUNU2025.Msbiblioteca.model.response.CategoriaLibroResponse;
+import TDUNU2025.Msbiblioteca.service.CategoriaLibroService;
+import TDUNU2025.Msbiblioteca.util.ApiRoutes; // Asegúrate de tener esta ruta definida
+import TDUNU2025.Msbiblioteca.util.Mensaje;
+import TDUNU2025.Msbiblioteca.util.ResponseBase;
 import jakarta.validation.Valid;
-//import lombok.RequiredArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import TDUNU2025.Msbiblioteca.model.request.CategoriaLibroRequest;
-import TDUNU2025.Msbiblioteca.model.response.CategoriaLibroResponse;
-import TDUNU2025.Msbiblioteca.service.CategoriaLibroService;
-
 import java.util.List;
 
 @RestController
-@RequestMapping("/v1/categorias")
-//@RequiredArgsConstructor
+@RequestMapping("/api/categoria-libro") // O usa ApiRoutes si lo definiste
+@RequiredArgsConstructor
 public class CategoriaLibroController {
 
-    private final CategoriaLibroService categoriaLibroService;
+    private final CategoriaLibroService service;
 
-    public CategoriaLibroController(CategoriaLibroService categoriaLibroService) {
-        this.categoriaLibroService = categoriaLibroService;
-    }
-    
-    // POST: Crear una nueva categoría
-    @PostMapping
-    public ResponseEntity<CategoriaLibroResponse> createCategoria(@Valid @RequestBody CategoriaLibroRequest request) {
-        CategoriaLibroResponse response = categoriaLibroService.save(request);
-        return new ResponseEntity<>(response, HttpStatus.CREATED);
-    }
-
-    // GET: Obtener una categoría por ID
-    @GetMapping("/{id}")
-    public ResponseEntity<CategoriaLibroResponse> getCategoriaById(@PathVariable Long id) {
-        CategoriaLibroResponse response = categoriaLibroService.findById(id);
-        return ResponseEntity.ok(response);
-    }
-
-    // GET: Listar todas las categorías
     @GetMapping
-    public ResponseEntity<List<CategoriaLibroResponse>> getAllCategorias() {
-        List<CategoriaLibroResponse> responseList = categoriaLibroService.findAll();
-        return ResponseEntity.ok(responseList);
+    public ResponseEntity<ResponseBase<List<CategoriaLibroResponse>>> listar() {
+        return ResponseEntity.ok(new ResponseBase<>(Mensaje.CODE_OK, Mensaje.MENSAJE_EXITO, service.listar()));
     }
 
-    // PUT: Actualizar una categoría por ID
+    @GetMapping("/{id}")
+    public ResponseEntity<ResponseBase<CategoriaLibroResponse>> obtener(@PathVariable Long id) {
+        return ResponseEntity.ok(new ResponseBase<>(Mensaje.CODE_OK, Mensaje.MENSAJE_EXITO, service.obtener(id)));
+    }
+
+    @PostMapping
+    public ResponseEntity<ResponseBase<CategoriaLibroResponse>> registrar(@Valid @RequestBody CategoriaLibroRequest request) {
+        return new ResponseEntity<>(new ResponseBase<>(Mensaje.CODE_OK, Mensaje.MENSAJE_GUARDADO, service.registrar(request)), HttpStatus.CREATED);
+    }
+
     @PutMapping("/{id}")
-    public ResponseEntity<CategoriaLibroResponse> updateLibroCategoria(
-            @PathVariable Long id,
-            @Valid @RequestBody CategoriaLibroRequest request) {
-        
-        CategoriaLibroResponse response = categoriaLibroService.update(id, request);
-        return ResponseEntity.ok(response);
+    public ResponseEntity<ResponseBase<CategoriaLibroResponse>> actualizar(@PathVariable Long id, @Valid @RequestBody CategoriaLibroRequest request) {
+        return ResponseEntity.ok(new ResponseBase<>(Mensaje.CODE_OK, Mensaje.MENSAJE_ACTUALIZADO, service.actualizar(id, request)));
     }
 
-    // DELETE: Eliminar una categoría por ID
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteLibroCategoria(@PathVariable Long id) {
-        categoriaLibroService.delete(id);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<ResponseBase<Void>> eliminar(@PathVariable Long id) {
+        service.eliminar(id);
+        return ResponseEntity.ok(new ResponseBase<>(Mensaje.CODE_OK, Mensaje.MENSAJE_ELIMINADO, null));
     }
 }

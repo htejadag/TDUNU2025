@@ -1,38 +1,63 @@
 package TDUNU2025.Msbiblioteca.service.impl;
 
+import TDUNU2025.Msbiblioteca.exception.ResourceNotFoundException;
 import TDUNU2025.Msbiblioteca.model.entity.DetalleUsuario;
+import TDUNU2025.Msbiblioteca.model.request.DetalleUsuarioRequest;
+import TDUNU2025.Msbiblioteca.model.response.DetalleUsuarioResponse;
 import TDUNU2025.Msbiblioteca.repository.DetalleUsuarioRepository;
 import TDUNU2025.Msbiblioteca.service.DetalleUsuarioService;
-
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class DetalleUsuarioServiceImpl implements DetalleUsuarioService {
 
-    @Autowired
-    private DetalleUsuarioRepository repository;
+    private final DetalleUsuarioRepository detalleUsuarioRepository;
+    private final ModelMapper modelMapper;
 
     @Override
-    public List<DetalleUsuario> listarTodo() {
-        return repository.findAll();
+    public List<DetalleUsuarioResponse> listar() {
+        return detalleUsuarioRepository.findAll().stream()
+                .map(du -> modelMapper.map(du, DetalleUsuarioResponse.class))
+                .collect(Collectors.toList());
     }
 
     @Override
-    public Optional<DetalleUsuario> obtenerPorId(Integer idUsuario) {
-        return repository.findById(idUsuario);
+    public DetalleUsuarioResponse obtener(Long id) {
+        DetalleUsuario du = detalleUsuarioRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("DetalleUsuario", "id", id));
+        return modelMapper.map(du, DetalleUsuarioResponse.class);
     }
 
     @Override
-    public DetalleUsuario guardar(DetalleUsuario detalle) {
-        return repository.save(detalle);
+    public DetalleUsuarioResponse registrar(DetalleUsuarioRequest request) { // Cambiado a registrar
+        DetalleUsuario du = modelMapper.map(request, DetalleUsuario.class);
+        DetalleUsuario saved = detalleUsuarioRepository.save(du);
+        return modelMapper.map(saved, DetalleUsuarioResponse.class);
     }
 
     @Override
-    public void eliminar(Integer idUsuario) {
-        repository.deleteById(idUsuario);
+    public DetalleUsuarioResponse actualizar(long id, DetalleUsuarioRequest request) {
+        DetalleUsuario existing = detalleUsuarioRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("DetalleUsuario", "id", id));
+
+        modelMapper.map(request, existing);
+        existing.setIdDetalleUsuario(id); // Asegurar ID
+
+        DetalleUsuario updated = detalleUsuarioRepository.save(existing);
+        return modelMapper.map(updated, DetalleUsuarioResponse.class);
+    }
+
+    @Override
+    public void eliminar(Long id) {
+        if (!detalleUsuarioRepository.existsById(id)) {
+            throw new ResourceNotFoundException("DetalleUsuario", "id", id);
+        }
+        detalleUsuarioRepository.deleteById(id);
     }
 }
