@@ -16,15 +16,36 @@ import com.unu.ms.MsSecretariaAcademica.model.response.CatalogoResponse;
 import com.unu.ms.MsSecretariaAcademica.repository.CatalogoRepository;
 import com.unu.ms.MsSecretariaAcademica.service.CatalogoService;
 
+/**
+ * Implementación del servicio de gestión de catálogos.
+ *
+ * Este servicio se encarga de administrar los valores de catálogo
+ * del microservicio, proporcionando operaciones de listado,
+ * búsqueda, creación, actualización y eliminación.
+ *
+ * Incluye manejo de caché para optimizar el acceso a d
+ */
 @Slf4j
 @Service
 @AllArgsConstructor
 @CacheConfig(cacheNames = "catalogo")
 public class CatalogoServiceImp implements CatalogoService {
 
+    /**
+     * Repositorio de acceso a datos de catálogos.
+     */
     CatalogoRepository catalogoRepository;
+
+    /**
+     * Mapper para la conversión entre entidades y DTOs de catálogo.
+     */
     CatalogoMapper mapper;
 
+    /**
+     * Obtiene la lista completa de catálogos registrados.
+     *
+     * @return lista de catálogos
+     */
     @Override
     public List<CatalogoResponse> listar() {
 
@@ -41,6 +62,14 @@ public class CatalogoServiceImp implements CatalogoService {
         return resultado;
     }
 
+    /**
+     * Obtiene un catálogo por su identificador.
+     *
+     * El resultado se almacena en caché para mejorar el rendimiento.
+     *
+     * @param id identificador del catálogo
+     * @return catálogo encontrado o {@code null} si no existe
+     */
     @Override
     @Cacheable(key = "'catalogo:' + #id", unless = "#result == null")
     public CatalogoResponse obtenerPorId(Integer id) {
@@ -63,6 +92,12 @@ public class CatalogoServiceImp implements CatalogoService {
         return response;
     }
 
+    /**
+     * Registra un nuevo catálogo.
+     *
+     * @param catalogoRequest datos del catálogo a registrar
+     * @return catálogo registrado
+     */
     @Override
     public CatalogoResponse guardar(CatalogoRequest catalogoRequest) {
 
@@ -80,6 +115,11 @@ public class CatalogoServiceImp implements CatalogoService {
         return mapper.toResponse(modelGuardado);
     }
 
+    /**
+     * Elimina un catálogo por su identificador.
+     *
+     * @param id identificador del catálogo a eliminar
+     */
     @Override
     public void eliminar(Integer id) {
 
@@ -91,6 +131,13 @@ public class CatalogoServiceImp implements CatalogoService {
         log.info("Fin servicio: eliminar catalogo. Id eliminado: {}", id);
     }
 
+    /**
+     * Actualiza un catálogo existente.
+     *
+     * @param id identificador del catálogo a actualizar
+     * @param catalogoActualizado datos actualizados del catálogo
+     * @return catálogo actualizado
+     */
     @Override
     public CatalogoResponse actualizar(Integer id, CatalogoRequest catalogoActualizado) {
 
@@ -115,6 +162,12 @@ public class CatalogoServiceImp implements CatalogoService {
         return mapper.toResponse(modelActualizado);
     }
 
+    /**
+     * Verifica la existencia de un catálogo por su identificador.
+     *
+     * @param id identificador del catálogo
+     * @return {@code true} si existe, {@code false} en caso contrario
+     */
     @Override
     public boolean existePorId(Integer id) {
 
@@ -127,6 +180,13 @@ public class CatalogoServiceImp implements CatalogoService {
         return existe;
     }
 
+    /**
+     * Busca un catálogo por categoría y valor.
+     *
+     * @param categoria categoría del catálogo
+     * @param valor valor asociado
+     * @return catálogo encontrado o {@code null} si no existe
+     */
     @Override
     public CatalogoResponse buscarPorCategoriaYValor(String categoria, String valor) {
 
@@ -147,6 +207,12 @@ public class CatalogoServiceImp implements CatalogoService {
         return response;
     }
 
+    /**
+     * Obtiene la lista de catálogos asociados a una categoría.
+     *
+     * @param categoria categoría del catálogo
+     * @return lista de catálogos de la categoría
+     */
     @Override
     public List<CatalogoResponse> buscarPorCategoria(String categoria) {
 

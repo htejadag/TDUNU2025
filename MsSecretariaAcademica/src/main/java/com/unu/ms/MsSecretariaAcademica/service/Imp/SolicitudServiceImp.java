@@ -14,19 +14,44 @@ import com.unu.ms.MsSecretariaAcademica.model.response.SolicitudResponse;
 import com.unu.ms.MsSecretariaAcademica.repository.SolicitudRepository;
 import com.unu.ms.MsSecretariaAcademica.service.SolicitudService;
 
+/**
+ * Implementación del servicio de gestión de solicitudes.
+ *
+ * Este servicio administra el ciclo de vida de las solicitudes,
+ * incluyendo su registro, actualización, eliminación y consultas
+ * por distintos criterios. Además, integra el registro de auditoría
+ * para mantener trazabilidad de las operaciones realizadas.
+ */
 @Slf4j
 @Service
 @AllArgsConstructor
 public class SolicitudServiceImp implements SolicitudService {
 
+    /**
+     * Repositorio de acceso a datos de solicitudes.
+     */
     SolicitudRepository solicitudRepository;
 
+    /**
+     * Servicio de auditoría para el registro de acciones.
+     */
     AuditoriaServiceImp auditoriaServiceImp;
-    
+
+    /**
+     * Mapper para la conversión entre entidades y DTOs de solicitud.
+     */
     SolicitudMapper mapper;
 
+    /**
+     * Nombre de la entidad utilizado para auditoría.
+     */
     private static final String NAME_ENTITY = "SOLICITUD";
 
+    /**
+     * Obtiene la lista completa de solicitudes registradas.
+     *
+     * @return lista de solicitudes
+     */
     @Override
     public List<SolicitudResponse> listar() {
 
@@ -43,6 +68,12 @@ public class SolicitudServiceImp implements SolicitudService {
         return resultado;
     }
 
+    /**
+     * Obtiene una solicitud por su identificador.
+     *
+     * @param id identificador de la solicitud
+     * @return solicitud encontrada o {@code null} si no existe
+     */
     @Override
     public SolicitudResponse obtenerPorId(Integer id) {
 
@@ -64,6 +95,12 @@ public class SolicitudServiceImp implements SolicitudService {
         return response;
     }
 
+    /**
+     * Registra una nueva solicitud.
+     *
+     * @param solicitudRequest datos de la solicitud a registrar
+     * @return solicitud registrada
+     */
     @Override
     public SolicitudResponse guardar(SolicitudRequest solicitudRequest) {
 
@@ -90,6 +127,11 @@ public class SolicitudServiceImp implements SolicitudService {
         return mapper.toResponse(guardado);
     }
 
+    /**
+     * Elimina una solicitud por su identificador.
+     *
+     * @param id identificador de la solicitud a eliminar
+     */
     @Override
     public void eliminar(Integer id) {
 
@@ -116,6 +158,13 @@ public class SolicitudServiceImp implements SolicitudService {
         log.info("Fin servicio: eliminar solicitud. Id eliminado: {}", id);
     }
 
+    /**
+     * Actualiza una solicitud existente.
+     *
+     * @param id identificador de la solicitud
+     * @param solicitudActualizado datos actualizados de la solicitud
+     * @return solicitud actualizada
+     */
     @Override
     public SolicitudResponse actualizar(Integer id, SolicitudRequest solicitudActualizado) {
 
@@ -151,6 +200,12 @@ public class SolicitudServiceImp implements SolicitudService {
         return mapper.toResponse(actualizado);
     }
 
+    /**
+     * Verifica la existencia de una solicitud por su identificador.
+     *
+     * @param id identificador de la solicitud
+     * @return {@code true} si existe, {@code false} en caso contrario
+     */
     @Override
     public boolean existePorId(Integer id) {
 
@@ -163,6 +218,12 @@ public class SolicitudServiceImp implements SolicitudService {
         return existe;
     }
 
+    /**
+     * Obtiene las solicitudes asociadas a una persona.
+     *
+     * @param idPersona identificador de la persona
+     * @return lista de solicitudes
+     */
     @Override
     public List<SolicitudResponse> obtenerPorPersona(Integer idPersona) {
 
@@ -180,6 +241,12 @@ public class SolicitudServiceImp implements SolicitudService {
         return resultado;
     }
 
+    /**
+     * Obtiene las solicitudes filtradas por estado.
+     *
+     * @param idEstado identificador del estado
+     * @return lista de solicitudes
+     */
     @Override
     public List<SolicitudResponse> obtenerPorEstado(Integer idEstado) {
 
@@ -197,6 +264,12 @@ public class SolicitudServiceImp implements SolicitudService {
         return resultado;
     }
 
+    /**
+     * Obtiene las solicitudes filtradas por tipo.
+     *
+     * @param idTipoSolicitud identificador del tipo de solicitud
+     * @return lista de solicitudes
+     */
     @Override
     public List<SolicitudResponse> obtenerPorTipo(Integer idTipoSolicitud) {
 
@@ -214,6 +287,13 @@ public class SolicitudServiceImp implements SolicitudService {
         return resultado;
     }
 
+    /**
+     * Obtiene las solicitudes filtradas por persona y estado.
+     *
+     * @param idPersona identificador de la persona
+     * @param idEstado identificador del estado
+     * @return lista de solicitudes
+     */
     @Override
     public List<SolicitudResponse> obtenerPorPersonaYEstado(Integer idPersona, Integer idEstado) {
 
@@ -234,6 +314,13 @@ public class SolicitudServiceImp implements SolicitudService {
         return resultado;
     }
 
+    /**
+     * Obtiene las solicitudes filtradas por tipo y estado.
+     *
+     * @param idTipoSolicitud identificador del tipo de solicitud
+     * @param idEstado identificador del estado
+     * @return lista de solicitudes
+     */
     @Override
     public List<SolicitudResponse> obtenerPorTipoYEstado(Integer idTipoSolicitud, Integer idEstado) {
 
@@ -254,6 +341,13 @@ public class SolicitudServiceImp implements SolicitudService {
         return resultado;
     }
 
+    /**
+     * Obtiene las solicitudes registradas dentro de un rango de fechas.
+     *
+     * @param fechaInicio fecha inicial del rango
+     * @param fechaFin fecha final del rango
+     * @return lista de solicitudes
+     */
     @Override
     public List<SolicitudResponse> obtenerPorFechaRango(String fechaInicio, String fechaFin) {
 

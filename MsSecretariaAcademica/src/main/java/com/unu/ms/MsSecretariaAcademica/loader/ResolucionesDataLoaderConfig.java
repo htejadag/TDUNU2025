@@ -1,4 +1,4 @@
-package com.unu.ms.MsSecretariaAcademica.DataLoader;
+package com.unu.ms.MsSecretariaAcademica.loader;
 
 
 import java.time.LocalDate;

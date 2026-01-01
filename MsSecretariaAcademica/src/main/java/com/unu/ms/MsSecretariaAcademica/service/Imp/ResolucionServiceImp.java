@@ -14,17 +14,43 @@ import com.unu.ms.MsSecretariaAcademica.model.response.ResolucionResponse;
 import com.unu.ms.MsSecretariaAcademica.repository.ResolucionRepository;
 import com.unu.ms.MsSecretariaAcademica.service.ResolucionService;
 
+/**
+ * Implementación del servicio de gestión de resoluciones.
+ *
+ * Este servicio se encarga de administrar el ciclo de vida de las resoluciones,
+ * incluyendo su creación, actualización, eliminación y consulta, así como
+ * el registro de auditoría de las acciones realizadas.
+ */
 @Slf4j
 @Service
 @AllArgsConstructor
 public class ResolucionServiceImp implements ResolucionService {
 
+    /**
+     * Repositorio de acceso a datos de resoluciones.
+     */
     ResolucionRepository resolucionRepository;
+
+    /**
+     * Servicio de auditoría para el registro de acciones sobre resoluciones.
+     */
     AuditoriaServiceImp auditoriaServiceImp;
+
+    /**
+     * Mapper para la conversión entre entidades y DTOs de resoluciones.
+     */
     ResolucionMapper mapper;
 
+    /**
+     * Nombre lógico de la entidad utilizada para auditoría.
+     */
     private static final String NAME_ENTITY = "RESOLUCION";
 
+    /**
+     * Obtiene la lista completa de resoluciones registradas.
+     *
+     * @return lista de resoluciones
+     */
     @Override
     public List<ResolucionResponse> listar() {
 
@@ -41,6 +67,12 @@ public class ResolucionServiceImp implements ResolucionService {
         return resultado;
     }
 
+    /**
+     * Obtiene una resolución por su identificador.
+     *
+     * @param id identificador de la resolución
+     * @return resolución encontrada o {@code null} si no existe
+     */
     @Override
     public ResolucionResponse obtenerPorId(Integer id) {
 
@@ -62,6 +94,15 @@ public class ResolucionServiceImp implements ResolucionService {
         return response;
     }
 
+    /**
+     * Registra una nueva resolución.
+     *
+     * La creación de la resolución genera automáticamente
+     * un registro de auditoría.
+     *
+     * @param resolucionRequest datos de la resolución a registrar
+     * @return resolución registrada
+     */
     @Override
     public ResolucionResponse guardar(ResolucionRequest resolucionRequest) {
 
@@ -88,6 +129,13 @@ public class ResolucionServiceImp implements ResolucionService {
         return mapper.toResponse(guardado);
     }
 
+    /**
+     * Elimina una resolución por su identificador.
+     *
+     * La eliminación genera un registro de auditoría.
+     *
+     * @param id identificador de la resolución a eliminar
+     */
     @Override
     public void eliminar(Integer id) {
 
@@ -114,6 +162,15 @@ public class ResolucionServiceImp implements ResolucionService {
         log.info("Fin servicio: eliminar resolucion. Id eliminado: {}", id);
     }
 
+    /**
+     * Actualiza una resolución existente.
+     *
+     * Se registra el estado previo y posterior en la auditoría.
+     *
+     * @param id identificador de la resolución
+     * @param resolucionActualizado datos actualizados de la resolución
+     * @return resolución actualizada
+     */
     @Override
     public ResolucionResponse actualizar(Integer id, ResolucionRequest resolucionActualizado) {
 
@@ -149,6 +206,12 @@ public class ResolucionServiceImp implements ResolucionService {
         return mapper.toResponse(actualizado);
     }
 
+    /**
+     * Verifica la existencia de una resolución por su identificador.
+     *
+     * @param id identificador de la resolución
+     * @return {@code true} si existe, {@code false} en caso contrario
+     */
     @Override
     public boolean existePorId(Integer id) {
 
@@ -161,6 +224,12 @@ public class ResolucionServiceImp implements ResolucionService {
         return existe;
     }
 
+    /**
+     * Obtiene las resoluciones asociadas a un expediente.
+     *
+     * @param idExpediente identificador del expediente
+     * @return lista de resoluciones del expediente
+     */
     @Override
     public List<ResolucionResponse> buscarPorExpediente(Integer idExpediente) {
 
@@ -178,6 +247,12 @@ public class ResolucionServiceImp implements ResolucionService {
         return resultado;
     }
 
+    /**
+     * Obtiene una resolución a partir de su número.
+     *
+     * @param numeroResolucion número de la resolución
+     * @return resolución encontrada o {@code null} si no existe
+     */
     @Override
     public ResolucionResponse buscarPorNumero(String numeroResolucion) {
 
@@ -197,6 +272,12 @@ public class ResolucionServiceImp implements ResolucionService {
         return response;
     }
 
+    /**
+     * Obtiene resoluciones filtradas por tipo.
+     *
+     * @param idTipoResolucion identificador del tipo de resolución
+     * @return lista de resoluciones del tipo indicado
+     */
     @Override
     public List<ResolucionResponse> buscarPorTipo(Integer idTipoResolucion) {
 
@@ -214,6 +295,12 @@ public class ResolucionServiceImp implements ResolucionService {
         return resultado;
     }
 
+    /**
+     * Obtiene resoluciones filtradas por estado.
+     *
+     * @param idEstado identificador del estado
+     * @return lista de resoluciones con el estado indicado
+     */
     @Override
     public List<ResolucionResponse> buscarPorEstado(Integer idEstado) {
 
@@ -231,6 +318,13 @@ public class ResolucionServiceImp implements ResolucionService {
         return resultado;
     }
 
+    /**
+     * Obtiene resoluciones filtradas por tipo y estado.
+     *
+     * @param idTipoResolucion identificador del tipo de resolución
+     * @param idEstado identificador del estado
+     * @return lista de resoluciones que cumplen ambos criterios
+     */
     @Override
     public List<ResolucionResponse> buscarPorTipoYEstado(Integer idTipoResolucion, Integer idEstado) {
 
@@ -250,6 +344,12 @@ public class ResolucionServiceImp implements ResolucionService {
         return resultado;
     }
 
+    /**
+     * Obtiene resoluciones filtradas por aprobación en sesión.
+     *
+     * @param aprobadoEnSesion indicador de aprobación en sesión
+     * @return lista de resoluciones aprobadas o no aprobadas en sesión
+     */
     @Override
     public List<ResolucionResponse> buscarPorAprobadoEnSesion(Integer aprobadoEnSesion) {
 

@@ -14,14 +14,33 @@ import com.unu.ms.MsSecretariaAcademica.model.response.ResolucionArticuloRespons
 import com.unu.ms.MsSecretariaAcademica.repository.ResolucionArticuloRepository;
 import com.unu.ms.MsSecretariaAcademica.service.ResolucionArticuloService;
 
+/**
+ * Implementación del servicio de gestión de artículos de resoluciones.
+ *
+ * Este servicio se encarga de administrar los artículos asociados
+ * a una resolución, permitiendo su creación, actualización,
+ * eliminación y consulta.
+ */
 @Slf4j
 @Service
 @AllArgsConstructor
 public class ResolucionArticuloServiceImp implements ResolucionArticuloService {
 
+    /**
+     * Repositorio de acceso a datos de artículos de resolución.
+     */
     ResolucionArticuloRepository resolucionArticuloRepository;
+
+    /**
+     * Mapper para la conversión entre entidades y DTOs de artículos de resolución.
+     */
     ResolucionArticuloMapper mapper;
 
+    /**
+     * Obtiene la lista completa de artículos de resoluciones.
+     *
+     * @return lista de artículos de resolución
+     */
     @Override
     public List<ResolucionArticuloResponse> listar() {
 
@@ -38,6 +57,12 @@ public class ResolucionArticuloServiceImp implements ResolucionArticuloService {
         return resultado;
     }
 
+    /**
+     * Obtiene un artículo de resolución por su identificador.
+     *
+     * @param id identificador del artículo
+     * @return artículo encontrado o {@code null} si no existe
+     */
     @Override
     public ResolucionArticuloResponse obtenerPorId(Integer id) {
 
@@ -59,6 +84,12 @@ public class ResolucionArticuloServiceImp implements ResolucionArticuloService {
         return response;
     }
 
+    /**
+     * Registra un nuevo artículo de resolución.
+     *
+     * @param resolucionArticuloRequest datos del artículo a registrar
+     * @return artículo registrado
+     */
     @Override
     public ResolucionArticuloResponse guardar(ResolucionArticuloRequest resolucionArticuloRequest) {
 
@@ -76,6 +107,11 @@ public class ResolucionArticuloServiceImp implements ResolucionArticuloService {
         return mapper.toResponse(guardado);
     }
 
+    /**
+     * Elimina un artículo de resolución por su identificador.
+     *
+     * @param id identificador del artículo a eliminar
+     */
     @Override
     public void eliminar(Integer id) {
 
@@ -87,8 +123,18 @@ public class ResolucionArticuloServiceImp implements ResolucionArticuloService {
         log.info("Fin servicio: eliminar resolucion articulo. Id eliminado: {}", id);
     }
 
+    /**
+     * Actualiza un artículo de resolución existente.
+     *
+     * @param id identificador del artículo a actualizar
+     * @param resolucionArticuloActualizado datos actualizados del artículo
+     * @return artículo actualizado
+     */
     @Override
-    public ResolucionArticuloResponse actualizar(Integer id, ResolucionArticuloRequest resolucionArticuloActualizado) {
+    public ResolucionArticuloResponse actualizar(
+            Integer id,
+            ResolucionArticuloRequest resolucionArticuloActualizado
+    ) {
 
         log.info("Inicio servicio: actualizar resolucion articulo");
         log.debug("Id resolucion articulo a actualizar: {}", id);
@@ -111,6 +157,12 @@ public class ResolucionArticuloServiceImp implements ResolucionArticuloService {
         return mapper.toResponse(actualizado);
     }
 
+    /**
+     * Verifica la existencia de un artículo de resolución por su identificador.
+     *
+     * @param id identificador del artículo
+     * @return {@code true} si existe, {@code false} en caso contrario
+     */
     @Override
     public boolean existePorId(Integer id) {
 
@@ -123,6 +175,13 @@ public class ResolucionArticuloServiceImp implements ResolucionArticuloService {
         return existe;
     }
 
+    /**
+     * Obtiene la lista de artículos asociados a una resolución,
+     * ordenados ascendentemente por número de artículo.
+     *
+     * @param idResolucion identificador de la resolución
+     * @return lista de artículos de la resolución
+     */
     @Override
     public List<ResolucionArticuloResponse> buscarPorResolucion(Integer idResolucion) {
 

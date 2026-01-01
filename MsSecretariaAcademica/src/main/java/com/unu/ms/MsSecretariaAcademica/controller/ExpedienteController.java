@@ -23,6 +23,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * Controlador REST encargado de la gestión de expedientes.
+ *
+ * Expone endpoints para realizar operaciones CRUD y búsquedas
+ * relacionadas con expedientes dentro del microservicio.
+ * La información de catálogo y auditoría utilizada es propia
+ * de este microservicio.
+ */
 @Slf4j
 @RestController
 @AllArgsConstructor
@@ -30,8 +38,16 @@ import lombok.extern.slf4j.Slf4j;
 @Tag(name = "Expediente Controller")
 public class ExpedienteController {
 
+    /**
+     * Servicio de negocio para la gestión de expedientes.
+     */
     ExpedienteService expedienteService;
 
+    /**
+     * Lista todos los expedientes registrados.
+     *
+     * @return respuesta con la lista de expedientes
+     */
     @GetMapping(value = ApiRoutes.Expediente.LISTAR)
     public ResponseBase<List<ExpedienteResponse>> listar() {
 
@@ -44,6 +60,12 @@ public class ExpedienteController {
         return ResponseBase.ok(Mensajes.LISTAR_OK, listaResponse);
     }
 
+    /**
+     * Registra un nuevo expediente.
+     *
+     * @param request datos del expediente a registrar
+     * @return respuesta con el expediente creado
+     */
     @PostMapping(value = ApiRoutes.Expediente.GUARDAR)
     public ResponseBase<ExpedienteResponse> guardar(@RequestBody ExpedienteRequest request) {
 
@@ -57,6 +79,12 @@ public class ExpedienteController {
         return ResponseBase.ok(Mensajes.CREADO_OK, response);
     }
 
+    /**
+     * Elimina un expediente según su identificador.
+     *
+     * @param id identificador del expediente a eliminar
+     * @return respuesta de confirmación
+     */
     @DeleteMapping(value = ApiRoutes.Expediente.ELIMINAR)
     public ResponseBase<String> eliminar(@RequestParam(value = "id") Integer id) {
 
@@ -70,6 +98,13 @@ public class ExpedienteController {
         return ResponseBase.ok(Mensajes.ELIMINADO_OK);
     }
 
+    /**
+     * Actualiza la información de un expediente existente.
+     *
+     * @param id identificador del expediente a actualizar
+     * @param request datos actualizados del expediente
+     * @return respuesta con el expediente actualizado
+     */
     @PutMapping(value = ApiRoutes.Expediente.ACTUALIZAR)
     public ResponseBase<ExpedienteResponse> actualizar(
             @RequestParam(value = "id") Integer id,
@@ -86,6 +121,12 @@ public class ExpedienteController {
         return ResponseBase.ok(Mensajes.ACTUALIZADO_OK, response);
     }
 
+    /**
+     * Obtiene un expediente según su identificador.
+     *
+     * @param id identificador del expediente
+     * @return respuesta con el expediente encontrado
+     */
     @GetMapping(value = ApiRoutes.Expediente.OBTENER_POR_ID)
     public ResponseBase<ExpedienteResponse> obtenerPorId(@RequestParam(value = "id") Integer id) {
 
@@ -99,6 +140,12 @@ public class ExpedienteController {
         return ResponseBase.ok(Mensajes.OBTENER_POR_OK, response);
     }
 
+    /**
+     * Busca un expediente por su código.
+     *
+     * @param codigo código del expediente
+     * @return respuesta con el expediente encontrado
+     */
     @GetMapping(value = ApiRoutes.Expediente.BUSCAR_POR_CODIGO)
     public ResponseBase<ExpedienteResponse> buscarPorCodigo(@RequestParam String codigo) {
 
@@ -112,6 +159,12 @@ public class ExpedienteController {
         return ResponseBase.ok(Mensajes.OBTENER_POR_OK, response);
     }
 
+    /**
+     * Busca expedientes asociados a una persona.
+     *
+     * @param idPersona identificador de la persona
+     * @return respuesta con la lista de expedientes encontrados
+     */
     @GetMapping(value = ApiRoutes.Expediente.BUSCAR_POR_PERSONA)
     public ResponseBase<List<ExpedienteResponse>> buscarPorPersona(@RequestParam Integer idPersona) {
 
@@ -125,6 +178,13 @@ public class ExpedienteController {
         return ResponseBase.ok(Mensajes.LISTAR_OK, listaResponse);
     }
 
+    /**
+     * Busca expedientes asociados a una persona y estado.
+     *
+     * @param idPersona identificador de la persona
+     * @param idEstado identificador del estado del expediente
+     * @return respuesta con la lista de expedientes encontrados
+     */
     @GetMapping(value = ApiRoutes.Expediente.BUSCAR_POR_TIPO_Y_ESTADO)
     public ResponseBase<List<ExpedienteResponse>> buscarPorPersonaYEstado(
             @RequestParam Integer idPersona,
@@ -133,13 +193,20 @@ public class ExpedienteController {
         log.info("Inicio request: buscar expedientes por persona y estado");
         log.debug("Id persona: {}, Id estado: {}", idPersona, idEstado);
 
-        List<ExpedienteResponse> listaResponse = expedienteService.buscarPorPersonaYEstado(idPersona, idEstado);
+        List<ExpedienteResponse> listaResponse =
+                expedienteService.buscarPorPersonaYEstado(idPersona, idEstado);
 
         log.info("Fin request: buscar expedientes por persona y estado. Total registros: {}", listaResponse.size());
 
         return ResponseBase.ok(Mensajes.LISTAR_OK, listaResponse);
-    }  
-    
+    }
+
+    /**
+     * Busca expedientes según su estado.
+     *
+     * @param idEstado identificador del estado del expediente
+     * @return respuesta con la lista de expedientes encontrados
+     */
     @GetMapping(value = ApiRoutes.Expediente.BUSCAR_POR_ESTADO)
     public ResponseBase<List<ExpedienteResponse>> buscarPorEstado(@RequestParam Integer idEstado) {
 
