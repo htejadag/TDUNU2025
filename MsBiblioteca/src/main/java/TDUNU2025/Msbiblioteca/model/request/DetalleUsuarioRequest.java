@@ -5,8 +5,8 @@ import java.time.LocalDate;
 
 @Data
 public class DetalleUsuarioRequest {
-    private Integer idUsuario;
-    private Integer idDetalleUsuario;
+    private Long idUsuario;
+    private Long idDetalleUsuario;
     private Integer totalPrestamos;
     private Integer totalMultas;
     private LocalDate fechaUltimoPrestamo;

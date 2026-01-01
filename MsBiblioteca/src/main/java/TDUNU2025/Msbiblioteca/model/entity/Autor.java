@@ -3,8 +3,10 @@ package TDUNU2025.Msbiblioteca.model.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import lombok.AllArgsConstructor;
-import java.time.LocalDate; 
+import java.time.LocalDate;
+import java.util.Set; 
 
 @Entity
 @Table(name = "autor")
@@ -15,11 +17,11 @@ public class Autor {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer idAutor;
+    private Long idAutor;
 
     // CLAVE FORÁNEA (Tratada como campo simple por ahora)
     @Column(nullable = false)
-    private Integer idPersona;
+    private Long idPersona;
 
     @Column(columnDefinition = "TEXT")
     private String biografia;
@@ -28,4 +30,9 @@ public class Autor {
 
     @Column(length = 255)
     private String fotoUrl;
+
+    @OneToMany(mappedBy = "autor",fetch = FetchType.LAZY)
+    @ToString.Exclude
+    private Set<LibroAutor> libros;
+
 }

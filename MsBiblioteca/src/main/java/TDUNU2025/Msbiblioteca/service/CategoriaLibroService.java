@@ -7,13 +7,13 @@ import TDUNU2025.Msbiblioteca.model.response.CategoriaLibroResponse;
 
 public interface CategoriaLibroService {
 
-    CategoriaLibroResponse save(CategoriaLibroRequest request);
+    CategoriaLibroResponse registrar (CategoriaLibroRequest request);
 
-    CategoriaLibroResponse findById(Long idCategoria);
+    CategoriaLibroResponse obtener (Long idCategoria);
 
-    List<CategoriaLibroResponse> findAll();
+    List<CategoriaLibroResponse> listar();
 
-    CategoriaLibroResponse update(Long idCategoria, CategoriaLibroRequest request);
+    CategoriaLibroResponse actualizar(Long idCategoria, CategoriaLibroRequest request);
 
-    void delete(Long idCategoria);
+    void eliminar(Long idCategoria);
 }

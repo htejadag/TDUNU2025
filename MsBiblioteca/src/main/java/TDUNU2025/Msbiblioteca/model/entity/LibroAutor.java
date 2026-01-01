@@ -14,13 +14,19 @@ public class LibroAutor {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idLibroAutor;   // PK de la tabla intermedia
+    private Long idLibroAutor;   
 
-    private Long idLibro;        // FK hacia libro
-    private Long idAutor;        // FK hacia autor
+    @ManyToOne (fetch = FetchType.LAZY)
+    @JoinColumn(name = "idLibro", nullable = false)
+    @ToString.Exclude
+    private Libro libro;
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "idAutor",nullable = false)
+    @ToString.Exclude
+    private Autor autor;      
 
-    private String rol;          // Autor principal, coautor, editor, etc.
-
+    private String rol;         
     @Column(updatable = false)
     private LocalDateTime fechaRegistro;
 

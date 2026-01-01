@@ -19,12 +19,10 @@ public class CategoriaLibro {
 
     @Column(nullable = false, unique = true)
     private String nombre;
-
     private String descripcion;
 
     @Column(updatable = false)
     private LocalDateTime fechaRegistro;
-
     private LocalDateTime fechaActualizacion;    
 
     @PrePersist
@@ -38,7 +36,8 @@ public class CategoriaLibro {
     }
 
     // Opcional: Relación inversa 
-    @ManyToMany(mappedBy = "categoria")
+    @OneToMany(mappedBy = "categoriaLibro",fetch = FetchType.LAZY)
     @ToString.Exclude // Evita StackOverflowError en toString()
-    private Set<Libro> libros;
+    @EqualsAndHashCode.Exclude
+    private Set<LibroCategoria> librosAsignados;
 }

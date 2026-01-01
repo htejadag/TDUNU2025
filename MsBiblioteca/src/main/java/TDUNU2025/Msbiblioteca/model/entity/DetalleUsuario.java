@@ -17,11 +17,11 @@ public class DetalleUsuario {
     private Integer idUsuario; // Definido como PK según tu instrucción
 
     @Column(nullable = false)
-    private Integer idDetalleUsuario; // Definido como FK según tu instrucción
+    private Long idDetalleUsuario; // Definido como FK según tu instrucción
 
     private Integer totalPrestamos;
 
-    private Integer totalMultas;
+    private double totalMultas;
 
     private LocalDate fechaUltimoPrestamo;
 }

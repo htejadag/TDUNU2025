@@ -1,7 +1,7 @@
 package TDUNU2025.Msbiblioteca.model.request;
 
-<<<<<<< HEAD
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -12,7 +12,6 @@ import lombok.Setter;
 @Setter
 public class DetalleLibroRequest {
 
-    // Clave Foránea del Libro
     @NotNull(message = "El ID del libro es obligatorio")
     @Min(value = 1, message = "El ID del libro debe ser un número positivo")
     @JsonProperty("idLibro")
@@ -36,15 +35,4 @@ public class DetalleLibroRequest {
     private String ubicacionFisica;  
 
 }
-=======
-import lombok.Data;
 
-@Data
-public class DetalleLibroRequest {
-
-    private Long idLibro;          // FK al libro
-    private Integer stockTotal;
-    private Integer stockDisponible;
-    private String ubicacionFisica;
-}
->>>>>>> origin/origin/jordinTrujillo

@@ -5,8 +5,8 @@ import java.time.LocalDate;
 
 @Data
 public class AutorResponse {
-    private Integer idAutor;
-    private Integer idPersona;
+    private Long idAutor;
+    private Long idPersona;
     private String biografia;
     private LocalDate fechaFallecimiento;
     private String fotoUrl;

@@ -1,18 +1,19 @@
 package TDUNU2025.Msbiblioteca.service;
 
 import java.util.List;
-import java.util.Optional;
 
-import TDUNU2025.Msbiblioteca.model.entity.Autor;
+import TDUNU2025.Msbiblioteca.model.request.AutorRequest;
+import TDUNU2025.Msbiblioteca.model.response.AutorResponse;
 
-// INTERFAZ: Solo declara los métodos, no la lógica.
 public interface AutorService {
     
-    List<Autor> listarAutores();
+    List<AutorResponse> listar();
     
-    Optional<Autor> obtenerAutorPorId(Integer id);
+    AutorResponse obtener(Long id);
     
-    Autor guardarAutor(Autor autor);
+    AutorResponse registrar(AutorRequest request);
     
-    void eliminarAutor(Integer id);
+    AutorResponse actualizar (Long id, AutorRequest request);
+
+    void eliminar(Long id);
 }

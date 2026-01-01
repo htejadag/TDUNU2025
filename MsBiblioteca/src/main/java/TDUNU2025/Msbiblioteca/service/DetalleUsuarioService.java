@@ -3,11 +3,18 @@ package TDUNU2025.Msbiblioteca.service;
 import java.util.List;
 import java.util.Optional;
 
-import TDUNU2025.Msbiblioteca.model.entity.DetalleUsuario;
+import TDUNU2025.Msbiblioteca.model.request.DetalleUsuarioRequest;
+import TDUNU2025.Msbiblioteca.model.response.DetalleUsuarioResponse;
 
 public interface DetalleUsuarioService {
-    List<DetalleUsuario> listarTodo();
-    Optional<DetalleUsuario> obtenerPorId(Integer idUsuario);
-    DetalleUsuario guardar(DetalleUsuario detalle);
-    void eliminar(Integer idUsuario);
+
+    List<DetalleUsuarioResponse> listar();
+
+    DetalleUsuarioResponse obtener(Long idUsuario);
+
+    DetalleUsuarioResponse registrar (DetalleUsuarioRequest request);
+    
+    DetalleUsuarioRequest actualizar (long idUsuario, DetalleUsuarioRequest request);
+    
+    void eliminar(Long idUsuario);
 }

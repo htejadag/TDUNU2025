@@ -3,6 +3,7 @@ package TDUNU2025.Msbiblioteca.model.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import lombok.AllArgsConstructor;
 import java.time.LocalDate;
 
@@ -15,15 +16,15 @@ public class Multa {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer idMulta;
+    private Long idMulta;
 
     // CLAVE FORÁNEA (Usuario)
     @Column(nullable = false)
-    private Integer idUsuario;
+    private Long idUsuario;
 
     // CLAVE FORÁNEA (Prestamo)
     @Column(nullable = false)
-    private Integer idPrestamo;
+    private Long idPrestamo;
 
     // Importe
     @Column(nullable = false)
@@ -42,8 +43,13 @@ public class Multa {
 
     // Estado de pago (FK o ID simple)
     @Column(nullable = false)
-    private Integer idEstadoMulta;
+    private Long idEstadoMulta;
 
     // Cálculo automático
     private Integer diasRetraso;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "idPrestamo",nullable = false, insertable = false, updatable = false)
+    @ToString.Exclude
+    private Prestamo prestamo;
 }

@@ -5,12 +5,12 @@ import java.time.LocalDate;
 
 @Data
 public class PrestamoResponse {
-    private Integer idPrestamo; // Aquí SÍ incluimos el ID
-    private Integer idUsuario;
-    private Integer idLibro;
+    private Long idPrestamo; 
+    private Long idUsuario;
+    private Long idDetalleLibro;
     private LocalDate fechaPrestamo;
     private LocalDate fechaVencimiento;
     private LocalDate fechaDevolucion;
-    private Integer idEstadoPrestamo;
+    private Long idEstadoPrestamo;
     private String observaciones;
 }

@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class CatalogoResponse implements Serializable {
-    private Integer idCatalogo;
+    private Long idCatalogo;
     private String nombre;  
     private String descripcion;
     private Integer estado;

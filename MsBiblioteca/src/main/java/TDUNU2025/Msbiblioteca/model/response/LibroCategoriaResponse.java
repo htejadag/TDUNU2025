@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class LibroCategoriaResponse {
 
-    private Long id;       // idLibroCategoria
+    private Long id;   
     private Long idLibro;
     private Long idCategoria;
 }

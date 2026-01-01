@@ -1,5 +1,7 @@
 package TDUNU2025.Msbiblioteca.model.entity;
 
+import java.time.LocalDateTime;
+
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -13,8 +15,22 @@ public class LibroCategoria {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idLibroCategoria; // PK
+    private Long idLibroCategoria; 
 
-    private Long idLibro;      // FK
-    private Long idCategoria;  // FK
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "idLibro", nullable = false)
+    @ToString.Exclude
+    private Libro libro;
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "idCategoria",nullable = false)
+    private CategoriaLibro categoriaLibro;
+    
+    @Column(updatable = false)
+    private LocalDateTime fechaAsignacion;
+
+    @PrePersist
+    public void prePersist(){
+        fechaAsignacion = LocalDateTime.now();
+    }
 }

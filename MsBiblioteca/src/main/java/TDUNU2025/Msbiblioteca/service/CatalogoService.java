@@ -1,21 +1,19 @@
 package TDUNU2025.Msbiblioteca.service;
 
 import java.util.List;
-import java.util.Optional;
 
-import TDUNU2025.Msbiblioteca.model.entity.Catalogo;
+import TDUNU2025.Msbiblioteca.model.request.CatalogoRequest;
+import TDUNU2025.Msbiblioteca.model.response.CatalogoResponse;
 
 public interface CatalogoService {
     
-    // Método para obtener todos los registros de catálogo
-    List<Catalogo> listarCatalogos();
+    List<CatalogoResponse> listar();
+   
+    CatalogoResponse obtener (Long id);
     
-    // Método para buscar un catálogo específico por su ID
-    Optional<Catalogo> obtenerCatalogoPorId(Integer id);
+    CatalogoResponse registrar (CatalogoRequest request);
     
-    // Método para crear o actualizar un catálogo
-    Catalogo guardarCatalogo(Catalogo catalogo);
-    
-    // Método para eliminar un catálogo por su ID
-    void eliminarCatalogo(Integer id);
+    CatalogoResponse actualizar (Long id, CatalogoRequest request);
+
+    void eliminar(Long id);
 }

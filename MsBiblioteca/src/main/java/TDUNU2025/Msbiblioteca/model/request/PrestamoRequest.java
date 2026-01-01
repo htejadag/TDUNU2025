@@ -6,11 +6,11 @@ import java.time.LocalDate;
 @Data
 public class PrestamoRequest {
     // No pedimos idPrestamo porque es autogenerado
-    private Integer idUsuario;
-    private Integer idLibro;
+    private Long idUsuario;
+    private Long idDetalleLibro;
     private LocalDate fechaPrestamo;
     private LocalDate fechaVencimiento;
     private LocalDate fechaDevolucion; // Puede ser null
-    private Integer idEstadoPrestamo;
+    private Long idEstadoPrestamo;
     private String observaciones;
 }

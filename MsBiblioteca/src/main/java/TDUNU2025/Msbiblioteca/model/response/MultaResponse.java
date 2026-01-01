@@ -5,13 +5,13 @@ import java.time.LocalDate;
 
 @Data
 public class MultaResponse {
-    private Integer idMulta;
-    private Integer idUsuario;
-    private Integer idPrestamo;
+    private Long idMulta;
+    private Long idUsuario;
+    private Long idPrestamo;
     private Double monto;
     private String concepto;
     private LocalDate fechaGeneracion;
     private LocalDate fechaPago;
-    private Integer idEstadoMulta;
+    private Long idEstadoMulta;
     private Integer diasRetraso;
 }

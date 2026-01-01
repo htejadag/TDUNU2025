@@ -1,16 +1,8 @@
 package TDUNU2025.Msbiblioteca.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-<<<<<<< HEAD
-
 import TDUNU2025.Msbiblioteca.model.entity.Editorial;
 
 public interface EditorialRepository extends JpaRepository<Editorial,Long>{
-
-=======
-import TDUNU2025.Msbiblioteca.model.entity.Editorial;
-
-public interface EditorialRepository extends JpaRepository<Editorial, Long> {
-    boolean existsByNombre(String nombre);
->>>>>>> origin/origin/jordinTrujillo
+        boolean existsByNombre(String nombre);
 }

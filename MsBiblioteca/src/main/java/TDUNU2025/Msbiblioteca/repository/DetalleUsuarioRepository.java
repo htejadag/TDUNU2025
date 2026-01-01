@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 import TDUNU2025.Msbiblioteca.model.entity.DetalleUsuario;
 
 @Repository
-public interface DetalleUsuarioRepository extends JpaRepository<DetalleUsuario, Integer> {
+public interface DetalleUsuarioRepository extends JpaRepository<DetalleUsuario, Long> {
 }

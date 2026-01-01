@@ -5,7 +5,6 @@ import TDUNU2025.Msbiblioteca.model.entity.LibroAutor;
 
 public interface LibroAutorRepository extends JpaRepository<LibroAutor, Long> {
 
-    // Verifica si ya existe un autor registrado para un libro con ese rol
-    boolean existsByIdLibroAndIdAutorAndRol(Long idLibro, Long idAutor, String rol);
+    boolean existsByLibro_IdLibroAndAutor_IdAutorAndRol(Long idLibro,Long idAutor, String rol );
 
 }

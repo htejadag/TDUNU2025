@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import TDUNU2025.Msbiblioteca.model.entity.Catalogo;
 
 @Repository
-public interface CatalogoRepository extends JpaRepository<Catalogo, Integer> {
+public interface CatalogoRepository extends JpaRepository<Catalogo, Long> {
     // JpaRepository ya incluye los métodos: save(), findById(), findAll(), deleteById(), etc.
 }

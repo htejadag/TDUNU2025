@@ -9,11 +9,11 @@ public interface MultaService {
 
     List<MultaResponse> listar();
 
-    MultaResponse obtener(Integer id);
+    MultaResponse obtener(Long id);
 
     MultaResponse registrar(MultaRequest request);
 
-    MultaResponse actualizar(Integer id, MultaRequest request);
+    MultaResponse actualizar(Long id, MultaRequest request);
 
-    void eliminar(Integer id);
+    void eliminar(Long id);
 }

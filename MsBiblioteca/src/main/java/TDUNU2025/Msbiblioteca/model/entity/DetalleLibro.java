@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 
 
 @Entity
-@Table(name = "detalle_libro")
+@Table(name = "detalleLibro")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -17,10 +17,11 @@ public class DetalleLibro {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idDetalleLibro;
 
+    //-- instanciando Libro--//
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="idLibro")
-    @ToString.Exclude
-    private Libro libro; 
+    @JoinColumn(name = "idLibro", nullable = false) 
+    @ToString.Exclude 
+    private Libro libro;
 
     @Column(nullable = false)
     private Integer stockTotal;
