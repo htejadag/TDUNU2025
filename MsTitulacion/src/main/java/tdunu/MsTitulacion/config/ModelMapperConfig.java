@@ -1,4 +1,4 @@
-package tdunu.MsTramite.config;
+package tdunu.MsTitulacion.config;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;

@@ -1,13 +1,12 @@
-package src.main.java.tdunu.MsTitulacion.repository;
+package tdunu.MsTitulacion.repository;
 
-import src.main.java.tdunu.MsTitulacion.model.entity.DictamenActo;
+import tdunu.MsTitulacion.model.entity.DictamenPostgrado;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.JpaRepository;
-
-import java.util.List;
+import org.springframework.stereotype.Repository;
+import java.util.Optional;
 
 @Repository
-
-public interface DictamenRepository extends JpaRepository<DictamenActo, Long>{
+public interface DictamenRepository extends JpaRepository<DictamenPostgrado, Integer> {
     
+    Optional<DictamenPostgrado> findByIdBorrador(Integer idBorrador);
 }
