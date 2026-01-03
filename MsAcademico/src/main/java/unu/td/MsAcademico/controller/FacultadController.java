@@ -1,14 +1,14 @@
-package unu.td.msacademico.controller;
+package unu.td.MsAcademico.controller;
 
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import unu.td.msacademico.model.request.FacultadRequest;
-import unu.td.msacademico.model.response.FacultadResponse;
-import unu.td.msacademico.service.IFacultadService;
-import unu.td.msacademico.utils.ApiRoutes;
-import unu.td.msacademico.utils.Messages;
-import unu.td.msacademico.utils.ResponseBase;
+import unu.td.MsAcademico.model.request.FacultadRequest;
+import unu.td.MsAcademico.model.response.FacultadResponse;
+import unu.td.MsAcademico.service.IFacultadService;
+import unu.td.MsAcademico.utils.ApiRoutes;
+import unu.td.MsAcademico.utils.Messages;
+import unu.td.MsAcademico.utils.ResponseBase;
 
 import java.util.List;
 

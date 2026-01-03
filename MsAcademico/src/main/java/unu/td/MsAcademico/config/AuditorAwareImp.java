@@ -1,4 +1,4 @@
-package unu.td.msacademico.config;
+package unu.td.MsAcademico.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
@@ -6,8 +6,8 @@ import org.springframework.data.domain.AuditorAware;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
-import unu.td.msacademico.utils.Messages;
-import unu.td.msacademico.utils.exceptions.UnauthorizedException;
+import unu.td.MsAcademico.utils.Messages;
+import unu.td.MsAcademico.utils.exceptions.UnauthorizedException;
 
 import java.util.Base64;
 import java.util.Map;

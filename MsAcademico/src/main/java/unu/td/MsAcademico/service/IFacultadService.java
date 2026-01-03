@@ -1,8 +1,8 @@
-package unu.td.msacademico.service;
+package unu.td.MsAcademico.service;
 
-import unu.td.msacademico.model.response.FacultadResponse;
-import unu.td.msacademico.model.request.FacultadRequest;
-import unu.td.msacademico.utils.IService;
+import unu.td.MsAcademico.model.response.FacultadResponse;
+import unu.td.MsAcademico.model.request.FacultadRequest;
+import unu.td.MsAcademico.utils.IService;
 
 public interface IFacultadService extends IService<FacultadResponse, FacultadRequest> {
 

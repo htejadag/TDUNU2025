@@ -1,4 +1,4 @@
-package unu.td.msacademico.model.request;
+package unu.td.MsAcademico.model.request;
 
 import lombok.Data;
 

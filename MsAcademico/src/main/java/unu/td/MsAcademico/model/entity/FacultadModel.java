@@ -1,8 +1,7 @@
-package unu.td.msacademico.model.entity;
+package unu.td.MsAcademico.model.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Data
 @Entity

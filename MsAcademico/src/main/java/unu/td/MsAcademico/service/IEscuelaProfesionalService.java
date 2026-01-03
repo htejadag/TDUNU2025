@@ -1,8 +1,8 @@
-package unu.td.msacademico.service;
+package unu.td.MsAcademico.service;
 
-import unu.td.msacademico.model.request.EscuelaProfesionalRequest;
-import unu.td.msacademico.model.response.EscuelaProfesionalResponse;
-import unu.td.msacademico.utils.IService;
+import unu.td.MsAcademico.model.request.EscuelaProfesionalRequest;
+import unu.td.MsAcademico.model.response.EscuelaProfesionalResponse;
+import unu.td.MsAcademico.utils.IService;
 
 import java.util.List;
 

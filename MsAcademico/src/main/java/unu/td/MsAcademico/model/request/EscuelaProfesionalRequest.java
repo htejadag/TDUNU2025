@@ -1,8 +1,8 @@
-package unu.td.msacademico.model.request;
+package unu.td.MsAcademico.model.request;
 
 import jakarta.validation.constraints.*;
 import lombok.Data;
-import unu.td.msacademico.utils.Messages;
+import unu.td.MsAcademico.utils.Messages;
 
 @Data
 public class EscuelaProfesionalRequest extends EntidadAcademicaRequest{

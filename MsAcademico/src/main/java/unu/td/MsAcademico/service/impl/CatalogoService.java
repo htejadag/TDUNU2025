@@ -1,18 +1,17 @@
-package unu.td.msacademico.service.impl;
+package unu.td.MsAcademico.service.impl;
 
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
-import unu.td.msacademico.model.entity.CatalogoModel;
-import unu.td.msacademico.model.request.CatalogoRequest;
-import unu.td.msacademico.model.response.CatalogoResponse;
-import unu.td.msacademico.repository.ICatalogoRepository;
-import unu.td.msacademico.service.ICatalogoService;
-import unu.td.msacademico.utils.CatalogoUtils;
-import unu.td.msacademico.utils.Mapper;
-import unu.td.msacademico.utils.Messages;
-import unu.td.msacademico.utils.exceptions.AlreadyExistsException;
-import unu.td.msacademico.utils.exceptions.NotFoundException;
+import unu.td.MsAcademico.model.entity.CatalogoModel;
+import unu.td.MsAcademico.model.request.CatalogoRequest;
+import unu.td.MsAcademico.model.response.CatalogoResponse;
+import unu.td.MsAcademico.repository.ICatalogoRepository;
+import unu.td.MsAcademico.service.ICatalogoService;
+import unu.td.MsAcademico.utils.Mapper;
+import unu.td.MsAcademico.utils.Messages;
+import unu.td.MsAcademico.utils.exceptions.AlreadyExistsException;
+import unu.td.MsAcademico.utils.exceptions.NotFoundException;
 
 import java.util.List;
 

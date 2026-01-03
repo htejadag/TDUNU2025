@@ -1,4 +1,4 @@
-package unu.td.msacademico.config;
+package unu.td.MsAcademico.config;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -8,10 +8,10 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
-import unu.td.msacademico.utils.Messages;
-import unu.td.msacademico.utils.exceptions.AlreadyExistsException;
-import unu.td.msacademico.utils.exceptions.NotFoundException;
-import unu.td.msacademico.utils.exceptions.UnauthorizedException;
+import unu.td.MsAcademico.utils.Messages;
+import unu.td.MsAcademico.utils.exceptions.AlreadyExistsException;
+import unu.td.MsAcademico.utils.exceptions.NotFoundException;
+import unu.td.MsAcademico.utils.exceptions.UnauthorizedException;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
