@@ -11,6 +11,7 @@ import org.springframework.web.context.request.WebRequest;
 import unu.td.msacademico.utils.Messages;
 import unu.td.msacademico.utils.exceptions.AlreadyExistsException;
 import unu.td.msacademico.utils.exceptions.NotFoundException;
+import unu.td.msacademico.utils.exceptions.UnauthorizedException;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -61,6 +62,17 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(AlreadyExistsException.class)
     public ResponseEntity<Object> handleAlreadyExistsExceptions(AlreadyExistsException exp, WebRequest request) {
+        Map<String, Object> body = new HashMap<>();
+        body.put("timestamp", LocalDateTime.now());
+        body.put("message", exp.getMessage());
+        body.put("path", request.getDescription(false));
+        logger.error(Messages.ERROR_LOG, exp);
+
+        return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(UnauthorizedException.class)
+    public ResponseEntity<Object> handleUnauthorizedExceptions(UnauthorizedException exp, WebRequest request) {
         Map<String, Object> body = new HashMap<>();
         body.put("timestamp", LocalDateTime.now());
         body.put("message", exp.getMessage());

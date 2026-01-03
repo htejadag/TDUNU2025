@@ -54,14 +54,12 @@ public class AutoridadService implements IAutoridadService {
         CatalogoModel tipoAutoridad = getTipoAutoridad(request.getIdTipoAutoridad());
         CatalogoModel tipoEntidad = getTipoEntidad(request.getIdTipoEntidad());
         boolean isActive = isPeriodoVigente(request.getFechaInicio(), request.getFechaFin());
-
         if (isActive) {
-            repository.deactivateActivasActuales(request.getIdTipoEntidad(), request.getIdEntidad(), CatalogoUtils.IdUsuarioModificacion);
+            repository.deactivateActivasActuales(request.getIdTipoEntidad(), request.getIdEntidad());
         }
 
         autoridad.setTipoAutoridad(tipoAutoridad);
         autoridad.setTipoEntidad(tipoEntidad);
-        autoridad.setUsuarioCreacion(CatalogoUtils.IdUsuarioCreacion);
         autoridad.setActivo(isActive);
         autoridad = repository.save(autoridad);
 
@@ -75,14 +73,13 @@ public class AutoridadService implements IAutoridadService {
         CatalogoModel tipoAutoridad = getTipoAutoridad(request.getIdTipoAutoridad());
         CatalogoModel tipoEntidad = getTipoEntidad(request.getIdTipoEntidad());
         boolean isActive = isPeriodoVigente(request.getFechaInicio(), request.getFechaFin());
-
         if (isActive) {
-            repository.deactivateActivasActuales(request.getIdTipoEntidad(), request.getIdEntidad(), CatalogoUtils.IdUsuarioModificacion);
+            repository.deactivateActivasActuales(request.getIdTipoEntidad(), request.getIdEntidad());
         }
+
         autoridad = Mapper.Autoridad.requestToModel(autoridad, request);
         autoridad.setTipoAutoridad(tipoAutoridad);
         autoridad.setTipoEntidad(tipoEntidad);
-        autoridad.setUsuarioModificacion(CatalogoUtils.IdUsuarioModificacion);
         autoridad.setActivo(isActive);
         autoridad = repository.save(autoridad);
 
@@ -92,19 +89,19 @@ public class AutoridadService implements IAutoridadService {
     @Override
     public void delete(Integer id) {
         checkExistsById(id);
-        repository.softDelete(id, CatalogoUtils.IdUsuarioModificacion);
+        repository.softDelete(id);
     }
 
     @Override
     public void activate(Integer id) {
         checkExistsById(id);
-        repository.activate(id, CatalogoUtils.IdUsuarioModificacion);
+        repository.activate(id);
     }
 
     @Override
     public void deactivate(Integer id) {
         checkExistsById(id);
-        repository.deactivate(id, CatalogoUtils.IdUsuarioModificacion);
+        repository.deactivate(id);
     }
 
     @Override
@@ -213,10 +210,6 @@ public class AutoridadService implements IAutoridadService {
     }
 
     public void checkParameters(AutoridadRequest request) {
-//        Boolean existe = repository.checkParameters(request.getIdTipoEntidad(), request.getIdEntidad(), request.getFechaInicio(), request.getFechaFin());
-//        if (existe) {
-//            throw new AlreadyExistsException(Messages.ALREADY_EXISTS_AUTORIDAD_BY_PARAMETERS);
-//        }
         checkValidFechaInicioAndFechaFin(request.getFechaInicio(), request.getFechaFin());
         checkAutoridadByTipoEntidad(request.getIdTipoEntidad(), request.getIdTipoAutoridad());
     }

@@ -54,4 +54,7 @@ public class Messages {
     public static final String INVALID_AUTORIDAD_ESCUELA = "Una Escuela solo puede tener como autoridad a un Director";
     public static final String INVALID_TIPO_AUTORIDAD = "El tipo de autoridad no es válido";
 
+    public static final String NOT_AUTHENTICAED_USER = "El usuario no se encuentra autenticado";
+    public static final String NOT_VALID_TOKEN = "El token proporcionado es invalido";
+
 }

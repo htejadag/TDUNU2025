@@ -10,7 +10,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @Data
 @Entity
 @Table(name = "catalogo")
-@EntityListeners(AuditingEntityListener.class)
+//@EntityListeners(AuditingEntityListener.class)
 public class CatalogoModel extends BaseModel{
 
     @Column(nullable = false)

@@ -31,16 +31,16 @@ public interface IAutoridadRepository extends JpaRepository<AutoridadModel, Inte
     public Optional<AutoridadModel> findByEntidadAndFecha(Integer idTipoEntidad, Integer idEntidad, LocalDate fecha);
 
     @Modifying
-    @Query(value = "UPDATE public.autoridades SET eliminado = TRUE, \"usuarioModificacion\" = ?2 WHERE id = ?1", nativeQuery = true)
-    public void softDelete(Integer id, String usuarioModificacion);
+    @Query(value = "UPDATE public.autoridades SET eliminado = TRUE WHERE id = ?1", nativeQuery = true)
+    public void softDelete(Integer id);
 
     @Modifying
-    @Query(value = "UPDATE public.autoridades SET activo = TRUE, \"usuarioModificacion\" = ?2 WHERE id = ?1", nativeQuery = true)
-    public void activate(Integer id, String usuarioModificacion);
+    @Query(value = "UPDATE public.autoridades SET activo = TRUE WHERE id = ?1", nativeQuery = true)
+    public void activate(Integer id);
 
     @Modifying
-    @Query(value = "UPDATE public.autoridades SET activo = FALSE, \"usuarioModificacion\" = ?2 WHERE id = ?1", nativeQuery = true)
-    public void deactivate(Integer id, String usuarioModificacion);
+    @Query(value = "UPDATE public.autoridades SET activo = FALSE WHERE id = ?1", nativeQuery = true)
+    public void deactivate(Integer id);
 
     @Query(value = """
             SELECT EXISTS (
@@ -60,14 +60,14 @@ public interface IAutoridadRepository extends JpaRepository<AutoridadModel, Inte
     @Modifying
     @Query(value = """
                 UPDATE autoridades 
-                SET activo = FALSE, "usuarioModificacion" = ?3, "fechaFin" = CURRENT_DATE 
+                SET activo = FALSE , "fechaFin" = CURRENT_DATE 
                 WHERE eliminado = FALSE 
                   AND "idTipoEntidad" = ?1 
                   AND "idEntidad" = ?2 
                   AND ( "fechaFin" IS NULL OR "fechaFin" >= CURRENT_DATE )
                   AND "fechaInicio" <= CURRENT_DATE
             """, nativeQuery = true)
-    public void deactivateActivasActuales(Integer idTipoEntidad, Integer idEntidad, String usuarioModificacion);
+    public void deactivateActivasActuales(Integer idTipoEntidad, Integer idEntidad);
 
     @Query(value = """
             SELECT EXISTS (

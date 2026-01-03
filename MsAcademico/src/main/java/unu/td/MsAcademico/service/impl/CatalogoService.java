@@ -51,7 +51,6 @@ public class CatalogoService implements ICatalogoService {
 
         CatalogoModel catalogo = mapper.map(request, CatalogoModel.class);
         Integer codigo = getLastCodigoByCategoria(request.getCategoria());
-        catalogo.setUsuarioCreacion(CatalogoUtils.IdUsuarioCreacion);
         catalogo.setCodigo(codigo);
         catalogo = repository.save(catalogo);
 
@@ -64,7 +63,6 @@ public class CatalogoService implements ICatalogoService {
         checkParameters(request, catalogo.getId());
 
         catalogo = Mapper.Catalogo.requestToModel(catalogo, request);
-        catalogo.setUsuarioModificacion(CatalogoUtils.IdUsuarioModificacion);
         catalogo = repository.save(catalogo);
 
         return mapper.map(catalogo, CatalogoResponse.class);
@@ -73,19 +71,19 @@ public class CatalogoService implements ICatalogoService {
     @Override
     public void delete(Integer id) {
         checkExistsById(id);
-        repository.softDelete(id, CatalogoUtils.IdUsuarioModificacion);
+        repository.softDelete(id);
     }
 
     @Override
     public void activate(Integer id) {
         checkExistsById(id);
-        repository.activate(id, CatalogoUtils.IdUsuarioModificacion);
+        repository.activate(id);
     }
 
     @Override
     public void deactivate(Integer id) {
         checkExistsById(id);
-        repository.deactivate(id, CatalogoUtils.IdUsuarioModificacion);
+        repository.deactivate(id);
     }
 
     private CatalogoModel checkExistsById(Integer id) {

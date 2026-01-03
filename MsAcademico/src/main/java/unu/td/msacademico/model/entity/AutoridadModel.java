@@ -14,7 +14,7 @@ import java.time.LocalDate;
 @Data
 @Entity
 @Table(name = "autoridades")
-@EntityListeners(AuditingEntityListener.class)
+//@EntityListeners(AuditingEntityListener.class)
 public class AutoridadModel extends BaseModel{
 
     @Column(nullable = false)

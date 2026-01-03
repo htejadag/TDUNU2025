@@ -47,7 +47,6 @@ public class EscuelaProfesionalService implements IEscuelaProfesionalService {
         EscuelaProfesionalModel escuela = mapper.map(request, EscuelaProfesionalModel.class);
         escuela.setId(null);
         escuela.setFacultad(getFacultad(request.getIdFacultad()));
-        escuela.setUsuarioCreacion(CatalogoUtils.IdUsuarioCreacion);
 
         escuela = repository.save(escuela);
         return mapper.map(escuela, EscuelaProfesionalResponse.class);
@@ -60,7 +59,6 @@ public class EscuelaProfesionalService implements IEscuelaProfesionalService {
 
         escuela = Mapper.Escuela.requestToModel(escuela, request);
         escuela.setFacultad(getFacultad(request.getIdFacultad()));
-        escuela.setUsuarioModificacion(CatalogoUtils.IdUsuarioModificacion);
         escuela = repository.save(escuela);
 
         return mapper.map(escuela, EscuelaProfesionalResponse.class);
@@ -69,19 +67,19 @@ public class EscuelaProfesionalService implements IEscuelaProfesionalService {
     @Override
     public void delete(Integer id) {
         checkExistsById(id);
-        repository.softDelete(id, CatalogoUtils.IdUsuarioModificacion);
+        repository.softDelete(id);
     }
 
     @Override
     public void activate(Integer id) {
         checkExistsById(id);
-        repository.activate(id, CatalogoUtils.IdUsuarioModificacion);
+        repository.activate(id);
     }
 
     @Override
     public void deactivate(Integer id) {
         checkExistsById(id);
-        repository.deactivate(id, CatalogoUtils.IdUsuarioModificacion);
+        repository.deactivate(id);
     }
 
     @Override

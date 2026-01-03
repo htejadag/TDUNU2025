@@ -19,14 +19,14 @@ public interface IFacultadRepository extends JpaRepository<FacultadModel, Intege
     public FacultadModel findByNombre(String nombre);
 
     @Modifying
-    @Query(value = "UPDATE public.facultades SET eliminado = TRUE, \"usuarioModificacion\" = ?2 WHERE id = ?1", nativeQuery = true)
-    public void softDelete(Integer id, String usuarioModificacion);
+    @Query(value = "UPDATE public.facultades SET eliminado = TRUE WHERE id = ?1", nativeQuery = true)
+    public void softDelete(Integer id);
 
     @Modifying
-    @Query(value = "UPDATE public.facultades SET activo = TRUE, \"usuarioModificacion\" = ?2 WHERE id = ?1", nativeQuery = true)
-    public void activate(Integer id, String usuarioModificacion);
+    @Query(value = "UPDATE public.facultades SET activo = TRUE WHERE id = ?1", nativeQuery = true)
+    public void activate(Integer id);
 
     @Modifying
-    @Query(value = "UPDATE public.facultades SET activo = FALSE, \"usuarioModificacion\" = ?2 WHERE id = ?1", nativeQuery = true)
-    public void deactivate(Integer id, String usuarioModificacion);
+    @Query(value = "UPDATE public.facultades SET activo = FALSE WHERE id = ?1", nativeQuery = true)
+    public void deactivate(Integer id);
 }

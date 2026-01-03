@@ -21,16 +21,16 @@ public interface ICatalogoRepository extends JpaRepository<CatalogoModel, Intege
     public Optional<CatalogoModel> findByCategoriaAndNombre(String categoria, String nombre);
 
     @Modifying
-    @Query(value = "UPDATE public.catalogo SET eliminado = TRUE, \"usuarioModificacion\" = ?2 WHERE id = ?1", nativeQuery = true)
-    public void softDelete(Integer id, String usuarioModificacion);
+    @Query(value = "UPDATE public.catalogo SET eliminado = TRUE WHERE id = ?1", nativeQuery = true)
+    public void softDelete(Integer id);
 
     @Modifying
-    @Query(value = "UPDATE public.catalogo SET activo = TRUE, \"usuarioModificacion\" = ?2 WHERE id = ?1", nativeQuery = true)
-    public void activate(Integer id, String usuarioModificacion);
+    @Query(value = "UPDATE public.catalogo SET activo = TRUE WHERE id = ?1", nativeQuery = true)
+    public void activate(Integer id);
 
     @Modifying
-    @Query(value = "UPDATE public.catalogo SET activo = FALSE, \"usuarioModificacion\" = ?2 WHERE id = ?1", nativeQuery = true)
-    public void deactivate(Integer id, String usuarioModificacion);
+    @Query(value = "UPDATE public.catalogo SET activo = FALSE WHERE id = ?1", nativeQuery = true)
+    public void deactivate(Integer id);
 
     @Query(value = "SELECT c.codigo FROM catalogo c WHERE c.categoria = ?1 ORDER BY c.codigo DESC LIMIT 1", nativeQuery = true)
     public Integer getLastCodigoByCategoria(String categoria);
