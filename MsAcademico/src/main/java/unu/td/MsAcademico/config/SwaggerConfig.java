@@ -15,9 +15,9 @@ public class SwaggerConfig {
     public OpenAPI customOpenAPI() {
         return new OpenAPI()
                 .info(new Info()
-                        .title("MsAcademico API REST")
+                        .title("msacademico API REST")
                         .version("1.0")
-                        .description("Documentación para el MsAcademico"))
+                        .description("Documentación para el msacademico"))
                 .addSecurityItem(new SecurityRequirement().addList("bearerAuth"))
                 .components(new Components()
                         .addSecuritySchemes("bearerAuth",
