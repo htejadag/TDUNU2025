@@ -26,6 +26,9 @@ public class MenuDiaModel {
     @ManyToOne
     @JoinColumn(name = "id_menu_semana", nullable = false)
     private MenuSemanaModel menuSemana;
+    
+     @Column(name = "dia", nullable = false)
+    private Integer dia;
 
     @Column(name = "raciones_totales", nullable = false)
     private Integer racionesTotales;

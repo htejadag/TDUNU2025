@@ -8,6 +8,8 @@ public class MenuDiaUpdateRequest {
 
     private Integer idMenuSemana;   
 
+    private Integer Dia;
+
     private Integer racionesTotales;
 
     private Integer racionesRestantes;

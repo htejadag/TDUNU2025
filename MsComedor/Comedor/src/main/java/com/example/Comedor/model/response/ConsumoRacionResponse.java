@@ -11,7 +11,7 @@ public class ConsumoRacionResponse {
 
     private Integer idCuentaUsuario;
 
-    private Integer idMenuDia;  
+    private Integer idMenuPlato;  
 
     private LocalDate fechaConsumo;
 

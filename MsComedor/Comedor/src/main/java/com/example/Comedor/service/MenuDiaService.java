@@ -17,5 +17,7 @@ public interface MenuDiaService {
     MenuDiaResponse modificar(Integer id,MenuDiaUpdateRequest menuDiaRequest);
 
     MenuDiaResponse eliminar(Integer id);
+
+    void descontarRacion(Integer id);
     
 }

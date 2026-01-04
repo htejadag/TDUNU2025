@@ -6,9 +6,11 @@ import java.util.List;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.Comedor.message.ConsumoMessagePublish;
 import com.example.Comedor.model.entity.ConsumoRacionModel;
+import com.example.Comedor.model.entity.MenuDiaModel;
 import com.example.Comedor.model.entity.MenuPlatoModel;
 import com.example.Comedor.model.request.consumoRacion.ConsumoRacionRequest;
 import com.example.Comedor.model.request.consumoRacion.ConsumoRacionUpdateRequest;
@@ -17,6 +19,7 @@ import com.example.Comedor.model.response.ConsumoRacionResponse;
 import com.example.Comedor.repository.ConsumoRacionRepository;
 import com.example.Comedor.repository.MenuPlatoRepository;
 import com.example.Comedor.service.ConsumoRacionService;
+import com.example.Comedor.service.MenuDiaService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -34,7 +37,10 @@ public class ConsumoRacionServiceImp implements ConsumoRacionService {
     @Autowired
     private ConsumoMessagePublish consumoMessagePublish;
 
-    
+    @Autowired
+    private MenuDiaService  menuDiaService;
+
+
 
     @Override
     public List<ConsumoRacionResponse> listar() {
@@ -50,14 +56,15 @@ public class ConsumoRacionServiceImp implements ConsumoRacionService {
             .map(model -> modelMapper.map(model, ConsumoRacionResponse.class))
             .orElse(null);
     }
-
+    
+    @Transactional
     @Override
     public ConsumoRacionResponse guardar(ConsumoRacionRequest consumoRacionRequest) {
       
 
       
         MenuPlatoModel plato = menuPlatoRepository.findById(consumoRacionRequest.getIdMenuPlato())
-            .orElseThrow(() -> new RuntimeException("No existe menu dia con id: " + consumoRacionRequest.getIdMenuPlato()));
+            .orElseThrow(() -> new RuntimeException("No existe plato con id: " + consumoRacionRequest.getIdMenuPlato()));
 
         ConsumoRacionModel modelRa = new ConsumoRacionModel();
 
@@ -84,10 +91,13 @@ public class ConsumoRacionServiceImp implements ConsumoRacionService {
             
         }
 
+        MenuDiaModel  dia =plato.getMenuDia();
 
-        ConsumoRacionResponse response = modelMapper.map(saved, ConsumoRacionResponse.class);
+        menuDiaService.descontarRacion(dia.getId());
 
-        return response;
+        return modelMapper.map(saved, ConsumoRacionResponse.class);
+
+
     }
 
     @Override

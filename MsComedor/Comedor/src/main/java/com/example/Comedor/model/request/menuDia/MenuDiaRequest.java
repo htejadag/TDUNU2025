@@ -7,7 +7,9 @@ import lombok.Data;
 @Data
 public class MenuDiaRequest {
 
-    private Integer idMenuSemana;   
+    private Integer idMenuSemana;
+    
+    private Integer dia;
 
     private Integer racionesTotales;
 
