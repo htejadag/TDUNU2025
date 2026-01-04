@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/documentos")
+@RequestMapping("/documentos")
 public class DocumentoController {
 
     private final DocumentoService service;

@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/jurados")
+@RequestMapping("/jurados")
 @Tag(name = "Jurados", description = "CRUD de jurados")
 public class JuradoController {
 

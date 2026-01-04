@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/revision")
+@RequestMapping("/revision")
 public class FlujoRevisionController {
 
     private final TesisService tesisService;

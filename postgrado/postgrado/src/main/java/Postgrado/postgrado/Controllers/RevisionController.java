@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/revisiones")
+@RequestMapping("/revisiones")
 public class RevisionController {
 
     private final RevisionService service;

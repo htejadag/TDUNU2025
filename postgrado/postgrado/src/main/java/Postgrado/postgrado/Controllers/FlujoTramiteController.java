@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/tramite")
+@RequestMapping("/tramite")
 public class FlujoTramiteController {
 
     private final ExpedienteService expedienteService;

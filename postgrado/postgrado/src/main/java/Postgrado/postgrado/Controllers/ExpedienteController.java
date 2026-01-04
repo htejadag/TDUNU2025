@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/expedientes")
+@RequestMapping("/expedientes")
 @Tag(name = "Expedientes", description = "CRUD de expedientes")
 public class ExpedienteController {
 
