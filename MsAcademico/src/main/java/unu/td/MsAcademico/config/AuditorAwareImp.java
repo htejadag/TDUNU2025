@@ -34,7 +34,7 @@ public class AuditorAwareImp implements AuditorAware<String> {
             Object idUsuario = claims.get("idUsuario");
 
             if (idUsuario == null) {
-                throw new UnauthorizedException(Messages.NOT_AUTHENTICAED_USER);
+                throw new UnauthorizedException(Messages.NOT_VALID_TOKEN);
             }
 
             return Optional.of(idUsuario.toString());

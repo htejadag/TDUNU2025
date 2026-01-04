@@ -180,14 +180,6 @@ public class AutoridadService implements IAutoridadService {
         return model;
     }
 
-    public CatalogoModel getTipo(Integer idTipo) {
-        CatalogoModel model = catalogoRepository.findById(idTipo).orElse(null);
-        if (model == null) {
-            throw new NotFoundException(Messages.NOT_FOUND_CATALOGO_BY_ID);
-        }
-        return model;
-    }
-
     private void checkAutoridadByTipoEntidad(Integer idTipoEntidad, Integer idTipoAutoridad) {
         if (idTipoEntidad.equals(CatalogoUtils.ID_TIPO_ENTIDAD_FACULTAD) && !idTipoAutoridad.equals(CatalogoUtils.ID_TIPO_AUTORIDAD_DECANO)) {
             throw new BadRequestException(Messages.INVALID_AUTORIDAD_FACULTAD);
