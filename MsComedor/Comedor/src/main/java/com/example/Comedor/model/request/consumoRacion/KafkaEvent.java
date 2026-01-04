@@ -8,6 +8,8 @@ import lombok.Data;
 public class KafkaEvent {
 
     private Integer idCuentaUsuario;
+
+    private Integer idUsuarioCreacion;
     
     
 }

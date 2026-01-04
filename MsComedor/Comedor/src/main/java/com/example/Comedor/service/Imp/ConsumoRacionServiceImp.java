@@ -83,6 +83,7 @@ public class ConsumoRacionServiceImp implements ConsumoRacionService {
             KafkaEvent event =new KafkaEvent();
 
             event.setIdCuentaUsuario(saved.getIdCuentaUsuario());
+            event.setIdUsuarioCreacion(saved.getUsuarioCreacion());
             consumoMessagePublish.sendConsumoEvent(event);
             
         } catch (Exception e) {
