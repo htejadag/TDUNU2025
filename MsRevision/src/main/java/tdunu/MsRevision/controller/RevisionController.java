@@ -17,7 +17,6 @@ public class RevisionController {
 
     @Autowired
     private RevisionService revisionService;
-
     /**
      * Registra una nueva revisión o dictamen.
      * Ruta: /api/titulacion/revision/registrar
