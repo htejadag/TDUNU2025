@@ -11,43 +11,54 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import Ms_Reingresante.Ms_Reingresante.model.request.procesoReingresoRequest;
-import Ms_Reingresante.Ms_Reingresante.model.response.procesoReingresoResponse;
+import com.fasterxml.jackson.core.JsonProcessingException;
+
+import Ms_Reingresante.Ms_Reingresante.message.ProductorMessagePublish;
+import Ms_Reingresante.Ms_Reingresante.model.request.ProcesoReingresoRequest;
+import Ms_Reingresante.Ms_Reingresante.model.response.ProcesoReingresoResponse;
 import Ms_Reingresante.Ms_Reingresante.service.ProcesoReingresoService;
 import Ms_Reingresante.Ms_Reingresante.util.ApiRoutes;
-import Ms_Reingresante.Ms_Reingresante.util.procesoReingresanteBase;
-
+import Ms_Reingresante.Ms_Reingresante.util.ProcesoReingresanteBase;
 
 
 
 @RestController
 @RequestMapping(ApiRoutes.ProcesoReingresante.BASE)
-public class procesoReingresanteController {
+public class ProcesoReingresanteController {
     
 @Autowired
-  ProcesoReingresoService ProcesoReingresoService;
+  ProcesoReingresoService procesoReingresoService;
+
+ @Autowired
+  ProductorMessagePublish messageEvent;
 
   @GetMapping(value = ApiRoutes.ProcesoReingresante.LISTAR)
-  public procesoReingresanteBase<List<procesoReingresoResponse>> listar() {
-    List<procesoReingresoResponse> lista = ProcesoReingresoService.listarProcesoReingreso();
-    return procesoReingresanteBase.ok(lista);
+  public ProcesoReingresanteBase<List<ProcesoReingresoResponse>> listar() {
+    List<ProcesoReingresoResponse> lista = procesoReingresoService.listarProcesoReingreso();
+    return ProcesoReingresanteBase.ok(lista);
   }
 
 @GetMapping(value = ApiRoutes.ProcesoReingresante.OBTENER_POR_ID)
-  public procesoReingresanteBase<procesoReingresoResponse> obtenerPorId(@RequestParam(value = "id") Integer id) {
-    procesoReingresoResponse response = ProcesoReingresoService.obtenerPorIdProcesoReingreso(id);
-    return procesoReingresanteBase.ok(response);
+  public ProcesoReingresanteBase<ProcesoReingresoResponse> obtenerPorId(@RequestParam(value = "id") Integer id) {
+    ProcesoReingresoResponse response = procesoReingresoService.obtenerPorIdProcesoReingreso(id);
+    return ProcesoReingresanteBase.ok(response);
   }
 
 @PostMapping(value = ApiRoutes.ProcesoReingresante.GUARDAR)
-  public procesoReingresanteBase<procesoReingresoResponse> guardar(@RequestBody procesoReingresoRequest model) {
-    procesoReingresoResponse response = ProcesoReingresoService.guardarProcesoReingreso(model);
-    return procesoReingresanteBase.ok(response);
-  }
+public ProcesoReingresanteBase<ProcesoReingresoResponse> guardar(@RequestBody ProcesoReingresoRequest model)
+        throws JsonProcessingException {
+
+    ProcesoReingresoResponse response = procesoReingresoService.guardarProcesoReingreso(model);
+
+    messageEvent.sendProcesoReingresoEvent(response);
+
+    return ProcesoReingresanteBase.ok(response);
+}
+
 
     @DeleteMapping(value = ApiRoutes.ProcesoReingresante.ELIMINAR)
-  public procesoReingresoResponse eliminar(@RequestParam(value = "id") Integer id) {
-    ProcesoReingresoService.eliminarProcesoReingreso(id);
+  public ProcesoReingresoResponse eliminar(@RequestParam(value = "id") Integer id) {
+    procesoReingresoService.eliminarProcesoReingreso(id);
     return null;
   }
 

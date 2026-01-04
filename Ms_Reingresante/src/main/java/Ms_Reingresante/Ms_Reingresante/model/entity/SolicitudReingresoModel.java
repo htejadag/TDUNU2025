@@ -3,7 +3,7 @@ package Ms_Reingresante.Ms_Reingresante.model.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+
 
 @Data
 @Entity
@@ -40,13 +40,13 @@ public class SolicitudReingresoModel {
     private Integer resolucionIdResolucion;
 
     @Column(name = "FECHA_CREACION")
-    private LocalDateTime fechaCreacion;
+    private LocalDate fechaCreacion;
 
     @Column(name = "USUARIO_CREACION")
     private String usuarioCreacion;
 
     @Column(name = "FECHA_MODIFICACION")
-    private LocalDateTime fechaModificacion;
+    private LocalDate fechaModificacion;
 
     @Column(name = "USUARIO_MODIFICACION")
     private String usuarioModificacion;

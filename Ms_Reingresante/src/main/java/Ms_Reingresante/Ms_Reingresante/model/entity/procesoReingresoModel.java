@@ -1,7 +1,7 @@
 package Ms_Reingresante.Ms_Reingresante.model.entity;
 
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -14,7 +14,7 @@ import lombok.Data;
 @Data
 @Entity
 @Table(name = "proceso_Reingreso")
-public class procesoReingresoModel {
+public class ProcesoReingresoModel {
  
        @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,10 +28,10 @@ public class procesoReingresoModel {
     private String procCodigo;
 
     @Column(name = "Proc_Fecha_Inicio")
-    private LocalDateTime procFechaInicio;
+    private LocalDate procFechaInicio;
 
     @Column(name = "Proc_Fecha_Fin")
-    private LocalDateTime procFechaFin;
+    private LocalDate procFechaFin;
 
     @Column(name = "Proc_Estado")
     private String procEstado;
@@ -40,40 +40,40 @@ public class procesoReingresoModel {
     private String procObservaciones;
 
     @Column(name = "Proc_Fecha_Pago_Ficha")
-    private LocalDateTime procFechaPagoFicha;
+    private LocalDate procFechaPagoFicha;
 
     @Column(name = "Proc_Fecha_Emision_Ficha")
-    private LocalDateTime procFechaEmisionFicha;
+    private LocalDate procFechaEmisionFicha;
 
     @Column(name = "Proc_Fecha_Pago_Informe")
-    private LocalDateTime procFechaPagoInforme;
+    private LocalDate procFechaPagoInforme;
 
     @Column(name = "Proc_Fecha_Solicitud_Informe")
-    private LocalDateTime procFechaSolicitudInforme;
+    private LocalDate procFechaSolicitudInforme;
 
     @Column(name = "Proc_Fecha_Emision_Informe")
-    private LocalDateTime procFechaEmisionInforme;
+    private LocalDate procFechaEmisionInforme;
 
     @Column(name = "Proc_Fecha_Solicitud_Reingreso")
-    private LocalDateTime procFechaSolicitudReingreso;
+    private LocalDate procFechaSolicitudReingreso;
 
     @Column(name = "Proc_Fecha_Resolucion")
-    private LocalDateTime procFechaResolucion;
+    private LocalDate procFechaResolucion;
 
     @Column(name = "Proc_Fecha_Matricula")
-    private LocalDateTime procFechaMatricula;
+    private LocalDate procFechaMatricula;
 
     @Column(name = "Proc_Fase_Actual")
     private String procFaseActual;
 
     @Column(name = "FECHA_CREACION")
-    private LocalDateTime fechaCreacion;
+    private LocalDate fechaCreacion;
 
     @Column(name = "USUARIO_CREACION")
     private String usuarioCreacion;
 
     @Column(name = "FECHA_MODIFICACION")
-    private LocalDateTime fechaModificacion;
+    private LocalDate fechaModificacion;
 
     @Column(name = "USUARIO_MODIFICACION")
     private String usuarioModificacion;
