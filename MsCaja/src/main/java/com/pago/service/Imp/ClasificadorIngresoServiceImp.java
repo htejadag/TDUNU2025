@@ -1,6 +1,7 @@
 package com.pago.service.Imp;
 
 import java.util.List;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -14,24 +15,36 @@ public class ClasificadorIngresoServiceImp implements ClasificadorIngresoService
     @Qualifier("clasificador_ingresoRepositorio")
     private ClasificadorIngresoRepository clasificador_ingresoRepositorio;
 
+    @Autowired
+    private ModelMapper modelMapper;
+
     @Override
     public List<ClasificadorIngresoModel> listarClasificadorIngreso(){
-        return clasificador_ingresoRepositorio.findAll();
+        return clasificador_ingresoRepositorio.findAll().
+        stream()
+        .map(model -> modelMapper.map(model, ClasificadorIngresoModel.class))
+        .toList();
     }
 
     @Override
     public ClasificadorIngresoModel obtenerClasificadorIngreso(int id){
-        return clasificador_ingresoRepositorio.findById(id).orElse(null);
+        return clasificador_ingresoRepositorio.findById(id)
+        .map(model -> modelMapper.map(model, ClasificadorIngresoModel.class))
+        .orElse(null);
     }
 
     @Override
     public ClasificadorIngresoModel registrarClasificadorIngreso(ClasificadorIngresoModel clasificador){
-        return clasificador_ingresoRepositorio.save(clasificador);
+        ClasificadorIngresoModel model = modelMapper.map(clasificador, ClasificadorIngresoModel.class);
+        ClasificadorIngresoModel saved = clasificador_ingresoRepositorio.save(model);
+        return modelMapper.map(saved, ClasificadorIngresoModel.class);
     }
 
     @Override
     public ClasificadorIngresoModel actualizarClasificadorIngreso(ClasificadorIngresoModel clasificador){
-        return clasificador_ingresoRepositorio.save(clasificador);
+        ClasificadorIngresoModel model = modelMapper.map(clasificador, ClasificadorIngresoModel.class);
+        ClasificadorIngresoModel saved = clasificador_ingresoRepositorio.save(model);
+        return modelMapper.map(saved, ClasificadorIngresoModel.class);
     }
 
     @Override
