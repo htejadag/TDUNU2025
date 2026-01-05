@@ -76,7 +76,7 @@ public class ConsejoServiceImp implements ConsejoService {
 
     @Override
     public List<ConsejoResponse> listarVigentes() {
-            // Estado activo = 1 (puedes ajustar según tu catálogo)
+            // Estado activo = 1 (puedes ajustar según tu catalogo)
             Integer estadoActivo = 1;
             return consejoRepository.findByIdEstado(estadoActivo).stream().map(mapper::toResponse).toList();
     }

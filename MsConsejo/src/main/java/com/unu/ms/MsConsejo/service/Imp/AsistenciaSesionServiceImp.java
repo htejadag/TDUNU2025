@@ -26,7 +26,7 @@ public class AsistenciaSesionServiceImp implements AsistenciaSesionService {
         private final SesionConsejoRepository sesionConsejoRepository;
         private final AsistenciaSesionMapper mapper;
         
-        // IDs de estados de asistencia (basados en catálogo)
+        // IDs de estados de asistencia (basados en catalogo)
         private static final Integer ESTADO_PRESENTE = 1;
         private static final Integer ESTADO_AUSENTE = 2;
         private static final Integer ESTADO_JUSTIFICADO = 3;

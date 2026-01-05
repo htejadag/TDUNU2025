@@ -24,7 +24,7 @@ public class SesionConsejoServiceImp implements SesionConsejoService {
         private final SesionConsejoRepository sesionConsejoRepository;
         private final SesionConsejoMapper mapper;
         
-        // IDs de estados de sesión (basados en catálogo)
+        // IDs de estados de sesión (basados en catalogo)
         private static final Integer ESTADO_PROGRAMADA = 1;
         private static final Integer ESTADO_FINALIZADA = 2;
         private static final Integer ESTADO_CANCELADA = 3;
