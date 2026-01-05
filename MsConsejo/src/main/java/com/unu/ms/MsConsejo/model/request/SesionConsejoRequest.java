@@ -12,14 +12,14 @@ import lombok.NoArgsConstructor;
 public class SesionConsejoRequest {
 
     // Integer idSesion;
-    // ConsejoModel idConsejo;
+    Integer consejo;
     String numeroSesion;
     String nombreSesion;
     LocalDate fechaSesion;
     Integer idTipoSesion;
     String descripcion;
-    // Integer idEstado;
-    // Integer usuarioRegistro;
+    Integer idEstado;
+    Integer usuarioRegistro;
     // LocalDateTime fechaCreacion;
     // List<AsistenciaSesionModel> asistencias;
 

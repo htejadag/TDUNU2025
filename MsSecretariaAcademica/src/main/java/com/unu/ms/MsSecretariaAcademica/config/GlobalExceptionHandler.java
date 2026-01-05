@@ -53,7 +53,7 @@ public class GlobalExceptionHandler {
   // Errores genéricos de persistencia
   @ExceptionHandler(PersistenceException.class)
   public ResponseEntity<ResponseBase<Object>> handlePersistence(PersistenceException ex) {
-    log.error("Error de persistencia: {}", ex.getMessage(), ex);
+    log.error("Error de persistencia: {}", ex.getMessage());
     return ResponseEntity
         .status(HttpStatus.INTERNAL_SERVER_ERROR)
         .body(ResponseBase.error(Mensajes.ERROR_PERSISTENCIA));

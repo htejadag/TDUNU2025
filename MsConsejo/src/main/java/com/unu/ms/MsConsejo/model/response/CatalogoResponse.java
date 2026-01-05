@@ -10,9 +10,8 @@ import lombok.NoArgsConstructor;
 public class CatalogoResponse {
 
     Integer idCatalogo;
-    Integer idPadre;
-    String descripcionCatalogo;
-    String abreviaturaCatalogo;
-    String estadoCatalogo;
+    String categoria;
+    String valor;
+    String descripcion;
 
 }

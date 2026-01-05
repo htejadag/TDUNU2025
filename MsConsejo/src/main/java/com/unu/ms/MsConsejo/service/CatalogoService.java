@@ -13,12 +13,8 @@ public interface CatalogoService {
     public void eliminar(Integer id);
     public CatalogoResponse actualizar(Integer id, CatalogoRequest catalogoActualizado);
     public boolean existePorId(Integer id);
-    
-    public List<CatalogoResponse> buscarPorDescripcion(String descripcion);
-    public List<CatalogoResponse> buscarPorAbreviatura(String abreviatura);
-    public List<CatalogoResponse> buscarPorEstado(String estado);
-    public List<CatalogoResponse> buscarHijosPorPadre(Integer idPadre);
-    public List<CatalogoResponse> buscarCatalogosRaiz();
-    public List<CatalogoResponse> buscarPorPadreYEstado(Integer idPadre, String estado);
+
+    public CatalogoResponse buscarPorCategoriaYValor(String categoria, String valor);
+    public List<CatalogoResponse> buscarPorCategoria(String categoria);
 
 }

@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 public class MiembroConsejoResponse {
 
     Integer idMiembro;
-    // public ConsejoModel idConsejo;
+    Integer consejo;
     Integer idPersona;
     Integer idCargo;
     LocalDate fechaInicio;

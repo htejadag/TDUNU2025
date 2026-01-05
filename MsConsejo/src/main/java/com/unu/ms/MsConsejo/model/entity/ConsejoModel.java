@@ -46,5 +46,4 @@ public class ConsejoModel {
     @OneToMany(mappedBy = "consejo", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<SesionConsejoModel> sesiones;
 
-
 }
