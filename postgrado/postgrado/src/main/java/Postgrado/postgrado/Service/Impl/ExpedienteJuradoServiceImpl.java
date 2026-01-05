@@ -11,14 +11,28 @@ import java.util.List;
 public class ExpedienteJuradoServiceImpl implements ExpedienteJuradoService {
 
     private final ExpedienteJuradoRepository repository;
+    private final Postgrado.postgrado.Service.Kafka.ProducerService producerService;
 
-    public ExpedienteJuradoServiceImpl(ExpedienteJuradoRepository repository) {
+    public ExpedienteJuradoServiceImpl(ExpedienteJuradoRepository repository,
+            Postgrado.postgrado.Service.Kafka.ProducerService producerService) {
         this.repository = repository;
+        this.producerService = producerService;
     }
 
     @Override
     public ExpedienteJurado crear(ExpedienteJurado ej) {
-        return repository.save(ej);
+        ExpedienteJurado saved = repository.save(ej);
+        try {
+            // Emitir evento JuradoAsignado
+            String message = String.format(
+                    "{\"event\": \"JuradoAsignado\", \"idAsignacion\": %d, \"idJurado\": %d, \"idExpediente\": %d}",
+                    saved.getIdExpJurado(), saved.getJurado().getIdJurado(),
+                    saved.getExpediente().getIdExpediente());
+            producerService.sendMessage("postgrado_events", message);
+        } catch (Exception e) {
+            System.err.println("Error enviando mensaje a Kafka: " + e.getMessage());
+        }
+        return saved;
     }
 
     @Override
