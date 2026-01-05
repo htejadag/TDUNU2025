@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>unu.td</groupId>
-	<artifactId>MsAcademico</artifactId>
+	<artifactId>msacademico</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>MsAcademico</name>
+	<name>msacademico</name>
 	<description>Demo project for Spring Boot</description>
 	<url/>
 	<licenses>

@@ -1,18 +1,17 @@
-package unu.td.msacademico.service.impl;
+package unu.td.MsAcademico.service.impl;
 
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
-import unu.td.msacademico.model.entity.FacultadModel;
-import unu.td.msacademico.model.response.FacultadResponse;
-import unu.td.msacademico.model.request.FacultadRequest;
-import unu.td.msacademico.repository.IFacultadRepository;
-import unu.td.msacademico.service.IFacultadService;
-import unu.td.msacademico.utils.CatalogoUtils;
-import unu.td.msacademico.utils.Mapper;
-import unu.td.msacademico.utils.Messages;
-import unu.td.msacademico.utils.exceptions.AlreadyExistsException;
-import unu.td.msacademico.utils.exceptions.NotFoundException;
+import unu.td.MsAcademico.model.entity.FacultadModel;
+import unu.td.MsAcademico.model.response.FacultadResponse;
+import unu.td.MsAcademico.model.request.FacultadRequest;
+import unu.td.MsAcademico.repository.IFacultadRepository;
+import unu.td.MsAcademico.service.IFacultadService;
+import unu.td.MsAcademico.utils.Mapper;
+import unu.td.MsAcademico.utils.Messages;
+import unu.td.MsAcademico.utils.exceptions.AlreadyExistsException;
+import unu.td.MsAcademico.utils.exceptions.NotFoundException;
 
 import java.util.List;
 
@@ -42,9 +41,8 @@ public class FacultadService implements IFacultadService {
         checkExistsByNombre(request.getNombre(), 0);
 
         FacultadModel facultad = mapper.map(request, FacultadModel.class);
-        facultad.setUsuarioCreacion(CatalogoUtils.IdUsuarioCreacion);
-
         facultad = repository.save(facultad);
+
         return mapper.map(facultad, FacultadResponse.class);
     }
 
@@ -54,7 +52,6 @@ public class FacultadService implements IFacultadService {
         checkExistsByNombre(request.getNombre(), facultad.getId());
 
         facultad = Mapper.Facultad.requestToModel(facultad, request);
-        facultad.setUsuarioModificacion(CatalogoUtils.IdUsuarioModificacion);
         facultad = repository.save(facultad);
 
         return mapper.map(facultad, FacultadResponse.class);
@@ -63,19 +60,19 @@ public class FacultadService implements IFacultadService {
     @Override
     public void delete(Integer id) {
         checkExistsById(id);
-        repository.softDelete(id, CatalogoUtils.IdUsuarioModificacion);
+        repository.softDelete(id);
     }
 
     @Override
     public void activate(Integer id) {
         checkExistsById(id);
-        repository.activate(id, CatalogoUtils.IdUsuarioModificacion);
+        repository.activate(id);
     }
 
     @Override
     public void deactivate(Integer id) {
         checkExistsById(id);
-        repository.deactivate(id, CatalogoUtils.IdUsuarioModificacion);
+        repository.deactivate(id);
     }
 
     private FacultadModel checkExistsById(Integer id) {
