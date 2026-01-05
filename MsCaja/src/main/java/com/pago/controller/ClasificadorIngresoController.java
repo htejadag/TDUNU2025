@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
 @RequestMapping(ApiRoutes.Demo.CLA_INGRESO)
@@ -41,13 +42,26 @@ public class ClasificadorIngresoController {
     }
 
     @PostMapping(ApiRoutes.Demo.GUARDAR)
-    public ClasificadorIngresoModel crear(@RequestParam("codigo") String codigo,
-                                          @RequestParam("nombre") String nombre,
-                                          @RequestParam("id_usuario") int id_usuario) {
+    public ClasificadorIngresoModel crear(@RequestBody ClasificadorIngresoModel req) {
+        if (req.getCodigo() == null || req.getCodigo().trim().isEmpty()) {
+            ClasificadorIngresoModel resp = new ClasificadorIngresoModel();
+            resp.setMensaje("codigo es requerido");
+            return resp;
+        }
+        if (req.getNombre() == null || req.getNombre().trim().isEmpty()) {
+            ClasificadorIngresoModel resp = new ClasificadorIngresoModel();
+            resp.setMensaje("nombre es requerido");
+            return resp;
+        }
+        if (req.getUsuario_creacion() == null) {
+            ClasificadorIngresoModel resp = new ClasificadorIngresoModel();
+            resp.setMensaje("usuario_creacion es requerido");
+            return resp;
+        }
         ClasificadorIngresoModel c = new ClasificadorIngresoModel();
-        c.setCodigo(codigo);
-        c.setNombre(nombre);
-        c.setUsuario_creacion(id_usuario);
+        c.setCodigo(req.getCodigo().trim());
+        c.setNombre(req.getNombre().trim());
+        c.setUsuario_creacion(req.getUsuario_creacion());
         c.setFecha_creacion(LocalDateTime.now());
         c.setActivo(true);
         c.setEs_eliminado(false);
@@ -57,19 +71,27 @@ public class ClasificadorIngresoController {
     }
 
     @PutMapping(ApiRoutes.Demo.EDITAR)
-    public ClasificadorIngresoModel editar(@RequestParam("id") int id,
-                                           @RequestParam("codigo") String codigo,
-                                           @RequestParam("nombre") String nombre,
-                                           @RequestParam("id_usuario") int id_usuario) {
-        ClasificadorIngresoModel c = clasificador_ingresoServicio.obtenerClasificadorIngreso(id);
+    public ClasificadorIngresoModel editar(@RequestBody ClasificadorIngresoModel req) {
+        if (req.getClasificadoringresoid() == null) {
+            ClasificadorIngresoModel resp = new ClasificadorIngresoModel();
+            resp.setMensaje("clasificadoringresoid es requerido");
+            return resp;
+        }
+        if (req.getUsuario_modificacion() == null) {
+            ClasificadorIngresoModel resp = new ClasificadorIngresoModel();
+            resp.setMensaje("usuario_modificacion es requerido");
+            return resp;
+        }
+        ClasificadorIngresoModel c = clasificador_ingresoServicio.obtenerClasificadorIngreso(req.getClasificadoringresoid());
         if (c == null) {
             ClasificadorIngresoModel resp = new ClasificadorIngresoModel();
             resp.setMensaje(Mensajes.NO_ENCONTRADO);
             return resp;
         }
-        c.setCodigo(codigo);
-        c.setNombre(nombre);
-        c.setUsuario_modificacion(id_usuario);
+        if (req.getCodigo() != null) c.setCodigo(req.getCodigo().trim());
+        if (req.getNombre() != null) c.setNombre(req.getNombre().trim());
+        c.setActivo(req.getActivo());
+        c.setUsuario_modificacion(req.getUsuario_modificacion());
         c.setFecha_modificacion(LocalDateTime.now());
         c = clasificador_ingresoServicio.actualizarClasificadorIngreso(c);
         c.setMensaje(Mensajes.ACTUALIZADO_OK);
@@ -78,7 +100,7 @@ public class ClasificadorIngresoController {
 
     @PutMapping(ApiRoutes.Demo.DESACTIVAR)
     public ClasificadorIngresoModel desactivar(@RequestParam("id") int id,
-                                               @RequestParam("id_usuario") int id_usuario) {
+                                            @RequestParam("id_usuario") int id_usuario) {
         ClasificadorIngresoModel c = clasificador_ingresoServicio.obtenerClasificadorIngreso(id);
         if (c == null) {
             ClasificadorIngresoModel resp = new ClasificadorIngresoModel();

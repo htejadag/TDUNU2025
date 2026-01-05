@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
 @RequestMapping(ApiRoutes.Demo.APE_CIE_CAJA)
@@ -41,10 +42,15 @@ public class AperturaCierreCajaController {
     }
 
     @PostMapping(ApiRoutes.Demo.GUARDAR)
-    public AperturaCierreCajaModel crear(@RequestParam("id_usuario") int id_usuario) {
+    public AperturaCierreCajaModel crear(@RequestBody AperturaCierreCajaModel apeCieCaja) {
+        if (apeCieCaja.getUsuario_creacion() == null) {
+            AperturaCierreCajaModel resp = new AperturaCierreCajaModel();
+            resp.setMensaje("usuario_creacion es requerido");
+            return resp;
+        }
         AperturaCierreCajaModel a = new AperturaCierreCajaModel();
         a.setFecha_apertura(LocalDateTime.now());
-        a.setUsuario_creacion(id_usuario);
+        a.setUsuario_creacion(apeCieCaja.getUsuario_creacion());
         a.setFecha_creacion(LocalDateTime.now());
         a.setActivo(true);
         a.setEs_eliminado(false);
@@ -52,28 +58,48 @@ public class AperturaCierreCajaController {
         a.setMensaje(Mensajes.GUARDADO_OK);
         return a;
     }
-/*
+
     @PutMapping(ApiRoutes.Demo.EDITAR)
-    public String aditar(@RequestParam("id") int id, @RequestBody AperturaCierreCajaModel apeCieCaja) {
-        if(ape_cie_cajaServicio.obtenerApeCieCaja(id) == null){
-            return "No se encontró una AperturaCierreCaja con ese ID proposcionado";
+    public AperturaCierreCajaModel editar(@RequestBody AperturaCierreCajaModel apeCieCaja) {
+        if (apeCieCaja.getAperturacierrecajaid() == null) {
+            AperturaCierreCajaModel resp = new AperturaCierreCajaModel();
+            resp.setMensaje("aperturacierrecajaid es requerido");
+            return resp;
         }
-        ape_cie_cajaServicio.actualizarApeCieCaja(apeCieCaja);
-        return "Encontrado exitosamente";
-    }
-*/
-    @PutMapping(ApiRoutes.Demo.DESACTIVAR)
-    public AperturaCierreCajaModel desactivar(@RequestParam("id") int id,
-                                              @RequestParam("id_usuario") int id_usuario) {
-        AperturaCierreCajaModel a = ape_cie_cajaServicio.obtenerApeCieCaja(id);
-        if(a == null){
+        if (apeCieCaja.getUsuario_modificacion() == null) {
+            AperturaCierreCajaModel resp = new AperturaCierreCajaModel();
+            resp.setMensaje("usuario_modificacion es requerido");
+            return resp;
+        }
+        AperturaCierreCajaModel a = ape_cie_cajaServicio.obtenerApeCieCaja(apeCieCaja.getAperturacierrecajaid());
+        if (a == null) {
             AperturaCierreCajaModel resp = new AperturaCierreCajaModel();
             resp.setMensaje(Mensajes.NO_ENCONTRADO);
             return resp;
         }
-        a.setFecha_cierre(LocalDateTime.now());
-        a.setUsuario_modificacion(id_usuario);
+        if (apeCieCaja.getFecha_apertura() != null) a.setFecha_apertura(apeCieCaja.getFecha_apertura());
+        if (apeCieCaja.getFecha_cierre() != null) a.setFecha_cierre(apeCieCaja.getFecha_cierre());
+        a.setActivo(apeCieCaja.getActivo());
+        a.setUsuario_modificacion(apeCieCaja.getUsuario_modificacion());
         a.setFecha_modificacion(LocalDateTime.now());
+        a = ape_cie_cajaServicio.actualizarApeCieCaja(a);
+        a.setMensaje(Mensajes.ACTUALIZADO_OK);
+        return a;
+    }
+    
+    @PutMapping(ApiRoutes.Demo.DESACTIVAR)
+    public AperturaCierreCajaModel desactivar(@RequestParam("id") int id,
+                                            @RequestParam("id_usuario") int id_usuario) {
+        AperturaCierreCajaModel a = ape_cie_cajaServicio.obtenerApeCieCaja(id);
+        if (a == null) {
+            AperturaCierreCajaModel resp = new AperturaCierreCajaModel();
+            resp.setMensaje(Mensajes.NO_ENCONTRADO);
+            return resp;
+        }
+        LocalDateTime now = LocalDateTime.now();
+        a.setFecha_cierre(now);
+        a.setUsuario_modificacion(id_usuario);
+        a.setFecha_modificacion(now);
         a.setActivo(false);
         a = ape_cie_cajaServicio.actualizarApeCieCaja(a);
         a.setMensaje(Mensajes.DESACTIVADO_OK);

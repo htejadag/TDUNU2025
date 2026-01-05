@@ -3,8 +3,6 @@ package com.pago.util;
 public class Mensajes {
 
   // Genericos
-  private String msj1 = "Se guardo correctamente";
-  
   public static final String GUARDADO_OK    = "Se guardó correctamente";
   public static final String ACTUALIZADO_OK = "Se actualizó correctamente";
   public static final String ENCONTRADO     = "Se encontró el registro con ese ID";
@@ -17,6 +15,7 @@ public class Mensajes {
   // Consultas
 
   // Personas
+
   // Ventas
   
 }

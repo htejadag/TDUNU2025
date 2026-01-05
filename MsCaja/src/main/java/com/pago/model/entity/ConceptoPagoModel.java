@@ -12,10 +12,9 @@ public class ConceptoPagoModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "conceptopagoid")
     private Integer conceptopagoid;
-
-    @ManyToOne
-    @JoinColumn(name = "clasificadorid", foreignKey = @ForeignKey(name = "FK_concepto_pago_clasificador_ingreso"))
-    private ClasificadorIngresoModel clasificador_ingreso;
+    
+    @Column(name = "clasificadoringresoid")
+    private Integer clasificadoringresoid;
 
     @Column(name = "nombre_concepto")
     private String nombre_concepto;

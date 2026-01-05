@@ -9,13 +9,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.pago.util.ApiRoutes;
 import com.pago.util.Mensajes;
-import com.pago.model.entity.ClasificadorIngresoModel;
 import com.pago.model.entity.ConceptoPagoModel;
 import com.pago.service.ConceptoPagoService;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
 @RequestMapping(ApiRoutes.Demo.CONCEPTO_PAGO)
@@ -42,17 +42,27 @@ public class ConceptoPagoController {
     }
 
     @PostMapping(ApiRoutes.Demo.GUARDAR)
-    public ConceptoPagoModel crear(@RequestParam("clasificadorid") int clasificadorid,
-                                   @RequestParam("nombre_concepto") String nombre_concepto,
-                                   @RequestParam("precio_base") float precio_base,
-                                   @RequestParam("id_usuario") int id_usuario) {
+    public ConceptoPagoModel crear(@RequestBody ConceptoPagoModel req) {
+        if (req.getClasificadoringresoid() == null) {
+            ConceptoPagoModel resp = new ConceptoPagoModel();
+            resp.setMensaje("clasificadoringresoid es requerido");
+            return resp;
+        }
+        if (req.getNombre_concepto() == null || req.getNombre_concepto().trim().isEmpty()) {
+            ConceptoPagoModel resp = new ConceptoPagoModel();
+            resp.setMensaje("nombre_concepto es requerido");
+            return resp;
+        }
+        if (req.getPrecio_base() <= 0) {
+            ConceptoPagoModel resp = new ConceptoPagoModel();
+            resp.setMensaje("precio_base debe ser mayor a 0");
+            return resp;
+        }
         ConceptoPagoModel c = new ConceptoPagoModel();
-        ClasificadorIngresoModel clasificador = new ClasificadorIngresoModel();
-        clasificador.setClasificadoringresoid(clasificadorid);
-        c.setClasificador_ingreso(clasificador);
-        c.setNombre_concepto(nombre_concepto);
-        c.setPrecio_base(precio_base);
-        c.setUsuario_creacion(id_usuario);
+        c.setClasificadoringresoid(req.getClasificadoringresoid());
+        c.setNombre_concepto(req.getNombre_concepto().trim());
+        c.setPrecio_base(req.getPrecio_base());
+        c.setUsuario_creacion(req.getUsuario_creacion());
         c.setFecha_creacion(LocalDateTime.now());
         c.setActivo(true);
         c.setEs_eliminado(false);
@@ -62,23 +72,29 @@ public class ConceptoPagoController {
     }
 
     @PutMapping(ApiRoutes.Demo.EDITAR)
-    public ConceptoPagoModel editar(@RequestParam("id") int id,
-                                    @RequestParam("clasificadorid") int clasificadorid,
-                                    @RequestParam("nombre_concepto") String nombre_concepto,
-                                    @RequestParam("precio_base") float precio_base,
-                                    @RequestParam("id_usuario") int id_usuario) {
-        ConceptoPagoModel c = concepto_pagoServicio.obtenerConceptoPago(id);
+    public ConceptoPagoModel editar(@RequestBody ConceptoPagoModel req) {
+        if (req.getConceptopagoid() == null) {
+            ConceptoPagoModel resp = new ConceptoPagoModel();
+            resp.setMensaje("conceptopagoid es requerido");
+            return resp;
+        }
+        ConceptoPagoModel c = concepto_pagoServicio.obtenerConceptoPago(req.getConceptopagoid());
         if (c == null) {
             ConceptoPagoModel resp = new ConceptoPagoModel();
             resp.setMensaje(Mensajes.NO_ENCONTRADO);
             return resp;
         }
-        ClasificadorIngresoModel clasificador = new ClasificadorIngresoModel();
-        clasificador.setClasificadoringresoid(clasificadorid);
-        c.setClasificador_ingreso(clasificador);
-        c.setNombre_concepto(nombre_concepto);
-        c.setPrecio_base(precio_base);
-        c.setUsuario_modificacion(id_usuario);
+        if (req.getClasificadoringresoid() != null) {
+            c.setClasificadoringresoid(req.getClasificadoringresoid());
+        }
+        if (req.getNombre_concepto() != null && !req.getNombre_concepto().trim().isEmpty()) {
+            c.setNombre_concepto(req.getNombre_concepto().trim());
+        }
+        if (req.getPrecio_base() > 0) {
+            c.setPrecio_base(req.getPrecio_base());
+        }
+        c.setActivo(req.getActivo());
+        c.setUsuario_modificacion(req.getUsuario_modificacion());
         c.setFecha_modificacion(LocalDateTime.now());
         c = concepto_pagoServicio.actualizarConceptoPago(c);
         c.setMensaje(Mensajes.ACTUALIZADO_OK);
