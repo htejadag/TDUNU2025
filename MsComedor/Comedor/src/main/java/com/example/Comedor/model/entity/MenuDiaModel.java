@@ -29,12 +29,6 @@ public class MenuDiaModel {
     
      @Column(name = "dia", nullable = false)
     private Integer dia;
-
-    @Column(name = "raciones_totales", nullable = false)
-    private Integer racionesTotales;
-
-    @Column(name = "raciones_restantes", nullable = false)
-    private Integer racionesRestantes;
     
     @Column(name = "activo",nullable = false)
     private boolean activo;

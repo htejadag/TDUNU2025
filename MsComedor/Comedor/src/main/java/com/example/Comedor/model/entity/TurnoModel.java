@@ -26,6 +26,12 @@ public class TurnoModel {
     private LocalTime horaApertura;
     @Column(name = "hora_cierre")
     private LocalTime horaCierre;
+    //RECAMBIO
+    @Column(name = "raciones_totales", nullable = false)
+    private Integer racionesTotales;
+    @Column(name = "raciones_restantes", nullable = false)
+    private Integer racionesRestantes;
+    //FIN RECAMBIO
     @Column(name = "activo")
     private boolean activo;
 

@@ -10,6 +10,8 @@ public class TurnoUpdateRequest {
     private String horaApertura;
 
     private String horaCierre;
+    
+    private Integer racionesTotales;
 
     private boolean activo;
 

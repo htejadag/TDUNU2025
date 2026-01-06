@@ -7,7 +7,6 @@ import java.util.List;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.example.Comedor.model.entity.TurnoModel;
 import com.example.Comedor.model.request.turno.TurnoRequest;
 import com.example.Comedor.model.request.turno.TurnoUpdateRequest;
@@ -51,6 +50,8 @@ public class TurnoServiceImp implements TurnoService {
         model.setDescripcion(turnoRequest.getDescripcion());
         model.setHoraApertura(LocalTime.parse(turnoRequest.getHoraApertura()));
         model.setHoraCierre(LocalTime.parse(turnoRequest.getHoraCierre()));
+        model.setRacionesTotales(turnoRequest.getRacionesTotales());
+        model.setRacionesRestantes(turnoRequest.getRacionesTotales());
         model.setActivo(turnoRequest.isActivo());
         model.setUsuarioCreacion(turnoRequest.getUsuarioCreacion());
         model.setFechaCreacion(LocalDate.now());
@@ -75,6 +76,8 @@ public class TurnoServiceImp implements TurnoService {
     model.setDescripcion(turnoRequest.getDescripcion());
     model.setHoraApertura(LocalTime.parse(turnoRequest.getHoraApertura()));
     model.setHoraCierre(LocalTime.parse(turnoRequest.getHoraCierre()));
+    model.setRacionesTotales(turnoRequest.getRacionesTotales());
+    model.setRacionesRestantes(turnoRequest.getRacionesTotales());
     model.setActivo(turnoRequest.isActivo());
     model.setUsuarioModificacion(turnoRequest.getUsuarioModificacion());
     model.setFechaModificacion(LocalDate.now());
@@ -100,6 +103,18 @@ public class TurnoServiceImp implements TurnoService {
 
         
         
+    }
+
+    @Override
+    public void descontarRacion(Integer id) {
+
+
+         TurnoModel model = turnoRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("No existe un Racion en ese turno y con ese id: " + id));
+
+        model.setRacionesRestantes(model.getRacionesRestantes()-1);
+
+        turnoRepository.save(model);
     }
     
 }

@@ -10,10 +10,6 @@ public class MenuDiaUpdateRequest {
 
     private Integer Dia;
 
-    private Integer racionesTotales;
-
-    private Integer racionesRestantes;
-
     private boolean activo;
 
     private Integer usuarioModificacion;

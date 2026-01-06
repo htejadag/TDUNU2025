@@ -10,8 +10,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.example.Comedor.message.ConsumoMessagePublish;
 import com.example.Comedor.model.entity.ConsumoRacionModel;
-import com.example.Comedor.model.entity.MenuDiaModel;
 import com.example.Comedor.model.entity.MenuPlatoModel;
+import com.example.Comedor.model.entity.TurnoModel;
 import com.example.Comedor.model.request.consumoRacion.ConsumoRacionRequest;
 import com.example.Comedor.model.request.consumoRacion.ConsumoRacionUpdateRequest;
 import com.example.Comedor.model.request.consumoRacion.KafkaEvent;
@@ -19,7 +19,7 @@ import com.example.Comedor.model.response.ConsumoRacionResponse;
 import com.example.Comedor.repository.ConsumoRacionRepository;
 import com.example.Comedor.repository.MenuPlatoRepository;
 import com.example.Comedor.service.ConsumoRacionService;
-import com.example.Comedor.service.MenuDiaService;
+import com.example.Comedor.service.TurnoService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -38,7 +38,7 @@ public class ConsumoRacionServiceImp implements ConsumoRacionService {
     private ConsumoMessagePublish consumoMessagePublish;
 
     @Autowired
-    private MenuDiaService  menuDiaService;
+    private TurnoService  turnoService;
 
 
 
@@ -92,9 +92,9 @@ public class ConsumoRacionServiceImp implements ConsumoRacionService {
             
         }
 
-        MenuDiaModel  dia =plato.getMenuDia();
+        TurnoModel  turno = plato.getTurno();
 
-        menuDiaService.descontarRacion(dia.getId());
+        turnoService.descontarRacion(turno.getId());
 
         return modelMapper.map(saved, ConsumoRacionResponse.class);
 

@@ -11,8 +11,6 @@ public class MenuDiaRequest {
     
     private Integer dia;
 
-    private Integer racionesTotales;
-
     private boolean activo;
 
     private Integer usuarioCreacion;

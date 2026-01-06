@@ -63,8 +63,6 @@ public class MenuDiaServiceImp implements MenuDiaService {
         
         model.setMenuSemana(semana);
         model.setDia(req.getDia());
-        model.setRacionesTotales(req.getRacionesTotales());
-        model.setRacionesRestantes(req.getRacionesTotales());
         model.setActivo(req.isActivo());
         model.setUsuarioCreacion(req.getUsuarioCreacion());
         model.setFechaCreacion(LocalDate.now());
@@ -91,8 +89,6 @@ public class MenuDiaServiceImp implements MenuDiaService {
 
         model.setMenuSemana(semana);
         model.setDia(menuDiaRequest.getDia());
-        model.setRacionesTotales(menuDiaRequest.getRacionesTotales());
-        model.setRacionesRestantes(menuDiaRequest.getRacionesRestantes());
         model.setActivo(menuDiaRequest.isActivo());
         model.setUsuarioCreacion(menuDiaRequest.getUsuarioModificacion());
         model.setFechaModificacion(LocalDate.now());
@@ -116,18 +112,6 @@ public class MenuDiaServiceImp implements MenuDiaService {
         
         
     
-    }
-
-    @Override
-    public void descontarRacion(Integer id) {
-
-
-         MenuDiaModel model = menuDiaRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("No existe un menu dia con id: " + id));
-
-        model.setRacionesRestantes(model.getRacionesRestantes()-1);
-
-        menuDiaRepository.save(model);
     }
 
 }

@@ -17,5 +17,7 @@ public interface TurnoService {
     TurnoResponse modificar(Integer id,TurnoUpdateRequest turnoRequest);
 
     TurnoResponse eliminar(Integer id);
+
+    void descontarRacion(Integer id);
     
 }

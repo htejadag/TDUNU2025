@@ -11,6 +11,8 @@ public class TurnoRequest {
 
     private String horaCierre;
 
+    private Integer racionesTotales;
+
     private boolean activo;
 
     private Integer usuarioCreacion;
