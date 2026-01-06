@@ -1,4 +1,4 @@
-package com.example.MsGeneral.Config;
+package com.example.MsAuditoria.Config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,8 +13,8 @@ public class SwaggerConfig {
     public OpenAPI customOpenAPI() {
         return new OpenAPI()
         .info(new Info()
-            .title("Ms General")
+            .title("Ms Auditoria")
             .version("1.0")
-            .description("Documentación de la API de Ms General"));
+            .description("Documentación de la API de Ms Auditoria"));
     }
 }

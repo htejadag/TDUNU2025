@@ -1,4 +1,4 @@
-package com.example.MsGeneral.Config;
+package com.example.MsAuditoria.Config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.mongodb.config.EnableMongoAuditing;

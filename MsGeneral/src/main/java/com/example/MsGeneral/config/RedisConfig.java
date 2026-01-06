@@ -1,4 +1,4 @@
-package com.example.MsGeneral.config;
+package com.example.MsGeneral.Config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.json.JsonMapper;

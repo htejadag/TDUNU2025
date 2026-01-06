@@ -1,20 +1,27 @@
 package com.example.MsGeneral.Service.Imp;
 
+import java.time.LocalDateTime;
 import java.util.List;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.stereotype.Service;
 
 import com.example.MsGeneral.Model.Entidad.Catalogo;
 import com.example.MsGeneral.Model.Request.CatalogoRequest;
 import com.example.MsGeneral.Model.Response.CatalogoResponse;
 import com.example.MsGeneral.Repository.CatalogoRepository;
 import com.example.MsGeneral.Service.CatalogoService;
+import com.example.MsGeneral.Kafka.Event.AuditoriaEvent;
+import com.example.MsGeneral.Kafka.Producer.AuditoriaProducer;
+
+import lombok.extern.slf4j.Slf4j;
 
 @Service
+@Slf4j
 public class CatalogoServicioImp implements CatalogoService {
 
     @Autowired
@@ -22,6 +29,11 @@ public class CatalogoServicioImp implements CatalogoService {
 
     @Autowired
     private ModelMapper modelMapper;
+
+    @Autowired
+    private AuditoriaProducer auditoriaProducer;
+
+    /* ===================== LISTAR ===================== */
 
     @Override
     @Cacheable(
@@ -61,6 +73,8 @@ public class CatalogoServicioImp implements CatalogoService {
                 .orElse(null);
     }
 
+    /* ===================== GUARDAR ===================== */
+
     @Override
     @CachePut(
         value = "catalogoId",
@@ -85,8 +99,12 @@ public class CatalogoServicioImp implements CatalogoService {
 
         Catalogo saved = catalogoRepository.save(model);
 
+        publicarEvento(saved, "CREATE");
+
         return modelMapper.map(saved, CatalogoResponse.class);
     }
+
+    /* ===================== ACTUALIZAR ===================== */
 
     @Override
     @CachePut(
@@ -102,6 +120,10 @@ public class CatalogoServicioImp implements CatalogoService {
 
         Catalogo modelExistente = catalogoRepository.findById(id).orElse(null);
 
+        if (modelExistente == null) {
+            return null;
+        }
+
         modelExistente.setCategoria(request.getCategoria());
         modelExistente.setDescripcion(request.getDescripcion());
         modelExistente.setAbreviatura(request.getAbreviatura());
@@ -109,8 +131,12 @@ public class CatalogoServicioImp implements CatalogoService {
 
         Catalogo saved = catalogoRepository.save(modelExistente);
 
+        publicarEvento(saved, "UPDATE");
+
         return modelMapper.map(saved, CatalogoResponse.class);
     }
+
+    /* ===================== CAMBIAR ESTADO ===================== */
 
     @Override
     @CacheEvict(
@@ -120,9 +146,18 @@ public class CatalogoServicioImp implements CatalogoService {
     public void cambiarEstado(String id, boolean activo) {
 
         Catalogo model = catalogoRepository.findById(id).orElse(null);
+
+        if (model == null) {
+            return;
+        }
+
         model.setActivo(activo);
-        catalogoRepository.save(model);
+        Catalogo saved = catalogoRepository.save(model);
+
+        publicarEvento(saved, "UPDATE_ESTADO");
     }
+
+    /* ===================== ELIMINAR ===================== */
 
     @Override
     @CacheEvict(
@@ -130,6 +165,34 @@ public class CatalogoServicioImp implements CatalogoService {
         allEntries = true
     )
     public void eliminar(String id) {
-        catalogoRepository.deleteById(id);
+
+        Catalogo model = catalogoRepository.findById(id).orElse(null);
+
+        if (model != null) {
+            catalogoRepository.deleteById(id);
+            publicarEvento(model, "DELETE");
+        }
+    }
+
+    /* ===================== MÉTODO PRIVADO KAFKA ===================== */
+
+    private void publicarEvento(Catalogo catalogo, String operacion) {
+        try {
+            AuditoriaEvent event = AuditoriaEvent.builder()
+                    .microservicio("MsGeneral")
+                    .modulo("Catalogo")
+                    .operacion(operacion)
+                    .entidad("Catalogo")
+                    .idEntidad(catalogo.getIdCatalogo())
+                    .datos(catalogo)
+                    .usuario("System")
+                    .fechaEvento(LocalDateTime.now())
+                    .build();
+
+            auditoriaProducer.publish(event);
+
+        } catch (Exception e) {
+            log.warn("No se pudo publicar evento Kafka (Catalogo - {})", operacion, e);
+        }
     }
 }
