@@ -9,6 +9,6 @@ import com.example.MsPlanEstudios.model.entity.PlanEstudiosDetalleModel;
 
 @Repository
 public interface PlanEstudiosDetalleRepository extends JpaRepository<PlanEstudiosDetalleModel, Integer>{
-    List<PlanEstudiosDetalleModel>
-    findByIdPlanEstudioAndEstadoTrueOrderByIdCicloAscOrdenEnCicloAsc(Integer idPlanEstudio);
+    List<PlanEstudiosDetalleModel>findByIdPlanEstudioAndEstadoTrueOrderByCicloCodigoAscOrdenEnCicloAsc(
+        Integer idPlanEstudio);
 }

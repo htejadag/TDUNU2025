@@ -31,8 +31,8 @@ public class CatalogoServiceImp implements CatalogoService{
     }
 
     @Override
-    public List<CatalogoResponse> listarPorCategoria(String categoria) {
-        return repository.findByCategoriaAndEstadoTrue(categoria)
+    public List<CatalogoResponse> listarPorCategoria(Integer categoria) {
+        return repository.findByIdAndEstadoTrue(categoria)
                 .stream().map(this::map).toList();
     }
 

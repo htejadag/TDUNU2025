@@ -8,6 +8,6 @@ import com.example.MsPlanEstudios.model.response.CatalogoResponse;
 
 public interface CatalogoService {
     CatalogoResponse guardar(CatalogoRequest request);
-    List<CatalogoResponse> listarPorCategoria(String categoria);
+    List<CatalogoResponse> listarPorCategoria(Integer categoria);
     CatalogoModel obtenerActivo(Integer id);
 }

@@ -2,9 +2,12 @@ package com.example.MsPlanEstudios.model.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
 
@@ -23,8 +26,9 @@ public class PlanEstudiosDetalleModel {
     @Column(name = "idCurso")
     private Integer idCurso;
 
-    @Column(name = "idCiclo")
-    private Integer idCiclo;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "idCiclo", nullable = false)
+    private CatalogoModel ciclo;
 
     @Column(name = "idTipoCursoPlan")
     private Integer idTipoCursoPlan;

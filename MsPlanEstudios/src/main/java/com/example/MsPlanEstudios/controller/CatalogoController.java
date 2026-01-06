@@ -31,7 +31,7 @@ public class CatalogoController {
 
     @GetMapping("/categoria/{categoria}")
     public ResponseEntity<List<CatalogoResponse>> listar(
-            @PathVariable String categoria) {
+            @PathVariable Integer categoria) {
         return ResponseEntity.ok(service.listarPorCategoria(categoria));
     }
 }
