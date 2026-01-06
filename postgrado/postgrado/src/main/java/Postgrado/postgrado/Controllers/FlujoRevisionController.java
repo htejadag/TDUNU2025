@@ -3,6 +3,8 @@ package Postgrado.postgrado.Controllers;
 import Postgrado.postgrado.Model.*;
 import Postgrado.postgrado.Service.*;
 import org.springframework.web.bind.annotation.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;

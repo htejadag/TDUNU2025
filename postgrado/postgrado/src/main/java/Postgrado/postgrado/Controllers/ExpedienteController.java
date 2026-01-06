@@ -2,6 +2,9 @@ package Postgrado.postgrado.Controllers;
 
 import Postgrado.postgrado.Model.Expediente;
 import Postgrado.postgrado.Service.ExpedienteService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -10,6 +13,8 @@ import java.util.List;
 @RequestMapping("/api/expedientes")
 public class ExpedienteController {
 
+    private static final Logger log = LoggerFactory.getLogger(ExpedienteController.class);
+
     private final ExpedienteService service;
 
     public ExpedienteController(ExpedienteService service) {
@@ -17,37 +22,35 @@ public class ExpedienteController {
     }
 
     @PostMapping
-    public Expediente crear(@RequestBody Expediente expediente) {
-        return service.crear(expediente);
+    public ResponseEntity<?> crear(@RequestBody Expediente expediente) {
+        log.info("Creando expediente para estudiante {}", expediente.getIdEstudiante());
+
+        try {
+            Expediente nuevo = service.crear(expediente);
+            log.info("Expediente creado con ID {}", nuevo.getIdExpediente());
+            return ResponseEntity.ok(nuevo);
+        } catch (Exception e) {
+            log.error("Error creando expediente: {}", e.getMessage(), e);
+            return ResponseEntity.internalServerError().build();
+        }
     }
 
     @GetMapping
-    public List<Expediente> listar() {
-        return service.listar();
+    public ResponseEntity<List<Expediente>> listar() {
+        log.info("Listando expedientes");
+        return ResponseEntity.ok(service.listar());
     }
 
     @GetMapping("/{id}")
-    public Expediente obtener(@PathVariable Integer id) {
-        return service.obtenerPorId(id);
-    }
+    public ResponseEntity<?> obtener(@PathVariable Integer id) {
+        log.info("Buscando expediente {}", id);
 
-    @PutMapping("/{id}")
-    public Expediente actualizar(@PathVariable Integer id, @RequestBody Expediente data) {
         Expediente exp = service.obtenerPorId(id);
-        if (exp == null) return null;
+        if (exp == null) {
+            log.warn("Expediente {} no encontrado", id);
+            return ResponseEntity.notFound().build();
+        }
 
-        exp.setIdEstudiante(data.getIdEstudiante());
-        exp.setEstadoExpediente(data.getEstadoExpediente());
-        exp.setFechaApertura(data.getFechaApertura());
-        exp.setFechaCierre(data.getFechaCierre());
-        exp.setObservaciones(data.getObservaciones());
-        exp.setAsesor(data.getAsesor());
-
-        return service.crear(exp);
-    }
-
-    @DeleteMapping("/{id}")
-    public void eliminar(@PathVariable Integer id) {
-        service.eliminar(id);
+        return ResponseEntity.ok(exp);
     }
 }

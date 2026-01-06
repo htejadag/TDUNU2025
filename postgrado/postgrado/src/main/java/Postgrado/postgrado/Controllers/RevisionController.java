@@ -3,6 +3,8 @@ package Postgrado.postgrado.Controllers;
 import Postgrado.postgrado.Model.Revision;
 import Postgrado.postgrado.Service.RevisionService;
 import org.springframework.web.bind.annotation.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 

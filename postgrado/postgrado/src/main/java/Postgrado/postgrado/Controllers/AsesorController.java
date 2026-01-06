@@ -2,16 +2,18 @@ package Postgrado.postgrado.Controllers;
 
 import Postgrado.postgrado.Model.Asesor;
 import Postgrado.postgrado.Service.AsesorService;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.tags.Tag;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/asesores")
-@Tag(name = "Asesores", description = "CRUD de asesores de tesis")
 public class AsesorController {
+
+    private static final Logger log = LoggerFactory.getLogger(AsesorController.class);
 
     private final AsesorService service;
 
@@ -20,42 +22,60 @@ public class AsesorController {
     }
 
     @PostMapping
-    @Operation(summary = "Crear asesor", description = "Crea un nuevo asesor")
-    public Asesor crear(@RequestBody Asesor asesor) {
-        return service.crear(asesor);
+    public ResponseEntity<Asesor> crear(@RequestBody Asesor asesor) {
+        log.info("Creando asesor: {}", asesor.getNombres());
+
+        try {
+            Asesor nuevo = service.crear(asesor);
+            log.info("Asesor creado con ID {}", nuevo.getIdAsesor());
+            return ResponseEntity.ok(nuevo);
+        } catch (Exception e) {
+            log.error("Error al crear asesor: {}", e.getMessage(), e);
+            return ResponseEntity.internalServerError().build();
+        }
     }
 
     @GetMapping
-    @Operation(summary = "Listar asesores", description = "Devuelve todos los asesores registrados")
-    public List<Asesor> listar() {
-        return service.listar();
+    public ResponseEntity<List<Asesor>> listar() {
+        log.info("Listando asesores");
+
+        try {
+            return ResponseEntity.ok(service.listar());
+        } catch (Exception e) {
+            log.error("Error listando asesores: {}", e.getMessage(), e);
+            return ResponseEntity.internalServerError().build();
+        }
     }
 
     @GetMapping("/{id}")
-    @Operation(summary = "Obtener asesor por ID")
-    public Asesor obtenerPorId(@PathVariable Integer id) {
-        return service.obtenerPorId(id);
-    }
+    public ResponseEntity<?> obtenerPorId(@PathVariable Integer id) {
+        log.info("Buscando asesor con ID {}", id);
 
-    @PutMapping("/{id}")
-    @Operation(summary = "Actualizar asesor")
-    public Asesor actualizar(@PathVariable Integer id, @RequestBody Asesor data) {
-        Asesor a = service.obtenerPorId(id);
-        if (a == null) return null;
+        try {
+            Asesor asesor = service.obtenerPorId(id);
+            if (asesor == null) {
+                log.warn("Asesor {} no encontrado", id);
+                return ResponseEntity.notFound().build();
+            }
 
-        a.setNombres(data.getNombres());
-        a.setApellidos(data.getApellidos());
-        a.setGradoMaximo(data.getGradoMaximo());
-        a.setCvRuta(data.getCvRuta());
-        a.setDeclaracionRuta(data.getDeclaracionRuta());
-        a.setEstadoAsesor(data.getEstadoAsesor());
+            return ResponseEntity.ok(asesor);
 
-        return service.crear(a);
+        } catch (Exception e) {
+            log.error("Error buscando asesor {}: {}", id, e.getMessage(), e);
+            return ResponseEntity.internalServerError().build();
+        }
     }
 
     @DeleteMapping("/{id}")
-    @Operation(summary = "Eliminar asesor")
-    public void eliminar(@PathVariable Integer id) {
-        service.eliminar(id);
+    public ResponseEntity<?> eliminar(@PathVariable Integer id) {
+        log.info("Eliminando asesor {}", id);
+
+        try {
+            service.eliminar(id);
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            log.error("Error eliminando asesor {}: {}", id, e.getMessage(), e);
+            return ResponseEntity.internalServerError().build();
+        }
     }
 }
