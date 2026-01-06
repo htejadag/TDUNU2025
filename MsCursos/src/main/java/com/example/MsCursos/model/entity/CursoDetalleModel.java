@@ -1,13 +1,14 @@
 package com.example.MsCursos.model.entity;
 
-import java.time.LocalDateTime;
+
 import jakarta.persistence.*;
 import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "cursoDetalle")
+@EntityListeners(org.springframework.data.jpa.domain.support.AuditingEntityListener.class)
 
+@Table(name = "cursoDetalle")
 
 public class CursoDetalleModel {
 
@@ -28,18 +29,9 @@ public class CursoDetalleModel {
     @Column(name = "idSemestre")
     private Integer idSemestre;
 
-    @Column(name = "estado")
-    private Boolean estado;
+    @Column(name = "estado", nullable = false)
+    private Boolean estado = true;
 
-    @Column(name = "usuarioCreacion")
-    private Integer usuarioCreacion;
-
-    @Column(name = "usuarioModificacion")
-    private Integer usuarioModificacion;
-
-    @Column(name = "fechaCreacion")
-    private LocalDateTime fechaCreacion;
-
-    @Column(name = "fechaModificacion")
-    private LocalDateTime fechaModificacion;
+    @Embedded
+    private AuditoriaModel auditoria = new AuditoriaModel();
 }

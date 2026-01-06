@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import com.example.MsCursos.model.entity.CursoModel;
@@ -18,6 +20,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Service
 public class CursoServiceImpl implements CursoService {
+    private static final String CACHE_CURSOS = "cursos";
 
     @Autowired
     private CursoRepository cursoRepository;
@@ -26,6 +29,7 @@ public class CursoServiceImpl implements CursoService {
     private ModelMapper modelMapper;
 
     @Override
+    @Cacheable(cacheNames = CACHE_CURSOS, key = "'listar'")
     public List<CursoResponse> listar() {
         return cursoRepository.findAll()
                 .stream()
@@ -34,6 +38,7 @@ public class CursoServiceImpl implements CursoService {
     }
 
     @Override
+    @Cacheable(cacheNames = CACHE_CURSOS, key = "'id:' + #id")
     public CursoResponse obtenerPorId(Integer id) {
         return cursoRepository.findById(id)
                 .map(model -> modelMapper.map(model, CursoResponse.class))
@@ -41,6 +46,8 @@ public class CursoServiceImpl implements CursoService {
     }
 
     @Override
+    @Transactional
+    @CacheEvict(cacheNames = CACHE_CURSOS, allEntries = true) // limpia todo porque cambió data
     public CursoResponse guardar(CursoRequest request) {
 
         // 1. Request -> Entity
@@ -54,11 +61,14 @@ public class CursoServiceImpl implements CursoService {
     }
 
     @Override
+    @Transactional
+    @CacheEvict(cacheNames = CACHE_CURSOS, allEntries = true)
     public void eliminar(Integer id) {
         cursoRepository.deleteById(id);
     }
 
     @Override
+    @Cacheable(cacheNames = CACHE_CURSOS, key = "'carrera:' + #idCarrera")
     public List<CursoResponse> listarPorCarrera(Integer idCarrera) {
         return cursoRepository.findByIdCarrera(idCarrera)
                 .stream()
@@ -67,6 +77,7 @@ public class CursoServiceImpl implements CursoService {
     }
 
     @Override
+    @Cacheable(cacheNames = CACHE_CURSOS, key = "'estado:' + #estado")
     public List<CursoResponse> listarPorEstado(Boolean estado) {
         return cursoRepository.findByEstado(estado)
                 .stream()
@@ -75,6 +86,7 @@ public class CursoServiceImpl implements CursoService {
     }
 
     @Override
+    @Cacheable(cacheNames = CACHE_CURSOS, key = "'carrera:' + #idCarrera + ':estado:' + #estado")
     public List<CursoResponse> listarPorCarreraYEstado(Integer idCarrera, Boolean estado) {
         return cursoRepository.findByIdCarreraAndEstado(idCarrera, estado)
                 .stream()
@@ -84,6 +96,7 @@ public class CursoServiceImpl implements CursoService {
 
     @Override
     @Transactional
+    @CacheEvict(cacheNames = CACHE_CURSOS, allEntries = true) // viene data nueva por kafka
     public void upsertDesdeKafka(CursoRequest req) {
 
         CursoModel model;

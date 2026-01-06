@@ -1,5 +1,7 @@
 package com.example.MsCursos.model.entity;
 
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
@@ -13,39 +15,29 @@ import lombok.Data;
 @Data
 @Entity
 @EntityListeners(org.springframework.data.jpa.domain.support.AuditingEntityListener.class)
-@Table(name = "curso")
-
-public class CursoModel {
+@Table(name = "catalogo")
+public class CatalogoModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Integer id;
 
+    @Column(name = "tipo", nullable = false)
+    private String categoria;
+
     @Column(name = "nombre")
     private String nombre;
 
-    @Column(name = "codigo")
-    private String codigo;
+    @Column(name = "orden")
+    private Integer orden;
 
-    @Column(name = "idCiclo")
-    private Integer idCiclo;
-
-    @Column(name = "idCarrera")
-    private Integer idCarrera;
-
-    @Column(name = "creditos")
-    private Integer creditos;
-
-    @Column(name = "horasTeoricas")
-    private Integer horasTeoricas;
-
-    @Column(name = "horasPracticas")
-    private Integer horasPracticas;
+    @Column(name = "idPadre", nullable = false)
+    private String idPadre;
 
     @Column(name = "estado", nullable = false)
     private Boolean estado = true;
-
+    
     @Embedded
     private AuditoriaModel auditoria = new AuditoriaModel();
 }

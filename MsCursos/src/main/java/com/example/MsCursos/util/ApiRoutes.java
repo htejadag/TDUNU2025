@@ -18,4 +18,21 @@ public class ApiRoutes {
         public static final String GUARDAR = "/guardar";
         public static final String ELIMINAR = "/eliminar";
     }
+
+    public static class Catalogo {
+        public static final String BASE = "/api/catalogo";
+
+        public static final String LISTAR = "/listar";
+        public static final String OBTENER = "/{id}";
+
+        public static final String POR_CATEGORIA = "/categoria/{categoria}";
+        public static final String POR_ESTADO = "/estado/{estado}";
+        public static final String POR_CATEGORIA_ESTADO = "/categoria/{categoria}/estado/{estado}";
+        public static final String POR_PADRE = "/padre/{idPadre}";
+
+        public static final String GUARDAR = "/guardar";
+        public static final String ACTUALIZAR = "/actualizar/{id}";
+        public static final String CAMBIAR_ESTADO = "/cambiar-estado/{id}";
+        public static final String ELIMINAR = "/eliminar/{id}";
+    }
 }
