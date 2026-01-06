@@ -1,4 +1,4 @@
-package com.example.MsCursos.util;
+package com.example.mscursos.util;
 
 import lombok.Builder;
 import lombok.Data;

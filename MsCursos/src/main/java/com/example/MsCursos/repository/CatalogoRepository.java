@@ -1,10 +1,10 @@
-package com.example.MsCursos.repository;
+package com.example.mscursos.repository;
 
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.example.MsCursos.model.entity.CatalogoModel;
+import com.example.mscursos.model.entity.CatalogoModel;
 
 public interface CatalogoRepository extends JpaRepository<CatalogoModel, Integer> {
 

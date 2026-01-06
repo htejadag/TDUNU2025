@@ -1,4 +1,4 @@
-package com.example.MsCursos.service.Imp;
+package com.example.mscursos.service.Imp;
 
 import java.util.List;
 
@@ -8,11 +8,11 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.example.MsCursos.model.entity.CatalogoModel;
-import com.example.MsCursos.model.request.CatalogoRequest;
-import com.example.MsCursos.model.response.CatalogoResponse;
-import com.example.MsCursos.repository.CatalogoRepository;
-import com.example.MsCursos.service.CatalogoService;
+import com.example.mscursos.model.entity.CatalogoModel;
+import com.example.mscursos.model.request.CatalogoRequest;
+import com.example.mscursos.model.response.CatalogoResponse;
+import com.example.mscursos.repository.CatalogoRepository;
+import com.example.mscursos.service.CatalogoService;
 
 import lombok.RequiredArgsConstructor;
 

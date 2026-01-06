@@ -1,4 +1,4 @@
-package com.example.MsCursos.model.request;
+package com.example.mscursos.model.request;
 
 import lombok.Data;
 

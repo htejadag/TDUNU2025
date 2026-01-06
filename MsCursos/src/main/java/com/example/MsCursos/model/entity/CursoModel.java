@@ -1,4 +1,4 @@
-package com.example.MsCursos.model.entity;
+package com.example.mscursos.model.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;

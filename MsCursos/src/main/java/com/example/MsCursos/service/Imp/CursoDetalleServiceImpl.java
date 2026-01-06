@@ -1,25 +1,27 @@
-package com.example.MsCursos.service.Imp;
+package com.example.mscursos.service.Imp;
 
 import java.util.List;
 
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.MsCursos.model.entity.CursoDetalleModel;
-import com.example.MsCursos.model.request.CursoDetalleRequest;
-import com.example.MsCursos.model.response.CursoDetalleResponse;
-import com.example.MsCursos.repository.CursoDetalleRepository;
-import com.example.MsCursos.service.CursoDetalleService;
+import com.example.mscursos.model.entity.CursoDetalleModel;
+import com.example.mscursos.model.request.CursoDetalleRequest;
+import com.example.mscursos.model.response.CursoDetalleResponse;
+import com.example.mscursos.repository.CursoDetalleRepository;
+import com.example.mscursos.service.CursoDetalleService;
+
+import lombok.RequiredArgsConstructor;
 
 @Service
+@RequiredArgsConstructor
 public class CursoDetalleServiceImpl implements CursoDetalleService {
 
-    @Autowired
-    private CursoDetalleRepository cursoDetalleRepository;
+    // @Autowired
+    private final CursoDetalleRepository cursoDetalleRepository;
 
-    @Autowired
-    private ModelMapper modelMapper;
+    // @Autowired
+    private final ModelMapper modelMapper;
 
     @Override
     public List<CursoDetalleResponse> listar() {

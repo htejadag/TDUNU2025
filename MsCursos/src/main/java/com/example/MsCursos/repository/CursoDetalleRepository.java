@@ -1,9 +1,9 @@
-package com.example.MsCursos.repository;
+package com.example.mscursos.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.example.MsCursos.model.entity.CursoDetalleModel;
+import com.example.mscursos.model.entity.CursoDetalleModel;
 
 
 @Repository

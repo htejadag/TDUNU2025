@@ -1,4 +1,4 @@
-package com.example.MsCursos.config;
+package com.example.mscursos.config;
 
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.security.SecurityRequirement;

@@ -1,4 +1,4 @@
-package com.example.MsCursos.config;
+package com.example.mscursos.config;
 
 import java.util.Optional;
 

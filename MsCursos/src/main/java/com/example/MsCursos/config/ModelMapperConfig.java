@@ -1,10 +1,10 @@
-package com.example.MsCursos.config;
+package com.example.mscursos.config;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import com.example.MsCursos.model.entity.CursoModel;
-import com.example.MsCursos.model.request.CursoRequest;
+import com.example.mscursos.model.entity.CursoModel;
+import com.example.mscursos.model.request.CursoRequest;
 
 @Configuration
 public class ModelMapperConfig {

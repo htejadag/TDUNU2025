@@ -1,4 +1,4 @@
-package com.example.MsCursos.message;
+package com.example.mscursos.message;
 
 import java.util.HashMap;
 import java.util.Map;

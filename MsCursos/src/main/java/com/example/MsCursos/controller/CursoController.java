@@ -1,8 +1,7 @@
-package com.example.MsCursos.controller;
+package com.example.mscursos.controller;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -10,20 +9,23 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.MsCursos.model.request.CursoRequest;
-import com.example.MsCursos.model.response.CursoResponse;
-import com.example.MsCursos.service.CursoService;
-import com.example.MsCursos.util.ApiRoutes;
-import com.example.MsCursos.util.ResponseBase;
+import com.example.mscursos.model.request.CursoRequest;
+import com.example.mscursos.model.response.CursoResponse;
+import com.example.mscursos.service.CursoService;
+import com.example.mscursos.util.ApiRoutes;
+import com.example.mscursos.util.ResponseBase;
+
+import lombok.RequiredArgsConstructor;
 
 import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
 @RequestMapping(ApiRoutes.Curso.BASE)
+@RequiredArgsConstructor
 public class CursoController {
 
-    @Autowired
-    CursoService cursoService;
+    // @Autowired
+    private final CursoService cursoService;
 
     @GetMapping(value = ApiRoutes.Curso.LISTAR)
     public ResponseBase<List<CursoResponse>> listar() {

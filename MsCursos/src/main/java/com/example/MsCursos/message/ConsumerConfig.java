@@ -1,4 +1,4 @@
-package com.example.MsCursos.message;
+package com.example.mscursos.message;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

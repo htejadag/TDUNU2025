@@ -1,6 +1,5 @@
-package com.example.MsCursos.model.entity;
+package com.example.mscursos.model.entity;
 
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;

@@ -1,32 +1,33 @@
-package com.example.MsCursos.service.Imp;
+package com.example.mscursos.service.Imp;
 
 import java.util.List;
 
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
-import com.example.MsCursos.model.entity.CursoModel;
-import com.example.MsCursos.model.request.CursoRequest;
-import com.example.MsCursos.model.response.CursoResponse;
-import com.example.MsCursos.repository.CursoRepository;
-import com.example.MsCursos.service.CursoService;
+import com.example.mscursos.model.entity.CursoModel;
+import com.example.mscursos.model.request.CursoRequest;
+import com.example.mscursos.model.response.CursoResponse;
+import com.example.mscursos.repository.CursoRepository;
+import com.example.mscursos.service.CursoService;
 import org.springframework.transaction.annotation.Transactional;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class CursoServiceImpl implements CursoService {
     private static final String CACHE_CURSOS = "cursos";
 
-    @Autowired
-    private CursoRepository cursoRepository;
+    // @Autowired
+    private final CursoRepository cursoRepository;
 
-    @Autowired
-    private ModelMapper modelMapper;
+    // @Autowired
+    private final ModelMapper modelMapper;
 
     @Override
     @Cacheable(cacheNames = CACHE_CURSOS, key = "'listar'")
@@ -47,7 +48,7 @@ public class CursoServiceImpl implements CursoService {
 
     @Override
     @Transactional
-    @CacheEvict(cacheNames = CACHE_CURSOS, allEntries = true) // limpia todo porque cambió data
+    @CacheEvict(cacheNames = CACHE_CURSOS, allEntries = true)
     public CursoResponse guardar(CursoRequest request) {
 
         // 1. Request -> Entity
@@ -117,7 +118,7 @@ public class CursoServiceImpl implements CursoService {
         model.setCreditos(req.getCreditos());
         model.setHorasTeoricas(req.getHorasTeoricas());
         model.setHorasPracticas(req.getHorasPracticas());
-        model.setEstado(req.getEstado() != null ? req.getEstado() : true);
+        model.setEstado(req.getEstado() == null || req.getEstado());
 
         cursoRepository.save(model);
     }

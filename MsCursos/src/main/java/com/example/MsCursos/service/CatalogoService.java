@@ -1,9 +1,9 @@
-package com.example.MsCursos.service;
+package com.example.mscursos.service;
 
 import java.util.List;
 
-import com.example.MsCursos.model.request.CatalogoRequest;
-import com.example.MsCursos.model.response.CatalogoResponse;
+import com.example.mscursos.model.request.CatalogoRequest;
+import com.example.mscursos.model.response.CatalogoResponse;
 
 public interface CatalogoService {
     List<CatalogoResponse> listar();

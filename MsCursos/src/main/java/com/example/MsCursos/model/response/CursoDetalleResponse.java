@@ -1,4 +1,4 @@
-package com.example.MsCursos.model.response;
+package com.example.mscursos.model.response;
 
 import lombok.Data;
 

@@ -1,4 +1,4 @@
-package com.example.MsCursos.controller;
+package com.example.mscursos.controller;
 
 import java.util.List;
 
@@ -6,10 +6,10 @@ import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import com.example.MsCursos.model.request.CatalogoRequest;
-import com.example.MsCursos.model.response.CatalogoResponse;
-import com.example.MsCursos.service.CatalogoService;
-import com.example.MsCursos.util.ApiRoutes;
+import com.example.mscursos.model.request.CatalogoRequest;
+import com.example.mscursos.model.response.CatalogoResponse;
+import com.example.mscursos.service.CatalogoService;
+import com.example.mscursos.util.ApiRoutes;
 
 import lombok.RequiredArgsConstructor;
 

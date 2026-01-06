@@ -1,9 +1,9 @@
-package com.example.MsCursos.service;
+package com.example.mscursos.service;
 
 import java.util.List;
 
-import com.example.MsCursos.model.request.CursoRequest;
-import com.example.MsCursos.model.response.CursoResponse;
+import com.example.mscursos.model.request.CursoRequest;
+import com.example.mscursos.model.response.CursoResponse;
 
 public interface CursoService {
 
