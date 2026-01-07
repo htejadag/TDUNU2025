@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/tramite")
+@RequestMapping("/tramite")
 public class FlujoTramiteController {
 
     private final ExpedienteService expedienteService;
@@ -20,9 +20,9 @@ public class FlujoTramiteController {
     private final AsesorService asesorService;
 
     public FlujoTramiteController(ExpedienteService expedienteService,
-                                  SolicitudService solicitudService,
-                                  DocumentoService documentoService,
-                                  AsesorService asesorService) {
+            SolicitudService solicitudService,
+            DocumentoService documentoService,
+            AsesorService asesorService) {
         this.expedienteService = expedienteService;
         this.solicitudService = solicitudService;
         this.documentoService = documentoService;
@@ -46,11 +46,13 @@ public class FlujoTramiteController {
             expediente.setObservaciones("Expediente generado automáticamente.");
 
             // Asignar asesor si viene en el JSON
-            if (request.containsKey("idAsesor")) {
-                Integer idAsesor = (Integer) request.get("idAsesor");
-                Asesor asesor = asesorService.obtenerPorId(idAsesor);
-                expediente.setAsesor(asesor);
-            }
+            /*
+             * if (request.containsKey("idAsesor")) {
+             * Integer idAsesor = (Integer) request.get("idAsesor");
+             * Asesor asesor = asesorService.obtenerPorId(idAsesor);
+             * expediente.setAsesor(asesor);
+             * }
+             */
 
             expediente = expedienteService.crear(expediente);
 
@@ -61,7 +63,7 @@ public class FlujoTramiteController {
             solicitud.setExpediente(expediente);
             solicitud.setTipoSolicitud("DESIGNACION_ASESOR");
             solicitud.setEstadoSolicitud("PENDIENTE");
-            solicitud.setFechaSolicitud(LocalDateTime.now());
+            // Fecha se asigna automáticamente en auditoría
             solicitud.setDescripcion("Solicitud generada automáticamente al registrar expediente.");
 
             solicitud = solicitudService.crear(solicitud);
@@ -73,7 +75,7 @@ public class FlujoTramiteController {
             documento.setSolicitud(solicitud);
             documento.setTipoDocumento("DESIGNACION_ASESOR");
             documento.setArchivoRuta("documentos/designacion_asesor_" + expediente.getIdExpediente() + ".pdf");
-            documento.setFechaDocumento(LocalDateTime.now());
+            // documento.setFechaDocumento(LocalDateTime.now());
 
             documento = documentoService.crear(documento);
 

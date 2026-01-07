@@ -23,16 +23,20 @@ public class RevisionServiceImpl implements RevisionService {
 
     @Override
     public List<Revision> listar() {
-        return repository.findAll();
+        return repository.findByActivoTrue();
     }
 
     @Override
     public Revision obtenerPorId(Integer id) {
-        return repository.findById(id).orElse(null);
+        return repository.findById(id).filter(Revision::getActivo).orElse(null);
     }
 
     @Override
     public void eliminar(Integer id) {
-        repository.deleteById(id);
+        Revision rev = obtenerPorId(id);
+        if (rev != null) {
+            rev.setActivo(false);
+            repository.save(rev);
+        }
     }
 }
