@@ -3,7 +3,6 @@ package Postgrado.postgrado.Controllers;
 import Postgrado.postgrado.Model.ExpedienteJurado;
 import Postgrado.postgrado.Service.ExpedienteJuradoService;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController

@@ -2,7 +2,6 @@ package Postgrado.postgrado.Model;
 
 import jakarta.persistence.*;
 import lombok.Data;
-
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import java.time.LocalDateTime;
 

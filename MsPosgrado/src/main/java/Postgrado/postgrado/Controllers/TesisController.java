@@ -3,7 +3,6 @@ package Postgrado.postgrado.Controllers;
 import Postgrado.postgrado.Model.Tesis;
 import Postgrado.postgrado.Service.TesisService;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
