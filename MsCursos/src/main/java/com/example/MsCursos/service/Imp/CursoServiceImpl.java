@@ -7,6 +7,8 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
+import com.example.mscursos.dto.CursoPayload;
+import com.example.mscursos.message.CursoPublisher;
 import com.example.mscursos.model.entity.CursoModel;
 import com.example.mscursos.model.request.CursoRequest;
 import com.example.mscursos.model.response.CursoResponse;
@@ -28,6 +30,7 @@ public class CursoServiceImpl implements CursoService {
 
     // @Autowired
     private final ModelMapper modelMapper;
+    private final CursoPublisher cursoPublisher;
 
     @Override
     @Cacheable(cacheNames = CACHE_CURSOS, key = "'listar'")
@@ -56,7 +59,7 @@ public class CursoServiceImpl implements CursoService {
 
         // 2. Guardar en la BD
         CursoModel saved = cursoRepository.save(model);
-
+        cursoPublisher.publishUpsert(saved);
         // 3. Entity -> Response
         return modelMapper.map(saved, CursoResponse.class);
     }
@@ -66,6 +69,7 @@ public class CursoServiceImpl implements CursoService {
     @CacheEvict(cacheNames = CACHE_CURSOS, allEntries = true)
     public void eliminar(Integer id) {
         cursoRepository.deleteById(id);
+        cursoPublisher.publishDelete(id);
     }
 
     @Override
@@ -96,30 +100,26 @@ public class CursoServiceImpl implements CursoService {
     }
 
     @Override
-    @Transactional
-    @CacheEvict(cacheNames = CACHE_CURSOS, allEntries = true) // viene data nueva por kafka
-    public void upsertDesdeKafka(CursoRequest req) {
+    public void upsertDesdeKafka(CursoPayload payload) {
 
-        CursoModel model;
+        CursoModel model = new CursoModel();
 
-        // Si viene ID: intenta actualizar; si no existe, crea nuevo
-        if (req.getId() != null) {
-            model = cursoRepository.findById(req.getId()).orElse(new CursoModel());
-            model.setId(req.getId()); // por si era nuevo
-        } else {
-            model = new CursoModel();
-        }
-
-        // Map DTO -> Entity
-        model.setNombre(req.getNombre());
-        model.setCodigo(req.getCodigo());
-        model.setIdCiclo(req.getIdCiclo());
-        model.setIdCarrera(req.getIdCarrera());
-        model.setCreditos(req.getCreditos());
-        model.setHorasTeoricas(req.getHorasTeoricas());
-        model.setHorasPracticas(req.getHorasPracticas());
-        model.setEstado(req.getEstado() == null || req.getEstado());
+        model.setId(payload.getId());
+        model.setNombre(payload.getNombre());
+        model.setCodigo(payload.getCodigo());
+        model.setIdCiclo(payload.getIdCiclo());
+        model.setIdCarrera(payload.getIdCarrera());
+        model.setCreditos(payload.getCreditos());
+        model.setHorasTeoricas(payload.getHorasTeoricas());
+        model.setHorasPracticas(payload.getHorasPracticas());
+        model.setEstado(payload.getEstado());
 
         cursoRepository.save(model);
     }
+
+    @Override
+    public void deleteDesdeKafka(Integer id) {
+        cursoRepository.deleteById(id);
+    }
+
 }

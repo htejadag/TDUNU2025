@@ -1,4 +1,4 @@
-package com.example.mscursos.model.response;
+package com.example.mscursos.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class CursoResponse {
+public class CursoPayload {
     private Integer id;
     private String nombre;
     private String codigo;
@@ -19,4 +19,6 @@ public class CursoResponse {
     private Integer horasTeoricas;
     private Integer horasPracticas;
     private Boolean estado;
+
+    
 }

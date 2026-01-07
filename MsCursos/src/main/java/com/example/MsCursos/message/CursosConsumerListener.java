@@ -6,6 +6,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 
+import com.example.mscursos.dto.CursoEvent;
+import com.example.mscursos.dto.CursoPayload;
 import com.example.mscursos.model.request.CursoRequest;
 import com.example.mscursos.service.CursoService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -23,21 +25,30 @@ public class CursosConsumerListener {
         this.objectMapper = objectMapper;
     }
 
-    @KafkaListener(topics = "${spring.kafka.template.default-topic}", groupId = "${spring.kafka.consumer.group-id}")
-    public void onMessage(ConsumerRecord<Integer, String> consumerRecord) {
-
-        log.info("****************************************************************");
-        log.info("Mensaje Kafka => key={} value={}", consumerRecord.key(), consumerRecord.value());
+    @KafkaListener(topics = "${app.kafka.topic.curso-events}", groupId = "ms-cursos-group")
+    public void onMessage(ConsumerRecord<String, String> record) {
 
         try {
-            CursoRequest data = objectMapper.readValue(consumerRecord.value(), CursoRequest.class);
+            CursoEvent event = objectMapper.readValue(
+                    record.value(),
+                    CursoEvent.class);
 
-            // ✅ lógica: guardar o actualizar curso en BD
-            cursoService.upsertDesdeKafka(data);
+            CursoPayload curso = event.getCurso(); // 👈 AQUÍ ESTÁ EL PAYLOAD REAL
 
-            log.info("OK procesado => id={}, codigo={}", data.getId(), data.getCodigo());
+            if ("UPSERT".equals(event.getType())) {
+                cursoService.upsertDesdeKafka(curso);
+            }
+
+            if ("DELETE".equals(event.getType())) {
+                cursoService.deleteDesdeKafka(curso.getId());
+            }
+
+            log.info("Evento {} procesado correctamente, id={}",
+                    event.getType(), curso.getId());
+
         } catch (Exception e) {
-            log.error("Error procesando mensaje Kafka: {}", consumerRecord.value(), e);
+            log.error("Error procesando mensaje Kafka", e);
         }
     }
+
 }
