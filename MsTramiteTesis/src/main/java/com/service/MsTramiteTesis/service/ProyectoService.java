@@ -7,7 +7,6 @@ import com.service.MsTramiteTesis.model.entity.ProyectoTesis;
 import com.service.MsTramiteTesis.model.Error.ResourceNotFoundException;
 import com.service.MsTramiteTesis.repository.ProyectoRepository;
 
-import com.service.MsTramiteTesis.kafka.producer.ProyectoEventProducer;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,9 +27,6 @@ public class ProyectoService {
     @Autowired
     private ModelMapper modelMapper;
 
-    @Autowired
-    private ProyectoEventProducer kafkaProducer;
-
     @Transactional
     public ProyectoResponse crearProyecto(Long idEstudiante, ProyectoRequest request) {
         ProyectoTesis proyecto = new ProyectoTesis();
@@ -43,17 +39,6 @@ public class ProyectoService {
         proyecto.setFechaRegistro(OffsetDateTime.now());
 
         ProyectoTesis saved = proyectoRepository.save(proyecto);
-
-        try {
-            kafkaProducer.publicarProyectoCreado(
-                    saved.getIdProyecto().toString(),
-                    saved.getTituloProyecto(),
-                    "Proyecto creado",
-                    saved.getEstadoProyectoCodigo());
-            log.info("Evento Kafka CREADO publicado para proyecto ID: {}", saved.getIdProyecto());
-        } catch (Exception e) {
-            log.error("Error publicando evento Kafka: ", e);
-        }
 
         return modelMapper.map(saved, ProyectoResponse.class);
     }
@@ -216,20 +201,9 @@ public class ProyectoService {
                         .orElseThrow(() -> new ResourceNotFoundException("Proyecto no encontrado")),
                 "El proyecto no puede ser null");
 
-        String estadoAnterior = proyecto.getEstadoProyectoCodigo();
         proyecto.setEstadoProyectoCodigo(estadoNuevo);
 
         ProyectoTesis updated = proyectoRepository.save(proyecto);
-
-        try {
-            kafkaProducer.publicarProyectoActualizado(
-                    updated.getIdProyecto().toString(),
-                    estadoAnterior,
-                    estadoNuevo);
-            log.info("Evento Kafka ESTADO_CAMBIADO publicado: {} -> {}", estadoAnterior, estadoNuevo);
-        } catch (Exception e) {
-            log.error("Error publicando evento Kafka: ", e);
-        }
 
         return modelMapper.map(updated, ProyectoResponse.class);
     }
@@ -245,12 +219,5 @@ public class ProyectoService {
 
         proyectoRepository.delete(java.util.Objects.requireNonNull(proyecto,
                 "El proyecto a eliminar no puede ser null"));
-
-        try {
-            kafkaProducer.publicarProyectoEliminado(idProyecto.toString());
-            log.info("Evento Kafka ELIMINADO publicado para proyecto ID: {}", idProyecto);
-        } catch (Exception e) {
-            log.error("Error publicando evento Kafka: ", e);
-        }
     }
 }
