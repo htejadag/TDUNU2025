@@ -12,7 +12,7 @@ import org.springframework.data.redis.cache.RedisCacheConfiguration;
 import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
+import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.RedisSerializationContext;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
@@ -44,8 +44,8 @@ public class RedisConfig {
                 template.setConnectionFactory(connectionFactory);
 
                 StringRedisSerializer stringSerializer = new StringRedisSerializer();
-                GenericJackson2JsonRedisSerializer jsonSerializer = new GenericJackson2JsonRedisSerializer(
-                                redisObjectMapper());
+                Jackson2JsonRedisSerializer<Object> jsonSerializer = new Jackson2JsonRedisSerializer<>(
+                                redisObjectMapper(), Object.class);
 
                 template.setKeySerializer(stringSerializer);
                 template.setHashKeySerializer(stringSerializer);
@@ -65,8 +65,8 @@ public class RedisConfig {
                                                                 .fromSerializer(new StringRedisSerializer()))
                                 .serializeValuesWith(
                                                 RedisSerializationContext.SerializationPair
-                                                                .fromSerializer(new GenericJackson2JsonRedisSerializer(
-                                                                                redisObjectMapper())))
+                                                                .fromSerializer(new Jackson2JsonRedisSerializer<>(
+                                                                                redisObjectMapper(), Object.class)))
                                 .disableCachingNullValues();
 
                 Map<String, RedisCacheConfiguration> cacheConfigurations = new HashMap<>();

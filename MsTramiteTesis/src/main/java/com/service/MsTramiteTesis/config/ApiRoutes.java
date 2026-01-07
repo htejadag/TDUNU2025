@@ -14,19 +14,8 @@ public class ApiRoutes {
         public static final String REVISION_ASESOR = "/{id}/revision-asesor";
         public static final String MIS_ASESORIAS = "/mis-asesorias";
         public static final String BY_ID = "/{id}";
-    }
-
-    public static class ProyectosEnriquecidos {
-        public static final String BASE = API_BASE + "/proyectos-enriquecidos";
-        public static final String BY_ID = "/{id}";
-    }
-
-    public static class Testing {
-        public static final String BASE_KAFKA = Proyectos.BASE + "/test/kafka";
-        public static final String BASE_ALL = Proyectos.BASE + "/test/all";
-        public static final String CREAR_PROYECTO = "";
-        public static final String ACTUALIZAR_ESTADO = "/{id}/estado";
-        public static final String ELIMINAR_PROYECTO = "/{id}";
+        public static final String ENRIQUECIDOS = "/enriquecidos";
+        public static final String ENRIQUECIDO_BY_ID = "/enriquecidos/{id}";
     }
 
     private ApiRoutes() {

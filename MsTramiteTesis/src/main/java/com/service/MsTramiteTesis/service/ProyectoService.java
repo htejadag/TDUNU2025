@@ -3,12 +3,10 @@ package com.service.MsTramiteTesis.service;
 import com.service.MsTramiteTesis.model.dto.ProyectoRequest;
 import com.service.MsTramiteTesis.model.dto.ProyectoResponse;
 import com.service.MsTramiteTesis.model.dto.ProyectoResponseEnriquecido;
-import com.service.MsTramiteTesis.model.dto.external.DocenteDTO;
-import com.service.MsTramiteTesis.model.dto.external.EstudianteDTO;
 import com.service.MsTramiteTesis.model.entity.ProyectoTesis;
 import com.service.MsTramiteTesis.model.Error.ResourceNotFoundException;
 import com.service.MsTramiteTesis.repository.ProyectoRepository;
-import com.service.MsTramiteTesis.client.PersonasClient;
+
 import com.service.MsTramiteTesis.kafka.producer.ProyectoEventProducer;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -29,9 +27,6 @@ public class ProyectoService {
 
     @Autowired
     private ModelMapper modelMapper;
-
-    @Autowired
-    private PersonasClient personasClient;
 
     @Autowired
     private ProyectoEventProducer kafkaProducer;
@@ -208,12 +203,6 @@ public class ProyectoService {
         response.setEstadoProyectoCodigo(proyecto.getEstadoProyectoCodigo());
         response.setFechaRegistro(proyecto.getFechaRegistro());
         response.setFechaAprobacionFinal(proyecto.getFechaAprobacionFinal());
-
-        EstudianteDTO estudiante = personasClient.obtenerEstudiante(proyecto.getIdEstudianteExt());
-        response.setEstudiante(estudiante);
-
-        DocenteDTO asesor = personasClient.obtenerDocente(proyecto.getIdAsesorExt());
-        response.setAsesor(asesor);
 
         return response;
     }
