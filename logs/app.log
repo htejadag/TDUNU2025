@@ -1,35 +1,15 @@
-2025-12-12 02:41:35 WARN  com.zaxxer.hikari.pool.HikariPool - HikariPool-24 - Thread starvation or clock leap detected (housekeeper delta=3h28s572ms262µs100ns).
-2025-12-12 17:12:02 WARN  com.zaxxer.hikari.pool.HikariPool - HikariPool-24 - Thread starvation or clock leap detected (housekeeper delta=14h30m31s292ms179µs400ns).
-2025-12-12 17:12:02 WARN  com.zaxxer.hikari.pool.PoolBase - HikariPool-24 - Pool is empty, failed to create/setup connection (a17d9936-897f-4466-a142-2144eb0baf89)
-java.sql.SQLNonTransientConnectionException: Got timeout reading communication packets
-	at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:111)
-	at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:122)
-	at com.mysql.cj.jdbc.ConnectionImpl.createNewIO(ConnectionImpl.java:815)
-	at com.mysql.cj.jdbc.ConnectionImpl.<init>(ConnectionImpl.java:438)
-	at com.mysql.cj.jdbc.ConnectionImpl.getInstance(ConnectionImpl.java:241)
-	at com.mysql.cj.jdbc.NonRegisteringDriver.connect(NonRegisteringDriver.java:189)
-	at com.zaxxer.hikari.util.DriverDataSource.getConnection(DriverDataSource.java:144)
-	at com.zaxxer.hikari.pool.PoolBase.newConnection(PoolBase.java:373)
-	at com.zaxxer.hikari.pool.PoolBase.newPoolEntry(PoolBase.java:210)
-	at com.zaxxer.hikari.pool.HikariPool.createPoolEntry(HikariPool.java:488)
-	at com.zaxxer.hikari.pool.HikariPool$PoolEntryCreator.call(HikariPool.java:752)
-	at com.zaxxer.hikari.pool.HikariPool$PoolEntryCreator.call(HikariPool.java:731)
-	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:328)
-	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1090)
-	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:614)
-	at java.base/java.lang.Thread.run(Thread.java:1474)
-2025-12-12 17:13:12 INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-24 - Shutdown initiated...
-2025-12-12 17:13:13 INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-24 - Shutdown completed.
-2025-12-12 17:13:18 INFO  Postgrado.postgrado.PostgradoApplication - Starting PostgradoApplication using Java 25.0.1 with PID 21416 (D:\TDUNU2025\postgrado\postgrado\target\classes started by MANUEL in D:\TDUNU2025)
-2025-12-12 17:13:18 INFO  Postgrado.postgrado.PostgradoApplication - No active profile set, falling back to 1 default profile: "default"
-2025-12-12 17:13:22 INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
-2025-12-12 17:13:23 INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/11.0.14]
-2025-12-12 17:13:24 INFO  org.hibernate.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
-2025-12-12 17:13:24 INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-25 - Starting...
-2025-12-12 17:13:28 INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-25 - Added connection com.mysql.cj.jdbc.ConnectionImpl@767022d
-2025-12-12 17:13:28 INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-25 - Start completed.
-2025-12-12 17:13:29 WARN  org.hibernate.orm.deprecation - HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
-2025-12-12 17:13:29 INFO  org.hibernate.orm.connections.pooling - HHH10001005: Database info:
+2026-01-06 21:31:35 INFO  Postgrado.postgrado.PostgradoApplication - Starting PostgradoApplication using Java 25.0.1 with PID 23292 (D:\TDUNU2025\postgrado\postgrado\target\classes started by MANUEL in D:\TDUNU2025)
+2026-01-06 21:31:35 INFO  Postgrado.postgrado.PostgradoApplication - No active profile set, falling back to 1 default profile: "default"
+2026-01-06 21:31:48 INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+2026-01-06 21:31:48 INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2026-01-06 21:31:48 INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/11.0.14]
+2026-01-06 21:31:49 INFO  org.hibernate.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-01-06 21:31:49 INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 7.1.8.Final
+2026-01-06 21:31:52 INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-01-06 21:31:53 INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@78effa5c
+2026-01-06 21:31:53 INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-01-06 21:31:53 WARN  org.hibernate.orm.deprecation - HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-01-06 21:31:54 INFO  org.hibernate.orm.connections.pooling - HHH10001005: Database info:
 	Database JDBC URL [jdbc:mysql://localhost:3310/db_ms_posgrado?createDatabaseIfNotExist=true&useSSL=false&serverTimezone=UTC]
 	Database driver: MySQL Connector/J
 	Database dialect: MySQLDialect
@@ -41,3 +21,10 @@ java.sql.SQLNonTransientConnectionException: Got timeout reading communication p
 	Pool: DatasourceConnectionProviderImpl
 	Minimum pool size: undefined/unknown
 	Maximum pool size: undefined/unknown
+2026-01-06 21:31:58 INFO  org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-01-06 21:32:00 WARN  org.springframework.boot.jpa.autoconfigure.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-01-06 21:32:03 INFO  org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+2026-01-06 21:32:04 INFO  Postgrado.postgrado.PostgradoApplication - Started PostgradoApplication in 33.693 seconds (process running for 36.752)
+2026-01-06 21:32:23 INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-01-06 21:32:23 INFO  Postgrado.postgrado.Controllers.ExpedienteController - Buscando expediente 1
+2026-01-06 21:32:23 INFO  Postgrado.postgrado.Service.Impl.ExpedienteServiceImpl - Buscando expediente 1
