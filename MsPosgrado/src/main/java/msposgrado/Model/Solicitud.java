@@ -20,12 +20,15 @@ public class Solicitud extends AuditoriaEntity {
     @NotNull(message = "El expediente es obligatorio")
     private Expediente expediente;
 
-    @NotBlank(message = "El tipo de solicitud es obligatorio")
-    @Size(max = 50, message = "El tipo de solicitud no puede superar los 50 caracteres")
-    private String tipoSolicitud;
+    @ManyToOne
+    @JoinColumn(name = "id_tipo_solicitud", nullable = false)
+    @NotNull(message = "El tipo de solicitud es obligatorio")
+    private TipoSolicitud tipoSolicitud;
 
-    @Size(max = 20, message = "El estado no puede cerrar los 20 caracteres")
-    private String estadoSolicitud;
+    @ManyToOne
+    @JoinColumn(name = "id_estado_solicitud", nullable = false)
+    @NotNull(message = "El estado de la solicitud es obligatorio")
+    private EstadoSolicitud estadoSolicitud;
 
     @Size(max = 255, message = "La descripción no puede superar los 255 caracteres")
     private String descripcion;
@@ -36,9 +39,10 @@ public class Solicitud extends AuditoriaEntity {
 
     @PrePersist
     public void prePersist() {
-        if (this.estadoSolicitud == null) {
-            this.estadoSolicitud = "PENDIENTE";
-        }
+        // La lógica de estado por defecto debe manejarse asegurando que se envíe el ID
+        // del estado PENDIENTE
+        // o asignándolo aquí buscando la entidad, pero por simplicidad requeriremos que
+        // se envíe.
     }
 
     public Integer getIdSolicitud() {
@@ -57,19 +61,19 @@ public class Solicitud extends AuditoriaEntity {
         this.expediente = expediente;
     }
 
-    public String getTipoSolicitud() {
+    public TipoSolicitud getTipoSolicitud() {
         return tipoSolicitud;
     }
 
-    public void setTipoSolicitud(String tipoSolicitud) {
+    public void setTipoSolicitud(TipoSolicitud tipoSolicitud) {
         this.tipoSolicitud = tipoSolicitud;
     }
 
-    public String getEstadoSolicitud() {
+    public EstadoSolicitud getEstadoSolicitud() {
         return estadoSolicitud;
     }
 
-    public void setEstadoSolicitud(String estadoSolicitud) {
+    public void setEstadoSolicitud(EstadoSolicitud estadoSolicitud) {
         this.estadoSolicitud = estadoSolicitud;
     }
 

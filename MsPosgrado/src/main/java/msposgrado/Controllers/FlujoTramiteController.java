@@ -2,6 +2,7 @@ package msposgrado.Controllers;
 
 import msposgrado.Model.*;
 import msposgrado.Service.*;
+import msposgrado.Repository.*;
 import msposgrado.Constantes.Routes;
 import org.springframework.web.bind.annotation.*;
 import java.time.LocalDateTime;
@@ -16,15 +17,21 @@ public class FlujoTramiteController {
     private final SolicitudService solicitudService;
     private final DocumentoService documentoService;
     private final AsesorService asesorService;
+    private final TipoSolicitudRepository tipoSolicitudRepository;
+    private final EstadoSolicitudRepository estadoSolicitudRepository;
 
     public FlujoTramiteController(ExpedienteService expedienteService,
             SolicitudService solicitudService,
             DocumentoService documentoService,
-            AsesorService asesorService) {
+            AsesorService asesorService,
+            TipoSolicitudRepository tipoSolicitudRepository,
+            EstadoSolicitudRepository estadoSolicitudRepository) {
         this.expedienteService = expedienteService;
         this.solicitudService = solicitudService;
         this.documentoService = documentoService;
         this.asesorService = asesorService;
+        this.tipoSolicitudRepository = tipoSolicitudRepository;
+        this.estadoSolicitudRepository = estadoSolicitudRepository;
     }
 
     @PostMapping("/crear-expediente")
@@ -59,9 +66,15 @@ public class FlujoTramiteController {
             // ====================================================
             Solicitud solicitud = new Solicitud();
             solicitud.setExpediente(expediente);
-            solicitud.setTipoSolicitud("DESIGNACION_ASESOR");
-            solicitud.setEstadoSolicitud("PENDIENTE");
-            // Fecha se asigna automáticamente en auditoría
+            // Buscar Tipo
+            TipoSolicitud tipo = tipoSolicitudRepository.findByNombre("DESIGNACION_ASESOR")
+                    .orElseThrow(() -> new RuntimeException("Error: Tipo Solicitud DESIGNACION_ASESOR no encontrado"));
+            solicitud.setTipoSolicitud(tipo);
+
+            // Buscar Estado
+            EstadoSolicitud estado = estadoSolicitudRepository.findByNombre("PENDIENTE")
+                    .orElseThrow(() -> new RuntimeException("Error: Estado Solicitud PENDIENTE no encontrado"));
+            solicitud.setEstadoSolicitud(estado);
             solicitud.setDescripcion("Solicitud generada automáticamente al registrar expediente.");
 
             solicitud = solicitudService.crear(solicitud);

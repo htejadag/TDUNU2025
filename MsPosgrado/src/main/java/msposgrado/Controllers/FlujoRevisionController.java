@@ -2,6 +2,7 @@ package msposgrado.Controllers;
 
 import msposgrado.Model.*;
 import msposgrado.Service.*;
+import msposgrado.Repository.*;
 import msposgrado.Constantes.Routes;
 import org.springframework.web.bind.annotation.*;
 import java.time.LocalDateTime;
@@ -18,18 +19,25 @@ public class FlujoRevisionController {
     private final DocumentoService documentoService;
     private final SolicitudService solicitudService;
 
+    private final TipoSolicitudRepository tipoSolicitudRepository;
+    private final EstadoSolicitudRepository estadoSolicitudRepository;
+
     public FlujoRevisionController(
             TesisService tesisService,
             JuradoService juradoService,
             RevisionService revisionService,
             DocumentoService documentoService,
-            SolicitudService solicitudService) {
+            SolicitudService solicitudService,
+            TipoSolicitudRepository tipoSolicitudRepository,
+            EstadoSolicitudRepository estadoSolicitudRepository) {
 
         this.tesisService = tesisService;
         this.juradoService = juradoService;
         this.revisionService = revisionService;
         this.documentoService = documentoService;
         this.solicitudService = solicitudService;
+        this.tipoSolicitudRepository = tipoSolicitudRepository;
+        this.estadoSolicitudRepository = estadoSolicitudRepository;
     }
 
     @PostMapping("/realizar")
@@ -109,15 +117,35 @@ public class FlujoRevisionController {
             Solicitud solicitud = new Solicitud();
             solicitud.setExpediente(tesis.getExpediente());
             // Fecha se asigna automáticamente en auditoría
-            solicitud.setEstadoSolicitud("FINALIZADO");
+            // Buscar Estado FINALIZADO
+            EstadoSolicitud estado = estadoSolicitudRepository.findByNombre("FINALIZADO")
+                    .orElseGet(() -> {
+                        // Fallback si no existe en data inicial
+                        EstadoSolicitud nuevo = new EstadoSolicitud();
+                        nuevo.setNombre("FINALIZADO");
+                        return estadoSolicitudRepository.save(nuevo);
+                    });
+            solicitud.setEstadoSolicitud(estado);
 
+            TipoSolicitud tipo;
             if (revision.getTipoRevision().equals("REVISION_PT")) {
-                solicitud.setTipoSolicitud("APROBACION_PT");
+                tipo = tipoSolicitudRepository.findByNombre("APROBACION_PT")
+                        .orElseGet(() -> {
+                            TipoSolicitud nuevo = new TipoSolicitud();
+                            nuevo.setNombre("APROBACION_PT");
+                            return tipoSolicitudRepository.save(nuevo);
+                        });
                 solicitud.setDescripcion("Dictamen sobre Proyecto de Tesis");
             } else {
-                solicitud.setTipoSolicitud("REVISION_IF");
+                tipo = tipoSolicitudRepository.findByNombre("REVISION_IF")
+                        .orElseGet(() -> {
+                            TipoSolicitud nuevo = new TipoSolicitud();
+                            nuevo.setNombre("REVISION_IF");
+                            return tipoSolicitudRepository.save(nuevo);
+                        });
                 solicitud.setDescripcion("Dictamen del Informe Final");
             }
+            solicitud.setTipoSolicitud(tipo);
 
             solicitud = solicitudService.crear(solicitud);
 
