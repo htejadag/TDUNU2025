@@ -1,6 +1,6 @@
 package com.unu.ms.MsConsejo.service.Imp;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
@@ -8,221 +8,103 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.unu.ms.MsConsejo.model.entity.AsistenciaSesionModel;
+import com.unu.ms.MsConsejo.model.entity.SesionConsejoModel;
 import com.unu.ms.MsConsejo.model.mapper.AsistenciaSesionMapper;
 import com.unu.ms.MsConsejo.model.request.AsistenciaSesionRequest;
 import com.unu.ms.MsConsejo.model.response.AsistenciaSesionResponse;
+import com.unu.ms.MsConsejo.model.response.AsistenciaResumenResponse;
 import com.unu.ms.MsConsejo.repository.AsistenciaSesionRepository;
+import com.unu.ms.MsConsejo.repository.SesionConsejoRepository;
 import com.unu.ms.MsConsejo.service.AsistenciaSesionService;
 
 @Slf4j
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class AsistenciaSesionServiceImp implements AsistenciaSesionService {
 
-        AsistenciaSesionRepository asistenciaSesionRepository;
-        AuditoriaServiceImp auditoriaServiceImp;
-        AsistenciaSesionMapper mapper;
-
-        private static final String NAME_ENTITY = "ASISTENCIA_SESION";
+        private final AsistenciaSesionRepository asistenciaSesionRepository;
+        private final SesionConsejoRepository sesionConsejoRepository;
+        private final AsistenciaSesionMapper mapper;
+        
+        // IDs de estados de asistencia (basados en catalogo)
+        private static final Integer ESTADO_PRESENTE = 1;
+        private static final Integer ESTADO_AUSENTE = 2;
+        private static final Integer ESTADO_JUSTIFICADO = 3;
 
         @Override
         public List<AsistenciaSesionResponse> listar() {
-
-                log.info("Inicio servicio: listar asistencias de sesión");
-
-                List<AsistenciaSesionResponse> resultado = asistenciaSesionRepository.findAll()
-                                .stream()
-                                .map(mapper::toResponse)
-                                .toList();
-
-                log.info(
-                                "Fin servicio: listar asistencias de sesión. Total registros: {}",
-                                resultado.size());
-
-                return resultado;
+                return asistenciaSesionRepository.findAll().stream().map(mapper::toResponse).toList();
         }
 
         @Override
         public AsistenciaSesionResponse obtenerPorId(Integer id) {
-
-                log.info("Inicio servicio: obtener asistencia de sesión por id");
-                log.debug("Id asistencia sesión: {}", id);
-
-                AsistenciaSesionResponse response = asistenciaSesionRepository.findById(id)
-                                .map(mapper::toResponse)
-                                .orElse(null);
-
-                if (response == null) {
-                        log.warn("Asistencia de sesión no encontrada. Id: {}", id);
-                } else {
-                        log.info("Asistencia de sesión encontrada. Id: {}", id);
-                }
-
-                log.info("Fin servicio: obtener asistencia de sesión por id");
-
-                return response;
+                return asistenciaSesionRepository.findById(id).map(mapper::toResponse).orElse(null);
         }
 
         @Override
         public AsistenciaSesionResponse guardar(AsistenciaSesionRequest asistenciaSesionRequest) {
-
-                log.info("Inicio servicio: guardar asistencia de sesión");
-                log.debug("Datos de entrada guardar asistencia sesión: {}", asistenciaSesionRequest);
-
                 AsistenciaSesionModel model = mapper.toEntity(asistenciaSesionRequest);
-
-                AsistenciaSesionModel guardado = asistenciaSesionRepository.save(model);
-
-                log.info(
-                                "Asistencia de sesión guardada correctamente. Id generado: {}",
-                                guardado.getIdAsistencia());
-
-                auditoriaServiceImp.registrarAccion(
-                                NAME_ENTITY,
-                                guardado.getIdAsistencia(),
-                                "CREATE",
-                                10,
-                                null,
-                                guardado.toString(),
-                                "Registro de asistencia de sesión");
-
-                log.info("Fin servicio: guardar asistencia de sesión");
-
-                return mapper.toResponse(guardado);
+                return mapper.toResponse(asistenciaSesionRepository.save(model));
         }
 
         @Override
         public void eliminar(Integer id) {
-
-                log.info("Inicio servicio: eliminar asistencia de sesión");
-                log.debug("Id asistencia sesión a eliminar: {}", id);
-
-                AsistenciaSesionModel model = asistenciaSesionRepository.findById(id)
-                                .orElseThrow(() -> {
-                                        log.warn("Asistencia de sesión no encontrada para eliminar. Id: {}", id);
-                                        return new RuntimeException("Asistencia no encontrada con id: " + id);
-                                });
-
                 asistenciaSesionRepository.deleteById(id);
-
-                auditoriaServiceImp.registrarAccion(
-                                NAME_ENTITY,
-                                id,
-                                "DELETE",
-                                10,
-                                model.toString(),
-                                null,
-                                "Eliminación de asistencia de sesión");
-
-                log.info("Fin servicio: eliminar asistencia de sesión. Id eliminado: {}", id);
         }
 
         @Override
-        public AsistenciaSesionResponse actualizar(
-                        Integer id,
-                        AsistenciaSesionRequest asistenciaSesionActualizado) {
-
-                log.info("Inicio servicio: actualizar asistencia de sesión");
-                log.debug("Id asistencia sesión a actualizar: {}", id);
-                log.debug("Datos de entrada actualizar asistencia sesión: {}", asistenciaSesionActualizado);
-
+        public AsistenciaSesionResponse actualizar(Integer id, AsistenciaSesionRequest asistenciaSesionActualizado) {
                 AsistenciaSesionModel model = asistenciaSesionRepository.findById(id)
-                                .orElseThrow(() -> {
-                                        log.warn("Asistencia de sesión no encontrada para actualizar. Id: {}", id);
-                                        return new RuntimeException("Asistencia no encontrada con id: " + id);
-                                });
-
-                String antes = model.toString();
-
+                                .orElseThrow(() -> new RuntimeException("Asistencia no encontrado con id: " + id));
                 mapper.updateEntityFromRequest(asistenciaSesionActualizado, model);
-
-                AsistenciaSesionModel actualizado = asistenciaSesionRepository.save(model);
-
-                auditoriaServiceImp.registrarAccion(
-                                NAME_ENTITY,
-                                actualizado.getIdAsistencia(),
-                                "UPDATE",
-                                10,
-                                antes,
-                                actualizado.toString(),
-                                "Actualización de asistencia de sesión");
-
-                log.info(
-                                "Asistencia de sesión actualizada correctamente. Id: {}",
-                                actualizado.getIdAsistencia());
-
-                log.info("Fin servicio: actualizar asistencia de sesión");
-
-                return mapper.toResponse(actualizado);
+                return mapper.toResponse(asistenciaSesionRepository.save(model));
         }
 
         @Override
         public boolean existePorId(Integer id) {
-
-                log.debug("Validando existencia de asistencia de sesión. Id: {}", id);
-
-                boolean existe = asistenciaSesionRepository.existsById(id);
-
-                log.debug(
-                                "Resultado existencia asistencia sesión. Id: {}, Existe: {}",
-                                id,
-                                existe);
-
-                return existe;
+                return asistenciaSesionRepository.existsById(id);
         }
 
         @Override
         public List<AsistenciaSesionResponse> buscarPorSesion(Integer idSesion) {
-
-                log.info("Inicio servicio: buscar asistencias por sesión");
-                log.debug("Id sesión: {}", idSesion);
-
-                List<AsistenciaSesionResponse> resultado = asistenciaSesionRepository.findBySesion_IdSesion(idSesion)
-                                .stream()
-                                .map(mapper::toResponse)
+                return asistenciaSesionRepository.findBySesion_IdSesion(idSesion).stream().map(mapper::toResponse)
                                 .toList();
-
-                log.info(
-                                "Fin servicio: buscar asistencias por sesión. Total registros: {}",
-                                resultado.size());
-
-                return resultado;
         }
 
         @Override
         public List<AsistenciaSesionResponse> buscarPorMiembro(Integer idMiembro) {
-
-                log.info("Inicio servicio: buscar asistencias por miembro");
-                log.debug("Id miembro: {}", idMiembro);
-
-                List<AsistenciaSesionResponse> resultado = asistenciaSesionRepository.findByMiembro(idMiembro)
-                                .stream()
-                                .map(mapper::toResponse)
-                                .toList();
-
-                log.info(
-                                "Fin servicio: buscar asistencias por miembro. Total registros: {}",
-                                resultado.size());
-
-                return resultado;
+                return asistenciaSesionRepository.findByMiembro_IdMiembro(idMiembro).stream().map(mapper::toResponse).toList();
         }
 
         @Override
         public List<AsistenciaSesionResponse> buscarPorEstadoAsistencia(Integer idEstadoAsistencia) {
-
-                log.info("Inicio servicio: buscar asistencias por estado de asistencia");
-                log.debug("Id estado asistencia: {}", idEstadoAsistencia);
-
-                List<AsistenciaSesionResponse> resultado = asistenciaSesionRepository
-                                .findByIdEstadoAsistencia(idEstadoAsistencia)
-                                .stream()
-                                .map(mapper::toResponse)
-                                .toList();
-
-                log.info(
-                                "Fin servicio: buscar asistencias por estado de asistencia. Total registros: {}",
-                                resultado.size());
-
-                return resultado;
+                return asistenciaSesionRepository.findByIdEstadoAsistencia(idEstadoAsistencia).stream()
+                                .map(mapper::toResponse).toList();
         }
+
+        @Override
+        public AsistenciaResumenResponse obtenerResumenPorSesion(Integer idSesion) {
+                SesionConsejoModel sesion = sesionConsejoRepository.findById(idSesion)
+                                .orElseThrow(() -> new RuntimeException("Sesión no encontrada con id: " + idSesion));
+                
+                long totalMiembros = asistenciaSesionRepository.countBySesion_IdSesion(idSesion);
+                long presentes = asistenciaSesionRepository.countBySesion_IdSesionAndIdEstadoAsistencia(idSesion, ESTADO_PRESENTE);
+                long ausentes = asistenciaSesionRepository.countBySesion_IdSesionAndIdEstadoAsistencia(idSesion, ESTADO_AUSENTE);
+                long justificados = asistenciaSesionRepository.countBySesion_IdSesionAndIdEstadoAsistencia(idSesion, ESTADO_JUSTIFICADO);
+                
+                double porcentajeAsistencia = totalMiembros > 0 
+                                ? (double) presentes / totalMiembros * 100 
+                                : 0.0;
+
+                return AsistenciaResumenResponse.builder()
+                                .idSesion(idSesion)
+                                .numeroSesion(sesion.getNumeroSesion())
+                                .totalMiembros((int) totalMiembros)
+                                .presentes((int) presentes)
+                                .ausentes((int) ausentes)
+                                .justificados((int) justificados)
+                                .porcentajeAsistencia(Math.round(porcentajeAsistencia * 100.0) / 100.0)
+                                .build();
+        }
+
 }
