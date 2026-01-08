@@ -1,0 +1,15 @@
+package msposgrado.Service;
+
+import msposgrado.Model.Tesis;
+import java.util.List;
+
+public interface TesisService {
+
+    Tesis crear(Tesis tesis);
+
+    List<Tesis> listar();
+
+    Tesis obtenerPorId(Integer id);
+
+    void eliminar(Integer id);
+}
