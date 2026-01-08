@@ -1,0 +1,13 @@
+package pe.unu.MsNotificacionesPosgrado;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class MsNotificacionesPosgradoApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(MsNotificacionesPosgradoApplication.class, args);
+	}
+
+}
