@@ -3,6 +3,8 @@ package msposgrado.Service.Impl;
 import msposgrado.Model.Solicitud;
 import msposgrado.Repository.SolicitudRepository;
 import msposgrado.Service.SolicitudService;
+import org.springframework.kafka.core.KafkaTemplate;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,14 +13,26 @@ import java.util.List;
 public class SolicitudServiceImpl implements SolicitudService {
 
     private final SolicitudRepository repository;
+    private final KafkaTemplate<String, String> kafkaTemplate;
+    private final ObjectMapper objectMapper;
 
-    public SolicitudServiceImpl(SolicitudRepository repository) {
+    public SolicitudServiceImpl(SolicitudRepository repository, KafkaTemplate<String, String> kafkaTemplate,
+            ObjectMapper objectMapper) {
         this.repository = repository;
+        this.kafkaTemplate = kafkaTemplate;
+        this.objectMapper = objectMapper;
     }
 
     @Override
     public Solicitud crear(Solicitud solicitud) {
-        return repository.save(solicitud);
+        Solicitud nuevaSolicitud = repository.save(solicitud);
+        try {
+            String json = objectMapper.writeValueAsString(nuevaSolicitud);
+            kafkaTemplate.send("solicitudes-events", json);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return nuevaSolicitud;
     }
 
     @Override
