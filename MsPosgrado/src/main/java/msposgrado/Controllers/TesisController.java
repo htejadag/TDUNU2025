@@ -2,11 +2,12 @@ package msposgrado.Controllers;
 
 import msposgrado.Model.Tesis;
 import msposgrado.Service.TesisService;
+import msposgrado.Constantes.Routes;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/tesis")
+@RequestMapping(Routes.TESIS)
 public class TesisController {
 
     private final TesisService service;
@@ -33,7 +34,8 @@ public class TesisController {
     @PutMapping("/{id}")
     public Tesis actualizar(@PathVariable Integer id, @RequestBody Tesis data) {
         Tesis t = service.obtenerPorId(id);
-        if (t == null) return null;
+        if (t == null)
+            return null;
 
         t.setTitulo(data.getTitulo());
         t.setProyectoPdf(data.getProyectoPdf());

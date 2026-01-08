@@ -5,11 +5,12 @@ import msposgrado.Service.SolicitudService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import msposgrado.Constantes.Routes;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/solicitudes")
+@RequestMapping(Routes.SOLICITUDES)
 public class SolicitudController {
 
     private final SolicitudService service;

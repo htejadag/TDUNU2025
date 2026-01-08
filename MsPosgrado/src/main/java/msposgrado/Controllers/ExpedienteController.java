@@ -7,9 +7,10 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
+import msposgrado.Constantes.Routes;
 
 @RestController
-@RequestMapping("/api/expedientes")
+@RequestMapping(Routes.EXPEDIENTES)
 @Tag(name = "Expedientes", description = "CRUD de expedientes")
 public class ExpedienteController {
 

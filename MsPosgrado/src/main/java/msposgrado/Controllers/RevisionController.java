@@ -2,11 +2,12 @@ package msposgrado.Controllers;
 
 import msposgrado.Model.Revision;
 import msposgrado.Service.RevisionService;
+import msposgrado.Constantes.Routes;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/revisiones")
+@RequestMapping(Routes.REVISIONES)
 public class RevisionController {
 
     private final RevisionService service;
@@ -33,7 +34,8 @@ public class RevisionController {
     @PutMapping("/{id}")
     public Revision actualizar(@PathVariable Integer id, @RequestBody Revision data) {
         Revision r = service.obtenerPorId(id);
-        if (r == null) return null;
+        if (r == null)
+            return null;
 
         r.setTesis(data.getTesis());
         r.setJurado(data.getJurado());

@@ -2,13 +2,14 @@ package msposgrado.Controllers;
 
 import msposgrado.Model.*;
 import msposgrado.Service.*;
+import msposgrado.Constantes.Routes;
 import org.springframework.web.bind.annotation.*;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/revision")
+@RequestMapping(Routes.REVISION)
 public class FlujoRevisionController {
 
     private final TesisService tesisService;

@@ -5,11 +5,12 @@ import msposgrado.Service.JuradoService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import msposgrado.Constantes.Routes;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/jurados")
+@RequestMapping(Routes.JURADOS)
 @Tag(name = "Jurados", description = "CRUD de jurados")
 public class JuradoController {
 

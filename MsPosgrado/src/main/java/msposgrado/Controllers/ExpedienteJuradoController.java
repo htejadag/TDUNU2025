@@ -1,12 +1,14 @@
 package msposgrado.Controllers;
 
+import msposgrado.Constantes.Routes;
+
 import msposgrado.Model.ExpedienteJurado;
 import msposgrado.Service.ExpedienteJuradoService;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/expediente-jurado")
+@RequestMapping(Routes.EXPEDIENTE_JURADO)
 public class ExpedienteJuradoController {
 
     private final ExpedienteJuradoService service;
@@ -33,7 +35,8 @@ public class ExpedienteJuradoController {
     @PutMapping("/{id}")
     public ExpedienteJurado actualizar(@PathVariable Integer id, @RequestBody ExpedienteJurado data) {
         ExpedienteJurado ej = service.obtenerPorId(id);
-        if (ej == null) return null;
+        if (ej == null)
+            return null;
 
         ej.setExpediente(data.getExpediente());
         ej.setJurado(data.getJurado());
