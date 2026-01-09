@@ -78,7 +78,12 @@ CREAR:  POST http://localhost:8080/api/solicitudes
     "expediente": {
         "idExpediente": 1
     },
-    "tipoSolicitud": "DESIGNACION_JURADO",
+    "tipoSolicitud": {
+        "idTipoSolicitud": 1
+    },
+    "estadoSolicitud": {
+        "idEstadoSolicitud": 1
+    },
     "descripcion": "Solicitud para asignación de jurado de tesis"
 }
 
@@ -88,7 +93,9 @@ ACTUALIZAR:  PUT http://localhost:8080/api/solicitudes/{id}
 
 {
     "descripcion": "Descripción corregida de la solicitud",
-    "estadoSolicitud": "APROBADO"
+    "estadoSolicitud": {
+        "idEstadoSolicitud": 4
+    }
 }
 
 ELIMINAR:  DELETE http://localhost:8080/api/solicitudes/{id}
