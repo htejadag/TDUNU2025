@@ -1,5 +1,4 @@
 <configuration>
-
   <!-- Ruta configurable vía application.properties -->
   <property name="LOG_PATH" value="logs"/>
 
@@ -23,5 +22,4 @@
   <root level="INFO">
     <appender-ref ref="FILE"/>
   </root>
-
 </configuration>
