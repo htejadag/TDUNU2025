@@ -4,6 +4,13 @@ import msposgrado.Model.*;
 import msposgrado.Service.*;
 import msposgrado.Repository.*;
 import msposgrado.Constantes.Routes;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.*;
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -11,6 +18,10 @@ import java.util.Map;
 
 @RestController
 @RequestMapping(Routes.REVISION)
+@Tag(
+    name = "Flujo de Revisión",
+    description = "Controlador que gestiona el flujo completo de revisión de tesis por jurado"
+)
 public class FlujoRevisionController {
 
     private final TesisService tesisService;
@@ -41,7 +52,34 @@ public class FlujoRevisionController {
     }
 
     @PostMapping("/realizar")
-    public Map<String, Object> registrarRevisionJurado(@RequestBody Map<String, Object> req) {
+    @Operation(
+        summary = "Registrar revisión de jurado",
+        description = "Registra una revisión realizada por un jurado, actualiza el estado de la tesis y genera automáticamente el dictamen y la solicitud asociada"
+    )
+    @ApiResponses(value = {
+        @ApiResponse(
+            responseCode = "200",
+            description = "Revisión registrada correctamente",
+            content = @Content(schema = @Schema(implementation = Map.class))
+        ),
+        @ApiResponse(
+            responseCode = "400",
+            description = "Datos inválidos enviados",
+            content = @Content
+        ),
+        @ApiResponse(
+            responseCode = "500",
+            description = "Error interno durante el proceso de revisión",
+            content = @Content
+        )
+    })
+    public Map<String, Object> registrarRevisionJurado(
+            @Parameter(
+                description = "Mapa de datos necesarios para registrar la revisión. " + 
+                "Incluye: idTesis, idJurado, tipoRevision, dictamen y comentario",
+                required = true
+            )
+            @RequestBody Map<String, Object> req) {
 
         Map<String, Object> res = new HashMap<>();
 
@@ -111,16 +149,13 @@ public class FlujoRevisionController {
             Documento doc = new Documento();
             doc.setArchivoRuta("dictamen/dictamen_" + revision.getIdRevision() + ".pdf");
             doc.setTipoDocumento("DICTAMEN_JURADO");
-            // doc.setFechaDocumento(LocalDateTime.now());
 
-            // Creamos solicitud automática
+            // Crear solicitud automática
             Solicitud solicitud = new Solicitud();
             solicitud.setExpediente(tesis.getExpediente());
-            // Fecha se asigna automáticamente en auditoría
-            // Buscar Estado FINALIZADO
+
             EstadoSolicitud estado = estadoSolicitudRepository.findByNombre("FINALIZADO")
                     .orElseGet(() -> {
-                        // Fallback si no existe en data inicial
                         EstadoSolicitud nuevo = new EstadoSolicitud();
                         nuevo.setNombre("FINALIZADO");
                         return estadoSolicitudRepository.save(nuevo);
