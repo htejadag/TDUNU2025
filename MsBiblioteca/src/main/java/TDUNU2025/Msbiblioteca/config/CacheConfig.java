@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 package tdunu2025.msbiblioteca.config;
+=======
+package TDUNU2025.Msbiblioteca.config;
+>>>>>>> parent of 852a09b (Actualizacion de ruta)
 
 import java.time.Duration;
 

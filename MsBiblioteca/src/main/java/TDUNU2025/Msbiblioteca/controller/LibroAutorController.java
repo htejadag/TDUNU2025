@@ -1,6 +1,17 @@
+<<<<<<< HEAD
 package tdunu2025.msbiblioteca.controller;
+=======
+package TDUNU2025.Msbiblioteca.controller;
+>>>>>>> parent of 852a09b (Actualizacion de ruta)
 
+import TDUNU2025.Msbiblioteca.model.request.LibroAutorRequest;
+import TDUNU2025.Msbiblioteca.model.response.LibroAutorResponse;
+import TDUNU2025.Msbiblioteca.service.LibroAutorService;
+import TDUNU2025.Msbiblioteca.util.ApiRoutes;
+import TDUNU2025.Msbiblioteca.util.Mensaje;
+import TDUNU2025.Msbiblioteca.util.ResponseBase;
 import lombok.RequiredArgsConstructor;
+<<<<<<< HEAD
 import tdunu2025.msbiblioteca.model.request.LibroAutorRequest;
 import tdunu2025.msbiblioteca.model.response.LibroAutorResponse;
 import tdunu2025.msbiblioteca.service.LibroAutorService;
@@ -8,6 +19,8 @@ import tdunu2025.msbiblioteca.util.ApiRoutes;
 import tdunu2025.msbiblioteca.util.Mensaje;
 import tdunu2025.msbiblioteca.util.ResponseBase;
 
+=======
+>>>>>>> parent of 852a09b (Actualizacion de ruta)
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

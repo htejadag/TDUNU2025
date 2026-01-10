@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 package tdunu2025.msbiblioteca.util;
+=======
+package TDUNU2025.Msbiblioteca.util;
+>>>>>>> parent of 852a09b (Actualizacion de ruta)
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
