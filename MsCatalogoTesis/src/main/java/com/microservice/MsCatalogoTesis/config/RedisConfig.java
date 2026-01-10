@@ -3,6 +3,7 @@ package com.microservice.MsCatalogoTesis.config;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.jsontype.impl.LaissezFaireSubTypeValidator;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
@@ -30,8 +31,10 @@ public class RedisConfig {
 
                 StringRedisSerializer stringSerializer = new StringRedisSerializer();
 
-                // Configurar ObjectMapper para Jackson
+                // Configurar ObjectMapper para Jackson con default typing
                 ObjectMapper objectMapper = new ObjectMapper();
+                // Registrar módulo para soportar tipos Java 8 date/time (LocalDateTime, etc.)
+                objectMapper.registerModule(new JavaTimeModule());
                 objectMapper.activateDefaultTyping(
                                 LaissezFaireSubTypeValidator.instance,
                                 ObjectMapper.DefaultTyping.NON_FINAL,
@@ -54,6 +57,8 @@ public class RedisConfig {
         public CacheManager cacheManager(RedisConnectionFactory connectionFactory) {
                 // Configurar ObjectMapper para el cache manager
                 ObjectMapper objectMapper = new ObjectMapper();
+                // Registrar módulo para soportar tipos Java 8 date/time (LocalDateTime, etc.)
+                objectMapper.registerModule(new JavaTimeModule());
                 objectMapper.activateDefaultTyping(
                                 LaissezFaireSubTypeValidator.instance,
                                 ObjectMapper.DefaultTyping.NON_FINAL,

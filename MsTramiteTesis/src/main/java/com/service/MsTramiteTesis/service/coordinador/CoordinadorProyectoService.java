@@ -1,7 +1,6 @@
 package com.service.MsTramiteTesis.service.coordinador;
 
 import com.service.MsTramiteTesis.model.dto.ProyectoResponse;
-import com.service.MsTramiteTesis.model.dto.ProyectoResponseEnriquecido;
 import com.service.MsTramiteTesis.model.entity.ProyectoTesis;
 import com.service.MsTramiteTesis.model.entity.AsignacionJurado;
 import com.service.MsTramiteTesis.model.Error.ResourceNotFoundException;
@@ -91,25 +90,6 @@ public class CoordinadorProyectoService {
         return modelMapper.map(proyecto, ProyectoResponse.class);
     }
 
-    public List<ProyectoResponseEnriquecido> listarTodosLosProyectosEnriquecidos() {
-        log.info("Listando todos los proyectos con información enriquecida");
-
-        return proyectoRepository.findAll()
-                .stream()
-                .map(this::enriquecerProyecto)
-                .collect(Collectors.toList());
-    }
-
-    public ProyectoResponseEnriquecido obtenerProyectoEnriquecido(Long idProyecto) {
-        log.info("Obteniendo proyecto {} enriquecido", idProyecto);
-
-        Long validatedId = java.util.Objects.requireNonNull(idProyecto, "idProyecto no puede ser null");
-        ProyectoTesis proyecto = proyectoRepository.findById(validatedId)
-                .orElseThrow(() -> new ResourceNotFoundException("Proyecto no encontrado"));
-
-        return enriquecerProyecto(proyecto);
-    }
-
     @Transactional
     @Caching(evict = {
             @CacheEvict(value = CacheNames.CACHE_COORDINADOR_JURADOS, key = "#idProyecto"),
@@ -165,19 +145,4 @@ public class CoordinadorProyectoService {
         return asignacionJuradoRepository.findByIdProyecto(idProyecto);
     }
 
-    private ProyectoResponseEnriquecido enriquecerProyecto(ProyectoTesis proyecto) {
-        ProyectoResponseEnriquecido response = new ProyectoResponseEnriquecido();
-
-        response.setIdProyecto(proyecto.getIdProyecto());
-        response.setIdEstudiante(proyecto.getIdEstudiante());
-        response.setIdAsesor(proyecto.getIdAsesor());
-        response.setIdLinea(proyecto.getIdLinea());
-        response.setTitulo(proyecto.getTitulo());
-        response.setRutaArchivoProyecto(proyecto.getRutaArchivoProyecto());
-        response.setCodigoSeguimiento(proyecto.getCodigoSeguimiento());
-        response.setEstadoProyectoCat(proyecto.getEstadoProyectoCat());
-        response.setFechaRegistro(proyecto.getFechaRegistro());
-
-        return response;
-    }
 }

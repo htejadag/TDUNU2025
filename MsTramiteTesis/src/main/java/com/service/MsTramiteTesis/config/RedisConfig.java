@@ -1,5 +1,9 @@
 package com.service.MsTramiteTesis.config;
 
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.jsontype.impl.LaissezFaireSubTypeValidator;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
@@ -8,7 +12,7 @@ import org.springframework.data.redis.cache.RedisCacheConfiguration;
 import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
+import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.RedisSerializationContext;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
@@ -25,15 +29,24 @@ public class RedisConfig {
                 RedisTemplate<String, Object> template = new RedisTemplate<>();
                 template.setConnectionFactory(connectionFactory);
 
+                // Configurar ObjectMapper con soporte para Java 8 date/time
+                ObjectMapper objectMapper = new ObjectMapper();
+                objectMapper.registerModule(new JavaTimeModule());
+                objectMapper.activateDefaultTyping(
+                                LaissezFaireSubTypeValidator.instance,
+                                ObjectMapper.DefaultTyping.NON_FINAL,
+                                JsonTypeInfo.As.PROPERTY);
+
+                Jackson2JsonRedisSerializer<Object> jsonSerializer = new Jackson2JsonRedisSerializer<Object>(
+                                objectMapper, Object.class);
+
                 // Serialize keys as Strings
                 template.setKeySerializer(new StringRedisSerializer());
+                template.setHashKeySerializer(new StringRedisSerializer());
 
                 // Serialize values as JSON
-                template.setValueSerializer(new GenericJackson2JsonRedisSerializer());
-
-                // Hash key/value serialization
-                template.setHashKeySerializer(new StringRedisSerializer());
-                template.setHashValueSerializer(new GenericJackson2JsonRedisSerializer());
+                template.setValueSerializer(jsonSerializer);
+                template.setHashValueSerializer(jsonSerializer);
 
                 return template;
         }
@@ -41,6 +54,17 @@ public class RedisConfig {
         @Bean
         @SuppressWarnings("null")
         public CacheManager cacheManager(RedisConnectionFactory connectionFactory) {
+                // Configurar ObjectMapper con soporte para Java 8 date/time
+                ObjectMapper objectMapper = new ObjectMapper();
+                objectMapper.registerModule(new JavaTimeModule());
+                objectMapper.activateDefaultTyping(
+                                LaissezFaireSubTypeValidator.instance,
+                                ObjectMapper.DefaultTyping.NON_FINAL,
+                                JsonTypeInfo.As.PROPERTY);
+
+                Jackson2JsonRedisSerializer<Object> jsonSerializer = new Jackson2JsonRedisSerializer<Object>(
+                                objectMapper, Object.class);
+
                 // Configuración por defecto: 10 minutos
                 RedisCacheConfiguration defaultConfig = RedisCacheConfiguration.defaultCacheConfig()
                                 .entryTtl(Duration.ofMinutes(10))
@@ -48,7 +72,7 @@ public class RedisConfig {
                                                 RedisSerializationContext.SerializationPair
                                                                 .fromSerializer(new StringRedisSerializer()))
                                 .serializeValuesWith(RedisSerializationContext.SerializationPair
-                                                .fromSerializer(new GenericJackson2JsonRedisSerializer()))
+                                                .fromSerializer(jsonSerializer))
                                 .disableCachingNullValues();
 
                 // Configuraciones personalizadas por cache
