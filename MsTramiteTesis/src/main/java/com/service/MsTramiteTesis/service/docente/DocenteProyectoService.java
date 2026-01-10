@@ -8,10 +8,14 @@ import com.service.MsTramiteTesis.model.Error.ResourceNotFoundException;
 import com.service.MsTramiteTesis.repository.ProyectoRepository;
 import com.service.MsTramiteTesis.repository.RevisionProyectoRepository;
 import com.service.MsTramiteTesis.repository.AsignacionJuradoRepository;
+import com.service.MsTramiteTesis.config.CacheNames;
 
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,6 +40,11 @@ public class DocenteProyectoService {
     private ModelMapper modelMapper;
 
     @Transactional
+    @Caching(evict = {
+            @CacheEvict(value = CacheNames.CACHE_DOCENTE_ASESORIAS, key = "#idAsesor"),
+            @CacheEvict(value = CacheNames.CACHE_COORDINADOR_PENDIENTES, allEntries = true),
+            @CacheEvict(value = CacheNames.CACHE_COORDINADOR_TODOS, allEntries = true)
+    })
     public ProyectoResponse revisarComoAsesor(Long idProyecto, Integer idAsesor, Boolean aprobado) {
         log.info("Docente {} revisando proyecto {} como asesor", idAsesor, idProyecto);
 
@@ -59,6 +68,7 @@ public class DocenteProyectoService {
         return modelMapper.map(updated, ProyectoResponse.class);
     }
 
+    @Cacheable(value = CacheNames.CACHE_DOCENTE_ASESORIAS, key = "#idAsesor")
     public List<ProyectoResponse> listarProyectosQueAsesoro(Integer idAsesor) {
         log.info("Listando proyectos que asesora el docente {}", idAsesor);
 
@@ -68,6 +78,7 @@ public class DocenteProyectoService {
                 .collect(Collectors.toList());
     }
 
+    @Cacheable(value = CacheNames.CACHE_DOCENTE_JURADO, key = "#idDocente")
     public List<ProyectoResponse> listarProyectosComoJurado(Integer idDocente) {
         log.info("Listando proyectos asignados al jurado {}", idDocente);
 
@@ -86,6 +97,7 @@ public class DocenteProyectoService {
     }
 
     @Transactional
+    @CacheEvict(value = CacheNames.CACHE_DOCENTE_REVISIONES, key = "#idProyecto")
     public RevisionProyecto revisarComoJurado(
             Long idProyecto,
             Integer idDocente,
@@ -121,6 +133,7 @@ public class DocenteProyectoService {
         return saved;
     }
 
+    @Cacheable(value = CacheNames.CACHE_DOCENTE_REVISIONES, key = "#idProyecto")
     public List<RevisionProyecto> obtenerRevisionesDeProyecto(Long idProyecto) {
         log.info("Obteniendo revisiones del proyecto {}", idProyecto);
         return revisionProyectoRepository.findByIdProyecto(idProyecto);

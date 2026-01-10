@@ -5,10 +5,14 @@ import com.service.MsTramiteTesis.model.dto.ProyectoResponse;
 import com.service.MsTramiteTesis.model.entity.ProyectoTesis;
 import com.service.MsTramiteTesis.model.Error.ResourceNotFoundException;
 import com.service.MsTramiteTesis.repository.ProyectoRepository;
+import com.service.MsTramiteTesis.config.CacheNames;
 
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,6 +31,9 @@ public class EstudianteProyectoService {
     private ModelMapper modelMapper;
 
     @Transactional
+    @Caching(evict = {
+            @CacheEvict(value = CacheNames.CACHE_ESTUDIANTE_PROYECTOS, key = "#idEstudiante")
+    })
     public ProyectoResponse crearProyecto(Integer idEstudiante, ProyectoRequest request) {
         log.info("Estudiante {} creando nuevo proyecto: {}", idEstudiante, request.getTitulo());
 
@@ -46,6 +53,10 @@ public class EstudianteProyectoService {
     }
 
     @Transactional
+    @Caching(evict = {
+            @CacheEvict(value = CacheNames.CACHE_ESTUDIANTE_PROYECTO, key = "#idProyecto"),
+            @CacheEvict(value = CacheNames.CACHE_ESTUDIANTE_PROYECTOS, key = "#idEstudiante")
+    })
     public ProyectoResponse actualizarPdf(Long idProyecto, Integer idEstudiante, String rutaPdf) {
         log.info("Estudiante {} actualizando PDF del proyecto {}", idEstudiante, idProyecto);
 
@@ -64,6 +75,7 @@ public class EstudianteProyectoService {
         return modelMapper.map(updated, ProyectoResponse.class);
     }
 
+    @Cacheable(value = CacheNames.CACHE_ESTUDIANTE_PROYECTOS, key = "#idEstudiante")
     public List<ProyectoResponse> listarMisProyectos(Integer idEstudiante) {
         log.info("Listando proyectos del estudiante {}", idEstudiante);
 
@@ -73,6 +85,7 @@ public class EstudianteProyectoService {
                 .collect(Collectors.toList());
     }
 
+    @Cacheable(value = CacheNames.CACHE_ESTUDIANTE_PROYECTO, key = "#idProyecto")
     public ProyectoResponse obtenerMiProyecto(Long idProyecto, Integer idEstudiante) {
         log.info("Estudiante {} obteniendo proyecto {}", idEstudiante, idProyecto);
 

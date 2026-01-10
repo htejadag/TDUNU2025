@@ -7,10 +7,14 @@ import com.service.MsTramiteTesis.model.entity.AsignacionJurado;
 import com.service.MsTramiteTesis.model.Error.ResourceNotFoundException;
 import com.service.MsTramiteTesis.repository.ProyectoRepository;
 import com.service.MsTramiteTesis.repository.AsignacionJuradoRepository;
+import com.service.MsTramiteTesis.config.CacheNames;
 
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,6 +36,11 @@ public class CoordinadorProyectoService {
     private ModelMapper modelMapper;
 
     @Transactional
+    @Caching(evict = {
+            @CacheEvict(value = CacheNames.CACHE_COORDINADOR_PENDIENTES, allEntries = true),
+            @CacheEvict(value = CacheNames.CACHE_COORDINADOR_TODOS, allEntries = true),
+            @CacheEvict(value = CacheNames.CACHE_COORDINADOR_PROYECTO, key = "#idProyecto")
+    })
     public ProyectoResponse revisarProyecto(Long idProyecto, Boolean aprobado) {
         log.info("Coordinador revisando proyecto {}", idProyecto);
 
@@ -51,6 +60,7 @@ public class CoordinadorProyectoService {
         return modelMapper.map(updated, ProyectoResponse.class);
     }
 
+    @Cacheable(value = CacheNames.CACHE_COORDINADOR_PENDIENTES)
     public List<ProyectoResponse> listarProyectosPendientes() {
         log.info("Listando proyectos pendientes de revisión del coordinador");
 
@@ -60,6 +70,7 @@ public class CoordinadorProyectoService {
                 .collect(Collectors.toList());
     }
 
+    @Cacheable(value = CacheNames.CACHE_COORDINADOR_TODOS)
     public List<ProyectoResponse> listarTodosLosProyectos() {
         log.info("Listando todos los proyectos del sistema");
 
@@ -69,6 +80,7 @@ public class CoordinadorProyectoService {
                 .collect(Collectors.toList());
     }
 
+    @Cacheable(value = CacheNames.CACHE_COORDINADOR_PROYECTO, key = "#idProyecto")
     public ProyectoResponse obtenerCualquierProyecto(Long idProyecto) {
         log.info("Coordinador obteniendo proyecto {}", idProyecto);
 
@@ -99,6 +111,10 @@ public class CoordinadorProyectoService {
     }
 
     @Transactional
+    @Caching(evict = {
+            @CacheEvict(value = CacheNames.CACHE_COORDINADOR_JURADOS, key = "#idProyecto"),
+            @CacheEvict(value = CacheNames.CACHE_DOCENTE_JURADO, allEntries = true)
+    })
     public List<AsignacionJurado> asignarJurados(Long idProyecto, List<Integer> idsDocentes, Integer rolJuradoCat) {
         log.info("Asignando {} jurados al proyecto {}", idsDocentes.size(), idProyecto);
 
@@ -128,6 +144,10 @@ public class CoordinadorProyectoService {
     }
 
     @Transactional
+    @Caching(evict = {
+            @CacheEvict(value = CacheNames.CACHE_COORDINADOR_JURADOS, allEntries = true),
+            @CacheEvict(value = CacheNames.CACHE_DOCENTE_JURADO, allEntries = true)
+    })
     public void desactivarJurado(Long idAsignacion) {
         log.info("Desactivando asignación de jurado {}", idAsignacion);
 
@@ -139,6 +159,7 @@ public class CoordinadorProyectoService {
         asignacionJuradoRepository.save(asignacion);
     }
 
+    @Cacheable(value = CacheNames.CACHE_COORDINADOR_JURADOS, key = "#idProyecto")
     public List<AsignacionJurado> listarJuradosDeProyecto(Long idProyecto) {
         log.info("Listando jurados asignados al proyecto {}", idProyecto);
         return asignacionJuradoRepository.findByIdProyecto(idProyecto);
