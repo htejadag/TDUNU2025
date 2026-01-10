@@ -1,9 +1,9 @@
-package tdunu2025.Msbiblioteca.service;
+package tdunu2025.msbiblioteca.service;
 
 import java.util.List;
 
-import tdunu2025.Msbiblioteca.model.request.LibroAutorRequest;
-import tdunu2025.Msbiblioteca.model.response.LibroAutorResponse;
+import tdunu2025.msbiblioteca.model.request.LibroAutorRequest;
+import tdunu2025.msbiblioteca.model.response.LibroAutorResponse;
 
 public interface LibroAutorService {
 

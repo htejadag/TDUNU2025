@@ -1,9 +1,9 @@
-package tdunu2025.Msbiblioteca.service;
+package tdunu2025.msbiblioteca.service;
 
 import java.util.List;
 
-import tdunu2025.Msbiblioteca.model.request.MultaRequest;
-import tdunu2025.Msbiblioteca.model.response.MultaResponse;
+import tdunu2025.msbiblioteca.model.request.MultaRequest;
+import tdunu2025.msbiblioteca.model.response.MultaResponse;
 
 public interface MultaService {
 

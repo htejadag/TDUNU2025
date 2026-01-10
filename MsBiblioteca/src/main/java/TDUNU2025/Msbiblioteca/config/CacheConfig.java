@@ -1,4 +1,4 @@
-package tdunu2025.Msbiblioteca.config;
+package tdunu2025.msbiblioteca.config;
 
 import java.time.Duration;
 

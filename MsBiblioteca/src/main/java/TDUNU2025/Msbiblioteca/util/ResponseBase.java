@@ -1,4 +1,4 @@
-package tdunu2025.Msbiblioteca.util;
+package tdunu2025.msbiblioteca.util;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

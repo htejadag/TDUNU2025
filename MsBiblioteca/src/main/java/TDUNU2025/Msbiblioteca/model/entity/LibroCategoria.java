@@ -1,4 +1,4 @@
-package tdunu2025.Msbiblioteca.model.entity;
+package tdunu2025.msbiblioteca.model.entity;
 
 import java.time.LocalDateTime;
 

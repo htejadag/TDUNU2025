@@ -1,12 +1,12 @@
-package tdunu2025.Msbiblioteca.controller;
+package tdunu2025.msbiblioteca.controller;
 
 import lombok.RequiredArgsConstructor;
-import tdunu2025.Msbiblioteca.model.request.DetalleUsuarioRequest;
-import tdunu2025.Msbiblioteca.model.response.DetalleUsuarioResponse;
-import tdunu2025.Msbiblioteca.service.DetalleUsuarioService;
-import tdunu2025.Msbiblioteca.util.ApiRoutes;
-import tdunu2025.Msbiblioteca.util.Mensaje;
-import tdunu2025.Msbiblioteca.util.ResponseBase;
+import tdunu2025.msbiblioteca.model.request.DetalleUsuarioRequest;
+import tdunu2025.msbiblioteca.model.response.DetalleUsuarioResponse;
+import tdunu2025.msbiblioteca.service.DetalleUsuarioService;
+import tdunu2025.msbiblioteca.util.ApiRoutes;
+import tdunu2025.msbiblioteca.util.Mensaje;
+import tdunu2025.msbiblioteca.util.ResponseBase;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
