@@ -50,7 +50,7 @@ public class LibroCategoriaServiceImpl implements LibroCategoriaService {
                 .orElseThrow(() -> new ResourceNotFoundException("LibroCategoria", "id", id));
 
         modelMapper.map(request, entity);
-        entity.setId(id); // Asegurar ID
+        entity.setIdLibroCategoria(id); // Asegurar ID
         
         LibroCategoria updated = repo.save(entity);
         return modelMapper.map(updated, LibroCategoriaResponse.class);

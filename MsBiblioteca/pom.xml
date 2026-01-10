@@ -12,9 +12,9 @@
     </parent>
 
     <groupId>tdunu</groupId>
-    <artifactId>MsTemplate</artifactId>
+    <artifactId>MsBiblioteca</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>MsTemplate</name>
+    <name>MsBiblioteca</name>
     <description>Plantilla base con Redis, Kafka, Swagger y SonarQube</description>
 
     <properties>
@@ -28,8 +28,7 @@
         <maven.compiler.target>25</maven.compiler.target>
 
         <sonar.host.url>http://localhost:9000</sonar.host.url>
-        <sonar.login>admin</sonar.login>
-        <sonar.password>admin</sonar.password>
+        <sonar.java.source>25</sonar.java.source>
         <sonar.exclusions>**/util/**,**/config/**,**/model/**</sonar.exclusions>
     </properties>
 
@@ -105,17 +104,28 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.13.0</version>
                 <configuration>
                     <source>25</source>
                     <target>25</target>
-                    <compilerArgs>--enable-preview</compilerArgs>
+                    <compilerArgs>
+                        <arg>--enable-preview</arg>
+                    </compilerArgs>
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                            <version>${lombok.version}</version>
+                        </path>
+                    </annotationProcessorPaths>
                 </configuration>
             </plugin>
 
             <plugin>
                 <groupId>org.sonarsource.scanner.maven</groupId>
                 <artifactId>sonar-maven-plugin</artifactId>
-                <version>3.11.0.3922</version> </plugin>
+                <version>3.11.0.3922</version> 
+            </plugin>
         </plugins>
     </build>
 </project>

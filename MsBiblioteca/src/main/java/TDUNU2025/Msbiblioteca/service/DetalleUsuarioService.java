@@ -14,7 +14,7 @@ public interface DetalleUsuarioService {
 
     DetalleUsuarioResponse registrar (DetalleUsuarioRequest request);
     
-    DetalleUsuarioRequest actualizar (long idUsuario, DetalleUsuarioRequest request);
+    DetalleUsuarioResponse actualizar (long idUsuario, DetalleUsuarioRequest request);
     
     void eliminar(Long idUsuario);
 }
