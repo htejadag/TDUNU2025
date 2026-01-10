@@ -9,11 +9,11 @@ import java.util.List;
 @Repository
 public interface ProyectoRepository extends JpaRepository<ProyectoTesis, Long> {
 
-    List<ProyectoTesis> findByIdEstudianteExt(Long idEstudianteExt);
+    List<ProyectoTesis> findByIdEstudiante(Integer idEstudiante);
 
-    List<ProyectoTesis> findByIdAsesorExt(Long idAsesorExt);
+    List<ProyectoTesis> findByIdAsesor(Integer idAsesor);
 
-    List<ProyectoTesis> findByEstadoProyectoCodigo(String estadoCodigo);
+    List<ProyectoTesis> findByEstadoProyectoCat(Integer estadoCat);
 
-    List<ProyectoTesis> findByIdAsesorExtAndEstadoProyectoCodigo(Long idAsesorExt, String estadoCodigo);
+    List<ProyectoTesis> findByIdAsesorAndEstadoProyectoCat(Integer idAsesor, Integer estadoCat);
 }

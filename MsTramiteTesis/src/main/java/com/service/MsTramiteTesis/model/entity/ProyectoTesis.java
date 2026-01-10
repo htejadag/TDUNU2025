@@ -1,7 +1,7 @@
 package com.service.MsTramiteTesis.model.entity;
 
 import jakarta.persistence.*;
-import java.time.OffsetDateTime;
+import java.time.LocalDateTime;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -12,9 +12,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Entity
 @Table(name = "proyecto_tesis", indexes = {
-        @Index(name = "idx_proyecto_estudiante_ext", columnList = "id_estudiante_ext"),
-        @Index(name = "idx_proyecto_asesor_ext", columnList = "id_asesor_ext"),
-        @Index(name = "idx_proyecto_estado_codigo", columnList = "estado_proyecto_codigo")
+        @Index(name = "idx_proyecto_estudiante", columnList = "id_estudiante"),
+        @Index(name = "idx_proyecto_asesor", columnList = "id_asesor"),
+        @Index(name = "idx_proyecto_estado", columnList = "estado_proyecto_cat")
 })
 public class ProyectoTesis {
 
@@ -23,28 +23,28 @@ public class ProyectoTesis {
     @Column(name = "id_proyecto")
     private Long idProyecto;
 
-    @Column(name = "id_estudiante_ext", nullable = false)
-    private Long idEstudianteExt;
+    @Column(name = "id_asesor", nullable = false)
+    private Integer idAsesor;
 
-    @Column(name = "id_asesor_ext", nullable = false)
-    private Long idAsesorExt;
+    @Column(name = "id_estudiante", nullable = false)
+    private Integer idEstudiante;
 
-    @Column(name = "id_especialidad_ext", nullable = false)
-    private Long idEspecialidadExt;
+    @Column(name = "id_linea", nullable = false)
+    private Integer idLinea;
 
-    @Column(name = "titulo_proyecto", nullable = false, columnDefinition = "TEXT")
-    private String tituloProyecto;
+    @Column(name = "titulo", nullable = false, columnDefinition = "TEXT")
+    private String titulo;
 
-    @Column(name = "ruta_pdf_proyecto", columnDefinition = "TEXT")
-    private String rutaPdfProyecto;
+    @Column(name = "ruta_archivo_proyecto", length = 255)
+    private String rutaArchivoProyecto;
 
-    @Column(name = "estado_proyecto_codigo", nullable = false, length = 60)
-    private String estadoProyectoCodigo;
+    @Column(name = "codigo_seguimiento", length = 50)
+    private String codigoSeguimiento;
 
-    @Column(name = "fecha_registro", nullable = false, columnDefinition = "TIMESTAMPTZ DEFAULT now()")
-    private OffsetDateTime fechaRegistro;
+    @Column(name = "estado_proyecto_cat")
+    private Integer estadoProyectoCat;
 
-    @Column(name = "fecha_aprobacion_final", columnDefinition = "TIMESTAMPTZ")
-    private OffsetDateTime fechaAprobacionFinal;
+    @Column(name = "fecha_registro", nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    private LocalDateTime fechaRegistro;
 
 }

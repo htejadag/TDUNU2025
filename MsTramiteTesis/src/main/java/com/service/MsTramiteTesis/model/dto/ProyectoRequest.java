@@ -12,14 +12,14 @@ import lombok.NoArgsConstructor;
 public class ProyectoRequest {
 
     @NotNull(message = "El ID del asesor es obligatorio")
-    private Long idAsesorExt;
+    private Integer idAsesor;
 
-    @NotNull(message = "El ID de la especialidad es obligatorio")
-    private Long idEspecialidadExt;
+    @NotNull(message = "El ID de la línea es obligatorio")
+    private Integer idLinea;
 
     @NotBlank(message = "El título del proyecto es obligatorio")
-    private String tituloProyecto;
+    private String titulo;
 
-    private String rutaPdfProyecto;
+    private String rutaArchivoProyecto;
 
 }

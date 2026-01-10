@@ -3,7 +3,7 @@ package com.service.MsTramiteTesis.model.dto;
 import com.service.MsTramiteTesis.model.dto.external.DocenteDTO;
 import com.service.MsTramiteTesis.model.dto.external.EstudianteDTO;
 
-import java.time.OffsetDateTime;
+import java.time.LocalDateTime;
 
 /**
  * Response enriquecido con información completa de estudiantes y docentes
@@ -12,21 +12,21 @@ public class ProyectoResponseEnriquecido {
 
     private Long idProyecto;
 
-    // IDs externos
-    private Long idEstudianteExt;
-    private Long idAsesorExt;
-    private Long idEspecialidadExt;
+    // IDs
+    private Integer idEstudiante;
+    private Integer idAsesor;
+    private Integer idLinea;
 
     // Información enriquecida del MS Personas
     private EstudianteDTO estudiante;
     private DocenteDTO asesor;
 
     // Datos del proyecto
-    private String tituloProyecto;
-    private String rutaPdfProyecto;
-    private String estadoProyectoCodigo;
-    private OffsetDateTime fechaRegistro;
-    private OffsetDateTime fechaAprobacionFinal;
+    private String titulo;
+    private String rutaArchivoProyecto;
+    private String codigoSeguimiento;
+    private Integer estadoProyectoCat;
+    private LocalDateTime fechaRegistro;
 
     // Constructors
     public ProyectoResponseEnriquecido() {
@@ -41,28 +41,28 @@ public class ProyectoResponseEnriquecido {
         this.idProyecto = idProyecto;
     }
 
-    public Long getIdEstudianteExt() {
-        return idEstudianteExt;
+    public Integer getIdEstudiante() {
+        return idEstudiante;
     }
 
-    public void setIdEstudianteExt(Long idEstudianteExt) {
-        this.idEstudianteExt = idEstudianteExt;
+    public void setIdEstudiante(Integer idEstudiante) {
+        this.idEstudiante = idEstudiante;
     }
 
-    public Long getIdAsesorExt() {
-        return idAsesorExt;
+    public Integer getIdAsesor() {
+        return idAsesor;
     }
 
-    public void setIdAsesorExt(Long idAsesorExt) {
-        this.idAsesorExt = idAsesorExt;
+    public void setIdAsesor(Integer idAsesor) {
+        this.idAsesor = idAsesor;
     }
 
-    public Long getIdEspecialidadExt() {
-        return idEspecialidadExt;
+    public Integer getIdLinea() {
+        return idLinea;
     }
 
-    public void setIdEspecialidadExt(Long idEspecialidadExt) {
-        this.idEspecialidadExt = idEspecialidadExt;
+    public void setIdLinea(Integer idLinea) {
+        this.idLinea = idLinea;
     }
 
     public EstudianteDTO getEstudiante() {
@@ -81,43 +81,43 @@ public class ProyectoResponseEnriquecido {
         this.asesor = asesor;
     }
 
-    public String getTituloProyecto() {
-        return tituloProyecto;
+    public String getTitulo() {
+        return titulo;
     }
 
-    public void setTituloProyecto(String tituloProyecto) {
-        this.tituloProyecto = tituloProyecto;
+    public void setTitulo(String titulo) {
+        this.titulo = titulo;
     }
 
-    public String getRutaPdfProyecto() {
-        return rutaPdfProyecto;
+    public String getRutaArchivoProyecto() {
+        return rutaArchivoProyecto;
     }
 
-    public void setRutaPdfProyecto(String rutaPdfProyecto) {
-        this.rutaPdfProyecto = rutaPdfProyecto;
+    public void setRutaArchivoProyecto(String rutaArchivoProyecto) {
+        this.rutaArchivoProyecto = rutaArchivoProyecto;
     }
 
-    public String getEstadoProyectoCodigo() {
-        return estadoProyectoCodigo;
+    public String getCodigoSeguimiento() {
+        return codigoSeguimiento;
     }
 
-    public void setEstadoProyectoCodigo(String estadoProyectoCodigo) {
-        this.estadoProyectoCodigo = estadoProyectoCodigo;
+    public void setCodigoSeguimiento(String codigoSeguimiento) {
+        this.codigoSeguimiento = codigoSeguimiento;
     }
 
-    public OffsetDateTime getFechaRegistro() {
+    public Integer getEstadoProyectoCat() {
+        return estadoProyectoCat;
+    }
+
+    public void setEstadoProyectoCat(Integer estadoProyectoCat) {
+        this.estadoProyectoCat = estadoProyectoCat;
+    }
+
+    public LocalDateTime getFechaRegistro() {
         return fechaRegistro;
     }
 
-    public void setFechaRegistro(OffsetDateTime fechaRegistro) {
+    public void setFechaRegistro(LocalDateTime fechaRegistro) {
         this.fechaRegistro = fechaRegistro;
-    }
-
-    public OffsetDateTime getFechaAprobacionFinal() {
-        return fechaAprobacionFinal;
-    }
-
-    public void setFechaAprobacionFinal(OffsetDateTime fechaAprobacionFinal) {
-        this.fechaAprobacionFinal = fechaAprobacionFinal;
     }
 }
