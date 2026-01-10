@@ -1,4 +1,4 @@
-package TDUNU2025.Msbiblioteca.model.entity;
+package tdunu2025.Msbiblioteca.model.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;

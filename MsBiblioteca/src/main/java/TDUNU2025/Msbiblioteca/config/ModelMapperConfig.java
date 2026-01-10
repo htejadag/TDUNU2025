@@ -1,4 +1,4 @@
-package TDUNU2025.Msbiblioteca.config;
+package tdunu2025.Msbiblioteca.config;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;

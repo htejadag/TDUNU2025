@@ -1,7 +1,8 @@
-package TDUNU2025.Msbiblioteca.repository;
+package tdunu2025.Msbiblioteca.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import TDUNU2025.Msbiblioteca.model.entity.LibroCategoria;
+
+import tdunu2025.Msbiblioteca.model.entity.LibroCategoria;
 
 public interface LibroCategoriaRepository extends JpaRepository<LibroCategoria, Long> {
     

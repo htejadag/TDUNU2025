@@ -1,10 +1,10 @@
-package TDUNU2025.Msbiblioteca.service;
+package tdunu2025.Msbiblioteca.service;
 
 import java.util.List;
 import java.util.Optional;
 
-import TDUNU2025.Msbiblioteca.model.request.DetalleUsuarioRequest;
-import TDUNU2025.Msbiblioteca.model.response.DetalleUsuarioResponse;
+import tdunu2025.Msbiblioteca.model.request.DetalleUsuarioRequest;
+import tdunu2025.Msbiblioteca.model.response.DetalleUsuarioResponse;
 
 public interface DetalleUsuarioService {
 

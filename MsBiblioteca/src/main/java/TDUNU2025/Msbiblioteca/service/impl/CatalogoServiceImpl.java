@@ -1,12 +1,13 @@
-package TDUNU2025.Msbiblioteca.service.impl;
+package tdunu2025.Msbiblioteca.service.impl;
 
-import TDUNU2025.Msbiblioteca.exception.ResourceNotFoundException;
-import TDUNU2025.Msbiblioteca.model.entity.Catalogo;
-import TDUNU2025.Msbiblioteca.model.request.CatalogoRequest;
-import TDUNU2025.Msbiblioteca.model.response.CatalogoResponse;
-import TDUNU2025.Msbiblioteca.repository.CatalogoRepository;
-import TDUNU2025.Msbiblioteca.service.CatalogoService;
 import lombok.RequiredArgsConstructor;
+import tdunu2025.Msbiblioteca.exception.ResourceNotFoundException;
+import tdunu2025.Msbiblioteca.model.entity.Catalogo;
+import tdunu2025.Msbiblioteca.model.request.CatalogoRequest;
+import tdunu2025.Msbiblioteca.model.response.CatalogoResponse;
+import tdunu2025.Msbiblioteca.repository.CatalogoRepository;
+import tdunu2025.Msbiblioteca.service.CatalogoService;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.cache.annotation.CacheEvict; // Importante
 import org.springframework.cache.annotation.Cacheable; // Importante
