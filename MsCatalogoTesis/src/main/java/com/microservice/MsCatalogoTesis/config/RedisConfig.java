@@ -2,8 +2,7 @@ package com.microservice.MsCatalogoTesis.config;
 
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.jsontype.BasicPolymorphicTypeValidator;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.fasterxml.jackson.databind.jsontype.impl.LaissezFaireSubTypeValidator;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
@@ -25,27 +24,22 @@ import java.util.Map;
 public class RedisConfig {
 
         @Bean
-        public ObjectMapper redisObjectMapper() {
-                ObjectMapper mapper = new ObjectMapper();
-                mapper.registerModule(new JavaTimeModule());
-
-                BasicPolymorphicTypeValidator ptv = BasicPolymorphicTypeValidator.builder()
-                                .allowIfBaseType(Object.class)
-                                .build();
-
-                mapper.activateDefaultTyping(ptv, ObjectMapper.DefaultTyping.NON_FINAL, JsonTypeInfo.As.PROPERTY);
-
-                return mapper;
-        }
-
-        @Bean
         public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory connectionFactory) {
                 RedisTemplate<String, Object> template = new RedisTemplate<>();
                 template.setConnectionFactory(connectionFactory);
 
                 StringRedisSerializer stringSerializer = new StringRedisSerializer();
-                Jackson2JsonRedisSerializer<Object> jsonSerializer = new Jackson2JsonRedisSerializer<>(
-                                redisObjectMapper(), Object.class);
+
+                // Configurar ObjectMapper para Jackson
+                ObjectMapper objectMapper = new ObjectMapper();
+                objectMapper.activateDefaultTyping(
+                                LaissezFaireSubTypeValidator.instance,
+                                ObjectMapper.DefaultTyping.NON_FINAL,
+                                JsonTypeInfo.As.PROPERTY);
+
+                Jackson2JsonRedisSerializer<Object> jsonSerializer = new Jackson2JsonRedisSerializer<Object>(
+                                objectMapper,
+                                Object.class);
 
                 template.setKeySerializer(stringSerializer);
                 template.setHashKeySerializer(stringSerializer);
@@ -58,6 +52,17 @@ public class RedisConfig {
 
         @Bean
         public CacheManager cacheManager(RedisConnectionFactory connectionFactory) {
+                // Configurar ObjectMapper para el cache manager
+                ObjectMapper objectMapper = new ObjectMapper();
+                objectMapper.activateDefaultTyping(
+                                LaissezFaireSubTypeValidator.instance,
+                                ObjectMapper.DefaultTyping.NON_FINAL,
+                                JsonTypeInfo.As.PROPERTY);
+
+                Jackson2JsonRedisSerializer<Object> jsonSerializer = new Jackson2JsonRedisSerializer<Object>(
+                                objectMapper,
+                                Object.class);
+
                 RedisCacheConfiguration defaultConfig = RedisCacheConfiguration.defaultCacheConfig()
                                 .entryTtl(Duration.ofMinutes(5))
                                 .serializeKeysWith(
@@ -65,8 +70,7 @@ public class RedisConfig {
                                                                 .fromSerializer(new StringRedisSerializer()))
                                 .serializeValuesWith(
                                                 RedisSerializationContext.SerializationPair
-                                                                .fromSerializer(new Jackson2JsonRedisSerializer<>(
-                                                                                redisObjectMapper(), Object.class)))
+                                                                .fromSerializer(jsonSerializer))
                                 .disableCachingNullValues();
 
                 Map<String, RedisCacheConfiguration> cacheConfigurations = new HashMap<>();
