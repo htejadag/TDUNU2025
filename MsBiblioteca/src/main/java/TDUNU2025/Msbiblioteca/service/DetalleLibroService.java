@@ -6,13 +6,13 @@ import java.util.List;
 
 public interface DetalleLibroService {
 
-    List<DetalleLibroResponse> listarDetallesLibro();
+    List<DetalleLibroResponse> listar(); // Antes: listarDetallesLibro
 
-    DetalleLibroResponse obtenerDetalleLibroPorId(Long id);
+    DetalleLibroResponse obtener(Long id); // Antes: obtenerDetalleLibroPorId
 
-    DetalleLibroResponse guardarDetalleLibro(DetalleLibroRequest request);
+    DetalleLibroResponse registrar(DetalleLibroRequest request); // Antes: guardarDetalleLibro
 
-    DetalleLibroResponse actualizarDetalleLibro(Long id, DetalleLibroRequest request);
+    DetalleLibroResponse actualizar(Long id, DetalleLibroRequest request); // Antes: actualizarDetalleLibro
 
-    void eliminarDetalleLibro(Long id);
+    void eliminar(Long id); // Antes: eliminarDetalleLibro
 }

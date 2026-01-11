@@ -1,7 +1,6 @@
 package TDUNU2025.Msbiblioteca.model.request;
 
 import lombok.*;
-import java.time.LocalDate;
 
 @Data
 @AllArgsConstructor
@@ -11,8 +10,8 @@ public class MultaRequest {
 
     private Integer idUsuario;
 
-    private Long idPrestamo; 
-
+    private Integer idPrestamo; 
+    
     private Double monto;
 
     private String concepto; 

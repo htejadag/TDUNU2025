@@ -1,10 +1,13 @@
 package TDUNU2025.Msbiblioteca.service.impl;
 
-import TDUNU2025.Msbiblioteca.exception.BusinessException;
+import TDUNU2025.Msbiblioteca.config.BusinessException;
 import TDUNU2025.Msbiblioteca.model.entity.Multa;
+import TDUNU2025.Msbiblioteca.model.entity.Prestamo;
 import TDUNU2025.Msbiblioteca.model.request.MultaRequest;
 import TDUNU2025.Msbiblioteca.model.response.MultaResponse;
+import TDUNU2025.Msbiblioteca.repository.DetalleUsuarioRepository; 
 import TDUNU2025.Msbiblioteca.repository.MultaRepository;
+import TDUNU2025.Msbiblioteca.repository.PrestamoRepository;       
 import TDUNU2025.Msbiblioteca.service.MultaService;
 
 import lombok.RequiredArgsConstructor;
@@ -21,13 +24,19 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MultaServiceImpl implements MultaService {
 
-    private final MultaRepository repo;
+    private final MultaRepository multaRepository;
+    private final PrestamoRepository prestamoRepository;      // Inyectado para validar
+    private final DetalleUsuarioRepository usuarioRepository; // Inyectado para validar
     private final ModelMapper modelMapper;
+
+    // Constantes
+    private static final Integer ESTADO_PENDIENTE = 1;
+    private static final Integer ESTADO_PAGADA = 2;
 
     @Override
     @Transactional(readOnly = true)
     public List<MultaResponse> listar() {
-        return repo.findAll().stream()
+        return multaRepository.findAll().stream()
                 .map(multa -> modelMapper.map(multa, MultaResponse.class))
                 .toList();
     }
@@ -35,7 +44,7 @@ public class MultaServiceImpl implements MultaService {
     @Override
     @Transactional(readOnly = true)
     public MultaResponse obtener(Integer id) {
-        Multa multa = repo.findById(id)
+        Multa multa = multaRepository.findById(id)
                 .orElseThrow(() -> new BusinessException("Multa no encontrada con ID: " + id));
 
         return modelMapper.map(multa, MultaResponse.class);
@@ -46,21 +55,33 @@ public class MultaServiceImpl implements MultaService {
     public MultaResponse registrar(MultaRequest request) {
         validarDatosMulta(request);
 
-        Multa entity = modelMapper.map(request, Multa.class);
-
-        entity.setFechaGeneracion(LocalDate.now());
-        entity.setFechaPago(null); 
-        
-        if (entity.getIdEstadoMulta() == null) {
-            entity.setIdEstadoMulta(1); 
+        // 1. Validar que el usuario exista (Integridad)
+        if (!usuarioRepository.existsByIdUsuario(request.getIdUsuario())) {
+            throw new BusinessException("El usuario indicado no existe en el registro de biblioteca");
         }
 
+        // 2. Validar que el préstamo exista
+        Prestamo prestamo = prestamoRepository.findById(request.getIdPrestamo())
+                .orElseThrow(() -> new BusinessException("El préstamo indicado no existe"));
+
+        // 3. Validar consistencia: ¿Este préstamo pertenece a este usuario?
+        if (!prestamo.getIdUsuario().equals(request.getIdUsuario())) {
+            throw new BusinessException("El préstamo ID " + request.getIdPrestamo() + 
+                                        " no pertenece al usuario ID " + request.getIdUsuario());
+        }
+
+        Multa entity = modelMapper.map(request, Multa.class);
+        entity.setFechaGeneracion(LocalDate.now());
+        entity.setFechaPago(null);
+        entity.setIdEstadoMulta(ESTADO_PENDIENTE);
+        
         if (entity.getDiasRetraso() == null) {
             entity.setDiasRetraso(0);
         }
 
-        Multa saved = repo.save(entity);
-        log.info("Multa generada para Usuario ID: {} por monto: {}", saved.getIdUsuario(), saved.getMonto());
+        Multa saved = multaRepository.save(entity);
+        log.info("Multa generada. Usuario: {} | Préstamo: {} | Monto: {}", 
+                 saved.getIdUsuario(), saved.getIdPrestamo(), saved.getMonto());
 
         return modelMapper.map(saved, MultaResponse.class);
     }
@@ -68,44 +89,50 @@ public class MultaServiceImpl implements MultaService {
     @Override
     @Transactional
     public MultaResponse actualizar(Integer id, MultaRequest request) {
-        Multa multa = repo.findById(id)
+        Multa multa = multaRepository.findById(id)
                 .orElseThrow(() -> new BusinessException("No se puede actualizar: Multa no encontrada"));
 
-        validarDatosMulta(request);
+        // Nota: Generalmente las multas no se editan manualmente, pero mantenemos la lógica
+        if (request.getMonto() != null && request.getMonto() >= 0) {
+            multa.setMonto(request.getMonto());
+        }
+        if (request.getConcepto() != null) {
+            multa.setConcepto(request.getConcepto());
+        }
 
- 
-        modelMapper.map(request, multa);
-        multa.setIdMulta(id); 
-
-        Multa updated = repo.save(multa);
+        Multa updated = multaRepository.save(multa);
         return modelMapper.map(updated, MultaResponse.class);
     }
 
     @Override
     @Transactional
     public void eliminar(Integer id) {
-        if (!repo.existsById(id)) {
+        if (!multaRepository.existsById(id)) {
             throw new BusinessException("La multa no existe");
         }
-        repo.deleteById(id);
+        multaRepository.deleteById(id);
         log.warn("Multa eliminada ID: {}", id);
     }
-    
+
+    @Override
     @Transactional
     public MultaResponse registrarPago(Integer id) {
-        Multa multa = repo.findById(id)
+        Multa multa = multaRepository.findById(id)
                 .orElseThrow(() -> new BusinessException("Multa no encontrada"));
 
-        if (multa.getIdEstadoMulta() == 2) {
-            throw new BusinessException("Esta multa ya se encuentra pagada");
+        if (ESTADO_PAGADA.equals(multa.getIdEstadoMulta())) {
+            throw new BusinessException("Esta multa ya fue pagada el: " + multa.getFechaPago());
         }
 
-        multa.setIdEstadoMulta(2); 
-        multa.setFechaPago(LocalDate.now()); 
-        
-        Multa pagada = repo.save(multa);
-        log.info("Multa ID {} pagada el {}", id, LocalDate.now());
-        
+        multa.setIdEstadoMulta(ESTADO_PAGADA);
+        multa.setFechaPago(LocalDate.now());
+
+        Multa pagada = multaRepository.save(multa);
+        log.info("💰 Multa ID {} pagada exitosamente.", id);
+
+        // OJO: Aquí podrías llamar a 'usuarioRepository' para actualizar el historial de multas del usuario
+        // pero lo dejaremos simple por ahora.
+
         return modelMapper.map(pagada, MultaResponse.class);
     }
 

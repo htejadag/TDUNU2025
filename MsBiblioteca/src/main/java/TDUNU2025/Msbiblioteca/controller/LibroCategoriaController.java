@@ -1,6 +1,6 @@
 package TDUNU2025.Msbiblioteca.controller;
 
-import TDUNU2025.Msbiblioteca.config.ResponseBase;
+import TDUNU2025.Msbiblioteca.util.ResponseBase;
 import TDUNU2025.Msbiblioteca.model.request.LibroCategoriaRequest;
 import TDUNU2025.Msbiblioteca.model.response.LibroCategoriaResponse;
 import TDUNU2025.Msbiblioteca.service.LibroCategoriaService;
@@ -21,126 +21,92 @@ public class LibroCategoriaController {
 
     private final LibroCategoriaService service;
 
+    // =========================
+    // REGISTRAR
+    // =========================
     @PostMapping(ApiRoutes.LibroCategoria.GUARDAR)
-    public ResponseEntity<ResponseBase<LibroCategoriaResponse>> registrar(@RequestBody LibroCategoriaRequest request) {
-        try {
-            LibroCategoriaResponse response = service.registrar(request);
+    public ResponseEntity<ResponseBase<LibroCategoriaResponse>> registrar(
+            @RequestBody LibroCategoriaRequest request) {
 
-            return ResponseEntity.status(HttpStatus.CREATED).body(
-                new ResponseBase<>(
-                    Mensaje.CODE_OK,
-                    Mensaje.MENSAJE_GUARDADO,
-                    response
-                )
-            );
+        LibroCategoriaResponse response = service.registrar(request);
 
-        } catch (Exception e) {
-            return ResponseEntity.internalServerError().body(
+        return ResponseEntity.status(HttpStatus.CREATED).body(
                 new ResponseBase<>(
-                    Mensaje.CODE_ERROR,
-                    e.getMessage(),
-                    null
+                        Mensaje.CODE_OK,
+                        Mensaje.MENSAJE_GUARDADO,
+                        response
                 )
-            );
-        }
+        );
     }
 
+    // =========================
+    // LISTAR
+    // =========================
     @GetMapping(ApiRoutes.LibroCategoria.LISTAR)
     public ResponseEntity<ResponseBase<List<LibroCategoriaResponse>>> listar() {
-        try {
-            List<LibroCategoriaResponse> lista = service.listar();
 
-            return ResponseEntity.ok(
-                new ResponseBase<>(
-                    Mensaje.CODE_OK,
-                    Mensaje.MENSAJE_EXITO,
-                    lista
-                )
-            );
+        List<LibroCategoriaResponse> lista = service.listar();
 
-        } catch (Exception e) {
-            return ResponseEntity.internalServerError().body(
+        return ResponseEntity.ok(
                 new ResponseBase<>(
-                    Mensaje.CODE_ERROR,
-                    e.getMessage(),
-                    null
+                        Mensaje.CODE_OK,
+                        Mensaje.MENSAJE_EXITO,
+                        lista
                 )
-            );
-        }
+        );
     }
 
+    // =========================
+    // OBTENER POR ID
+    // =========================
     @GetMapping(ApiRoutes.LibroCategoria.OBTENER_POR_ID)
-    public ResponseEntity<ResponseBase<LibroCategoriaResponse>> obtener(@PathVariable Long id) {
-        try {
-            LibroCategoriaResponse response = service.obtener(id);
+    public ResponseEntity<ResponseBase<LibroCategoriaResponse>> obtener(
+            @PathVariable Long id) {
 
-            return ResponseEntity.ok(
-                new ResponseBase<>(
-                    Mensaje.CODE_OK,
-                    Mensaje.MENSAJE_EXITO,
-                    response
-                )
-            );
+        LibroCategoriaResponse response = service.obtener(id);
 
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(
+        return ResponseEntity.ok(
                 new ResponseBase<>(
-                    Mensaje.CODE_ERROR,
-                    e.getMessage(),
-                    null
+                        Mensaje.CODE_OK,
+                        Mensaje.MENSAJE_EXITO,
+                        response
                 )
-            );
-        }
+        );
     }
 
+    // =========================
+    // ACTUALIZAR
+    // =========================
     @PutMapping(ApiRoutes.LibroCategoria.ACTUALIZAR)
     public ResponseEntity<ResponseBase<LibroCategoriaResponse>> actualizar(
             @PathVariable Long id,
-            @RequestBody LibroCategoriaRequest request
-    ) {
-        try {
-            LibroCategoriaResponse response = service.actualizar(id, request);
+            @RequestBody LibroCategoriaRequest request) {
 
-            return ResponseEntity.ok(
-                new ResponseBase<>(
-                    Mensaje.CODE_OK,
-                    Mensaje.MENSAJE_ACTUALIZADO,
-                    response
-                )
-            );
+        LibroCategoriaResponse response = service.actualizar(id, request);
 
-        } catch (Exception e) {
-            return ResponseEntity.internalServerError().body(
+        return ResponseEntity.ok(
                 new ResponseBase<>(
-                    Mensaje.CODE_ERROR,
-                    e.getMessage(),
-                    null
+                        Mensaje.CODE_OK,
+                        Mensaje.MENSAJE_ACTUALIZADO,
+                        response
                 )
-            );
-        }
+        );
     }
 
+    // =========================
+    // ELIMINAR
+    // =========================
     @DeleteMapping(ApiRoutes.LibroCategoria.ELIMINAR)
     public ResponseEntity<ResponseBase<Void>> eliminar(@PathVariable Long id) {
-        try {
-            service.eliminar(id);
 
-            return ResponseEntity.ok(
-                new ResponseBase<>(
-                    Mensaje.CODE_OK,
-                    Mensaje.MENSAJE_ELIMINADO,
-                    null
-                )
-            );
+        service.eliminar(id);
 
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(
+        return ResponseEntity.ok(
                 new ResponseBase<>(
-                    Mensaje.CODE_ERROR,
-                    e.getMessage(),
-                    null
+                        Mensaje.CODE_OK,
+                        Mensaje.MENSAJE_ELIMINADO,
+                        null
                 )
-            );
-        }
+        );
     }
 }

@@ -1,6 +1,6 @@
 package TDUNU2025.Msbiblioteca.controller;
 
-import TDUNU2025.Msbiblioteca.config.ResponseBase;
+import TDUNU2025.Msbiblioteca.util.ResponseBase;
 import TDUNU2025.Msbiblioteca.model.request.LibroAutorRequest;
 import TDUNU2025.Msbiblioteca.model.response.LibroAutorResponse;
 import TDUNU2025.Msbiblioteca.service.LibroAutorService;

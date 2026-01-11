@@ -9,5 +9,9 @@ import java.util.Optional;
 @Repository
 public interface DetalleUsuarioRepository extends JpaRepository<DetalleUsuario, Integer> {
     
+    // Buscar por el ID externo del usuario (NO el ID de esta tabla)
     Optional<DetalleUsuario> findByIdUsuario(Integer idUsuario);
+
+    // Verificar existencia por ID externo (Vital para Kafka)
+    boolean existsByIdUsuario(Integer idUsuario);
 }

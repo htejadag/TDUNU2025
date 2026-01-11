@@ -1,6 +1,6 @@
 package TDUNU2025.Msbiblioteca.service.impl;
 
-import TDUNU2025.Msbiblioteca.exception.BusinessException;
+import TDUNU2025.Msbiblioteca.config.BusinessException;
 import TDUNU2025.Msbiblioteca.model.entity.Catalogo;
 import TDUNU2025.Msbiblioteca.model.request.CatalogoRequest;
 import TDUNU2025.Msbiblioteca.model.response.CatalogoResponse;
@@ -30,8 +30,7 @@ public class CatalogoServiceImpl implements CatalogoService {
     @Transactional(readOnly = true)
     @Cacheable(cacheNames = CACHE_NAME) 
     public List<CatalogoResponse> listarCatalogos() {
-        log.info("Obteniendo listado de catálogos desde Base de Datos (Postgres)...");
-        
+        log.info("Obteniendo listado de catálogos desde Base de Datos...");
         return catalogoRepository.findAll()
                 .stream()
                 .map(catalogo -> modelMapper.map(catalogo, CatalogoResponse.class))
@@ -42,8 +41,6 @@ public class CatalogoServiceImpl implements CatalogoService {
     @Transactional(readOnly = true)
     @Cacheable(cacheNames = CACHE_NAME, key = "#id") 
     public CatalogoResponse obtenerCatalogoPorId(Integer id) {
-        log.info("Buscando catálogo ID: {} en Postgres...", id);
-        
         Catalogo catalogo = catalogoRepository.findById(id)
                 .orElseThrow(() -> new BusinessException("Catálogo no encontrado con ID: " + id));
         
@@ -56,10 +53,15 @@ public class CatalogoServiceImpl implements CatalogoService {
     public CatalogoResponse guardarCatalogo(CatalogoRequest request) {
         validarDatosCatalogo(request);
 
+        // ✅ CORRECCIÓN: Validar duplicados
+        if (catalogoRepository.existsByNombre(request.getNombre())) {
+            throw new BusinessException("El catálogo '" + request.getNombre() + "' ya existe.");
+        }
+
         Catalogo catalogo = modelMapper.map(request, Catalogo.class);
         Catalogo guardado = catalogoRepository.save(catalogo);
         
-        log.info("Catálogo guardado con éxito. ID: {}", guardado.getIdCatalogo());
+        log.info("Catálogo guardado. ID: {}", guardado.getIdCatalogo());
 
         return modelMapper.map(guardado, CatalogoResponse.class);
     }
@@ -73,11 +75,17 @@ public class CatalogoServiceImpl implements CatalogoService {
 
         validarDatosCatalogo(request);
 
+        // Validar si el nombre cambia, que no choque con otro existente
+        if (!catalogo.getNombre().equalsIgnoreCase(request.getNombre()) && 
+            catalogoRepository.existsByNombre(request.getNombre())) {
+            throw new BusinessException("El nombre '" + request.getNombre() + "' ya está en uso por otro catálogo.");
+        }
+
         modelMapper.map(request, catalogo);
         catalogo.setIdCatalogo(id); 
 
         Catalogo actualizado = catalogoRepository.save(catalogo);
-        log.info("Catálogo ID: {} actualizado correctamente", id);
+        log.info("Catálogo ID: {} actualizado", id);
 
         return modelMapper.map(actualizado, CatalogoResponse.class);
     }
@@ -100,7 +108,6 @@ public class CatalogoServiceImpl implements CatalogoService {
         if (request.getEstado() == null) {
              throw new BusinessException("El estado es obligatorio");
         }
-        
         if (request.getEstado() != 1 && request.getEstado() != 0) {
             throw new BusinessException("El estado debe ser 1 (Activo) o 0 (Inactivo)");
         }

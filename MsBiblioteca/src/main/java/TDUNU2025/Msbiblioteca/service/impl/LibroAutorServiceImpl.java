@@ -1,10 +1,12 @@
 package TDUNU2025.Msbiblioteca.service.impl;
 
-import TDUNU2025.Msbiblioteca.exception.BusinessException;
+import TDUNU2025.Msbiblioteca.config.BusinessException; 
 import TDUNU2025.Msbiblioteca.model.entity.LibroAutor;
 import TDUNU2025.Msbiblioteca.model.request.LibroAutorRequest;
 import TDUNU2025.Msbiblioteca.model.response.LibroAutorResponse;
+import TDUNU2025.Msbiblioteca.repository.AutorRepository; 
 import TDUNU2025.Msbiblioteca.repository.LibroAutorRepository;
+import TDUNU2025.Msbiblioteca.repository.LibroRepository; 
 import TDUNU2025.Msbiblioteca.service.LibroAutorService;
 
 import lombok.RequiredArgsConstructor;
@@ -22,9 +24,11 @@ import java.util.stream.Collectors;
 public class LibroAutorServiceImpl implements LibroAutorService {
 
     private final LibroAutorRepository repo;
+    private final LibroRepository libroRepository; 
+    private final AutorRepository autorRepository; 
     private final ModelMapper modelMapper;
 
-    // CONSTANTES (SonarQube: Evitar duplicar strings literales)
+    // Mensajes constantes
     private static final String MSG_NOT_FOUND = "La asignación Libro-Autor no existe";
     private static final String MSG_DUPLICATE = "Este autor ya está asignado a este libro";
     private static final String MSG_REQ_LIBRO = "El ID del libro es obligatorio";
@@ -33,9 +37,7 @@ public class LibroAutorServiceImpl implements LibroAutorService {
     @Override
     @Transactional(readOnly = true)
     public List<LibroAutorResponse> listar() {
-        List<LibroAutor> lista = repo.findAll();
-        
-        return lista.stream()
+        return repo.findAll().stream()
                 .map(entity -> modelMapper.map(entity, LibroAutorResponse.class))
                 .collect(Collectors.toList());
     }
@@ -45,23 +47,28 @@ public class LibroAutorServiceImpl implements LibroAutorService {
     public LibroAutorResponse obtener(Long id) {
         LibroAutor entity = repo.findById(id)
                 .orElseThrow(() -> new BusinessException(MSG_NOT_FOUND));
-
         return modelMapper.map(entity, LibroAutorResponse.class);
     }
 
     @Override
     @Transactional
     public LibroAutorResponse registrar(LibroAutorRequest request) {
-        // 1. Validar integridad de datos (Request)
+
         validarRequest(request);
 
-        // 2. Validar duplicados en BD
+        if (!libroRepository.existsById(request.getIdLibro())) {
+            throw new BusinessException("El Libro con ID " + request.getIdLibro() + " no existe.");
+        }
+
+        if (!autorRepository.existsById(request.getIdAutor())) {
+            throw new BusinessException("El Autor con ID " + request.getIdAutor() + " no existe.");
+        }
+
         if (repo.existsByIdLibroAndIdAutor(request.getIdLibro(), request.getIdAutor())) {
             throw new BusinessException(MSG_DUPLICATE);
         }
 
         LibroAutor entity = modelMapper.map(request, LibroAutor.class);
-
         LibroAutor saved = repo.save(entity);
         log.info("Relación guardada: Libro {} - Autor {}", saved.getIdLibro(), saved.getIdAutor());
 
@@ -76,6 +83,16 @@ public class LibroAutorServiceImpl implements LibroAutorService {
 
         validarRequest(request);
 
+        if (!entity.getIdLibro().equals(request.getIdLibro()) && !libroRepository.existsById(request.getIdLibro())) {
+                throw new BusinessException("El Libro con ID " + request.getIdLibro() + " no existe.");
+            }
+        
+
+        if (!entity.getIdAutor().equals(request.getIdAutor()) && !autorRepository.existsById(request.getIdAutor())) {
+                throw new BusinessException("El Autor con ID " + request.getIdAutor() + " no existe.");
+            }
+        
+
         boolean idsCambiaron = !entity.getIdLibro().equals(request.getIdLibro()) || 
                                !entity.getIdAutor().equals(request.getIdAutor());
 
@@ -87,7 +104,6 @@ public class LibroAutorServiceImpl implements LibroAutorService {
         entity.setIdLibroAutor(id); 
 
         LibroAutor updated = repo.save(entity);
-        
         return modelMapper.map(updated, LibroAutorResponse.class);
     }
 

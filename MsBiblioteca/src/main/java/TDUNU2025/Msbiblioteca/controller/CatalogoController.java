@@ -20,51 +20,40 @@ public class CatalogoController {
 
     private final CatalogoService catalogoService;
 
-
-    @GetMapping
+    @GetMapping(ApiRoutes.Catalogo.LISTAR)
     public ResponseEntity<ResponseBase<List<CatalogoResponse>>> listarCatalogos() {
-        List<CatalogoResponse> lista = catalogoService.listarCatalogos();
-
         return ResponseEntity.ok(
-                new ResponseBase<>(Mensaje.CODE_OK, Mensaje.MENSAJE_EXITO, lista)
+                new ResponseBase<>(Mensaje.CODE_OK, Mensaje.MENSAJE_EXITO, catalogoService.listarCatalogos())
         );
     }
 
-    @GetMapping("/{id}")
+    @GetMapping(ApiRoutes.Catalogo.OBTENER_POR_ID)
     public ResponseEntity<ResponseBase<CatalogoResponse>> obtenerPorId(@PathVariable Integer id) {
-
-        CatalogoResponse response = catalogoService.obtenerCatalogoPorId(id);
-
         return ResponseEntity.ok(
-                new ResponseBase<>(Mensaje.CODE_OK, Mensaje.MENSAJE_EXITO, response)
+                new ResponseBase<>(Mensaje.CODE_OK, Mensaje.MENSAJE_EXITO, catalogoService.obtenerCatalogoPorId(id))
         );
     }
 
-    @PostMapping
+    @PostMapping(ApiRoutes.Catalogo.GUARDAR)
     public ResponseEntity<ResponseBase<CatalogoResponse>> guardar(@RequestBody CatalogoRequest request) {
-        CatalogoResponse response = catalogoService.guardarCatalogo(request);
-
         return ResponseEntity.status(HttpStatus.CREATED).body(
-                new ResponseBase<>(Mensaje.CODE_OK, Mensaje.MENSAJE_GUARDADO, response)
+                new ResponseBase<>(Mensaje.CODE_OK, Mensaje.MENSAJE_GUARDADO, catalogoService.guardarCatalogo(request))
         );
     }
 
-    @PutMapping("/{id}")
+    @PutMapping(ApiRoutes.Catalogo.ACTUALIZAR)
     public ResponseEntity<ResponseBase<CatalogoResponse>> actualizar(
             @PathVariable Integer id,
             @RequestBody CatalogoRequest request) {
             
-        CatalogoResponse response = catalogoService.actualizarCatalogo(id, request);
-
         return ResponseEntity.ok(
-                new ResponseBase<>(Mensaje.CODE_OK, Mensaje.MENSAJE_ACTUALIZADO, response)
+                new ResponseBase<>(Mensaje.CODE_OK, Mensaje.MENSAJE_ACTUALIZADO, catalogoService.actualizarCatalogo(id, request))
         );
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping(ApiRoutes.Catalogo.ELIMINAR)
     public ResponseEntity<ResponseBase<Void>> eliminar(@PathVariable Integer id) {
         catalogoService.eliminarCatalogo(id);
-
         return ResponseEntity.ok(
                 new ResponseBase<>(Mensaje.CODE_OK, Mensaje.MENSAJE_ELIMINADO, null)
         );

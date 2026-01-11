@@ -14,13 +14,13 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(ApiRoutes.RUTA_AUTOR)
+@RequestMapping(ApiRoutes.Autor.BASE) // Ahora usa la clase estática
 @RequiredArgsConstructor
 public class AutorController {
 
     private final AutorService autorService;
 
-    @GetMapping
+    @GetMapping(ApiRoutes.Autor.LISTAR)
     public ResponseEntity<ResponseBase<List<AutorResponse>>> listarAutores() {
         return ResponseEntity.ok(
                 new ResponseBase<>(
@@ -31,7 +31,7 @@ public class AutorController {
         );
     }
 
-    @GetMapping("/{id}")
+    @GetMapping(ApiRoutes.Autor.OBTENER_POR_ID)
     public ResponseEntity<ResponseBase<AutorResponse>> obtenerAutorPorId(@PathVariable Integer id) {
         return ResponseEntity.ok(
                 new ResponseBase<>(
@@ -42,8 +42,7 @@ public class AutorController {
         );
     }
 
-    @PostMapping
-    // Eliminado @Valid aquí porque validamos manualmente en AutorServiceImpl
+    @PostMapping(ApiRoutes.Autor.GUARDAR)
     public ResponseEntity<ResponseBase<AutorResponse>> guardarAutor(@RequestBody AutorRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(
                 new ResponseBase<>(
@@ -54,8 +53,7 @@ public class AutorController {
         );
     }
 
-    @PutMapping("/{id}")
-    // Eliminado @Valid aquí también
+    @PutMapping(ApiRoutes.Autor.ACTUALIZAR)
     public ResponseEntity<ResponseBase<AutorResponse>> actualizarAutor(
             @PathVariable Integer id,
             @RequestBody AutorRequest request) {
@@ -69,7 +67,7 @@ public class AutorController {
         );
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping(ApiRoutes.Autor.ELIMINAR)
     public ResponseEntity<ResponseBase<Void>> eliminarAutor(@PathVariable Integer id) {
         autorService.eliminarAutor(id);
         

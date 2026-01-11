@@ -1,28 +1,29 @@
 package TDUNU2025.Msbiblioteca.service.impl;
 
-import TDUNU2025.Msbiblioteca.exception.BusinessException;
+import TDUNU2025.Msbiblioteca.config.BusinessException; // Importamos tu nueva excepción
 import TDUNU2025.Msbiblioteca.model.entity.Autor;
 import TDUNU2025.Msbiblioteca.model.request.AutorRequest;
 import TDUNU2025.Msbiblioteca.model.response.AutorResponse;
 import TDUNU2025.Msbiblioteca.repository.AutorRepository;
 import TDUNU2025.Msbiblioteca.service.AutorService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j; 
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional; 
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-@Slf4j 
+@Slf4j
 public class AutorServiceImpl implements AutorService {
 
     private final AutorRepository autorRepository;
     private final ModelMapper modelMapper;
 
     @Override
-    @Transactional(readOnly = true) 
+    @Transactional(readOnly = true)
     public List<AutorResponse> listarAutores() {
         return autorRepository.findAll()
                 .stream()
@@ -34,40 +35,38 @@ public class AutorServiceImpl implements AutorService {
     @Transactional(readOnly = true)
     public AutorResponse obtenerAutorPorId(Integer id) {
         Autor autor = autorRepository.findById(id)
-                .orElseThrow(() -> new BusinessException("Autor no encontrado"));
+                .orElseThrow(() -> new BusinessException("Autor no encontrado con ID: " + id));
         return modelMapper.map(autor, AutorResponse.class);
     }
 
     @Override
-    @Transactional 
+    @Transactional
     public AutorResponse guardarAutor(AutorRequest request) {
+        validarDatosEntrada(request);
 
-        validarDatosAutor(request);
+        if (autorRepository.existsByIdPersona(request.getIdPersona())) {
+            throw new BusinessException("Ya existe un Autor registrado con ese ID de Persona");
+        }
 
-        log.info("Intentando guardar un nuevo autor con ID Persona: {}", request.getIdPersona());
-        
         Autor autor = modelMapper.map(request, Autor.class);
         Autor guardado = autorRepository.save(autor);
         
-        log.info("Autor guardado correctamente con ID: {}", guardado.getIdAutor());
+        log.info("Autor guardado: {}", guardado.getIdAutor());
         return modelMapper.map(guardado, AutorResponse.class);
     }
 
     @Override
     @Transactional
     public AutorResponse actualizarAutor(Integer id, AutorRequest request) {
-        Autor autor = autorRepository.findById(id)
-                .orElseThrow(() -> new BusinessException("Autor no encontrado para actualizar"));
+        Autor autorExistente = autorRepository.findById(id)
+                .orElseThrow(() -> new BusinessException("No se puede actualizar: Autor no encontrado"));
 
-        validarDatosAutor(request);
+        validarDatosEntrada(request);
 
-        modelMapper.map(request, autor);
+        modelMapper.map(request, autorExistente);
+        autorExistente.setIdAutor(id); 
 
-        autor.setIdAutor(id); 
-
-        Autor actualizado = autorRepository.save(autor);
-        log.info("Autor actualizado correctamente con ID: {}", id);
-        
+        Autor actualizado = autorRepository.save(autorExistente);
         return modelMapper.map(actualizado, AutorResponse.class);
     }
 
@@ -78,17 +77,10 @@ public class AutorServiceImpl implements AutorService {
             throw new BusinessException("No se puede eliminar: Autor no encontrado");
         }
         autorRepository.deleteById(id);
-        log.warn("Autor con ID {} eliminado del sistema", id);
     }
 
-    private void validarDatosAutor(AutorRequest request) {
-        if (request.getIdPersona() == null || request.getIdPersona() <= 0) {
-            throw new BusinessException("El ID de la persona es obligatorio y debe ser válido");
-        }
-
-        if (request.getBiografia() != null && request.getBiografia().trim().isEmpty()) {
-             throw new BusinessException("La biografía no puede estar vacía si se envía");
-        }
-
+    private void validarDatosEntrada(AutorRequest request) {
+        if (request == null) throw new BusinessException("El request es nulo");
+        if (request.getIdPersona() == null) throw new BusinessException("El ID Persona es obligatorio");
     }
 }

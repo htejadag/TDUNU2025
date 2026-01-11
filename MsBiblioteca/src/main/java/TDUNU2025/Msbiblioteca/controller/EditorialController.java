@@ -15,13 +15,13 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(ApiRoutes.Editorial.BASE) 
+@RequestMapping(ApiRoutes.Editorial.BASE) // /api/editorial
 @RequiredArgsConstructor
 public class EditorialController {
 
     private final EditorialService service;
 
-    @GetMapping
+    @GetMapping(ApiRoutes.Editorial.LISTAR) // Usa "/listar"
     public ResponseEntity<ResponseBase<List<EditorialResponse>>> listar() {
         return ResponseEntity.ok(
                 new ResponseBase<>(
@@ -32,7 +32,7 @@ public class EditorialController {
         );
     }
 
-    @GetMapping("/{id}")
+    @GetMapping(ApiRoutes.Editorial.OBTENER_POR_ID) // Usa "/obtener/{id}"
     public ResponseEntity<ResponseBase<EditorialResponse>> obtener(@PathVariable Long id) {
         return ResponseEntity.ok(
                 new ResponseBase<>(
@@ -43,7 +43,7 @@ public class EditorialController {
         );
     }
 
-    @PostMapping
+    @PostMapping(ApiRoutes.Editorial.GUARDAR) // Usa "/guardar"
     public ResponseEntity<ResponseBase<EditorialResponse>> guardar(@RequestBody EditorialRequest request) {
         EditorialResponse response = service.guardar(request);
 
@@ -56,7 +56,7 @@ public class EditorialController {
         );
     }
 
-    @PutMapping("/{id}")
+    @PutMapping(ApiRoutes.Editorial.ACTUALIZAR) // Usa "/actualizar/{id}"
     public ResponseEntity<ResponseBase<EditorialResponse>> actualizar(
             @PathVariable Long id,
             @RequestBody EditorialRequest request) {
@@ -72,7 +72,7 @@ public class EditorialController {
         );
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping(ApiRoutes.Editorial.ELIMINAR) // Usa "/eliminar/{id}"
     public ResponseEntity<ResponseBase<Void>> eliminar(@PathVariable Long id) {
         service.eliminar(id);
 

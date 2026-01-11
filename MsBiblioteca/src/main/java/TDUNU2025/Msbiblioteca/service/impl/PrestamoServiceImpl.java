@@ -1,11 +1,15 @@
 package TDUNU2025.Msbiblioteca.service.impl;
 
-import TDUNU2025.Msbiblioteca.exception.BusinessException;
+import TDUNU2025.Msbiblioteca.config.BusinessException;
 import TDUNU2025.Msbiblioteca.model.entity.Prestamo;
 import TDUNU2025.Msbiblioteca.model.event.PrestamoEvent;
+import TDUNU2025.Msbiblioteca.model.request.MultaRequest;
 import TDUNU2025.Msbiblioteca.model.request.PrestamoRequest;
 import TDUNU2025.Msbiblioteca.model.response.PrestamoResponse;
+import TDUNU2025.Msbiblioteca.repository.DetalleUsuarioRepository;
+import TDUNU2025.Msbiblioteca.repository.LibroRepository;
 import TDUNU2025.Msbiblioteca.repository.PrestamoRepository;
+import TDUNU2025.Msbiblioteca.service.MultaService;
 import TDUNU2025.Msbiblioteca.service.PrestamoService;
 import TDUNU2025.Msbiblioteca.service.kafka.KafkaProducerService;
 
@@ -17,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 @Slf4j
@@ -25,8 +30,16 @@ import java.util.List;
 public class PrestamoServiceImpl implements PrestamoService {
 
     private final PrestamoRepository prestamoRepository;
+    private final LibroRepository libroRepository;
+    private final DetalleUsuarioRepository usuarioRepository;
+    private final MultaService multaService; 
     private final KafkaProducerService kafkaProducerService;
     private final ModelMapper modelMapper;
+
+    // Constantes de Negocio
+    private static final Integer ESTADO_PRESTADO = 1;
+    private static final Integer ESTADO_DEVUELTO = 2;
+    private static final Double COSTO_POR_DIA_RETRASO = 2.50; 
 
     @Override
     @Transactional(readOnly = true)
@@ -40,46 +53,44 @@ public class PrestamoServiceImpl implements PrestamoService {
     @Transactional(readOnly = true)
     public PrestamoResponse obtenerPrestamoPorId(Integer id) {
         Prestamo prestamo = prestamoRepository.findById(id)
-                .orElseThrow(() -> new BusinessException("Préstamo no encontrado"));
+                .orElseThrow(() -> new BusinessException("Préstamo no encontrado con ID: " + id));
         return modelMapper.map(prestamo, PrestamoResponse.class);
     }
 
     @Override
     @Transactional
     public PrestamoResponse guardarPrestamo(PrestamoRequest request) {
+        // 1. Validaciones
+        validarRequest(request);
 
-        validarPrestamo(request);
-
-        Prestamo prestamo = modelMapper.map(request, Prestamo.class);
-
-        if (prestamo.getFechaPrestamo() == null) {
-            prestamo.setFechaPrestamo(LocalDate.now());
+        // 2. Integridad Referencial
+        if (!libroRepository.existsById(request.getIdLibro())) {
+            throw new BusinessException("El Libro indicado no existe");
+        }
+        if (!usuarioRepository.existsByIdUsuario(request.getIdUsuario())) {
+            throw new BusinessException("El Usuario indicado no existe en la biblioteca");
+        }
+        
+        // 3. Validar Disponibilidad (Libro único prestado)
+        if (prestamoRepository.existsByIdLibroAndIdEstadoPrestamo(request.getIdLibro(), ESTADO_PRESTADO)) {
+            throw new BusinessException("El libro ya está prestado y no ha sido devuelto");
         }
 
-        if (prestamo.getIdEstadoPrestamo() == null) {
-            prestamo.setIdEstadoPrestamo(1);
+        // 4. Creación del Préstamo
+        Prestamo prestamo = modelMapper.map(request, Prestamo.class);
+        prestamo.setFechaPrestamo(LocalDate.now());
+        prestamo.setIdEstadoPrestamo(ESTADO_PRESTADO);
+        
+        // Regla de negocio: 7 días de préstamo por defecto si no se especifica
+        if (prestamo.getFechaVencimiento() == null) {
+            prestamo.setFechaVencimiento(LocalDate.now().plusDays(7));
         }
 
         Prestamo guardado = prestamoRepository.save(prestamo);
-        log.info("Préstamo registrado en BD Local con ID: {}", guardado.getIdPrestamo());
-
-        try {
-            PrestamoEvent evento = new PrestamoEvent(
-                    "PRESTAMO_CREADO",
-                    guardado.getIdPrestamo(),
-                    guardado.getIdUsuario(),
-                    guardado.getIdLibro(),
-                    LocalDateTime.now(),
-                    "Se ha generado un nuevo préstamo para el usuario " + guardado.getIdUsuario());
-
-            kafkaProducerService.enviarEventoPrestamo(evento);
-            log.info("Evento Kafka enviado correctamente para préstamo ID: {}", guardado.getIdPrestamo());
-
-        } catch (Exception e) {
-
-            log.error("Error al enviar evento a Kafka: {}", e.getMessage());
-        }
-
+        
+        // 5. Notificar evento asíncrono
+        enviarEventoKafka(guardado);
+        
         return modelMapper.map(guardado, PrestamoResponse.class);
     }
 
@@ -89,17 +100,49 @@ public class PrestamoServiceImpl implements PrestamoService {
         Prestamo prestamo = prestamoRepository.findById(id)
                 .orElseThrow(() -> new BusinessException("Préstamo no encontrado"));
 
-        if (prestamo.getFechaDevolucion() != null) {
-            throw new BusinessException("Este préstamo ya fue devuelto anteriormente");
+        if (ESTADO_DEVUELTO.equals(prestamo.getIdEstadoPrestamo())) {
+            throw new BusinessException("Este préstamo ya fue devuelto el " + prestamo.getFechaDevolucion());
         }
 
-        prestamo.setFechaDevolucion(LocalDate.now());
-        prestamo.setIdEstadoPrestamo(2);
-        if (observaciones != null) {
+        LocalDate fechaDevolucionReal = LocalDate.now();
+        
+        // --- LÓGICA DE DETECCIÓN DE MORA ---
+        if (fechaDevolucionReal.isAfter(prestamo.getFechaVencimiento())) {
+            
+            long diasRetraso = ChronoUnit.DAYS.between(prestamo.getFechaVencimiento(), fechaDevolucionReal);
+
+            if (diasRetraso > 0) {
+                log.info("Mora detectada: {} días de retraso. Generando multa...", diasRetraso);
+                
+                double montoMulta = diasRetraso * COSTO_POR_DIA_RETRASO;
+
+                // Generar Multa Automática
+                MultaRequest multaReq = MultaRequest.builder()
+                        .idUsuario(prestamo.getIdUsuario())
+                        .idPrestamo(prestamo.getIdPrestamo())
+                        .monto(montoMulta)
+                        .concepto("Mora automática por " + diasRetraso + " días de retraso.")
+                        .idEstadoMulta(1) // 1 = Pendiente
+                        .build();
+
+                multaService.registrar(multaReq);
+                
+                // Actualizar observación del préstamo para feedback visual
+                String notaMulta = " [SISTEMA: MULTA GENERADA POR " + diasRetraso + " DÍAS DE RETRASO]";
+                observaciones = (observaciones == null ? "" : observaciones) + notaMulta;
+            }
+        }
+        // -----------------------------------
+
+        prestamo.setFechaDevolucion(fechaDevolucionReal);
+        prestamo.setIdEstadoPrestamo(ESTADO_DEVUELTO);
+        
+        if (observaciones != null && !observaciones.isBlank()) {
             prestamo.setObservaciones(observaciones);
         }
 
         Prestamo actualizado = prestamoRepository.save(prestamo);
+        log.info("Préstamo ID {} finalizado correctamente.", id);
 
         return modelMapper.map(actualizado, PrestamoResponse.class);
     }
@@ -113,17 +156,27 @@ public class PrestamoServiceImpl implements PrestamoService {
         prestamoRepository.deleteById(id);
     }
 
-    private void validarPrestamo(PrestamoRequest request) {
-        if (request.getIdLibro() == null) {
-            throw new BusinessException("Debe indicar el libro a prestar");
+    private void validarRequest(PrestamoRequest request) {
+        if (request.getIdLibro() == null) throw new BusinessException("Debe indicar el libro");
+        if (request.getIdUsuario() == null) throw new BusinessException("Debe indicar el usuario");
+        if (request.getFechaVencimiento() != null && request.getFechaVencimiento().isBefore(LocalDate.now())) {
+            throw new BusinessException("La fecha de vencimiento no puede ser anterior a hoy");
         }
-        if (request.getIdUsuario() == null) {
-            throw new BusinessException("Debe indicar el usuario");
-        }
-        if (request.getFechaPrestamo() != null && request.getFechaVencimiento() != null) {
-            if (request.getFechaVencimiento().isBefore(request.getFechaPrestamo())) {
-                throw new BusinessException("La fecha de vencimiento no puede ser anterior a la fecha de préstamo");
-            }
+    }
+
+    private void enviarEventoKafka(Prestamo guardado) {
+        try {
+            PrestamoEvent evento = new PrestamoEvent(
+                    "PRESTAMO_CREADO",
+                    guardado.getIdPrestamo(),
+                    guardado.getIdUsuario(),
+                    guardado.getIdLibro().intValue(),
+                    LocalDateTime.now(),
+                    "Vencimiento: " + guardado.getFechaVencimiento()
+            );
+            kafkaProducerService.enviarEventoPrestamo(evento);
+        } catch (Exception e) {
+            log.error("Error al notificar Kafka (No crítico): {}", e.getMessage());
         }
     }
 }

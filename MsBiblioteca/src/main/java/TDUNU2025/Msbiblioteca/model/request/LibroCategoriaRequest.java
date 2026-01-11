@@ -1,4 +1,4 @@
-package TDUNU2025.Msbiblioteca.model.response;
+package TDUNU2025.Msbiblioteca.model.request;
 
 import lombok.*;
 
@@ -6,7 +6,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class LibroCategoriaResponse {
+public class LibroCategoriaRequest {
 
     private Long idLibroCategoria;      
     
