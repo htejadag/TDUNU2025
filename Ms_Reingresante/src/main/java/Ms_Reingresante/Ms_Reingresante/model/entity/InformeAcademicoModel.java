@@ -1,7 +1,6 @@
 package Ms_Reingresante.Ms_Reingresante.model.entity;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime; // Para el campo TIME
 
 import jakarta.persistence.Column;
@@ -21,42 +20,46 @@ public class InformeAcademicoModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_Informe")
-    private Long idInforme; // id Informe INT [cite: 116]
+    private Long idInforme;
 
     @Column(name = "id_Proceso")
-    private Integer idProceso; // id Proceso INT (Clave Foránea) [cite: 117]
+    private Integer idProceso;
 
-    @Column(name = "Inf_Numero", length = 50)
-    private String infNumero; // Inf Numero VARCHAR(50) [cite: 118]
+    @Column(name = "Inf_Numero")
+    private String infNumero;
 
-    @Column(name = "Inf_TUPA", length = 20)
-    private String infTupa; // Inf TUPA VARCHAR(20) [cite: 119]
+    @Column(name = "Inf_TUPA")
+    private String infTupa;
 
-    @Column(name = "Inf_Num_Registro", length = 20)
-    private String infNumRegistro; // Inf Num Registro VARCHAR(20) [cite: 120]
+    @Column(name = "Inf_Num_Registro")
+    private String infNumRegistro;
 
+    // ✅ TIME
     @Column(name = "Inf_Hora_Recepcion")
-    private LocalTime horaRecepcion; // Inf Hora Recepcion TIME [cite: 121]
+    private LocalTime horaRecepcion;
 
+    // ✅ DATE
     @Column(name = "Inf_Fecha_Solicitud")
-    private LocalDate fechaSolicitud; // Inf Fecha Solicitud DATE [cite: 122]
+    private LocalDate fechaSolicitud;
 
+    // ✅ DATE
     @Column(name = "Inf_Fecha_Emision")
-    private LocalDate fechaEmision; // Inf Fecha Emision DATE [cite: 123]
+    private LocalDate fechaEmision;
 
-    @Column(name = "Inf_Emitido_Por", length = 50)
-    private String emitidoPor; // Inf Emitido Por VARCHAR(50) [cite: 124]
+    @Column(name = "Inf_Emitido_Por")
+    private String emitidoPor;
 
-    // Campos de Auditoría
+    // ✅ DATETIME
     @Column(name = "FECHA_CREACION")
-    private LocalDateTime fechaCreacion; // FECHA CREACION DATETIME [cite: 125]
+    private LocalDate fechaCreacion;
 
-    @Column(name = "USUARIO_CREACION", length = 50)
-    private String usuarioCreacion; // USUARIO CREACION VARCHAR(50) [cite: 126]
+    @Column(name = "USUARIO_CREACION")
+    private String usuarioCreacion;
 
     @Column(name = "FECHA_MODIFICACION")
-    private LocalDateTime fechaModificacion; // FECHA MODIFICACION DATETIME [cite: 127]
+    private LocalDate fechaModificacion;
 
-    @Column(name = "USUARIO_MODIFICACION", length = 5) // Se ajusta el length a 50 si es necesario
-    private String usuarioModificacion; // USUARIO MODIFICACION VARCHAR(5) [cite: 128]
-}
+    @Column(name = "USUARIO_MODIFICACION")
+    private String usuarioModificacion;
+
+    }

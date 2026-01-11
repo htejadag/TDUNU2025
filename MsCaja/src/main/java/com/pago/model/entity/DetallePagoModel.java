@@ -16,8 +16,8 @@ public class DetallePagoModel {
   
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "detallepagid")
-  private Integer detallepagid;
+  @Column(name = "detallepagoid")
+  private Integer detallepagoid;
 
   @Column(name = "codigo_recibo")
   private String codigo_recibo;

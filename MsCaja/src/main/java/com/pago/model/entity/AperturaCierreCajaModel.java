@@ -10,8 +10,8 @@ import lombok.Data;
 public class AperturaCierreCajaModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "apertura_cierre_cajaid")
-    private Integer apertura_cierre_cajaid;
+    @Column(name = "aperturacierrecajaid")
+    private Integer aperturacierrecajaid;
 
     @Column(name = "fecha_apertura")
     private LocalDateTime fecha_apertura;

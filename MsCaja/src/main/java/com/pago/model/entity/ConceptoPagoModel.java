@@ -10,8 +10,8 @@ import lombok.Data;
 public class ConceptoPagoModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "concepto_pagoid")
-    private Integer concepto_pagoid;
+    @Column(name = "conceptopagoid")
+    private Integer conceptopagoid;
 
     @ManyToOne
     @JoinColumn(name = "clasificadorid", foreignKey = @ForeignKey(name = "FK_concepto_pago_clasificador_ingreso"))

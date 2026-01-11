@@ -3,8 +3,8 @@ package Ms_Reingresante.Ms_Reingresante.service;
 
 import java.util.List;
 
-import Ms_Reingresante.Ms_Reingresante.model.request.resolucionRequest;
-import Ms_Reingresante.Ms_Reingresante.model.response.resolucionResponse;
+import Ms_Reingresante.Ms_Reingresante.model.request.ResolucionRequest;
+import Ms_Reingresante.Ms_Reingresante.model.response.ResolucionResponse;
 
 
 
@@ -12,11 +12,11 @@ import Ms_Reingresante.Ms_Reingresante.model.response.resolucionResponse;
 public interface ResolucionService {
 
 
-  List<resolucionResponse> listarResolucion();
+  List<ResolucionResponse> listarResolucion();
 
-  resolucionResponse obtenerPorIdResolucion(Integer id);
+  ResolucionResponse obtenerPorIdResolucion(Integer id);
 
-  resolucionResponse guardarResolucion(resolucionRequest producto);
+  ResolucionResponse guardarResolucion(ResolucionRequest producto);
 
   void eliminarResolucion(Integer id);
 

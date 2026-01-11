@@ -1,26 +1,24 @@
 package Ms_Reingresante.Ms_Reingresante.model.response;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 
-// Nota: No se usa Lombok @Data aquí para seguir el estilo de tu ejemplo, 
-// usando campos públicos.
+import java.time.LocalDate;
+import lombok.Data;
+
+@Data
 
 public class FichaNoAdeudoResponse {
 
-    // Clave Foránea: Necesario para vincular la ficha al proceso
-    public Integer idProceso; 
+    private Integer idProceso; // id Proceso INT (Clave Foránea) [cite: 107]
 
-    // Datos principales del registro (según el diagrama DB)
-    public String fichaNumero;
-    public LocalDate fechaEmision;
-    public String emitidoPor;
-    
-    // Campos de Auditoría (siguiendo el patrón de tu ejemplo)
-    public LocalDateTime fechaCreacion;
-    public String usuarioCreacion;
-    public LocalDateTime fechaModificacion;
-    public String usuarioModificacion;
+    private String fichaNumero; // Ficha Numero VARCHAR(50) [cite: 108]
 
-    // Nota: El id_Ficha (PK) se omite ya que es autogenerado.
+    private String emitidoPor; // Ficha Emitido Por VARCHAR(50) [cite: 110]
+
+    private String usuarioCreacion; // USUARIO CREACION VARCHAR(50) [cite: 111]
+
+    private String usuarioModificacion; // USUARIO MODIFICACION VARCHAR(5) [cite: 111]
+
+    private LocalDate fechaEmision;
+    private LocalDate fechaCreacion;
+    private LocalDate fechaModificacion;
 }
