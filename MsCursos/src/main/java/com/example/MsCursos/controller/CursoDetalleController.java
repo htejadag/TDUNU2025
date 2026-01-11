@@ -14,7 +14,8 @@ import com.example.mscursos.model.response.CursoDetalleResponse;
 import com.example.mscursos.util.ApiRoutes;
 import com.example.mscursos.util.ResponseBase;
 
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
+import org.springframework.web.bind.annotation.RequestBody;
+
 import lombok.RequiredArgsConstructor;
 
 import com.example.mscursos.service.CursoDetalleService;

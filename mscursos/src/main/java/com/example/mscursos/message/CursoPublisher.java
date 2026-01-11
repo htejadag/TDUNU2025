@@ -16,7 +16,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class CursoPublisher {
 
-    private final KafkaTemplate<String, CursoEvent> kafkaTemplate;
+    private final KafkaTemplate<String, Object> kafkaTemplate;
 
     @Value("${app.kafka.topic.curso-events}")
     private String topic;
