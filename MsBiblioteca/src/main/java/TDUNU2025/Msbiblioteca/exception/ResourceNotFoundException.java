@@ -1,4 +1,8 @@
+<<<<<<< HEAD
+package tdunu2025.msbiblioteca.exception;
+=======
 package TDUNU2025.Msbiblioteca.exception;
+>>>>>>> parent of 852a09b (Actualizacion de ruta)
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

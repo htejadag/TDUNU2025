@@ -1,4 +1,8 @@
+<<<<<<< HEAD
+package tdunu2025.msbiblioteca.config;
+=======
 package TDUNU2025.Msbiblioteca.config;
+>>>>>>> parent of 852a09b (Actualizacion de ruta)
 
 import TDUNU2025.Msbiblioteca.exception.ResourceNotFoundException; // Importar esto
 import TDUNU2025.Msbiblioteca.util.Mensaje;
@@ -8,6 +12,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+<<<<<<< HEAD
+import tdunu2025.msbiblioteca.exception.ResourceNotFoundException;
+import tdunu2025.msbiblioteca.util.Mensaje;
+import tdunu2025.msbiblioteca.util.ResponseBase;
+
+=======
+>>>>>>> parent of 852a09b (Actualizacion de ruta)
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
