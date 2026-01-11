@@ -1,8 +1,5 @@
-<<<<<<< HEAD
-package tdunu2025.msbiblioteca.model.entity;
-=======
+
 package TDUNU2025.Msbiblioteca.model.entity;
->>>>>>> parent of 852a09b (Actualizacion de ruta)
 
 import jakarta.persistence.*;
 import lombok.*;

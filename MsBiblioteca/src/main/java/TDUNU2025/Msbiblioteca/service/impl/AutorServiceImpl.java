@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-package tdunu2025.msbiblioteca.service.impl;
-=======
 package TDUNU2025.Msbiblioteca.service.impl;
->>>>>>> parent of 852a09b (Actualizacion de ruta)
 
 import TDUNU2025.Msbiblioteca.exception.ResourceNotFoundException;
 import TDUNU2025.Msbiblioteca.model.entity.Autor;
@@ -11,23 +7,11 @@ import TDUNU2025.Msbiblioteca.model.response.AutorResponse;
 import TDUNU2025.Msbiblioteca.repository.AutorRepository;
 import TDUNU2025.Msbiblioteca.service.AutorService;
 import lombok.RequiredArgsConstructor;
-<<<<<<< HEAD
-import tdunu2025.msbiblioteca.exception.ResourceNotFoundException;
-import tdunu2025.msbiblioteca.model.entity.Autor;
-import tdunu2025.msbiblioteca.model.request.AutorRequest;
-import tdunu2025.msbiblioteca.model.response.AutorResponse;
-import tdunu2025.msbiblioteca.repository.AutorRepository;
-import tdunu2025.msbiblioteca.service.AutorService;
-=======
->>>>>>> parent of 852a09b (Actualizacion de ruta)
 
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service 
 @RequiredArgsConstructor
@@ -43,7 +27,7 @@ public class AutorServiceImpl implements AutorService {
         //convirtiendolo la entidad a response usando stram
         return autores.stream()
         .map(autor -> modelMapper.map(autor, AutorResponse.class))
-        .collect(Collectors.toList());
+        .toList();
     }
     
     @Override
@@ -90,7 +74,7 @@ public class AutorServiceImpl implements AutorService {
         Autor autorActualizado = autorRepository.save(autorExistente);
 
         //devolvemos el response
-        return modelMapper.map(autorExistente, AutorResponse.class);
+        return modelMapper.map(autorActualizado, AutorResponse.class);
 
     }
 

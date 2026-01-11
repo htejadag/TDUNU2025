@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-package tdunu2025.msbiblioteca.service.impl;
-=======
 package TDUNU2025.Msbiblioteca.service.impl;
->>>>>>> parent of 852a09b (Actualizacion de ruta)
 
 import TDUNU2025.Msbiblioteca.exception.ResourceNotFoundException;
 import TDUNU2025.Msbiblioteca.model.entity.LibroCategoria;
@@ -11,16 +7,6 @@ import TDUNU2025.Msbiblioteca.model.response.LibroCategoriaResponse;
 import TDUNU2025.Msbiblioteca.repository.LibroCategoriaRepository;
 import TDUNU2025.Msbiblioteca.service.LibroCategoriaService;
 import lombok.RequiredArgsConstructor;
-<<<<<<< HEAD
-import tdunu2025.msbiblioteca.exception.ResourceNotFoundException;
-import tdunu2025.msbiblioteca.model.entity.LibroCategoria;
-import tdunu2025.msbiblioteca.model.request.LibroCategoriaRequest;
-import tdunu2025.msbiblioteca.model.response.LibroCategoriaResponse;
-import tdunu2025.msbiblioteca.repository.LibroCategoriaRepository;
-import tdunu2025.msbiblioteca.service.LibroCategoriaService;
-
-=======
->>>>>>> parent of 852a09b (Actualizacion de ruta)
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
