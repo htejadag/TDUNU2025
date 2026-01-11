@@ -34,6 +34,9 @@ public class CoordinadorProyectoService {
     @Autowired
     private ModelMapper modelMapper;
 
+    @Autowired
+    private com.service.MsTramiteTesis.kafka.NotificacionHelper notificacionHelper;
+
     @Transactional
     @Caching(evict = {
             @CacheEvict(value = CacheNames.CACHE_COORDINADOR_PENDIENTES, allEntries = true),
@@ -56,6 +59,10 @@ public class CoordinadorProyectoService {
         }
 
         ProyectoTesis updated = proyectoRepository.save(proyecto);
+
+        // Enviar notificaciones
+        notificacionHelper.notificarRevisionCoordinador(updated, aprobado);
+
         return modelMapper.map(updated, ProyectoResponse.class);
     }
 
@@ -119,6 +126,9 @@ public class CoordinadorProyectoService {
                 "Lista de asignaciones no puede ser null");
         List<AsignacionJurado> saved = asignacionJuradoRepository.saveAll(validatedList);
         log.info("Asignados {} jurados al proyecto {}", saved.size(), idProyecto);
+
+        // Enviar notificaciones a los jurados asignados
+        notificacionHelper.notificarAsignacionJurados(idProyecto, idsDocentes);
 
         return saved;
     }

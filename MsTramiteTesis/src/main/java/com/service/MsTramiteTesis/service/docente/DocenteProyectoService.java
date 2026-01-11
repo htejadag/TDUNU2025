@@ -39,6 +39,9 @@ public class DocenteProyectoService {
     @Autowired
     private ModelMapper modelMapper;
 
+    @Autowired
+    private com.service.MsTramiteTesis.kafka.NotificacionHelper notificacionHelper;
+
     @Transactional
     @Caching(evict = {
             @CacheEvict(value = CacheNames.CACHE_DOCENTE_ASESORIAS, key = "#idAsesor"),
@@ -65,6 +68,10 @@ public class DocenteProyectoService {
         }
 
         ProyectoTesis updated = proyectoRepository.save(proyecto);
+
+        // Enviar notificaciones
+        notificacionHelper.notificarRevisionAsesor(updated, aprobado);
+
         return modelMapper.map(updated, ProyectoResponse.class);
     }
 
@@ -129,6 +136,9 @@ public class DocenteProyectoService {
 
         RevisionProyecto saved = revisionProyectoRepository.save(revision);
         log.info("Revisión {} creada para proyecto {}", saved.getIdRevision(), idProyecto);
+
+        // Enviar notificación de revisión de jurado
+        notificacionHelper.notificarRevisionJurado(idProyecto, idDocente, resultadoCat);
 
         return saved;
     }

@@ -6,6 +6,7 @@ import com.service.MsTramiteTesis.model.entity.ProyectoTesis;
 import com.service.MsTramiteTesis.model.Error.ResourceNotFoundException;
 import com.service.MsTramiteTesis.repository.ProyectoRepository;
 import com.service.MsTramiteTesis.config.CacheNames;
+import com.service.MsTramiteTesis.kafka.NotificacionHelper;
 
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -30,6 +31,9 @@ public class EstudianteProyectoService {
     @Autowired
     private ModelMapper modelMapper;
 
+    @Autowired
+    private NotificacionHelper notificacionHelper;
+
     @Transactional
     @Caching(evict = {
             @CacheEvict(value = CacheNames.CACHE_ESTUDIANTE_PROYECTOS, key = "#idEstudiante")
@@ -48,6 +52,9 @@ public class EstudianteProyectoService {
 
         ProyectoTesis saved = proyectoRepository.save(proyecto);
         log.info("Proyecto {} creado exitosamente", saved.getIdProyecto());
+
+        // Enviar notificación al coordinador
+        notificacionHelper.notificarProyectoCreado(saved);
 
         return modelMapper.map(saved, ProyectoResponse.class);
     }
@@ -72,6 +79,10 @@ public class EstudianteProyectoService {
         proyecto.setEstadoProyectoCat(1); // Vuelve a PENDIENTE_COORDINADOR
 
         ProyectoTesis updated = proyectoRepository.save(proyecto);
+
+        // Enviar notificación al coordinador
+        notificacionHelper.notificarProyectoModificado(updated);
+
         return modelMapper.map(updated, ProyectoResponse.class);
     }
 
@@ -99,4 +110,5 @@ public class EstudianteProyectoService {
 
         return modelMapper.map(proyecto, ProyectoResponse.class);
     }
+
 }
