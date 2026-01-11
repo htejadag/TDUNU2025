@@ -11,7 +11,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -24,7 +23,7 @@ public class EditorialServiceImpl implements EditorialService {
     public List<EditorialResponse> listar() {
         return editorialRepository.findAll().stream()
                 .map(editorial -> modelMapper.map(editorial, EditorialResponse.class))
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Override

@@ -11,7 +11,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -24,7 +23,7 @@ public class DetalleUsuarioServiceImpl implements DetalleUsuarioService {
     public List<DetalleUsuarioResponse> listar() {
         return detalleUsuarioRepository.findAll().stream()
                 .map(du -> modelMapper.map(du, DetalleUsuarioResponse.class))
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Override

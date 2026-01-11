@@ -11,7 +11,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -24,7 +23,7 @@ public class CategoriaLibroServiceImpl implements CategoriaLibroService {
     public List<CategoriaLibroResponse> listar() {
         return categoriaLibroRepository.findAll().stream()
                 .map(categoria -> modelMapper.map(categoria, CategoriaLibroResponse.class))
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Override

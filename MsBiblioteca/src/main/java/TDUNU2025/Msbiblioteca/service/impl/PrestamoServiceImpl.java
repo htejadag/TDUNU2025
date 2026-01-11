@@ -11,7 +11,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -24,7 +23,7 @@ public class PrestamoServiceImpl implements PrestamoService {
     public List<PrestamoResponse> listar() {
         return prestamoRepository.findAll().stream()
                 .map(prestamo -> modelMapper.map(prestamo, PrestamoResponse.class))
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Override
