@@ -10,9 +10,8 @@ public interface IEDetalleRepository extends MongoRepository<EvaluacionDetalleMo
 
     List<EvaluacionDetalleModel> findByEvaluacion(String evaluacion);
 
-    boolean existsByEvaluacionAndCatalogoidAndNumero(
+    boolean existsByEvaluacionAndCatalogoid(
             String evaluacion,
-            String catalogoid,
-            Integer numero);
+            String catalogoid);
 
 }

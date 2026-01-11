@@ -1,6 +1,7 @@
 package com.example.MsEvaluacion.model.request;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import lombok.Data;
 
@@ -8,10 +9,11 @@ import lombok.Data;
 public class EDetalleResquest {
 
     private String evaluacion;
-    private double nota;
-    private LocalDate fechaprueba;
-    private String catalogoid;
-    private Integer numero;
-
     
+    private List<Double> notas;
+    
+    private Double nota;
+    
+    private LocalDate fechaPrueba;
+    private String catalogoid;
 }

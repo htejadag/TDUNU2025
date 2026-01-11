@@ -1,11 +1,19 @@
 package com.example.MsEvaluacion.model.request;
 
+import java.time.LocalDateTime;
+
 import lombok.Data;
 
 @Data
 public class EvaluacionRequest {
     
-    private double promedio;
+    private String id;
+    
+    private String idAlumno;
+    
+    private String idCicloAcademico;
+    
+    private String idCursoDetalle;
 
-    private String fechaEvaluacion;
+    private LocalDateTime fechaEvaluacion;
 }

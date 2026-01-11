@@ -1,6 +1,7 @@
 package com.example.MsEvaluacion.model.entity;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -20,9 +21,13 @@ public class EvaluacionDetalleModel extends AuditoriaModel {
     private String evaluacion;
 
     private String catalogoid;
-    private Integer numero;
 
-    private double nota;
+    private List<Double> notas;
+    
+    private Double nota;
+    
+    private Double promedio;
+
     private LocalDate fechaPrueba;
 
     private Integer usuarioCreacion;

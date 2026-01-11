@@ -13,14 +13,20 @@ public class Routes {
     }
 
     public static class evaluacionDetalle {
-    
+
         public static final String EVALUACIONDETALLE = "/evaluacionDetalle";
         public static final String LISTAR = "/listar";
         public static final String OBTENER_POR_ID = "/obtener/{id}";
         public static final String GUARDAR = "/guardar";
         public static final String ELIMINAR = "/eliminar/{id}";
-        public static final String LISTAR_POR_EVALUACION = "/evaluacionById/{evaluacion}";
-        
+        public static final String LISTAR_POR_EVALUACION = "/evaluacionById/{id}";
+
     }
 
+    public static class catalogo {
+        public static final String CATALOGO = "/catalogo";
+        public static final String LISTAR = "/listar";
+        public static final String OBTENER_POR_CODIGO = "/obtener/{codigo}";
+        public static final String GUARDAR = "/guardar";
+    }
 }
