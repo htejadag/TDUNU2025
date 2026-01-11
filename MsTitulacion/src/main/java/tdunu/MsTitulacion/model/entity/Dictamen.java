@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+//@Data <-- No se por que esto me da error
 @Entity
 @Getter
 @Setter

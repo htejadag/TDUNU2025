@@ -12,6 +12,6 @@ public interface RevisionBorradorService {
     RevisionBorradorResponse actualizar(RevisionBorradorRequest request); //por seaca
 
     //no tendrá logica de eliminado logico ni fisico
-    boolean eliminar(Integer id); //solo pruebas, no implementar
+    boolean eliminar(int id); //solo pruebas, no implementar
 
 }

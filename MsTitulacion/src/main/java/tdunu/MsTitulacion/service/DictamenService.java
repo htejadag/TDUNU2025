@@ -8,8 +8,8 @@ import tdunu.MsTitulacion.model.response.DictamenResponse;
 public interface DictamenService {
     
     List<DictamenResponse> listar();
-    List<DictamenResponse> listarByResultadoCat();
-    DictamenResponse obtenerPorId();
+    List<DictamenResponse> listarByResultadoCat(String categoria);
+    DictamenResponse obtenerPorId(int id);
     DictamenResponse guardar(DictamenRequest request);
     DictamenResponse actualizar(DictamenRequest request);
 

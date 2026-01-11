@@ -4,6 +4,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface ResolucionTitulo extends JpaRepository<ResolucionTitulo, Integer> {
+public interface ResolucionTituloRepository extends JpaRepository<ResolucionTituloRepository, Integer> {
 
 }
