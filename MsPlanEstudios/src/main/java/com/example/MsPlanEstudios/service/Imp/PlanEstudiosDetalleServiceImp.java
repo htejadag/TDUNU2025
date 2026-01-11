@@ -1,8 +1,18 @@
 package com.example.MsPlanEstudios.service.Imp;
 
 import java.util.List;
+import java.util.ArrayList;
+import java.util.Map;
+import java.util.LinkedHashMap;
+import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
+
+import com.example.MsPlanEstudios.model.response.MallaPlanResponse;
+import com.example.MsPlanEstudios.model.response.CicloMallaResponse;
+import com.example.MsPlanEstudios.model.response.CursoMallaResponse;
+import com.example.MsPlanEstudios.repository.PlanEstudiosRepository;
+import com.example.MsPlanEstudios.model.entity.PlanEstudiosModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -36,6 +46,9 @@ public class PlanEstudiosDetalleServiceImp implements PlanEstudiosDetalleService
 
     @Autowired
     private CatalogoRepository catalogoRepository;
+
+    @Autowired
+    private PlanEstudiosRepository planEstudiosRepository;
 
     @Override
     public List<PlanEstudiosDetalleResponse> listar() {
@@ -128,6 +141,53 @@ public class PlanEstudiosDetalleServiceImp implements PlanEstudiosDetalleService
             return resp;
 
         }).toList();
+    }
+
+    @Override
+    public MallaPlanResponse obtenerMallaAnidadaPorPlan(Integer idPlanEstudio) {
+        PlanEstudiosModel plan = planEstudiosRepository.findById(idPlanEstudio)
+                .orElseThrow(() -> new RuntimeException("Plan de estudios no encontrado"));
+
+        List<PlanEstudiosDetalleModel> detalles = planestudiosdetalleRepository
+                .findByIdPlanEstudioAndEstadoTrueOrderByCicloCodigoAscOrdenEnCicloAsc(idPlanEstudio);
+
+        MallaPlanResponse malla = new MallaPlanResponse();
+        malla.setPlan(plan.getAño());
+
+        // Agrupar por id de ciclo manteniendo orden (LinkedHashMap)
+        Map<Integer, List<PlanEstudiosDetalleModel>> grouped = detalles.stream()
+                .collect(Collectors.groupingBy(det -> det.getCiclo().getId(), LinkedHashMap::new, Collectors.toList()));
+
+        List<CicloMallaResponse> ciclos = grouped.entrySet().stream().map(entry -> {
+            CatalogoModel cicloModel = entry.getValue().get(0).getCiclo();
+            CicloMallaResponse cicloResp = new CicloMallaResponse();
+            cicloResp.setId(cicloModel.getId());
+            cicloResp.setNombre(cicloModel.getDescripcion());
+
+            List<CursoMallaResponse> cursos = entry.getValue().stream().map(det -> {
+                CursoMallaResponse curso = new CursoMallaResponse();
+                curso.setId(det.getIdCurso());
+                curso.setCreditos(det.getCreditos());
+                curso.setHorasTeoricas(det.getHorasTeoricas());
+                curso.setHorasPracticas(det.getHorasPracticas());
+                curso.setOrdenEnCiclo(det.getOrdenEnCiclo());
+
+                List<Integer> prerequisitos = prerequisitoRepository.findByIdPlanEstudioDetalleAndEstadoTrue(det.getId())
+                        .stream()
+                        .map(PlanEstudiosPrerequisitoModel::getIdCursoPrerequisito)
+                        .toList();
+
+                curso.setPrerrequisitos(prerequisitos);
+                return curso;
+            }).toList();
+
+            cicloResp.setCursos(cursos);
+            return cicloResp;
+        }).toList();
+
+        malla.setCiclos(ciclos);
+
+        return malla;
     }
 
 }
