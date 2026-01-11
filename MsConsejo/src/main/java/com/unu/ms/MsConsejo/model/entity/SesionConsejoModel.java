@@ -14,15 +14,16 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Entity
 @Table(name = "sesion_consejo")
 @Data
-public class SesionConsejoModel {
+@EqualsAndHashCode(callSuper = true)
+public class SesionConsejoModel extends AuditoriaModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -51,19 +52,8 @@ public class SesionConsejoModel {
     @Column(name = "id_estado")
     private Integer idEstado;
 
-    @Column(name = "id_usuario_registro")
-    private Integer usuarioRegistro;
-
-    @Column(name = "fecha_creacion")
-    private LocalDateTime fechaCreacion;
-
     @OneToMany(mappedBy = "sesion", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<AsistenciaSesionModel> asistencias;
-
-    @PrePersist
-    protected void onCreate() {
-        this.fechaCreacion = LocalDateTime.now();
-    }
 
 }
 

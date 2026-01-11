@@ -8,19 +8,16 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 
-import java.time.LocalDateTime;
-
-import org.hibernate.annotations.CreationTimestamp;
-
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Entity
 @Table(name = "asistencia_sesion")
 @Data
-public class AsistenciaSesionModel {
+@EqualsAndHashCode(callSuper = true)
+public class AsistenciaSesionModel extends AuditoriaModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,12 +34,5 @@ public class AsistenciaSesionModel {
 
     @Column(name = "id_estado_asistencia", nullable = false)
     private Integer idEstadoAsistencia;
-
-    @Column(name = "id_usuario_registro")
-    private Integer usuarioRegistro;
-
-    @CreationTimestamp
-    @Column(name = "fecha_registro")
-    private LocalDateTime fechaRegistro;
 
 }

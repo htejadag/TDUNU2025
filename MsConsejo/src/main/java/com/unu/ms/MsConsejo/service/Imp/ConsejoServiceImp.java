@@ -3,6 +3,7 @@ package com.unu.ms.MsConsejo.service.Imp;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+import java.time.ZoneId;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -95,13 +96,18 @@ public class ConsejoServiceImp implements ConsejoService {
             
             // Contar sesiones realizadas
             long totalSesiones = sesionConsejoRepository.countByConsejo_IdConsejo(id);
+
+            // Convertir fecha de creación desde auditoría a LocalDateTime
+            var fechaCreacion = consejo.getAuFechacr() != null
+                    ? consejo.getAuFechacr().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()
+                    : null;
             
             return ConsejoDetalleCompletoResponse.builder()
                     .idConsejo(consejo.getIdConsejo())
                     .nombre(consejo.getNombre())
                     .descripcion(consejo.getDescripcion())
                     .idEstado(consejo.getIdEstado())
-                    .fechaCreacion(consejo.getFechaCreacion())
+                    .fechaCreacion(fechaCreacion)
                     .totalMiembrosActivos(miembrosActivos.size())
                     .totalSesionesRealizadas((int) totalSesiones)
                     .miembrosActivos(miembrosActivos)

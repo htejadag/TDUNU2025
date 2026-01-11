@@ -14,11 +14,13 @@ import jakarta.persistence.Table;
 import java.util.List;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Entity
 @Table(name = "catalogo")
 @Data
-public class CatalogoModel {
+@EqualsAndHashCode(callSuper = true)
+public class CatalogoModel extends AuditoriaModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

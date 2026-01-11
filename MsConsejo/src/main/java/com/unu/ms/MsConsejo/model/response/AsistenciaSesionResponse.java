@@ -13,7 +13,5 @@ public class AsistenciaSesionResponse {
     // SesionConsejoModel idSesion;
     // MiembroConsejoModel idMiembro;
     Integer idEstadoAsistencia;
-    Integer usuarioRegistro;
-    // LocalDateTime fechaRegistro;
 
 }

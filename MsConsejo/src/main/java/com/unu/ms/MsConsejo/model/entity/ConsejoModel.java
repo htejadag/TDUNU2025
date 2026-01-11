@@ -13,14 +13,14 @@ import jakarta.persistence.Table;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import org.hibernate.annotations.CreationTimestamp;
-
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Entity
 @Table(name = "consejo")
 @Data
-public class ConsejoModel {
+@EqualsAndHashCode(callSuper = true)
+public class ConsejoModel extends AuditoriaModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,10 +35,6 @@ public class ConsejoModel {
 
     @Column(name = "id_estado")
     private Integer idEstado;
-
-    @CreationTimestamp
-    @Column(name = "fecha_creacion")
-    private LocalDateTime fechaCreacion;
 
     @OneToMany(mappedBy = "consejo", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<MiembroConsejoModel> miembros;

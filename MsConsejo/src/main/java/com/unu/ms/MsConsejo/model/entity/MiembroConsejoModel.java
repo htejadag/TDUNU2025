@@ -15,11 +15,13 @@ import java.time.LocalDate;
 import java.util.List;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Entity
 @Table(name = "miembro_consejo")
 @Data
-public class MiembroConsejoModel {
+@EqualsAndHashCode(callSuper = true)
+public class MiembroConsejoModel extends AuditoriaModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
