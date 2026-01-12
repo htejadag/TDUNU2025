@@ -27,7 +27,7 @@ public class RevisionBorradorServiceImp implements RevisionBorradorService{
         return null;
     }
     @Override
-    public RevisionBorradorResponse actualizar(RevisionBorradorRequest request){
+    public RevisionBorradorResponse actualizar(int id,RevisionBorradorRequest request){
         return null;
     } 
 

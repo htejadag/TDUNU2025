@@ -3,9 +3,15 @@ package tdunu.MsTitulacion.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import tdunu.MsTitulacion.model.request.TesisBorradorRequest;
 import tdunu.MsTitulacion.model.response.TesisBorradorResponse;
 import tdunu.MsTitulacion.service.TesisBorradorService;
@@ -19,23 +25,35 @@ public class TesisBorradorController {
     @Autowired
     private TesisBorradorService tesisBorradorService;
 
+    @GetMapping(value = ApiRoutes.TesisBorrador.LISTAR)
     public ResponseBase<List<TesisBorradorResponse>> list(){
-        return null;
+        List<TesisBorradorResponse> myList = tesisBorradorService.listar();
+        return ResponseBase.ok(myList);
     }
 
-    public ResponseBase<List<TesisBorradorResponse>> getById(int id){
-        return null;
+    @GetMapping(value = ApiRoutes.TesisBorrador.OBTENER)
+    public ResponseBase<TesisBorradorResponse> getById(@PathVariable("id") int id){
+        TesisBorradorResponse response = tesisBorradorService.obtenerPorId(id);
+        return ResponseBase.ok(response);
     }
 
-
-    public ResponseBase<List<TesisBorradorResponse>> save(TesisBorradorRequest request){
-        return null;
+    @PostMapping(value = ApiRoutes.TesisBorrador.REGISTRAR)
+    public ResponseBase<TesisBorradorResponse> save(@RequestBody TesisBorradorRequest request){
+        TesisBorradorResponse response = tesisBorradorService.guardar(request);
+        return ResponseBase.ok(response);
     }
 
-    public ResponseBase<List<TesisBorradorResponse>> update(TesisBorradorRequest request){
-        return null;
+    @PutMapping(value = ApiRoutes.TesisBorrador.ACTUALIZAR)
+    public ResponseBase<TesisBorradorResponse> update(@PathVariable("id") int id, @RequestBody TesisBorradorRequest request){
+        TesisBorradorResponse response = tesisBorradorService.actualizar(id,request);
+        return ResponseBase.ok(response);
     }
 
-     //eliminar
+     //pruebas eliminar
+    @DeleteMapping(value =  ApiRoutes.TesisBorrador.ELIMINAR)
+    public Boolean delete(@PathVariable("id") int id){
+        Boolean deleted = tesisBorradorService.eliminar(id);
+        return deleted;
+    }
 
 }

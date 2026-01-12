@@ -3,9 +3,15 @@ package tdunu.MsTitulacion.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import tdunu.MsTitulacion.model.request.RevisionBorradorRequest;
 import tdunu.MsTitulacion.model.response.RevisionBorradorResponse;
 import tdunu.MsTitulacion.service.RevisionBorradorService;
@@ -19,19 +25,29 @@ public class RevisionBorradorController {
     @Autowired
     private RevisionBorradorService revisionBorradorService;
 
-
+    @GetMapping(value = ApiRoutes.RevisionBorrador.LISTAR)
     public ResponseBase<List<RevisionBorradorResponse>> list(){
-        return null;
+        List<RevisionBorradorResponse> myList = revisionBorradorService.listar();
+        return ResponseBase.ok(myList);
     }
 
-    public ResponseBase<List<RevisionBorradorResponse>> save(RevisionBorradorRequest request){
-        return null;
+    @PostMapping(value = ApiRoutes.RevisionBorrador.REGISTRAR)
+    public ResponseBase<RevisionBorradorResponse> save(@RequestBody RevisionBorradorRequest request){
+        RevisionBorradorResponse response = revisionBorradorService.guardar(request);
+        return ResponseBase.ok(response);
     }
 
-    public ResponseBase<List<RevisionBorradorResponse>> update(RevisionBorradorRequest request){
-        return null;
+    @PutMapping(value = ApiRoutes.RevisionBorrador.ACTUALIZAR)
+    public ResponseBase<RevisionBorradorResponse> update(@PathVariable("id") int id, @RequestBody RevisionBorradorRequest request){
+        RevisionBorradorResponse response = revisionBorradorService.actualizar(id, request);
+        return ResponseBase.ok(response);
     }
 
-     //eliminar
-    
+     //pruebas eliminar
+    @DeleteMapping(value = ApiRoutes.RevisionBorrador.ELIMINAR)
+    public Boolean delete(@PathVariable("id") int id){
+        Boolean deleted = revisionBorradorService.eliminar(id);
+        return deleted;
+    }
+
 }

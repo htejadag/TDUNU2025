@@ -28,7 +28,7 @@ public class ResolucionTituloServiceImp implements ResolucionTituloService{
     }
 
     @Override
-    public ResolucionTituloResponse actualizar(ResolucionTituloRequest request){
+    public ResolucionTituloResponse actualizar(int id, ResolucionTituloRequest request){
         return null;
     } //por seaca
 

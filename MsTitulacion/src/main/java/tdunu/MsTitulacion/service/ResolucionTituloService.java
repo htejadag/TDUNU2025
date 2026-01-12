@@ -9,7 +9,7 @@ public interface ResolucionTituloService {
     
     List<ResolucionTituloResponse> listar();
     ResolucionTituloResponse guardar(ResolucionTituloRequest request);
-    ResolucionTituloResponse actualizar(ResolucionTituloRequest request); //por seaca
+    ResolucionTituloResponse actualizar(int id, ResolucionTituloRequest request); //por seaca
 
     //no tendrá logica de eliminado logico ni fisico
     boolean eliminar (int id); //solo pruebas, no implementar

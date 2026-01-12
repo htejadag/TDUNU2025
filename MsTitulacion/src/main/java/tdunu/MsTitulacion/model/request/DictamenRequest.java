@@ -1,13 +1,14 @@
 package tdunu.MsTitulacion.model.request;
 
 import java.sql.Date;
+import java.time.LocalDateTime;
 
 
 public class DictamenRequest {
         
     private Integer idDictamen;
-     private int idTesisBorrador;
-    private Date fechaHora;
+    private int idTesisBorrador;
+    private LocalDateTime fechaHora;
     private String aulaLugar;
     private Integer modalidadCategoria;
     private Integer resultadoCategoria;

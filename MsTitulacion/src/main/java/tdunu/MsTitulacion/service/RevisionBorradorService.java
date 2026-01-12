@@ -9,7 +9,7 @@ public interface RevisionBorradorService {
     
     List<RevisionBorradorResponse> listar();
     RevisionBorradorResponse guardar(RevisionBorradorRequest request);
-    RevisionBorradorResponse actualizar(RevisionBorradorRequest request); //por seaca
+    RevisionBorradorResponse actualizar(int id,RevisionBorradorRequest request); //por seaca
 
     //no tendrá logica de eliminado logico ni fisico
     boolean eliminar(int id); //solo pruebas, no implementar

@@ -1,6 +1,7 @@
 package tdunu.MsTitulacion.model.response;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 public class RevisionBorradorResponse {
     
@@ -9,6 +10,6 @@ public class RevisionBorradorResponse {
     private Integer idTesisBorrador;
     private String comentarios;
     private boolean aprobado;
-    private Timestamp fechaRevision;
+    private LocalDateTime fechaRevision;
 
 }

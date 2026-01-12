@@ -1,5 +1,7 @@
 package tdunu.MsTitulacion.model.entity;
 import java.sql.Date;
+import java.time.LocalDateTime;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -21,7 +23,7 @@ public class ResolucionTitulo {
     private int idResolucion;
     @Column(name = "id_dictamen") private int idDictamen;
     @Column(name = "numero_resolucion") private String numeroResolucion;
-    @Column(name = "fecha_emision") private Date fechaEmision;
+    @Column(name = "fecha_emision") private LocalDateTime fechaEmision;
     @Column(name = "ruta_pdf_titulo") private String rutaPdfTitulo;
     @Column(name = "registrado_sunedo") private boolean registradoPorSunedo;
     

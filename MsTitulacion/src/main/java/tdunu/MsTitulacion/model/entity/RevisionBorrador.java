@@ -1,5 +1,7 @@
 package tdunu.MsTitulacion.model.entity;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -23,7 +25,7 @@ public class RevisionBorrador {
     @Column(name = "id_tesis_borrador")private int idTesisBorrador;
     @Column(name = "comentarios")private String comentarios;
     @Column(name = "aprobado")private boolean aprobado;
-    @Column(name = "fecha_revision")private Timestamp fechaRevision;
+    @Column(name = "fecha_revision")private LocalDateTime fechaRevision;
 
 
 }

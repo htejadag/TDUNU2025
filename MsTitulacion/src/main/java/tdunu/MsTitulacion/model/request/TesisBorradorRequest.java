@@ -1,6 +1,7 @@
 package tdunu.MsTitulacion.model.request;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 public class TesisBorradorRequest {
     
@@ -9,6 +10,6 @@ public class TesisBorradorRequest {
     private String rutaConstanciaCoti;
     private String rutaBorrador;
     private Integer estadoBorrador;
-    private Timestamp fechaSubida;
+    private LocalDateTime fechaSubida;
     
 }

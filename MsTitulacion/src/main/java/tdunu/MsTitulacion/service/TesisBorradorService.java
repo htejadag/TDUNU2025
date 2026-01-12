@@ -8,9 +8,9 @@ import tdunu.MsTitulacion.model.response.TesisBorradorResponse;
 public interface TesisBorradorService {
     
     List<TesisBorradorResponse> listar();
-    TesisBorradorResponse obtenerPorId();
+    TesisBorradorResponse obtenerPorId(int id);
     TesisBorradorResponse guardar(TesisBorradorRequest request);
-    TesisBorradorResponse actualizar(TesisBorradorRequest request);
+    TesisBorradorResponse actualizar(int id,TesisBorradorRequest request);
 
      boolean eliminar (int id);
 }

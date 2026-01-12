@@ -3,9 +3,15 @@ package tdunu.MsTitulacion.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import tdunu.MsTitulacion.model.request.DictamenRequest;
 import tdunu.MsTitulacion.model.response.DictamenResponse;
 import tdunu.MsTitulacion.service.DictamenService;
@@ -19,27 +25,40 @@ public class DictamenController {
     @Autowired
     private DictamenService dictamenService;
     
-
+    @GetMapping(value = ApiRoutes.Dictamen.LISTAR)
     public ResponseBase<List<DictamenResponse>> list(){
-        return null;
+        List<DictamenResponse> myList = dictamenService.listar();
+        return ResponseBase.ok(myList);
     }
 
-    public ResponseBase<List<DictamenResponse>> getById(int id){
-        return null;
+    @GetMapping(value = ApiRoutes.Dictamen.OBTENER)
+    public ResponseBase<DictamenResponse> getById(@PathVariable("id") int id){
+        DictamenResponse response = dictamenService.obtenerPorId(id);
+        return ResponseBase.ok(response);
     }
 
-    public ResponseBase<List<DictamenResponse>> listByResultCat(String cat){
-        return null;
+    @GetMapping(value = ApiRoutes.Dictamen.LISTARCATRESULTADO)
+    public ResponseBase<List<DictamenResponse>> listByResultCat(@PathVariable("categoria") String cat){
+        List<DictamenResponse> myListByCat = dictamenService.listarByResultadoCat(cat);
+        return ResponseBase.ok(myListByCat);
     }
 
-    public ResponseBase<List<DictamenResponse>> save(DictamenRequest request){
-        return null;
+    @PostMapping(value = ApiRoutes.Dictamen.REGISTRAR)
+    public ResponseBase<DictamenResponse> save(@RequestBody DictamenRequest request){
+        DictamenResponse response = dictamenService.guardar(request);
+        return ResponseBase.ok(response);
     }
 
-    public ResponseBase<List<DictamenResponse>> update(DictamenRequest request){
-        return null;
+    @PutMapping(value = ApiRoutes.Dictamen.ACTUALIZAR)
+    public ResponseBase<DictamenResponse> update(@PathVariable("id") int id, @RequestBody DictamenRequest request){
+        DictamenResponse response = dictamenService.actualizar(id, request);
+        return ResponseBase.ok(response);
     }
 
-    //eliminar
-
+    //pruebas eliminar
+    @DeleteMapping(value = ApiRoutes.Dictamen.ELIMINAR)
+    public Boolean delete(@PathVariable("id") int id){
+        Boolean deleted = dictamenService.eliminar(id);
+        return deleted;
+    }
 }

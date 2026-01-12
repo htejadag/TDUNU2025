@@ -1,6 +1,7 @@
 package tdunu.MsTitulacion.model.entity;
 
 import java.sql.Date;
+import java.time.LocalDateTime;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -21,7 +22,7 @@ public class Dictamen {
     @Column(name = "id_dictamen")
     private int idDictamen;
     @Column(name = "id_tesis_borrador") private int idTesisBorrador;
-    @Column(name = "fecha_hora") private Date fechaHora;
+    @Column(name = "fecha_hora") private LocalDateTime fechaHora;
     @Column(name = "aula_lugar") private String aulaLugar;
     @Column(name = "modalidad_cat") private int modalidadCategoria;
     @Column(name = "resultado_cat") private int resultadoCategoria;

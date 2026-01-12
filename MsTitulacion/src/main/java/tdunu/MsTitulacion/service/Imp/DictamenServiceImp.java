@@ -38,11 +38,11 @@ public class DictamenServiceImp implements DictamenService{
         return null;
     }
     @Override
-    public DictamenResponse actualizar(DictamenRequest request){
+    public DictamenResponse actualizar(int id,DictamenRequest request){
         return null;
     }
     @Override
-    public boolean eliminar (String id){
+    public boolean eliminar (int id){
         return true;
     }
 }

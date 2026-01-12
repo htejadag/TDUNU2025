@@ -1,5 +1,7 @@
 package tdunu.MsTitulacion.model.entity;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
+
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -20,6 +22,6 @@ public class TesisBorrador {
     @Column(name = "ruta_constancia_coti")private String rutaConstanciaCoti;
     @Column(name = "ruta_borrador")private String rutaBorrador;
     @Column(name = "estado_borrador")private int estadoBorrador;
-    @Column(name = "fecha_subida")private Timestamp fechaSubida;
+    @Column(name = "fecha_subida")private LocalDateTime fechaSubida;
 
 }

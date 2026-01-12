@@ -11,8 +11,8 @@ public interface DictamenService {
     List<DictamenResponse> listarByResultadoCat(String categoria);
     DictamenResponse obtenerPorId(int id);
     DictamenResponse guardar(DictamenRequest request);
-    DictamenResponse actualizar(DictamenRequest request);
+    DictamenResponse actualizar(int id, DictamenRequest request);
 
     //no tendrá logica de eliminado logico ni fisico
-    boolean eliminar (String id);  //solo pruebas, no implementar
+    boolean eliminar (int id);  //solo pruebas, no implementar
 }

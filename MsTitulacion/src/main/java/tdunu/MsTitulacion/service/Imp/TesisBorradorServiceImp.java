@@ -24,7 +24,7 @@ public class TesisBorradorServiceImp implements TesisBorradorService{
     }
 
     @Override
-    public TesisBorradorResponse obtenerPorId(){
+    public TesisBorradorResponse obtenerPorId(int id){
         return null;
     }
 
@@ -34,7 +34,7 @@ public class TesisBorradorServiceImp implements TesisBorradorService{
     }
 
     @Override
-    public TesisBorradorResponse actualizar(TesisBorradorRequest request){
+    public TesisBorradorResponse actualizar(int id,TesisBorradorRequest request){
         return null;
     } 
 
