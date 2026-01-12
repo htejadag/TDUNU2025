@@ -2,6 +2,7 @@ package com.example.MsAuditoria.Kafka.Consumer;
 
 import com.example.MsAuditoria.Model.Entity.Auditoria;
 import com.example.MsAuditoria.Repository.AuditoriaRepository;
+import com.example.MsAuditoria.Util.KafkaTopics;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.RequiredArgsConstructor;
@@ -19,7 +20,7 @@ public class AuditoriaConsumer {
     private final AuditoriaRepository auditoriaRepository;
 
     @KafkaListener(
-        topics = "auditoria-events",
+        topics = KafkaTopics.TOPICAUDITORIA,
         groupId = "auditoria-consumer"
     )
     public void consumir(String mensaje) {
