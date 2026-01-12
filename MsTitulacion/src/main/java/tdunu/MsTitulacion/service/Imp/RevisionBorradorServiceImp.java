@@ -13,7 +13,7 @@ import tdunu.MsTitulacion.service.RevisionBorradorService;
 public class RevisionBorradorServiceImp implements RevisionBorradorService{
  
     @Autowired
-    private RevisionBorradorRepository dictamenRepository;
+    private RevisionBorradorRepository revisionBorradorRepository;
 
     @Autowired
     private ModelMapper modelMapper;
@@ -32,8 +32,8 @@ public class RevisionBorradorServiceImp implements RevisionBorradorService{
     } 
 
     @Override
-    public boolean eliminar(int id){
-        return true;
+    public void eliminar(int id){
+        
     } //solo pruebas, no implementar
 
 }

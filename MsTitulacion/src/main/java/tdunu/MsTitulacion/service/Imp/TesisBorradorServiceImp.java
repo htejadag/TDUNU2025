@@ -13,7 +13,7 @@ import tdunu.MsTitulacion.service.TesisBorradorService;
 public class TesisBorradorServiceImp implements TesisBorradorService{
     
     @Autowired
-    private TesisBorradorRepository dictamenRepository;
+    private TesisBorradorRepository tesisBorradorRepository;
 
     @Autowired
     private ModelMapper modelMapper;
@@ -39,8 +39,8 @@ public class TesisBorradorServiceImp implements TesisBorradorService{
     } 
 
     @Override
-    public boolean eliminar(int id){
-        return true;
+    public void eliminar(int id){
+        
     } //solo pruebas, no implementar
 
 }

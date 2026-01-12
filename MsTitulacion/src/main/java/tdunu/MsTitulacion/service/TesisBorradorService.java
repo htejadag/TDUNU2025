@@ -12,5 +12,5 @@ public interface TesisBorradorService {
     TesisBorradorResponse guardar(TesisBorradorRequest request);
     TesisBorradorResponse actualizar(int id,TesisBorradorRequest request);
 
-     boolean eliminar (int id);
+    void eliminar (int id);
 }

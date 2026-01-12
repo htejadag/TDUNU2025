@@ -12,5 +12,5 @@ public interface ResolucionTituloService {
     ResolucionTituloResponse actualizar(int id, ResolucionTituloRequest request); //por seaca
 
     //no tendrá logica de eliminado logico ni fisico
-    boolean eliminar (int id); //solo pruebas, no implementar
+    void eliminar (int id); //solo pruebas, no implementar
 }
