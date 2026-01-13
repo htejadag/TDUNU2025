@@ -3,10 +3,11 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 import jakarta.persistence.*;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
-//@Data <-- No se por que esto me da error
+@Data
 @Entity
 @Getter
 @Setter

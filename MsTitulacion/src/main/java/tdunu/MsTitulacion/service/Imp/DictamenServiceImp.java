@@ -40,6 +40,7 @@ public class DictamenServiceImp implements DictamenService{
     @Cacheable(value = "dictamenCategoria", key="#categoria", cacheManager = "listCacheManager")
     public List<DictamenResponse> listarByResultadoCat(String categoria){
         return dictamenRepository.findByResultadoCategoria(categoria)
+        .stream()
         .map(model -> modelMapper.map(model, DictamenResponse.class))
         .collect(Collectors.toList());
     }

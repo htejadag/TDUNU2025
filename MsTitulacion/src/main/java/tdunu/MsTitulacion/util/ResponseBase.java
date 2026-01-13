@@ -3,7 +3,7 @@ package tdunu.MsTitulacion.util;
 import lombok.Builder;
 import lombok.Data;
 
-//@Data <-- No se por que esto me da error
+@Data
 @Builder
 public class ResponseBase<T> {
   private boolean success;
