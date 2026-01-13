@@ -8,6 +8,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import tdunu.MsTitulacion.helper.NotificacionHelper;
 import tdunu.MsTitulacion.model.entity.TesisBorrador;
 import tdunu.MsTitulacion.model.request.TesisBorradorRequest;
 import tdunu.MsTitulacion.model.response.TesisBorradorResponse;
@@ -22,6 +23,9 @@ public class TesisBorradorServiceImp implements TesisBorradorService{
 
     @Autowired
     private ModelMapper modelMapper;
+
+    @Autowired
+    private NotificacionHelper notificacionHelper;
     
     @Override
     public List<TesisBorradorResponse> listar(){
@@ -43,8 +47,10 @@ public class TesisBorradorServiceImp implements TesisBorradorService{
         TesisBorrador model = modelMapper.map(request, TesisBorrador.class);
         model.setIdTesisBorrador(0);
         TesisBorrador saved = tesisBorradorRepository.save(model);
+        notificacionHelper.notificarSubidaBorrador(saved, false);//noti
         return modelMapper.map(saved, TesisBorradorResponse.class);
     }
+
 
     @Override
     public TesisBorradorResponse actualizar(int id,TesisBorradorRequest request){
@@ -56,6 +62,9 @@ public class TesisBorradorServiceImp implements TesisBorradorService{
         if(request.getEstadoBorrador() != 0) modelActual.setEstadoBorrador(request.getEstadoBorrador());
 
         TesisBorrador saved = tesisBorradorRepository.save(modelActual);
+        if (request.getRutaBorrador() != null) {
+            notificacionHelper.notificarSubidaBorrador(saved, true);
+        }
         return modelMapper.map(saved, TesisBorradorResponse.class);
     } 
 

@@ -25,6 +25,12 @@ public class KafkaProducerConfig {
         props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, IntegerSerializer.class);
         props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
 
+        // Configuraciones adicionales de resiliencia
+        props.put(ProducerConfig.ACKS_CONFIG, "1");
+        props.put(ProducerConfig.RETRIES_CONFIG, 3);
+        props.put(ProducerConfig.RETRY_BACKOFF_MS_CONFIG, 1000);
+        props.put(ProducerConfig.REQUEST_TIMEOUT_MS_CONFIG, 30000);
+
         return new DefaultKafkaProducerFactory<>(props);
     }
 
