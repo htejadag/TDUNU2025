@@ -6,6 +6,6 @@ public class KafkaTopics {
     }
 
     // NOTIFICACIONES (por Ms)
-    public static final String TOPIC = "notificacion-events";
+    public static final String TOPICNOTIFICACIONES = "notificacion-events";
 
 }

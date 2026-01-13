@@ -35,7 +35,7 @@ public class CoordinadorProyectoService {
     private ModelMapper modelMapper;
 
     @Autowired
-    private com.service.MsTramiteTesis.kafka.NotificacionHelper notificacionHelper;
+    private com.service.MsTramiteTesis.Helper.KafkaHelpers.NotificacionHelper notificacionHelper;
 
     @Transactional
     @Caching(evict = {

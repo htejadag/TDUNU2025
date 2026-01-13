@@ -1,11 +1,11 @@
 package com.service.MsTramiteTesis.kafka;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.service.MsTramiteTesis.model.dto.NotificacionEventDTO;
+import com.service.MsTramiteTesis.util.KafkaTopics;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,9 +18,6 @@ public class NotificacionProducer {
     private final KafkaTemplate<Integer, String> kafkaTemplate;
     private final ObjectMapper objectMapper;
 
-    @Value("${spring.kafka.template.default-topic}")
-    private String topic;
-
     /**
      * Envía un evento de notificación al topic de Kafka
      * 
@@ -30,7 +27,7 @@ public class NotificacionProducer {
         try {
             String mensaje = objectMapper.writeValueAsString(evento);
 
-            kafkaTemplate.send(topic, mensaje);
+            kafkaTemplate.send(KafkaTopics.TOPIC, mensaje);
 
             log.info("Evento enviado a Kafka - Tipo: {}, Rol destinatario: {}, Mensaje: {}",
                     evento.getTipoEvento(),
@@ -53,7 +50,7 @@ public class NotificacionProducer {
         try {
             String mensaje = objectMapper.writeValueAsString(evento);
 
-            kafkaTemplate.send(topic, mensaje);
+            kafkaTemplate.send(KafkaTopics.TOPIC, mensaje);
 
             log.info("Evento async enviado a Kafka - Tipo: {}", evento.getTipoEvento());
 

@@ -5,8 +5,8 @@ import com.service.MsTramiteTesis.model.dto.ProyectoResponse;
 import com.service.MsTramiteTesis.model.entity.ProyectoTesis;
 import com.service.MsTramiteTesis.model.Error.ResourceNotFoundException;
 import com.service.MsTramiteTesis.repository.ProyectoRepository;
+import com.service.MsTramiteTesis.Helper.KafkaHelpers.NotificacionHelper;
 import com.service.MsTramiteTesis.config.CacheNames;
-import com.service.MsTramiteTesis.kafka.NotificacionHelper;
 
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;

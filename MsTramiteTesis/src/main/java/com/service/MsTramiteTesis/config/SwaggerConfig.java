@@ -24,7 +24,7 @@ public class SwaggerConfig {
                                                                 .name("Equipo de Desarrollo")
                                                                 .email("soporte@universidad.edu")))
                                 .servers(List.of(
-                                                new Server().url("http://localhost:8082").description("Servidor Local"),
+                                                new Server().url("http://localhost:82").description("Servidor Local"),
                                                 new Server().url("https://api.universidad.edu")
                                                                 .description("Servidor Producción")));
         }
