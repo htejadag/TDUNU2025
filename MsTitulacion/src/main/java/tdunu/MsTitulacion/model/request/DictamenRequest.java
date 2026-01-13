@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.var;
 
 
 @NoArgsConstructor
@@ -15,12 +16,12 @@ import lombok.Setter;
 @Setter
 public class DictamenRequest {
         
-    private Integer idDictamen;
+    private int idDictamen;
     private int idTesisBorrador;
     private LocalDateTime fechaHora;
     private String aulaLugar;
-    private Integer modalidadCategoria;
-    private Integer resultadoCategoria;
+    private int modalidadCategoria;
+    private int resultadoCategoria;
     private Double notaFinal;
     
     

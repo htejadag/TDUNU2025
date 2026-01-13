@@ -8,11 +8,11 @@ import lombok.Data;
 @Data
 public class TesisBorradorResponse {
     
-    private Integer idTesisBorrador ;
-    private Integer idProyecto;
+    private int idTesisBorrador ;
+    private int idProyecto;
     private String rutaConstanciaCoti;
     private String rutaBorrador;
-    private Integer estadoBorrador;
+    private int estadoBorrador;
     private LocalDateTime fechaSubida;
 
 }

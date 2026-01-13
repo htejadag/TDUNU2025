@@ -28,4 +28,12 @@ public class ResolucionTitulo {
     @Column(name = "ruta_pdf_titulo") private String rutaPdfTitulo;
     @Column(name = "registrado_sunedo") private boolean registradoPorSunedo;
     
+
+    @PrePersist
+    protected void onCreate() {this.fechaEmision = LocalDateTime.now();}
+
+    // Se ejecuta automáticamente al ACTUALIZAR un registro existente
+    @PreUpdate
+    protected void onUpdate() {this.fechaEmision = LocalDateTime.now();}
+
 }

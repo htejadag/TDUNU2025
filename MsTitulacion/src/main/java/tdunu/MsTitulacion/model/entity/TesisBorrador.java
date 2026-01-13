@@ -25,4 +25,11 @@ public class TesisBorrador {
     @Column(name = "estado_borrador")private int estadoBorrador;
     @Column(name = "fecha_subida")private LocalDateTime fechaSubida;
 
+      @PrePersist
+    protected void onCreate() {this.fechaSubida = LocalDateTime.now();}
+
+    // Se ejecuta automáticamente al ACTUALIZAR un registro existente
+    @PreUpdate
+    protected void onUpdate() {this.fechaSubida = LocalDateTime.now();}
+
 }

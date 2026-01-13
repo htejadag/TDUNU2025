@@ -7,12 +7,12 @@ import lombok.Data;
 @Data
 public class DictamenResponse {
     
-    private Integer idDictamen;
-    private Integer idTesisBorrador;  //FK
+    private int idDictamen;
+    private int idTesisBorrador;  //FK
     private Date fechaHora;
     private String aulaLugar;
-    private Integer modalidadCategoria;
-    private Integer resultadoCategoria;
+    private int modalidadCategoria;
+    private int resultadoCategoria;
     private Double notaFinal;
 
 }

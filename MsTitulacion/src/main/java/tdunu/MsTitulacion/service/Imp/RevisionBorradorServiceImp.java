@@ -1,5 +1,6 @@
 package tdunu.MsTitulacion.service.Imp;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -41,7 +42,7 @@ public class RevisionBorradorServiceImp implements RevisionBorradorService{
         
         modelActual.setAprobado(request.isAprobado());
         modelActual.setComentarios(request.getComentarios());
-        modelActual.setFechaRevision(request.getFechaRevision());
+        modelActual.setFechaRevision(LocalDateTime.now());
         modelActual.setIdJurado(request.getIdJurado());
         modelActual.setIdTesisBorrador(request.getIdTesisBorrador());
 

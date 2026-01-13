@@ -1,5 +1,6 @@
 package tdunu.MsTitulacion.service.Imp;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -49,7 +50,7 @@ public class TesisBorradorServiceImp implements TesisBorradorService{
         TesisBorrador modelActual = modelMapper.map(request, TesisBorrador.class);
 
         modelActual.setEstadoBorrador(request.getEstadoBorrador());
-        modelActual.setFechaSubida(request.getFechaSubida());
+        modelActual.setFechaSubida(LocalDateTime.now());
         modelActual.setIdProyecto(request.getIdProyecto());
         modelActual.setRutaBorrador(request.getRutaBorrador());
         modelActual.setRutaConstanciaCoti(request.getRutaBorrador());

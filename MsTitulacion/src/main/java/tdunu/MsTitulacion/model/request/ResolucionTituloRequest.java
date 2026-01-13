@@ -13,10 +13,9 @@ import lombok.Setter;
 @Setter
 public class ResolucionTituloRequest {
     
-    private Integer idResolucionTitulo;
-    private Integer idDictamen;
+    private int idResolucionTitulo;
+    private int idDictamen;
     private String numeroResolucion;
-    private LocalDateTime fechaEmision;
     private String rutaPdfTitulo;
     private boolean registroPorSunedu;
 

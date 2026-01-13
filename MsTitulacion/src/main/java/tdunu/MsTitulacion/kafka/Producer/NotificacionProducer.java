@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import tdunu.MsTitulacion.kafka.event.NotificacionEvent;
+import tdunu.MsTitulacion.util.KafkaTopics;
 
 import org.springframework.kafka.core.KafkaTemplate;
 
@@ -18,7 +19,7 @@ public class NotificacionProducer {
     private final KafkaTemplate<String, String> kafkaTemplate;
     private final ObjectMapper objectMapper;
 
-    private static final String TOPIC = "notificacion-event";
+    private static final String TOPIC = KafkaTopics.TOPICANOTIFICACIONES;
 
     public void publish(NotificacionEvent event){
         try{

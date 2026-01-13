@@ -28,5 +28,11 @@ public class RevisionBorrador {
     @Column(name = "aprobado")private boolean aprobado;
     @Column(name = "fecha_revision")private LocalDateTime fechaRevision;
 
+    @PrePersist
+    protected void onCreate() {this.fechaRevision = LocalDateTime.now();}
+
+    // Se ejecuta automáticamente al ACTUALIZAR un registro existente
+    @PreUpdate
+    protected void onUpdate() {this.fechaRevision = LocalDateTime.now();}
 
 }

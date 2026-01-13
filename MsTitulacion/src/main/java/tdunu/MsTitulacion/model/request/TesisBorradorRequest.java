@@ -14,11 +14,10 @@ import lombok.Setter;
 @Setter
 public class TesisBorradorRequest {
     
-    private Integer idTesisBorrador ;
-    private Integer idProyecto;
+    private int idTesisBorrador ;
+    private int idProyecto;
     private String rutaConstanciaCoti;
     private String rutaBorrador;
-    private Integer estadoBorrador;
-    private LocalDateTime fechaSubida;
+    private int estadoBorrador;
     
 }

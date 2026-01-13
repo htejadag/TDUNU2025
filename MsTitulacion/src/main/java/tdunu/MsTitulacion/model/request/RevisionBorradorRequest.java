@@ -14,11 +14,10 @@ import lombok.Setter;
 @Setter
 public class RevisionBorradorRequest {
     
-    private Integer idRevisionBorrador;
-    private Integer idJurado;
-    private Integer idTesisBorrador;
+    private int idRevisionBorrador;
+    private int idJurado;
+    private int idTesisBorrador;
     private String comentarios;
     private boolean aprobado;
-    private LocalDateTime fechaRevision;
 
 }

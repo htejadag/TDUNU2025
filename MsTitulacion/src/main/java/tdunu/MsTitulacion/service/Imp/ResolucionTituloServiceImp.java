@@ -1,5 +1,6 @@
 package tdunu.MsTitulacion.service.Imp;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -39,14 +40,11 @@ public class ResolucionTituloServiceImp implements ResolucionTituloService{
     @Override
     public ResolucionTituloResponse actualizar(int id, ResolucionTituloRequest request){
         ResolucionTitulo modelActual = resolucionTituloRepository.findById(id).orElse(null);
-
-        modelActual.setFechaEmision(request.getFechaEmision());
-        modelActual.setIdResolucion(request.getIdResolucionTitulo());
-        modelActual.setNumeroResolucion(request.getNumeroResolucion());
-        modelActual.setRutaPdfTitulo(request.getRutaPdfTitulo());
-        modelActual.setRegistradoPorSunedo(request.isRegistroPorSunedu());
-        modelActual.setFechaEmision(request.getFechaEmision());
         
+        modelActual.setIdResolucion(request.getIdResolucionTitulo());
+        if (request.getNumeroResolucion() != null) {modelActual.setNumeroResolucion(request.getNumeroResolucion());}
+        if (request.getRutaPdfTitulo() != null) {modelActual.setRutaPdfTitulo(request.getRutaPdfTitulo());}
+        modelActual.setRegistradoPorSunedo(request.isRegistroPorSunedu());
 
         ResolucionTitulo saved = resolucionTituloRepository.save(modelActual);
 

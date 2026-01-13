@@ -8,8 +8,8 @@ import lombok.Data;
 @Data
 public class ResolucionTituloResponse {
     
-    private Integer idResolucionTitulo;
-    private Integer idDictamen;
+    private int idResolucionTitulo;
+    private int idDictamen;
     private String numeroResolucion;
     private LocalDateTime fechaEmision;
     private String rutaPdfTitulo;

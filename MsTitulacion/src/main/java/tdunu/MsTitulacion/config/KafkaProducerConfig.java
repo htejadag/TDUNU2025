@@ -17,7 +17,7 @@ import org.springframework.kafka.core.ProducerFactory;
 public class KafkaProducerConfig {    
 
     @Bean
-    public ProducerFactory<Integer, String> producerFactory() {
+    public ProducerFactory<String, String> producerFactory() {
 
         Map<String, Object> props = new HashMap<>();
 
@@ -29,7 +29,7 @@ public class KafkaProducerConfig {
     }
 
     @Bean
-    public KafkaTemplate<Integer, String> kafkaTemplate() {
+    public KafkaTemplate<String, String> kafkaTemplate() {
         return new KafkaTemplate<>(producerFactory());
     }
 
