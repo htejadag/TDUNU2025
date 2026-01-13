@@ -9,82 +9,47 @@ import io.swagger.v3.oas.annotations.media.Schema;
 
 @Entity
 @Table(name = "tesis")
-@Schema(
-    description = "Entidad que representa una tesis académica dentro del proceso de posgrado"
-)
-public class Tesis {
+@Schema(description = "Entidad que representa una tesis académica dentro del proceso de posgrado")
+public class Tesis extends AuditoriaEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Schema(
-        description = "Identificador único de la tesis",
-        example = "1",
-        accessMode = Schema.AccessMode.READ_ONLY
-    )
+    @Schema(description = "Identificador único de la tesis", example = "1", accessMode = Schema.AccessMode.READ_ONLY)
     private Integer idTesis;
 
     @ManyToOne
     @JoinColumn(name = "id_expediente")
     @JsonBackReference(value = "exp-tesis")
-    @Schema(
-        description = "Expediente al cual pertenece la tesis"
-    )
+    @Schema(description = "Expediente al cual pertenece la tesis")
     private Expediente expediente;
 
     @OneToMany(mappedBy = "tesis")
     @JsonManagedReference(value = "tesis-revision")
-    @Schema(
-        description = "Lista de revisiones realizadas a la tesis"
-    )
+    @Schema(description = "Lista de revisiones realizadas a la tesis")
     private List<Revision> revisiones;
 
-    @Schema(
-        description = "Título de la tesis",
-        example = "Sistema de Gestión Académica para Posgrado"
-    )
+    @Schema(description = "Título de la tesis", example = "Sistema de Gestión Académica para Posgrado")
     private String titulo;
 
-    @Schema(
-        description = "Ruta del archivo PDF del proyecto de tesis",
-        example = "documentos/proyecto_tesis.pdf"
-    )
+    @Schema(description = "Ruta del archivo PDF del proyecto de tesis", example = "documentos/proyecto_tesis.pdf")
     private String proyectoPdf;
 
-    @Schema(
-        description = "Ruta del archivo PDF del informe final de la tesis",
-        example = "documentos/informe_final.pdf"
-    )
+    @Schema(description = "Ruta del archivo PDF del informe final de la tesis", example = "documentos/informe_final.pdf")
     private String informeFinalPdf;
 
-    @Schema(
-        description = "Ruta del archivo PDF del reporte de antiplagio del proyecto",
-        example = "documentos/antiplagio_proyecto.pdf"
-    )
+    @Schema(description = "Ruta del archivo PDF del reporte de antiplagio del proyecto", example = "documentos/antiplagio_proyecto.pdf")
     private String antiplagioProyectoPdf;
 
-    @Schema(
-        description = "Ruta del archivo PDF del reporte de antiplagio del informe final",
-        example = "documentos/antiplagio_final.pdf"
-    )
+    @Schema(description = "Ruta del archivo PDF del reporte de antiplagio del informe final", example = "documentos/antiplagio_final.pdf")
     private String antiplagioFinalPdf;
 
-    @Schema(
-        description = "Estado actual del proyecto de tesis",
-        example = "APROBADO"
-    )
+    @Schema(description = "Estado actual del proyecto de tesis", example = "APROBADO")
     private String estadoProyecto;
 
-    @Schema(
-        description = "Estado actual del informe final de la tesis",
-        example = "EN_REVISIÓN"
-    )
+    @Schema(description = "Estado actual del informe final de la tesis", example = "EN_REVISIÓN")
     private String estadoInformeFinal;
 
-    @Schema(
-        description = "Fecha y hora de registro de la tesis",
-        example = "2025-01-15T10:30:00",
-        accessMode = Schema.AccessMode.READ_ONLY
-    )
+    @Schema(description = "Fecha y hora de registro de la tesis", example = "2025-01-15T10:30:00", accessMode = Schema.AccessMode.READ_ONLY)
     private LocalDateTime fechaRegistro = LocalDateTime.now();
 
     public Integer getIdTesis() {
