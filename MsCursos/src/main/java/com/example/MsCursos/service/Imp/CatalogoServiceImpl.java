@@ -98,7 +98,6 @@ public class CatalogoServiceImpl implements CatalogoService {
         if (model == null)
             return null;
 
-        // Actualizar campos (no toques auditoría)
         model.setCategoria(request.getCategoria());
         model.setNombre(request.getNombre());
         model.setOrden(request.getOrden());

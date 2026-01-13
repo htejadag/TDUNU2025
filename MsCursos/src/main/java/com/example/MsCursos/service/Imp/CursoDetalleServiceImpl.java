@@ -20,10 +20,10 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class CursoDetalleServiceImpl implements CursoDetalleService {
 
-    // @Autowired
+ 
     private final CursoDetalleRepository cursoDetalleRepository;
 
-    // @Autowired
+ 
     private final ModelMapper modelMapper;
 
     private final CursoDetallePublisher cursoDetallePublisher;
@@ -49,19 +49,16 @@ public class CursoDetalleServiceImpl implements CursoDetalleService {
         CursoDetalleModel model = modelMapper.map(request, CursoDetalleModel.class);
         CursoDetalleModel saved = cursoDetalleRepository.save(model);
 
-        // --- PUBLICAR EVENTO ---
+       
         CursoDetalleEvent ev = new CursoDetalleEvent();
         ev.setEventId(UUID.randomUUID().toString());
         ev.setAction("CREATED");
         ev.setIdDetalleCurso(saved.getId());
         ev.setIdCurso(saved.getIdCurso());
-        ev.setIdDocente(saved.getIdDocente());
-        ev.setIdTipoCurso(saved.getIdTipoCurso());
         ev.setIdSemestre(saved.getIdSemestre());
         ev.setEstado(saved.getEstado());
         ev.setTimestamp(System.currentTimeMillis());
 
-        // (opcional) si luego quieres, aquí enriqueces con cursoNombre/cursoCodigo
         cursoDetallePublisher.publish(ev);
 
         return modelMapper.map(saved, CursoDetalleResponse.class);

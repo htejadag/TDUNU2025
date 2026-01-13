@@ -25,11 +25,10 @@ import lombok.extern.slf4j.Slf4j;
 public class CursoServiceImpl implements CursoService {
     private static final String CACHE_CURSOS = "cursos";
 
-    // @Autowired
     private final CursoRepository cursoRepository;
 
-    // @Autowired
     private final ModelMapper modelMapper;
+    
     private final CursoPublisher cursoPublisher;
 
     @Override
@@ -54,13 +53,11 @@ public class CursoServiceImpl implements CursoService {
     @CacheEvict(cacheNames = CACHE_CURSOS, allEntries = true)
     public CursoResponse guardar(CursoRequest request) {
 
-        // 1. Request -> Entity
         CursoModel model = modelMapper.map(request, CursoModel.class);
 
-        // 2. Guardar en la BD
         CursoModel saved = cursoRepository.save(model);
         cursoPublisher.publishUpsert(saved);
-        // 3. Entity -> Response
+
         return modelMapper.map(saved, CursoResponse.class);
     }
 

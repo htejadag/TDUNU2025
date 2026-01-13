@@ -24,7 +24,7 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 @EnableCaching
 public class CacheConfig {
 
-        @Bean
+        @Bean//convertidor de objetos a json
         public ObjectMapper redisObjectMapper() {
                 ObjectMapper mapper = new ObjectMapper();
                 mapper.registerModule(new JavaTimeModule());
@@ -32,22 +32,22 @@ public class CacheConfig {
                 return mapper;
         }
 
-        @Bean
+        @Bean//crud de cache que el spring usa
         public CacheManager cacheManager(RedisConnectionFactory redisConnectionFactory,
                         ObjectMapper redisObjectMapper) {
 
-                var keySerializer = new StringRedisSerializer();
-                var valueSerializer = new GenericJackson2JsonRedisSerializer(redisObjectMapper);
+                var keySerializer = new StringRedisSerializer();//la clave en tipo texto
+                var valueSerializer = new GenericJackson2JsonRedisSerializer(redisObjectMapper);//el valor en json
 
                 RedisCacheConfiguration config = RedisCacheConfiguration.defaultCacheConfig()
-                                .entryTtl(Duration.ofMinutes(10))
+                                .entryTtl(Duration.ofMinutes(10))//tiempo de vida del cache
                                 .serializeKeysWith(RedisSerializationContext.SerializationPair
-                                                .fromSerializer(keySerializer))
+                                                .fromSerializer(keySerializer))//configuracion de serializacion de claves
                                 .serializeValuesWith(RedisSerializationContext.SerializationPair
-                                                .fromSerializer(valueSerializer));
+                                                .fromSerializer(valueSerializer));//configuracion de serializacion de valores
 
                 return RedisCacheManager.builder(redisConnectionFactory)
                                 .cacheDefaults(config)
-                                .build();
+                                .build();//crea el administrador de cache con la configuracion dada
         }
 }

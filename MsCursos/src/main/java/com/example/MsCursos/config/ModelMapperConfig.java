@@ -18,16 +18,15 @@ public class ModelMapperConfig {
 
         ModelMapper mm = new ModelMapper();
 
-        // ✅ Esto evita que "idCurso, idSemestre..." quieran mapearse a "id"
         mm.getConfiguration()
                 .setMatchingStrategy(MatchingStrategies.STRICT)
                 .setAmbiguityIgnored(true);
 
-        // Curso
+  
         mm.typeMap(CursoRequest.class, CursoModel.class)
                 .addMappings(mapper -> mapper.skip(CursoModel::setId));
 
-        // CursoDetalle
+   
         mm.typeMap(CursoDetalleRequest.class, CursoDetalleModel.class)
                 .addMappings(mapper -> mapper.skip(CursoDetalleModel::setId));
 

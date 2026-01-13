@@ -10,8 +10,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class CursoDetalleResponse {
-    private String docenteNombre;
-    private String cursoNombre;
-    private String semestreNombre;
-
+    private Integer id;
+    private Integer idDocente;
+    private Integer idCurso;
+    private Integer idSemestre;
+    private Boolean estado;
 }

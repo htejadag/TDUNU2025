@@ -7,7 +7,9 @@ import org.springframework.stereotype.Service;
 import com.example.mscursos.dto.CursoDetalleEvent;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class CursoDetallePublisher {
@@ -20,5 +22,6 @@ public class CursoDetallePublisher {
     public void publish(CursoDetalleEvent event) {
         String key = String.valueOf(event.getIdCurso());
         kafkaTemplate.send(topic, key, event);
+        log.info("EVENTO ENVIADO A KAFKA [{}] -> {}", topic, event);
     }
 }

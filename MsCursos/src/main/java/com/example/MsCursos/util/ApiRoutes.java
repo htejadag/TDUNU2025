@@ -3,7 +3,7 @@ package com.example.mscursos.util;
 public final class ApiRoutes {
 
     private ApiRoutes() {
-        // Evita instancias
+       
     }
 
     public static final class Curso {

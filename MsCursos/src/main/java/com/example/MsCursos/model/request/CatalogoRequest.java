@@ -24,5 +24,5 @@ public class CatalogoRequest {
     @NotNull
     private String idPadre;
 
-    private Boolean estado; //
+    private Boolean estado; 
 }
