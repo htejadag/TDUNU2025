@@ -32,7 +32,7 @@ public class NotificacionHelper {
         // Como no tenemos el ID del estudiante a mano en el objeto TesisBorrador (solo idProyecto),
         // enviamos un identificador genérico o el del proyecto para que MS_GENERAL sepa a quién buscar.
         String idReferencia = "PROYECTO-" + borrador.getIdProyecto();
-
+        
         enviarEvento(idReferencia, mensaje);
     }
 

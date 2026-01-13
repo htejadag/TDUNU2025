@@ -15,7 +15,7 @@ import tdunu.MsTitulacion.util.KafkaTopics;
 @Slf4j
 public class NotificacionProducer {
     
-    private final KafkaTemplate<String, String> kafkaTemplate;
+    private final KafkaTemplate<Integer, String> kafkaTemplate;
     private final ObjectMapper objectMapper;
 
     private static final String TOPIC = KafkaTopics.TOPICANOTIFICACIONES;
