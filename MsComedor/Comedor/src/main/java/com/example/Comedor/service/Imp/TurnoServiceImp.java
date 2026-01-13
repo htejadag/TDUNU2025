@@ -60,9 +60,9 @@ public class TurnoServiceImp implements TurnoService {
        
         TurnoModel saved = turnoRepository.save(model);
 
-        TurnoResponse response = modelMapper.map(saved, TurnoResponse.class);
+        return modelMapper.map(saved, TurnoResponse.class);
 
-        return response;
+        
         
         
     }

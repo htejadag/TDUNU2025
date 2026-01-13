@@ -88,8 +88,8 @@ public class ConsumoRacionServiceImp implements ConsumoRacionService {
             
         } catch (Exception e) {
 
-            System.out.println("Error enviando evento kafka:"+e.getMessage());
-            
+            log.error("Error enviando evento Kafka", e);
+   
         }
 
         TurnoModel  turno = plato.getTurno();

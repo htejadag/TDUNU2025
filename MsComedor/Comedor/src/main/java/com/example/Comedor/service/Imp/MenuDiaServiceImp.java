@@ -69,9 +69,9 @@ public class MenuDiaServiceImp implements MenuDiaService {
     
         MenuDiaModel saved = menuDiaRepository.save(model);
 
-        MenuDiaResponse response = modelMapper.map(saved, MenuDiaResponse.class);
+        return modelMapper.map(saved, MenuDiaResponse.class);
 
-        return response;
+        
     }
 
 

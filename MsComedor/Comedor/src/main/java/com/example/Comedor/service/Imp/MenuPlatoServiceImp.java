@@ -85,9 +85,9 @@ public class MenuPlatoServiceImp implements MenuPlatoService {
   
         MenuPlatoModel saved = menuPlatoRepository.save(model);
 
-        MenuPlatoResponse response = modelMapper.map(saved, MenuPlatoResponse.class);
+        return modelMapper.map(saved, MenuPlatoResponse.class);
 
-        return response;
+        
     }
 
 

@@ -20,32 +20,32 @@ import com.example.Comedor.util.ApiRoutes;
 import com.example.Comedor.util.ResponseBase;
 
 @RestController
-@RequestMapping(ApiRoutes.Comedor.BASE_MENU_DIA)
+@RequestMapping(ApiRoutes.MenuDia.BASE_MENU_DIA)
 public class MenuDiaController {
 
     @Autowired
     MenuDiaService menuDiaService;
 
-    @GetMapping(value = ApiRoutes.Comedor.LISTAR_MENU_DIA)
+    @GetMapping(value = ApiRoutes.MenuDia.LISTAR_MENU_DIA)
     public ResponseBase<List<MenuDiaResponse>> listar() {
         List<MenuDiaResponse> lista = menuDiaService.listar();
         return ResponseBase.ok(lista);
     }
 
-    @GetMapping(value = ApiRoutes.Comedor.OBTENER_POR_ID_MENU_DIA)
+    @GetMapping(value = ApiRoutes.MenuDia.OBTENER_POR_ID_MENU_DIA)
     public ResponseBase<MenuDiaResponse> obtenerPorId(@RequestParam(value = "id") Integer id) {
         MenuDiaResponse response = menuDiaService.obtenerPorId(id);
         return ResponseBase.ok(response);
     }
 
 
-     @PostMapping(value = ApiRoutes.Comedor.GUARDAR_MENU_DIA)
+     @PostMapping(value = ApiRoutes.MenuDia.GUARDAR_MENU_DIA)
     public ResponseBase<MenuDiaResponse> guardar(@RequestBody MenuDiaRequest model) {
         MenuDiaResponse response = menuDiaService.guardar(model);
         return ResponseBase.ok(response);
     }
 
-    @PutMapping(value = ApiRoutes.Comedor.MODIFICAR_MENU_DIA)
+    @PutMapping(value = ApiRoutes.MenuDia.MODIFICAR_MENU_DIA)
     public ResponseBase<MenuDiaResponse> modificar(
             @RequestParam(value = "id") Integer id,
             @RequestBody MenuDiaUpdateRequest request) {
@@ -55,7 +55,7 @@ public class MenuDiaController {
     }
 
 
-    @DeleteMapping(value = ApiRoutes.Comedor.ELIMINAR_MENU_DIA)
+    @DeleteMapping(value = ApiRoutes.MenuDia.ELIMINAR_MENU_DIA)
     public ResponseBase<MenuDiaResponse>eliminar(@RequestParam(value = "id") Integer id) {
         
         MenuDiaResponse response = menuDiaService.eliminar(id);

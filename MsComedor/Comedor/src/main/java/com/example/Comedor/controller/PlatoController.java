@@ -20,32 +20,32 @@ import com.example.Comedor.util.ApiRoutes;
 import com.example.Comedor.util.ResponseBase;
 
 @RestController
-@RequestMapping(ApiRoutes.Comedor.BASE_PLATO)
+@RequestMapping(ApiRoutes.Plato.BASE_PLATO)
 public class PlatoController {
 
     @Autowired
     PlatoService platoService;
 
-    @GetMapping(value = ApiRoutes.Comedor.LISTAR_PLATO)
+    @GetMapping(value = ApiRoutes.Plato.LISTAR_PLATO)
     public ResponseBase<List<PlatoResponse>> listar() {
         List<PlatoResponse> lista = platoService.listar();
         return ResponseBase.ok(lista);
     }
 
-    @GetMapping(value = ApiRoutes.Comedor.OBTENER_POR_ID_PLATO)
+    @GetMapping(value = ApiRoutes.Plato.OBTENER_POR_ID_PLATO)
     public ResponseBase<PlatoResponse> obtenerPorId(@RequestParam(value = "id") Integer id) {
         PlatoResponse response = platoService.obtenerPorId(id);
         return ResponseBase.ok(response);
     }
 
 
-     @PostMapping(value = ApiRoutes.Comedor.GUARDAR_PLATO)
+     @PostMapping(value = ApiRoutes.Plato.GUARDAR_PLATO)
     public ResponseBase<PlatoResponse> guardar(@RequestBody PlatoRequest model) {
         PlatoResponse response = platoService.guardar(model);
         return ResponseBase.ok(response);
     }
 
-    @PutMapping(value = ApiRoutes.Comedor.MODIFICAR_PLATO)
+    @PutMapping(value = ApiRoutes.Plato.MODIFICAR_PLATO)
     public ResponseBase<PlatoResponse> modificar(
             @RequestParam(value = "id") Integer id,
             @RequestBody PlatoUpdateRequest request) {
@@ -55,7 +55,7 @@ public class PlatoController {
     }
 
 
-     @DeleteMapping(value = ApiRoutes.Comedor.ELIMINAR_PLATO)
+     @DeleteMapping(value = ApiRoutes.Plato.ELIMINAR_PLATO)
     public ResponseBase<PlatoResponse> eliminar(@RequestParam(value = "id") Integer id) {
         
         PlatoResponse response=platoService.eliminar(id);

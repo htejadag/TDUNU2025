@@ -19,35 +19,35 @@ import com.example.Comedor.util.ApiRoutes;
 import com.example.Comedor.util.ResponseBase;
 
 @RestController
-@RequestMapping(ApiRoutes.Comedor.BASE_MENU_PLATO)
+@RequestMapping(ApiRoutes.MenuPlato.BASE_MENU_PLATO)
 public class MenuPlatoController {
 
     @Autowired
     private MenuPlatoService menuPlatoService;
 
 
-    @GetMapping(ApiRoutes.Comedor.LISTAR_MENU_PLATO)
+    @GetMapping(ApiRoutes.MenuPlato.LISTAR_MENU_PLATO)
     public ResponseBase<List<MenuPlatoResponse>> listar() {
         List<MenuPlatoResponse> lista = menuPlatoService.listar();
         return ResponseBase.ok(lista);
     }
 
 
-    @GetMapping(ApiRoutes.Comedor.OBTENER_POR_ID_MENU_PLATO)
+    @GetMapping(ApiRoutes.MenuPlato.OBTENER_POR_ID_MENU_PLATO)
     public ResponseBase<MenuPlatoResponse> obtenerPorId(@RequestParam("id") Integer id) {
         MenuPlatoResponse response = menuPlatoService.obtenerPorId(id);
         return ResponseBase.ok(response);
     }
 
 
-    @PostMapping(ApiRoutes.Comedor.GUARDAR_MENU_PLATO)
+    @PostMapping(ApiRoutes.MenuPlato.GUARDAR_MENU_PLATO)
     public ResponseBase<MenuPlatoResponse> guardar(@RequestBody MenuPlatoRequest request) {
         MenuPlatoResponse response = menuPlatoService.guardar(request);
         return ResponseBase.ok(response);
     }
 
    
-    @PutMapping(ApiRoutes.Comedor.MODIFICAR_MENU_PLATO)
+    @PutMapping(ApiRoutes.MenuPlato.MODIFICAR_MENU_PLATO)
     public ResponseBase<MenuPlatoResponse> modificar(
             @RequestParam("id") Integer id,
             @RequestBody MenuPlatoUpdateRequest request) {
@@ -56,7 +56,7 @@ public class MenuPlatoController {
         return ResponseBase.ok(response);
     }
 
-    @DeleteMapping(ApiRoutes.Comedor.ELIMINAR_MENU_PLATO)
+    @DeleteMapping(ApiRoutes.MenuPlato.ELIMINAR_MENU_PLATO)
     public ResponseBase<MenuPlatoResponse> eliminar(@RequestParam("id") Integer id) {
         
         MenuPlatoResponse response = menuPlatoService.eliminar(id);

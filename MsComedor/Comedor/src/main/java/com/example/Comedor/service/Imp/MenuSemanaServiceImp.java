@@ -55,9 +55,9 @@ public class MenuSemanaServiceImp implements MenuSemanaService{
 
         MenuSemanaModel saved = menuSemanaRepository.save(model);
        
-        MenuSemanaResponse response = modelMapper.map(saved, MenuSemanaResponse.class);
+        return modelMapper.map(saved, MenuSemanaResponse.class);
 
-        return response;
+        
     }
 
     @Override

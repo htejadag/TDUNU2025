@@ -67,9 +67,9 @@ public class PlatoServiceImp implements PlatoService {
         PlatoModel saved = platoRepository.save(model);
 
        
-        PlatoResponse response = modelMapper.map(saved, PlatoResponse.class);
+        return modelMapper.map(saved, PlatoResponse.class);
 
-        return response;
+        
         
     }
 

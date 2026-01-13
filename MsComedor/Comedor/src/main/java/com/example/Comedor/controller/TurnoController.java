@@ -20,32 +20,32 @@ import com.example.Comedor.util.ApiRoutes;
 import com.example.Comedor.util.ResponseBase;
 
 @RestController
-@RequestMapping(ApiRoutes.Comedor.BASE_TURNO)
+@RequestMapping(ApiRoutes.Turno.BASE_TURNO)
 public class TurnoController {
 
     @Autowired
     TurnoService turnoService;
 
-    @GetMapping(value = ApiRoutes.Comedor.LISTAR_TURNO)
+    @GetMapping(value = ApiRoutes.Turno.LISTAR_TURNO)
     public ResponseBase<List<TurnoResponse>> listar() {
         List<TurnoResponse> lista = turnoService.listar();
         return ResponseBase.ok(lista);
     }
 
-    @GetMapping(value = ApiRoutes.Comedor.OBTENER_POR_ID_TURNO)
+    @GetMapping(value = ApiRoutes.Turno.OBTENER_POR_ID_TURNO)
     public ResponseBase<TurnoResponse> obtenerPorId(@RequestParam(value = "id") Integer id) {
         TurnoResponse response = turnoService.obtenerPorId(id);
         return ResponseBase.ok(response);
     }
 
 
-    @PostMapping(value = ApiRoutes.Comedor.GUARDAR_TURNO)
+    @PostMapping(value = ApiRoutes.Turno.GUARDAR_TURNO)
     public ResponseBase<TurnoResponse> guardar(@RequestBody TurnoRequest model) {
         TurnoResponse response = turnoService.guardar(model);
         return ResponseBase.ok(response);
     }
 
-    @PutMapping(value = ApiRoutes.Comedor.MODIFICAR_TURNO)
+    @PutMapping(value = ApiRoutes.Turno.MODIFICAR_TURNO)
     public ResponseBase<TurnoResponse> modificar(
             @RequestParam(value = "id") Integer id,
             @RequestBody TurnoUpdateRequest request) {
@@ -55,7 +55,7 @@ public class TurnoController {
     }
 
 
-    @DeleteMapping(value = ApiRoutes.Comedor.ELIMINAR_TURNO)
+    @DeleteMapping(value = ApiRoutes.Turno.ELIMINAR_TURNO)
     public ResponseBase<TurnoResponse> eliminar(@RequestParam(value = "id") Integer id) {
         
         TurnoResponse response=turnoService.eliminar(id);
