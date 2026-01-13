@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-MsTitulacionApplication<tdunu-MsTitulacion>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "tdunu.MsTitulacion.MsTitulacionApplication",
+            "projectName": "tdunu-MsTitulacion",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}

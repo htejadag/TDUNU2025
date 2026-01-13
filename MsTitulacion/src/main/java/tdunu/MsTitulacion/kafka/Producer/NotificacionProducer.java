@@ -18,7 +18,7 @@ public class NotificacionProducer {
     private final KafkaTemplate<String, String> kafkaTemplate;
     private final ObjectMapper objectMapper;
 
-    private static final String TOPIC = "notificacion-topic";
+    private static final String TOPIC = "notificacion-event";
 
     public void publish(NotificacionEvent event){
         try{
