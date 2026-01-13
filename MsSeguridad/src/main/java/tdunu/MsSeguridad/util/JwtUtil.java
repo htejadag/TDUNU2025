@@ -1,12 +1,16 @@
 package tdunu.MsSeguridad.util;
 
 import java.security.Key;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
 
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -39,11 +43,47 @@ public class JwtUtil {
     }
 
     public String obtenerUsuario(String token) {
+        return getClaims(token).getSubject();
+    }
+
+    public boolean validateToken(String token) {
+        try {
+            getClaims(token);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    public List<GrantedAuthority> getAuthorities(String token) {
+
+        Claims claims = getClaims(token);
+
+        List<String> roles = claims.get("roles", List.class);
+        List<String> permisos = claims.get("permisos", List.class);
+
+        List<GrantedAuthority> authorities = new ArrayList<>();
+
+        if (roles != null) {
+            roles.forEach(r
+                    -> authorities.add(new SimpleGrantedAuthority("ROLE_" + r))
+            );
+        }
+
+        if (permisos != null) {
+            permisos.forEach(p
+                    -> authorities.add(new SimpleGrantedAuthority(p))
+            );
+        }
+
+        return authorities;
+    }
+
+    private Claims getClaims(String token) {
         return Jwts.parserBuilder()
                 .setSigningKey(getKey())
                 .build()
                 .parseClaimsJws(token)
-                .getBody()
-                .getSubject();
+                .getBody();
     }
 }
