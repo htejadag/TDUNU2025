@@ -11,7 +11,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
+import org.springframework.web.bind.annotation.RequestBody;
+
 import tdunu.MsTitulacion.model.request.RevisionBorradorRequest;
 import tdunu.MsTitulacion.model.response.RevisionBorradorResponse;
 import tdunu.MsTitulacion.service.RevisionBorradorService;

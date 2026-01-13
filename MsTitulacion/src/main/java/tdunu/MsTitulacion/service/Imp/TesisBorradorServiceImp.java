@@ -41,19 +41,19 @@ public class TesisBorradorServiceImp implements TesisBorradorService{
     @Override
     public TesisBorradorResponse guardar(TesisBorradorRequest request){
         TesisBorrador model = modelMapper.map(request, TesisBorrador.class);
+        model.setIdTesisBorrador(0);
         TesisBorrador saved = tesisBorradorRepository.save(model);
         return modelMapper.map(saved, TesisBorradorResponse.class);
     }
 
     @Override
     public TesisBorradorResponse actualizar(int id,TesisBorradorRequest request){
-        TesisBorrador modelActual = modelMapper.map(request, TesisBorrador.class);
-
-        modelActual.setEstadoBorrador(request.getEstadoBorrador());
-        modelActual.setFechaSubida(LocalDateTime.now());
-        modelActual.setIdProyecto(request.getIdProyecto());
-        modelActual.setRutaBorrador(request.getRutaBorrador());
-        modelActual.setRutaConstanciaCoti(request.getRutaBorrador());
+        TesisBorrador modelActual = tesisBorradorRepository.findById(id).orElse(null);
+        
+        if(request.getIdProyecto() != 0) modelActual.setIdProyecto(request.getIdProyecto());
+        if(request.getRutaBorrador() != null) modelActual.setRutaBorrador(request.getRutaBorrador());
+        if(request.getRutaConstanciaCoti() != null) modelActual.setRutaConstanciaCoti(request.getRutaConstanciaCoti());
+        if(request.getEstadoBorrador() != 0) modelActual.setEstadoBorrador(request.getEstadoBorrador());
 
         TesisBorrador saved = tesisBorradorRepository.save(modelActual);
         return modelMapper.map(saved, TesisBorradorResponse.class);

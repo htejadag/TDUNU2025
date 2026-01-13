@@ -9,8 +9,6 @@ import lombok.Setter;
 
 @Data
 @Entity
-@Getter
-@Setter
 @Table(name = "tesis_borrador")
 public class TesisBorrador {
     

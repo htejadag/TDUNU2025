@@ -1,19 +1,13 @@
 package tdunu.MsTitulacion.model.request;
-import java.sql.Date;
+
 import java.time.LocalDateTime;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import jakarta.persistence.Column;
+import lombok.Data;
 
-@NoArgsConstructor
-@AllArgsConstructor
-@Getter
-@Setter
+@Data
 public class ResolucionTituloRequest {
     
-    private int idResolucionTitulo;
     private int idDictamen;
     private String numeroResolucion;
     private String rutaPdfTitulo;

@@ -33,12 +33,13 @@ public class RevisionBorradorServiceImp implements RevisionBorradorService{
     @Override
     public RevisionBorradorResponse guardar(RevisionBorradorRequest request){
         RevisionBorrador model = modelMapper.map(request, RevisionBorrador.class);
+        model.setIdRevisionBorrador(0);
         RevisionBorrador saved = revisionBorradorRepository.save(model);
         return modelMapper.map(saved, RevisionBorradorResponse.class);
     }
     @Override
     public RevisionBorradorResponse actualizar(int id,RevisionBorradorRequest request){
-        RevisionBorrador modelActual = modelMapper.map(request, RevisionBorrador.class);
+        RevisionBorrador modelActual = revisionBorradorRepository.findById(id).orElse(null);
         
         modelActual.setAprobado(request.isAprobado());
         modelActual.setComentarios(request.getComentarios());

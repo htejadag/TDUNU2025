@@ -62,6 +62,7 @@ public class DictamenServiceImp implements DictamenService{
     @CacheEvict(value = {"dictamen_list", "dictamen_cat"}, allEntries = true)
     public DictamenResponse guardar(DictamenRequest request){
         Dictamen model = modelMapper.map(request,Dictamen.class);
+        model.setIdDictamen(0);
         Dictamen saved = dictamenRepository.save(model);
 
         DictamenResponse response = modelMapper.map(saved, DictamenResponse.class);

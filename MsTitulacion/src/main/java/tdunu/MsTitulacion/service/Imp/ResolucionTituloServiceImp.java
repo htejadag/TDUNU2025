@@ -33,6 +33,7 @@ public class ResolucionTituloServiceImp implements ResolucionTituloService{
     @Override
     public ResolucionTituloResponse guardar(ResolucionTituloRequest request){
         ResolucionTitulo model = modelMapper.map(request, ResolucionTitulo.class);
+        model.setIdResolucion(0);
         ResolucionTitulo saved = resolucionTituloRepository.save(model);
         return modelMapper.map(saved, ResolucionTituloResponse.class);
     }
@@ -41,7 +42,7 @@ public class ResolucionTituloServiceImp implements ResolucionTituloService{
     public ResolucionTituloResponse actualizar(int id, ResolucionTituloRequest request){
         ResolucionTitulo modelActual = resolucionTituloRepository.findById(id).orElse(null);
         
-        modelActual.setIdResolucion(request.getIdResolucionTitulo());
+        modelActual.setIdDictamen(request.getIdDictamen());
         if (request.getNumeroResolucion() != null) {modelActual.setNumeroResolucion(request.getNumeroResolucion());}
         if (request.getRutaPdfTitulo() != null) {modelActual.setRutaPdfTitulo(request.getRutaPdfTitulo());}
         modelActual.setRegistradoPorSunedo(request.isRegistroPorSunedu());

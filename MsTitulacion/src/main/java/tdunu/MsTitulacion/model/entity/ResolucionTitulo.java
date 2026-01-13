@@ -11,8 +11,6 @@ import lombok.Setter;
 
 @Data
 @Entity
-@Getter
-@Setter
 @Table(name = "resolucion_titulo")
 @NoArgsConstructor
 @AllArgsConstructor

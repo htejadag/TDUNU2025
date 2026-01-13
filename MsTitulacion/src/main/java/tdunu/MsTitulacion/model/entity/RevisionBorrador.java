@@ -11,8 +11,6 @@ import lombok.Setter;
 
 @Data
 @Entity
-@Getter
-@Setter
 @Table(name = "revision_borrador")
 @NoArgsConstructor
 @AllArgsConstructor
