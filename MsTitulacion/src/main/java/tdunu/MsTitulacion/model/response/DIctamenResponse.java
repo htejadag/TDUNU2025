@@ -2,11 +2,7 @@ package tdunu.MsTitulacion.model.response;
 
 import java.sql.Date;
 
-import lombok.Data;
-
-@Data
 public class DictamenResponse {
-    
     private int idDictamen;
     private int idTesisBorrador;  //FK
     private Date fechaHora;
@@ -14,5 +10,4 @@ public class DictamenResponse {
     private int modalidadCategoria;
     private int resultadoCategoria;
     private Double notaFinal;
-
 }

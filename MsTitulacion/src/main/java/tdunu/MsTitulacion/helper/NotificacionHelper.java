@@ -2,8 +2,8 @@ package tdunu.MsTitulacion.helper;
 
 import java.time.LocalDateTime;
 
-import tdunu.MsTitulacion.kafka.eventdedefefe.NotificacionEvent;
-import tdunu.MsTitulacion.kafka.producergrrfrfrf.NotificacionProducer;
+import tdunu.MsTitulacion.kafka.event.NotificacionEvent;
+import tdunu.MsTitulacion.kafka.producer.NotificacionProducer;
 import tdunu.MsTitulacion.model.entity.Dictamen;
 import tdunu.MsTitulacion.model.entity.RevisionBorrador;
 import tdunu.MsTitulacion.model.entity.TesisBorrador;
