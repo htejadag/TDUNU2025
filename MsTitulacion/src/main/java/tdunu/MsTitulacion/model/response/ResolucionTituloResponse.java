@@ -15,3 +15,11 @@ public class ResolucionTituloResponse {
     private boolean registroPorSunedu;
 
 }
+
+private int idDictamen;
+    private int idTesisBorrador;  //FK
+    private Date fechaHora;
+    private String aulaLugar;
+    private int modalidadCategoria;
+    private int resultadoCategoria;
+    private Double notaFinal;
