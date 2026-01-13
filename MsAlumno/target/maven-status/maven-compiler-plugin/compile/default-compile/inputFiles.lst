@@ -1,0 +1,14 @@
+C:\Users\jeamp\Documents\GitHub\TDUNU2025\MsTemplate\src\main\java\tdunu\MsTemplate\config\GlobalExceptionHandler.java
+C:\Users\jeamp\Documents\GitHub\TDUNU2025\MsTemplate\src\main\java\tdunu\MsTemplate\config\ModelMapperConfig.java
+C:\Users\jeamp\Documents\GitHub\TDUNU2025\MsTemplate\src\main\java\tdunu\MsTemplate\config\SwaggerConfig.java
+C:\Users\jeamp\Documents\GitHub\TDUNU2025\MsTemplate\src\main\java\tdunu\MsTemplate\controller\DemoController.java
+C:\Users\jeamp\Documents\GitHub\TDUNU2025\MsTemplate\src\main\java\tdunu\MsTemplate\model\entity\DemoModel.java
+C:\Users\jeamp\Documents\GitHub\TDUNU2025\MsTemplate\src\main\java\tdunu\MsTemplate\model\request\DemoRequest.java
+C:\Users\jeamp\Documents\GitHub\TDUNU2025\MsTemplate\src\main\java\tdunu\MsTemplate\model\response\DemoResponse.java
+C:\Users\jeamp\Documents\GitHub\TDUNU2025\MsTemplate\src\main\java\tdunu\MsTemplate\MsTemplateApplication.java
+C:\Users\jeamp\Documents\GitHub\TDUNU2025\MsTemplate\src\main\java\tdunu\MsTemplate\repository\DemoRepository.java
+C:\Users\jeamp\Documents\GitHub\TDUNU2025\MsTemplate\src\main\java\tdunu\MsTemplate\service\DemoService.java
+C:\Users\jeamp\Documents\GitHub\TDUNU2025\MsTemplate\src\main\java\tdunu\MsTemplate\service\Imp\DemoServiceImp.java
+C:\Users\jeamp\Documents\GitHub\TDUNU2025\MsTemplate\src\main\java\tdunu\MsTemplate\util\ApiRoutes.java
+C:\Users\jeamp\Documents\GitHub\TDUNU2025\MsTemplate\src\main\java\tdunu\MsTemplate\util\Mensajes.java
+C:\Users\jeamp\Documents\GitHub\TDUNU2025\MsTemplate\src\main\java\tdunu\MsTemplate\util\ResponseBase.java

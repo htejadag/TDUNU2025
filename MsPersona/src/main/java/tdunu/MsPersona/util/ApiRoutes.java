@@ -19,6 +19,14 @@ public class ApiRoutes {
     public static final String GUARDAR = "/guardarDocente";
     public static final String ELIMINAR = "/eliminarDocente";
   }
-    
+
+  public static class Persona {
+    public static final String BASE = "/api/persona";
+    public static final String LISTAR = "/listarPersona";
+    public static final String OBTENER_POR_ID = "/obtenerPorIdPersona";
+    public static final String GUARDAR = "/guardarPersona";
+    public static final String ELIMINAR = "/eliminarPersona";
+}
+
 
 }
