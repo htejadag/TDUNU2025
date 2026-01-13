@@ -1,8 +1,5 @@
 package tdunu.MsTitulacion.model.request;
 
-import java.time.LocalDateTime;
-
-import jakarta.persistence.Column;
 import lombok.Data;
 
 @Data
