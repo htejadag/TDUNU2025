@@ -2,10 +2,8 @@ package tdunu.MsTitulacion.helper;
 
 import java.time.LocalDateTime;
 
-// IMPORTANTE: Asegúrate de importar la clase correcta donde la tengas definida
-// Si es una clase compartida, ajusta el paquete según corresponda
-import tdunu.MsTitulacion.kafka.event.NotificacionEvent; 
-import tdunu.MsTitulacion.kafka.producer.NotificacionProducer;
+import tdunu.MsTitulacion.kafka.eventdedefefe.NotificacionEvent;
+import tdunu.MsTitulacion.kafka.producergrrfrfrf.NotificacionProducer;
 import tdunu.MsTitulacion.model.entity.Dictamen;
 import tdunu.MsTitulacion.model.entity.RevisionBorrador;
 import tdunu.MsTitulacion.model.entity.TesisBorrador;
