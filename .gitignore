@@ -4,3 +4,7 @@
 /logs
 *.log
 /logs
+/ms-simulacro/ms-simulacro/.gradle
+/ms-simulacro/ms-simulacro/build
+/MsEvaluacion/target
+/MsExpediente/target
