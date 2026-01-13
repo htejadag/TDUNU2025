@@ -46,8 +46,8 @@ public class ResolucionTituloController {
      //pruebas eliminar
     @DeleteMapping(value = ApiRoutes.ResolucionTitulo.ELIMINAR)
     public Boolean delete(@PathVariable("id") int id){
-        Boolean deleted = resolucionTituloService.eliminar(id);
-        return deleted;
+        resolucionTituloService.eliminar(id);
+        return true;
     }
 
 }

@@ -58,7 +58,7 @@ public class DictamenController {
     //pruebas eliminar
     @DeleteMapping(value = ApiRoutes.Dictamen.ELIMINAR)
     public Boolean delete(@PathVariable("id") int id){
-        Boolean deleted = dictamenService.eliminar(id);
-        return deleted;
+        dictamenService.eliminar(id);
+        return true;
     }
 }

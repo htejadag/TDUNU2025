@@ -4,11 +4,12 @@ import java.sql.Date;
 import java.time.LocalDateTime;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-//@Data <-- No se por que esto me da error
+@Data // <-- No se por que esto me da error
 @Entity
 @Getter
 @Setter

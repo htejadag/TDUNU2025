@@ -46,8 +46,8 @@ public class RevisionBorradorController {
      //pruebas eliminar
     @DeleteMapping(value = ApiRoutes.RevisionBorrador.ELIMINAR)
     public Boolean delete(@PathVariable("id") int id){
-        Boolean deleted = revisionBorradorService.eliminar(id);
-        return deleted;
+        revisionBorradorService.eliminar(id);
+        return true;
     }
 
 }

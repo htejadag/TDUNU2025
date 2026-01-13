@@ -3,7 +3,9 @@ package tdunu.MsTitulacion.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import tdunu.MsTitulacion.model.entity.ResolucionTitulo;
+
 @Repository
-public interface ResolucionTituloRepository extends JpaRepository<ResolucionTituloRepository, Integer> {
+public interface ResolucionTituloRepository extends JpaRepository<ResolucionTitulo, Integer> {
 
 }

@@ -1,6 +1,7 @@
 package tdunu.MsTitulacion.service.Imp;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +32,7 @@ public class DictamenServiceImp implements DictamenService{
         return dictamenRepository.findAll()
         .stream()
         .map(model -> modelMapper.map(model,DictamenResponse.class))
-        .toList();
+        .collect(Collectors.toList());
     }
 
 
@@ -40,7 +41,7 @@ public class DictamenServiceImp implements DictamenService{
     public List<DictamenResponse> listarByResultadoCat(String categoria){
         return dictamenRepository.findByResultadoCategoria(categoria)
         .map(model -> modelMapper.map(model, DictamenResponse.class))
-        .toList();
+        .collect(Collectors.toList());
     }
 
     @Cacheable(value = "dictamenId", key="#id", cacheManager = "listCacheManager", unless = "#result == null")

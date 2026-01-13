@@ -52,8 +52,8 @@ public class TesisBorradorController {
      //pruebas eliminar
     @DeleteMapping(value =  ApiRoutes.TesisBorrador.ELIMINAR)
     public Boolean delete(@PathVariable("id") int id){
-        Boolean deleted = tesisBorradorService.eliminar(id);
-        return deleted;
+       tesisBorradorService.eliminar(id);
+        return true;
     }
 
 }
