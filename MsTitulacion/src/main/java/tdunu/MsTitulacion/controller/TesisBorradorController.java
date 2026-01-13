@@ -27,26 +27,22 @@ public class TesisBorradorController {
 
     @GetMapping(value = ApiRoutes.TesisBorrador.LISTAR)
     public ResponseBase<List<TesisBorradorResponse>> list(){
-        List<TesisBorradorResponse> myList = tesisBorradorService.listar();
-        return ResponseBase.ok(myList);
+        return ResponseBase.ok(tesisBorradorService.listar());
     }
 
     @GetMapping(value = ApiRoutes.TesisBorrador.OBTENER)
     public ResponseBase<TesisBorradorResponse> getById(@PathVariable("id") int id){
-        TesisBorradorResponse response = tesisBorradorService.obtenerPorId(id);
-        return ResponseBase.ok(response);
+        return ResponseBase.ok(tesisBorradorService.obtenerPorId(id));
     }
 
     @PostMapping(value = ApiRoutes.TesisBorrador.REGISTRAR)
     public ResponseBase<TesisBorradorResponse> save(@RequestBody TesisBorradorRequest request){
-        TesisBorradorResponse response = tesisBorradorService.guardar(request);
-        return ResponseBase.ok(response);
+        return ResponseBase.ok(tesisBorradorService.guardar(request));
     }
 
     @PutMapping(value = ApiRoutes.TesisBorrador.ACTUALIZAR)
     public ResponseBase<TesisBorradorResponse> update(@PathVariable("id") int id, @RequestBody TesisBorradorRequest request){
-        TesisBorradorResponse response = tesisBorradorService.actualizar(id,request);
-        return ResponseBase.ok(response);
+        return ResponseBase.ok(tesisBorradorService.actualizar(id,request));
     }
 
      //pruebas eliminar

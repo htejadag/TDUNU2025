@@ -27,32 +27,27 @@ public class DictamenController {
     
     @GetMapping(value = ApiRoutes.Dictamen.LISTAR)
     public ResponseBase<List<DictamenResponse>> list(){
-        List<DictamenResponse> myList = dictamenService.listar();
-        return ResponseBase.ok(myList);
+        return ResponseBase.ok(dictamenService.listar());
     }
 
     @GetMapping(value = ApiRoutes.Dictamen.OBTENER)
     public ResponseBase<DictamenResponse> getById(@PathVariable("id") int id){
-        DictamenResponse response = dictamenService.obtenerPorId(id);
-        return ResponseBase.ok(response);
+        return ResponseBase.ok(dictamenService.obtenerPorId(id));
     }
 
     @GetMapping(value = ApiRoutes.Dictamen.LISTARCATRESULTADO)
     public ResponseBase<List<DictamenResponse>> listByResultCat(@PathVariable("categoria") String cat){
-        List<DictamenResponse> myListByCat = dictamenService.listarByResultadoCat(cat);
-        return ResponseBase.ok(myListByCat);
+        return ResponseBase.ok(dictamenService.listarByResultadoCat(cat));
     }
 
     @PostMapping(value = ApiRoutes.Dictamen.REGISTRAR)
     public ResponseBase<DictamenResponse> save(@RequestBody DictamenRequest request){
-        DictamenResponse response = dictamenService.guardar(request);
-        return ResponseBase.ok(response);
+        return ResponseBase.ok(dictamenService.guardar(request));
     }
 
     @PutMapping(value = ApiRoutes.Dictamen.ACTUALIZAR)
     public ResponseBase<DictamenResponse> update(@PathVariable("id") int id, @RequestBody DictamenRequest request){
-        DictamenResponse response = dictamenService.actualizar(id, request);
-        return ResponseBase.ok(response);
+        return ResponseBase.ok(dictamenService.actualizar(id, request));
     }
 
     //pruebas eliminar

@@ -1,5 +1,6 @@
 package tdunu.MsTitulacion.service.Imp;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -10,6 +11,8 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import lombok.extern.slf4j.Slf4j;
+import tdunu.MsTitulacion.kafka.event.NotificacionEvent;
+import tdunu.MsTitulacion.kafka.producer.NotificacionProducer;
 import tdunu.MsTitulacion.model.entity.Dictamen;
 import tdunu.MsTitulacion.model.request.DictamenRequest;
 import tdunu.MsTitulacion.model.response.DictamenResponse;
@@ -26,8 +29,11 @@ public class DictamenServiceImp implements DictamenService{
     @Autowired
     private ModelMapper modelMapper;
 
+    @Autowired
+    private NotificacionProducer notificacionProducer;
+
     @Override
-    @Cacheable(value = "dictamenlistar", cacheManager = "listCacheManager")
+    @Cacheable(value = "dictamen_listar", cacheManager = "listCacheManager")
     public List<DictamenResponse> listar(){
         return dictamenRepository.findAll()
         .stream()
@@ -37,7 +43,7 @@ public class DictamenServiceImp implements DictamenService{
 
 
     @Override
-    @Cacheable(value = "dictamenCategoria", key="#categoria", cacheManager = "listCacheManager")
+    @Cacheable(value = "dictamen_categoria", key = "#categoria", cacheManager = "listCacheManager")
     public List<DictamenResponse> listarByResultadoCat(String categoria){
         return dictamenRepository.findByResultadoCategoria(categoria)
         .stream()
@@ -45,7 +51,7 @@ public class DictamenServiceImp implements DictamenService{
         .collect(Collectors.toList());
     }
 
-    @Cacheable(value = "dictamenId", key="#id", cacheManager = "listCacheManager", unless = "#result == null")
+    @Cacheable(value = "dictamen_id", key = "#id", cacheManager = "objectCacheManager", unless = "#result == null")
     public DictamenResponse obtenerPorId(int id){
         return dictamenRepository.findById(id)
         .map(model -> modelMapper.map(model, DictamenResponse.class))
@@ -53,14 +59,29 @@ public class DictamenServiceImp implements DictamenService{
     }
 
     @Override
+    @CacheEvict(value = {"dictamen_list", "dictamen_cat"}, allEntries = true)
     public DictamenResponse guardar(DictamenRequest request){
         Dictamen model = modelMapper.map(request,Dictamen.class);
-
         Dictamen saved = dictamenRepository.save(model);
-        return modelMapper.map(saved, DictamenResponse.class);
+
+        DictamenResponse response = modelMapper.map(saved, DictamenResponse.class);
+
+        NotificacionEvent event = NotificacionEvent.builder()
+            .microservicio("MsTitulacion")
+            .modulo("Dictamen")
+            .operacion("CREATE")
+            .entidad("Dictamen")
+            .idEntidad(String.valueOf(response.getIdDictamen()))
+            .datos(response) // Enviamos el snapshot del resultado
+            .fechaEvento(LocalDateTime.now())
+            .build();
+
+        notificacionProducer.publish(event);
+        return response;
     }
 
     @Override
+    @CacheEvict(value = {"dictamen_list", "dictamen_cat", "dictamen_id"}, allEntries = true)
     public DictamenResponse actualizar(int id,DictamenRequest request){
         Dictamen modelActual = dictamenRepository.findById(id).orElse(null);
         modelActual.setAulaLugar(request.getAulaLugar());
@@ -74,7 +95,8 @@ public class DictamenServiceImp implements DictamenService{
         return modelMapper.map(saved, DictamenResponse.class);
     }
     @Override
-    public void eliminar (int id){
+    @CacheEvict(value = {"dictamen_list", "dictamen_cat", "dictamen_id"}, allEntries = true)
+    public void eliminar(int id) {
        dictamenRepository.deleteById(id);
     }
 }
