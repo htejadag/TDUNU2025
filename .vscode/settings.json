@@ -1,6 +1,5 @@
 {
   "java.configuration.updateBuildConfiguration": "automatic",
-  "java.project.sourcePaths": [
-    "MsRevision"
-  ]
+  "java.compile.nullAnalysis.mode": "automatic",
+  "commentTranslate.targetLanguage": "es"
 }
