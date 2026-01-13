@@ -1,6 +1,5 @@
 package tdunu.MsTitulacion.model.response;
 
-import java.sql.Date;
 import java.time.LocalDateTime;
 
 import lombok.Data;

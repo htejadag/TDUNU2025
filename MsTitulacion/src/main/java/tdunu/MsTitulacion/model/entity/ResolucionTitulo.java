@@ -1,5 +1,5 @@
 package tdunu.MsTitulacion.model.entity;
-import java.sql.Date;
+
 import java.time.LocalDateTime;
 
 import jakarta.persistence.*;

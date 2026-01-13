@@ -1,11 +1,9 @@
 package tdunu.MsTitulacion.model.entity;
-import java.sql.Timestamp;
+
 import java.time.LocalDateTime;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 
 @Data
 @Entity
