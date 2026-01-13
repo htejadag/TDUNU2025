@@ -8,6 +8,11 @@ public final class KafkaTopics {
     public static final String TOPICAUDITORIA = "auditoria-events";
 
     // NOTIFICACIONES (por Ms)
+    public static final String TOPICNOTIFICACION = "notificacion-events";
+
+
+
+    //ejemplo
     public static final String TOPIC = "nombre-events";
 
 }

@@ -1,6 +1,6 @@
 package com.example.MsGeneral.Service.Imp;
 
-import java.time.LocalDateTime;
+
 import java.util.List;
 
 import org.modelmapper.ModelMapper;
@@ -15,13 +15,14 @@ import com.example.MsGeneral.Model.Request.CatalogoRequest;
 import com.example.MsGeneral.Model.Response.CatalogoResponse;
 import com.example.MsGeneral.Repository.CatalogoRepository;
 import com.example.MsGeneral.Service.CatalogoService;
-import com.example.MsGeneral.Kafka.Event.AuditoriaEvent;
-import com.example.MsGeneral.Kafka.Producer.AuditoriaProducer;
+import com.example.MsGeneral.Helper.KafkaHelper.AuditoriaHelper;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class CatalogoServicioImp implements CatalogoService {
 
     @Autowired
@@ -31,7 +32,8 @@ public class CatalogoServicioImp implements CatalogoService {
     private ModelMapper modelMapper;
 
     @Autowired
-    private AuditoriaProducer auditoriaProducer;
+    private AuditoriaHelper auditoriaHelper;
+
 
     /* ===================== LISTAR ===================== */
 
@@ -99,7 +101,7 @@ public class CatalogoServicioImp implements CatalogoService {
 
         Catalogo saved = catalogoRepository.save(model);
 
-        publicarEvento(saved, "CREATE");
+        auditoriaHelper.publicarEvento(saved, "CREATE");
 
         return modelMapper.map(saved, CatalogoResponse.class);
     }
@@ -131,7 +133,7 @@ public class CatalogoServicioImp implements CatalogoService {
 
         Catalogo saved = catalogoRepository.save(modelExistente);
 
-        publicarEvento(saved, "UPDATE");
+        auditoriaHelper.publicarEvento(saved, "UPDATE");
 
         return modelMapper.map(saved, CatalogoResponse.class);
     }
@@ -154,7 +156,7 @@ public class CatalogoServicioImp implements CatalogoService {
         model.setActivo(activo);
         Catalogo saved = catalogoRepository.save(model);
 
-        publicarEvento(saved, "UPDATE_ESTADO");
+        auditoriaHelper.publicarEvento(saved, "UPDATE_ESTADO");
     }
 
     /* ===================== ELIMINAR ===================== */
@@ -170,29 +172,8 @@ public class CatalogoServicioImp implements CatalogoService {
 
         if (model != null) {
             catalogoRepository.deleteById(id);
-            publicarEvento(model, "DELETE");
+            auditoriaHelper.publicarEvento(model, "DELETE");
         }
     }
 
-    /* ===================== MÉTODO PRIVADO KAFKA ===================== */
-
-    private void publicarEvento(Catalogo catalogo, String operacion) {
-        try {
-            AuditoriaEvent event = AuditoriaEvent.builder()
-                    .microservicio("MsGeneral")
-                    .modulo("Catalogo")
-                    .operacion(operacion)
-                    .entidad("Catalogo")
-                    .idEntidad(catalogo.getIdCatalogo())
-                    .datos(catalogo)
-                    .usuario("System")
-                    .fechaEvento(LocalDateTime.now())
-                    .build();
-
-            auditoriaProducer.publish(event);
-
-        } catch (Exception e) {
-            log.warn("No se pudo publicar evento Kafka (Catalogo - {})", operacion, e);
-        }
-    }
 }

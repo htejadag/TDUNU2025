@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 
 import com.example.MsGeneral.Model.Entidad.Notificacion;
 import com.example.MsGeneral.Repository.NotificacionRepository;
+import com.example.MsGeneral.util.KafkaTopics;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.RequiredArgsConstructor;
@@ -19,7 +20,7 @@ public class NotificacionConsumer {
     private final NotificacionRepository notificacionRepository;
 
     @KafkaListener(
-        topics = "nombretopic",
+        topics = KafkaTopics.TOPICNOTIFICACION,
         groupId = "notificacion-consumer"
     )
     public void consumir(String mensaje){

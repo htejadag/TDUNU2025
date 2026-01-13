@@ -22,6 +22,11 @@ public class ApiRoutes {
         public static final String ELIMINAR = "/eliminar/{id}";
         public static final String ACTUALIZAR = "/actualizar/{id}";
     }
+
+    public static class Notificacion {
+        public static final String BASE = "/notificacion";
+        public static final String LISTAR = "/listar";
+    }
     
 
 }
