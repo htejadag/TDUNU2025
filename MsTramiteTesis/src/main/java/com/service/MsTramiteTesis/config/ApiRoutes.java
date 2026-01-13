@@ -1,22 +1,12 @@
 package com.service.MsTramiteTesis.config;
 
-/**
- * Centralización de todas las rutas de la API.
- * Mejora la mantenibilidad y previene errores de typos en las rutas.
- */
 public class ApiRoutes {
 
     private static final String API_BASE = "/api";
 
-    /**
-     * Rutas para los endpoints de Estudiante
-     */
     public static class Estudiante {
         private static final String BASE = API_BASE + "/estudiante";
 
-        /**
-         * Rutas para gestión de proyectos por estudiantes
-         */
         public static class Proyectos {
             public static final String BASE = Estudiante.BASE + "/proyectos";
             public static final String CREAR = "";
@@ -26,15 +16,9 @@ public class ApiRoutes {
         }
     }
 
-    /**
-     * Rutas para los endpoints de Docente (Asesor y Jurado)
-     */
     public static class Docente {
         private static final String BASE = API_BASE + "/docente";
 
-        /**
-         * Rutas para revisión de proyectos por docentes
-         */
         public static class Proyectos {
             public static final String BASE = Docente.BASE + "/proyectos";
             public static final String ASESORIAS = "/asesorias";
@@ -45,15 +29,9 @@ public class ApiRoutes {
         }
     }
 
-    /**
-     * Rutas para los endpoints de Coordinador
-     */
     public static class Coordinador {
         private static final String BASE = API_BASE + "/coordinador";
 
-        /**
-         * Rutas para administración de proyectos por coordinador
-         */
         public static class Proyectos {
             public static final String BASE = Coordinador.BASE + "/proyectos";
             public static final String PENDIENTES = "/pendientes";
@@ -66,9 +44,6 @@ public class ApiRoutes {
         }
     }
 
-    /**
-     * Constructor privado para prevenir instanciación
-     */
     private ApiRoutes() {
         throw new UnsupportedOperationException("Esta es una clase de utilidad y no debe ser instanciada");
     }

@@ -51,16 +51,15 @@ public class CoordinadorProyectoService {
                 .orElseThrow(() -> new ResourceNotFoundException("Proyecto no encontrado"));
 
         if (aprobado) {
-            proyecto.setEstadoProyectoCat(2); // APROBADO_COORDINADOR
+            proyecto.setEstadoProyectoCat(2);
             log.info("Proyecto {} aprobado por coordinador", idProyecto);
         } else {
-            proyecto.setEstadoProyectoCat(3); // RECHAZADO_COORDINADOR
+            proyecto.setEstadoProyectoCat(3);
             log.info("Proyecto {} rechazado por coordinador", idProyecto);
         }
 
         ProyectoTesis updated = proyectoRepository.save(proyecto);
 
-        // Enviar notificaciones
         notificacionHelper.notificarRevisionCoordinador(updated, aprobado);
 
         return modelMapper.map(updated, ProyectoResponse.class);
@@ -70,7 +69,7 @@ public class CoordinadorProyectoService {
     public List<ProyectoResponse> listarProyectosPendientes() {
         log.info("Listando proyectos pendientes de revisión del coordinador");
 
-        return proyectoRepository.findByEstadoProyectoCat(1) // PENDIENTE_COORDINADOR
+        return proyectoRepository.findByEstadoProyectoCat(1)
                 .stream()
                 .map(p -> modelMapper.map(p, ProyectoResponse.class))
                 .collect(Collectors.toList());
@@ -105,7 +104,6 @@ public class CoordinadorProyectoService {
     public List<AsignacionJurado> asignarJurados(Long idProyecto, List<Integer> idsDocentes, Integer rolJuradoCat) {
         log.info("Asignando {} jurados al proyecto {}", idsDocentes.size(), idProyecto);
 
-        // Verificar que el proyecto existe
         Long validatedId = java.util.Objects.requireNonNull(idProyecto, "idProyecto no puede ser null");
         proyectoRepository.findById(validatedId)
                 .orElseThrow(() -> new ResourceNotFoundException("Proyecto no encontrado"));
@@ -127,7 +125,6 @@ public class CoordinadorProyectoService {
         List<AsignacionJurado> saved = asignacionJuradoRepository.saveAll(validatedList);
         log.info("Asignados {} jurados al proyecto {}", saved.size(), idProyecto);
 
-        // Enviar notificaciones a los jurados asignados
         notificacionHelper.notificarAsignacionJurados(idProyecto, idsDocentes);
 
         return saved;

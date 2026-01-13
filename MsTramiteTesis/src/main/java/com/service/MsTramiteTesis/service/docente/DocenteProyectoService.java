@@ -60,16 +60,15 @@ public class DocenteProyectoService {
         }
 
         if (aprobado) {
-            proyecto.setEstadoProyectoCat(4); // APROBADO_ASESOR
+            proyecto.setEstadoProyectoCat(4);
             log.info("Proyecto {} aprobado por el asesor", idProyecto);
         } else {
-            proyecto.setEstadoProyectoCat(5); // RECHAZADO_ASESOR
+            proyecto.setEstadoProyectoCat(5);
             log.info("Proyecto {} rechazado por el asesor", idProyecto);
         }
 
         ProyectoTesis updated = proyectoRepository.save(proyecto);
 
-        // Enviar notificaciones
         notificacionHelper.notificarRevisionAsesor(updated, aprobado);
 
         return modelMapper.map(updated, ProyectoResponse.class);
@@ -114,7 +113,6 @@ public class DocenteProyectoService {
 
         log.info("Jurado {} revisando proyecto {}", idDocente, idProyecto);
 
-        // Verificar que el docente está asignado como jurado
         List<AsignacionJurado> asignaciones = asignacionJuradoRepository
                 .findByIdProyecto(idProyecto);
 
@@ -125,7 +123,6 @@ public class DocenteProyectoService {
             throw new RuntimeException("No estás asignado como jurado de este proyecto");
         }
 
-        // Crear o actualizar revisión
         RevisionProyecto revision = new RevisionProyecto();
         revision.setIdProyecto(idProyecto);
         revision.setIdRevisorDocente(idDocente);
@@ -137,7 +134,6 @@ public class DocenteProyectoService {
         RevisionProyecto saved = revisionProyectoRepository.save(revision);
         log.info("Revisión {} creada para proyecto {}", saved.getIdRevision(), idProyecto);
 
-        // Enviar notificación de revisión de jurado
         notificacionHelper.notificarRevisionJurado(idProyecto, idDocente, resultadoCat);
 
         return saved;

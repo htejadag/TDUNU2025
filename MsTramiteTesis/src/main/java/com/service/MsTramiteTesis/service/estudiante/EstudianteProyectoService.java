@@ -47,13 +47,12 @@ public class EstudianteProyectoService {
         proyecto.setIdLinea(request.getIdLinea());
         proyecto.setTitulo(request.getTitulo());
         proyecto.setRutaArchivoProyecto(request.getRutaArchivoProyecto());
-        proyecto.setEstadoProyectoCat(1); // PENDIENTE_COORDINADOR
+        proyecto.setEstadoProyectoCat(1);
         proyecto.setFechaRegistro(LocalDateTime.now());
 
         ProyectoTesis saved = proyectoRepository.save(proyecto);
         log.info("Proyecto {} creado exitosamente", saved.getIdProyecto());
 
-        // Enviar notificación al coordinador
         notificacionHelper.notificarProyectoCreado(saved);
 
         return modelMapper.map(saved, ProyectoResponse.class);
@@ -76,11 +75,10 @@ public class EstudianteProyectoService {
         }
 
         proyecto.setRutaArchivoProyecto(rutaPdf);
-        proyecto.setEstadoProyectoCat(1); // Vuelve a PENDIENTE_COORDINADOR
+        proyecto.setEstadoProyectoCat(1);
 
         ProyectoTesis updated = proyectoRepository.save(proyecto);
 
-        // Enviar notificación al coordinador
         notificacionHelper.notificarProyectoModificado(updated);
 
         return modelMapper.map(updated, ProyectoResponse.class);

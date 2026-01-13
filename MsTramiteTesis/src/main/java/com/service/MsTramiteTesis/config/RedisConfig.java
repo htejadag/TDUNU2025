@@ -29,7 +29,6 @@ public class RedisConfig {
                 RedisTemplate<String, Object> template = new RedisTemplate<>();
                 template.setConnectionFactory(connectionFactory);
 
-                // Configurar ObjectMapper con soporte para Java 8 date/time
                 ObjectMapper objectMapper = new ObjectMapper();
                 objectMapper.registerModule(new JavaTimeModule());
                 objectMapper.activateDefaultTyping(
@@ -40,11 +39,9 @@ public class RedisConfig {
                 Jackson2JsonRedisSerializer<Object> jsonSerializer = new Jackson2JsonRedisSerializer<Object>(
                                 objectMapper, Object.class);
 
-                // Serialize keys as Strings
                 template.setKeySerializer(new StringRedisSerializer());
                 template.setHashKeySerializer(new StringRedisSerializer());
 
-                // Serialize values as JSON
                 template.setValueSerializer(jsonSerializer);
                 template.setHashValueSerializer(jsonSerializer);
 
@@ -54,7 +51,6 @@ public class RedisConfig {
         @Bean
         @SuppressWarnings("null")
         public CacheManager cacheManager(RedisConnectionFactory connectionFactory) {
-                // Configurar ObjectMapper con soporte para Java 8 date/time
                 ObjectMapper objectMapper = new ObjectMapper();
                 objectMapper.registerModule(new JavaTimeModule());
                 objectMapper.activateDefaultTyping(
@@ -65,7 +61,6 @@ public class RedisConfig {
                 Jackson2JsonRedisSerializer<Object> jsonSerializer = new Jackson2JsonRedisSerializer<Object>(
                                 objectMapper, Object.class);
 
-                // Configuración por defecto: 10 minutos
                 RedisCacheConfiguration defaultConfig = RedisCacheConfiguration.defaultCacheConfig()
                                 .entryTtl(Duration.ofMinutes(10))
                                 .serializeKeysWith(
@@ -75,23 +70,19 @@ public class RedisConfig {
                                                 .fromSerializer(jsonSerializer))
                                 .disableCachingNullValues();
 
-                // Configuraciones personalizadas por cache
                 Map<String, RedisCacheConfiguration> cacheConfigurations = new HashMap<>();
 
-                // Estudiante - 5 minutos para listas, 10 para individual
                 cacheConfigurations.put(CacheNames.CACHE_ESTUDIANTE_PROYECTOS,
                                 defaultConfig.entryTtl(Duration.ofMinutes(5)));
                 cacheConfigurations.put(CacheNames.CACHE_ESTUDIANTE_PROYECTO,
                                 defaultConfig.entryTtl(Duration.ofMinutes(10)));
 
-                // Docente - 5 minutos para listas, 15 para revisiones
                 cacheConfigurations.put(CacheNames.CACHE_DOCENTE_ASESORIAS,
                                 defaultConfig.entryTtl(Duration.ofMinutes(5)));
                 cacheConfigurations.put(CacheNames.CACHE_DOCENTE_JURADO, defaultConfig.entryTtl(Duration.ofMinutes(5)));
                 cacheConfigurations.put(CacheNames.CACHE_DOCENTE_REVISIONES,
                                 defaultConfig.entryTtl(Duration.ofMinutes(15)));
 
-                // Coordinador - 5 minutos para listas, 30 para jurados
                 cacheConfigurations.put(CacheNames.CACHE_COORDINADOR_PENDIENTES,
                                 defaultConfig.entryTtl(Duration.ofMinutes(5)));
                 cacheConfigurations.put(CacheNames.CACHE_COORDINADOR_TODOS,

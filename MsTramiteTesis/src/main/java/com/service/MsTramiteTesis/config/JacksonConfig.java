@@ -12,7 +12,7 @@ public class JacksonConfig {
     @Bean
     public ObjectMapper objectMapper() {
         ObjectMapper mapper = new ObjectMapper();
-        mapper.registerModule(new JavaTimeModule()); // Para LocalDateTime
+        mapper.registerModule(new JavaTimeModule());
         return mapper;
     }
 }
