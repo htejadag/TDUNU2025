@@ -14,8 +14,10 @@ public class KafkaNotificationListener {
             ObjectMapper mapper = new ObjectMapper();
             JsonNode rootNode = mapper.readTree(message);
 
-            String tipo = rootNode.path("tipoSolicitud").path("nombre").asText("DESCONOCIDO");
-            String estado = rootNode.path("estadoSolicitud").path("nombre").asText("DESCONOCIDO");
+            String tipo = rootNode.path("tipoSolicitud").asText("DESCONOCIDO");
+            String estado = rootNode.path("estadoSolicitud").asText("DESCONOCIDO");
+            String descripcion = rootNode.path("descripcion").asText("Sin descripción");
+            String fecha = rootNode.path("fechaRegistro").asText("Sin fecha");
             int idSolicitud = rootNode.path("idSolicitud").asInt(-1);
 
             System.out.println("------------------------------------------------------");
@@ -23,6 +25,8 @@ public class KafkaNotificationListener {
             System.out.println(" >>> ID: " + idSolicitud);
             System.out.println(" >>> TIPO: " + tipo);
             System.out.println(" >>> ESTADO: " + estado);
+            System.out.println(" >>> DESCRIPCION: " + descripcion);
+            System.out.println(" >>> FECHA: " + fecha);
             System.out.println("------------------------------------------------------");
 
         } catch (Exception e) {
