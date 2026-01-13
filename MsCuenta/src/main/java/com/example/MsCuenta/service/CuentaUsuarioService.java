@@ -1,5 +1,6 @@
 package com.example.MsCuenta.service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import com.example.MsCuenta.model.request.CuentaUsuario.CuentaUsuarioRequest;
@@ -19,5 +20,7 @@ public interface CuentaUsuarioService {
     CuentaUsuarioResponse eliminar(Integer id);
 
     void descontarSaldo(Integer id);
+
+    void actualizarSaldo(Integer id,double nuevoSaldo);
  
 }

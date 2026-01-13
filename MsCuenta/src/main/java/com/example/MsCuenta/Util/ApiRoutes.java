@@ -36,6 +36,7 @@ public class ApiRoutes {
         public static final String BASE_MOVIMIENTO = "/api/movimiento";
         public static final String LISTAR_MOVIMIENTO = "/listar";
         public static final String OBTENER_POR_ID_MOVIMIENTO = "/obtenerPorId";
+        public static final String LISTAR_MOVIMIENTO_POR_USUARIO = "/listarPorUsuario";
         public static final String GUARDAR_MOVIMIENTO = "/guardar";
         public static final String MODIFICAR_MOVIMIENTO = "/modificar";
         public static final String ELIMINAR_MOVIMIENTO = "/eliminar";

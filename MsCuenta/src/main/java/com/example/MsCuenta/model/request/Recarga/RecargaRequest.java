@@ -5,13 +5,11 @@ import lombok.Data;
 @Data
 public class RecargaRequest {
     
-    private Integer id_cuenta_usuario;
+    private Integer idCuentaUsuario;
 
-    private String metodo_pago;
+    private Integer idMetodoPago;
 
-    private String referencia;
-
-    private Integer monto;
+    private double monto;
 
     private boolean activo;
 

@@ -1,6 +1,7 @@
 package com.example.MsCuenta.service.Imp;
 
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -8,6 +9,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.MsCuenta.config.BusinessException;
 import com.example.MsCuenta.model.entity.CuentaUsuarioModel;
 import com.example.MsCuenta.model.request.CuentaUsuario.CuentaUsuarioRequest;
 import com.example.MsCuenta.model.request.CuentaUsuario.CuentaUsuarioUpdateRequest;
@@ -110,14 +112,40 @@ public class CuentaUsuarioServiceImp implements CuentaUsuarioService {
 
         if (!cuenta.isActivo()) {
                 
-            throw new RuntimeException("Cuenta inactiva");
+            throw new BusinessException("Cuenta inactiva");
         
          }
+
+        if (cuenta.getSaldo() <= 0) {
+       
+            throw new BusinessException("Saldo insuficiente");
+        }
 
         cuenta.setSaldo(cuenta.getSaldo() - 1);
 
         cuentaUsuarioRepository.save(cuenta);
 
+    }
+
+    @Override
+    @Transactional
+    public void actualizarSaldo(Integer id,double nuevoSaldo) {
+
+        CuentaUsuarioModel cuenta = cuentaUsuarioRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Cuenta no existe"));
+
+        if (!cuenta.isActivo()) {
+                
+            throw new BusinessException("Cuenta inactiva");
+        
+         }
+
+         double saldoActual = cuenta.getSaldo()+nuevoSaldo;
+
+         cuenta.setSaldo(saldoActual);
+
+    
+        
     }
 
 

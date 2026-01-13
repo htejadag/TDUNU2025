@@ -10,9 +10,11 @@ public interface MovimientoService {
     
     List<MovimientoResponse>listar();
 
+    List<MovimientoResponse>listarMovimientoPorUsuario(Integer idCuentaUsuario);
+
     MovimientoResponse obtenerPorId(Integer id);
 
-    MovimientoResponse guardar(Integer idCuentaUsuario,Integer monto, Integer idUsuarioCreacion);
+    MovimientoResponse guardar(Integer idCuentaUsuario,double monto, Integer idUsuarioCreacion);
 
     MovimientoResponse guardarConKafka(Integer idCuentaUsuario,Integer idUsuarioCreacion);
     

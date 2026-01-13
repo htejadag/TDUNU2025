@@ -37,6 +37,13 @@ public class MovimientoController {
         return ResponseBase.ok(response);
     }
 
+    @GetMapping(value = ApiRoutes.Movimiento.LISTAR_MOVIMIENTO_POR_USUARIO)
+    public ResponseBase<List<MovimientoResponse>> listarPorUsuario(@RequestParam(value = "id") Integer id) {
+        List<MovimientoResponse> response = movimientoService.listarMovimientoPorUsuario(id);
+        return ResponseBase.ok(response);
+    }
+
+
     @PutMapping(value = ApiRoutes.Movimiento.MODIFICAR_MOVIMIENTO)
     public ResponseBase<MovimientoResponse> modificar(
             @RequestParam(value = "id") Integer id,

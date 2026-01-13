@@ -7,6 +7,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.MsCuenta.Util.CatalogoEnum;
 import com.example.MsCuenta.model.entity.CatalogoModel;
 import com.example.MsCuenta.model.entity.CuentaUsuarioModel;
 import com.example.MsCuenta.model.entity.MovimientoModel;
@@ -54,10 +55,10 @@ public class MovimientoServiceImp implements MovimientoService {
         MovimientoModel model = new MovimientoModel();
 
         CuentaUsuarioModel cuenta = cuentaUsuarioRepository.findById(idCuentaUsuario)
-        .orElseThrow(() -> new RuntimeException("No existe una cuenta de usuario con id: " + idCuentaUsuario));
+        .orElseThrow(() -> new RuntimeException("No existe una cuenta de usuario con ese id:"+idCuentaUsuario));
 
-        CatalogoModel idTipoMovimiento = catalogoRepository.findById(1)
-        .orElseThrow(() -> new RuntimeException("No existe un tipo de movimiento con"));
+        CatalogoModel idTipoMovimiento = catalogoRepository.findById(CatalogoEnum.CONSUMO.getId())
+        .orElseThrow(() -> new RuntimeException("No existe el tipo de movimiento con ese id"));
 
         model.setIdCuentaUsuario(cuenta);
         model.setIdTipoMovimiento(idTipoMovimiento);
@@ -78,11 +79,11 @@ public class MovimientoServiceImp implements MovimientoService {
         MovimientoModel model = movimientoRepository.findById(id)
         .orElseThrow(() -> new RuntimeException("No existe un movimiento con id: " + id));
 
-        CuentaUsuarioModel idCuentaUsuario = cuentaUsuarioRepository.findById(movimientoUpdateRequest.getId_cuenta_usuario())
-        .orElseThrow(() -> new RuntimeException("No existe una cuenta de usuario con id: " + movimientoUpdateRequest.getId_cuenta_usuario()));
+        CuentaUsuarioModel idCuentaUsuario = cuentaUsuarioRepository.findById(movimientoUpdateRequest.getIdCuentaUsuario())
+        .orElseThrow(() -> new RuntimeException("No existe una cuenta de usuario con id: " + movimientoUpdateRequest.getIdCuentaUsuario()));
 
-        CatalogoModel idTipoMovimiento = catalogoRepository.findById(movimientoUpdateRequest.getId_tipo_movimiento())
-        .orElseThrow(() -> new RuntimeException("No existe un tipo de movimiento con id: " + movimientoUpdateRequest.getId_tipo_movimiento()));
+        CatalogoModel idTipoMovimiento = catalogoRepository.findById(movimientoUpdateRequest.getIdTipoMovimiento())
+        .orElseThrow(() -> new RuntimeException("No existe un tipo de movimiento con id: " + movimientoUpdateRequest.getIdTipoMovimiento()));
         
         model.setIdCuentaUsuario(idCuentaUsuario);
         model.setIdTipoMovimiento(idTipoMovimiento);
@@ -111,13 +112,13 @@ public class MovimientoServiceImp implements MovimientoService {
     }
 
     @Override
-    public MovimientoResponse guardar(Integer idCuentaUsuario, Integer monto, Integer idUsuarioCreacion) {
+    public MovimientoResponse guardar(Integer idCuentaUsuario, double monto, Integer idUsuarioCreacion) {
 
          CuentaUsuarioModel cuenta = cuentaUsuarioRepository.findById(idCuentaUsuario)
             .orElseThrow(() -> new RuntimeException("No existe la cuenta"));
 
-        // 2 = RECARGA (catálogo)
-        CatalogoModel tipoMovimiento = catalogoRepository.findById(2)
+        
+        CatalogoModel tipoMovimiento = catalogoRepository.findById(CatalogoEnum.RECARGA.getId())
             .orElseThrow(() -> new RuntimeException("Tipo movimiento no existe"));
 
         MovimientoModel model = new MovimientoModel();
@@ -133,6 +134,25 @@ public class MovimientoServiceImp implements MovimientoService {
         return modelMapper.map(saved, MovimientoResponse.class);
 
 
+        
+    }
+
+    @Override
+    public List<MovimientoResponse> listarMovimientoPorUsuario(Integer idCuentaUsuario) {
+
+        cuentaUsuarioRepository.findById(idCuentaUsuario)
+        .orElseThrow(() -> new RuntimeException(
+            "No existe una cuenta de usuario con id: " + idCuentaUsuario
+        ));
+
+        return movimientoRepository
+        .findByIdCuentaUsuarioId(idCuentaUsuario)
+        .stream()
+        .map(model -> modelMapper.map(model, MovimientoResponse.class))
+        .toList();
+
+        
+        
         
     }
 

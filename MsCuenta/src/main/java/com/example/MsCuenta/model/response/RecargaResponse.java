@@ -9,15 +9,13 @@ public class RecargaResponse {
 
     private Integer id;
 
-    private Integer id_cuenta_usuario;
+    private Integer idCuentaUsuario;
 
-    private String metodo_pago;
+    private Integer idMetodoPago;
 
-    private String referencia;
+    private double monto;
 
-    private Integer monto;
-
-    private String fecha_recarga;
+    private String fechaRecarga;
 
     private Integer usuarioCreacion;
 

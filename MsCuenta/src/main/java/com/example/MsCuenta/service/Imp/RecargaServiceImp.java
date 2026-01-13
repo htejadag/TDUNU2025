@@ -7,13 +7,18 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.MsCuenta.Util.CatalogoEnum;
+import com.example.MsCuenta.config.BusinessException;
+import com.example.MsCuenta.model.entity.CatalogoModel;
 import com.example.MsCuenta.model.entity.CuentaUsuarioModel;
 import com.example.MsCuenta.model.entity.RecargaModel;
 import com.example.MsCuenta.model.request.Recarga.RecargaRequest;
 import com.example.MsCuenta.model.request.Recarga.RecargaUpdateRequest;
 import com.example.MsCuenta.model.response.RecargaResponse;
+import com.example.MsCuenta.repository.CatalogoRepository;
 import com.example.MsCuenta.repository.CuentaUsuarioRepository;
 import com.example.MsCuenta.repository.RecargaRepository;
+import com.example.MsCuenta.service.CuentaUsuarioService;
 import com.example.MsCuenta.service.MovimientoService;
 import com.example.MsCuenta.service.RecargaService;
 
@@ -31,6 +36,10 @@ public class RecargaServiceImp implements RecargaService {
     CuentaUsuarioRepository cuentaUsuarioRepository;
     @Autowired
     MovimientoService movimientoService;
+    @Autowired
+    CuentaUsuarioService cuentaUsuarioService;
+    @Autowired
+    CatalogoRepository catalogoRepository;
 
     @Override
     public List<RecargaResponse> listar() {
@@ -52,12 +61,26 @@ public class RecargaServiceImp implements RecargaService {
             
         RecargaModel model = new RecargaModel();
 
-        CuentaUsuarioModel idCuentaUsuario = cuentaUsuarioRepository.findById(recargaRequest.getId_cuenta_usuario())
-        .orElseThrow(() -> new RuntimeException("No existe una cuenta de usuario con id: " + recargaRequest.getId_cuenta_usuario()));
+        CuentaUsuarioModel idCuentaUsuario = cuentaUsuarioRepository.findById(recargaRequest.getIdCuentaUsuario())
+        .orElseThrow(() -> new RuntimeException("No existe una cuenta de usuario con id: " + recargaRequest.getIdCuentaUsuario()));
+
+        Integer idMetodoPagoReq = recargaRequest.getIdMetodoPago();
+
+        if (
+            !idMetodoPagoReq.equals(CatalogoEnum.EFECTIVO.getId()) &&
+            !idMetodoPagoReq.equals(CatalogoEnum.TARJETA.getId()) &&
+            !idMetodoPagoReq.equals(CatalogoEnum.YAPE.getId()) &&
+            !idMetodoPagoReq.equals(CatalogoEnum.PLIN.getId())
+        ) {
+            throw new BusinessException("Método de pago no válido");
+        }
+
+
+        CatalogoModel idMetodoPago = catalogoRepository.findById(idMetodoPagoReq)
+        .orElseThrow(() -> new RuntimeException("No existe el metodo de pago"));
 
         model.setIdCuentaUsuario(idCuentaUsuario);
-        model.setMetodoPago(recargaRequest.getMetodo_pago());
-        model.setReferencia(recargaRequest.getReferencia());
+        model.setIdMetodoPago(idMetodoPago);
         model.setMonto(recargaRequest.getMonto());
         model.setFechaRecarga(LocalDate.now());
         model.setActivo(recargaRequest.isActivo());
@@ -68,6 +91,9 @@ public class RecargaServiceImp implements RecargaService {
 
         movimientoService.guardar(idCuentaUsuario.getId(), recargaRequest.getMonto(), recargaRequest.getUsuarioCreacion());
 
+        cuentaUsuarioService.actualizarSaldo(idCuentaUsuario.getId(), recargaRequest.getMonto());
+
+      
         return modelMapper.map(saved, RecargaResponse.class);
     }
 
@@ -77,12 +103,25 @@ public class RecargaServiceImp implements RecargaService {
         RecargaModel model = recargaRepository.findById(id)
         .orElseThrow(() -> new RuntimeException("No existe una recarga con id: " + id));
 
-        CuentaUsuarioModel idCuentaUsuario = cuentaUsuarioRepository.findById(recargaUpdateRequest.getId_cuenta_usuario())
-        .orElseThrow(() -> new RuntimeException("No existe una cuenta de usuario con id: " + recargaUpdateRequest.getId_cuenta_usuario()));
+        CuentaUsuarioModel idCuentaUsuario = cuentaUsuarioRepository.findById(recargaUpdateRequest.getIdCuentaUsuario())
+        .orElseThrow(() -> new RuntimeException("No existe una cuenta de usuario con id: " + recargaUpdateRequest.getIdCuentaUsuario()));
+
+        Integer idMetodoPagoReq = recargaUpdateRequest.getIdMetodoPago();
+        
+        if (
+            !idMetodoPagoReq.equals(CatalogoEnum.EFECTIVO.getId()) &&
+            !idMetodoPagoReq.equals(CatalogoEnum.TARJETA.getId()) &&
+            !idMetodoPagoReq.equals(CatalogoEnum.YAPE.getId()) &&
+            !idMetodoPagoReq.equals(CatalogoEnum.PLIN.getId())
+        ) {
+            throw new BusinessException("Método de pago no válido");
+        }
+
+         CatalogoModel idMetodoPago = catalogoRepository.findById(idMetodoPagoReq)
+        .orElseThrow(() -> new RuntimeException("No existe el metodo de pago"));
         
         model.setIdCuentaUsuario(idCuentaUsuario);
-        model.setMetodoPago(recargaUpdateRequest.getMetodo_pago());
-        model.setReferencia(recargaUpdateRequest.getReferencia());
+        model.setIdMetodoPago(idMetodoPago);
         model.setMonto(recargaUpdateRequest.getMonto());
         model.setActivo(recargaUpdateRequest.isActivo());
         model.setUsuarioModificacion(recargaUpdateRequest.getUsuarioModificacion());

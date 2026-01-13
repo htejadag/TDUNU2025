@@ -5,11 +5,10 @@ import lombok.Data;
 
 @Data
 public class MovimientoUpdateRequest {
-    private Integer id_cuenta_usuario;
+   
+    private Integer idCuentaUsuario;
 
-    private Integer id_tipo_movimiento;
-
-    private Integer id_operacion;
+    private Integer idTipoMovimiento;
     
     private Integer monto;
 

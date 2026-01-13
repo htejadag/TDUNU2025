@@ -1,6 +1,9 @@
 package com.example.MsCuenta.model.response;
 import java.time.LocalDate;
 
+import com.example.MsCuenta.model.entity.CatalogoModel;
+import com.example.MsCuenta.model.entity.CuentaUsuarioModel;
+
 import lombok.Data;
 
 @Data
@@ -8,15 +11,15 @@ public class MovimientoResponse {
 
     private Integer id;
 
-    private Integer id_cuenta_usuario;
+    private CuentaUsuarioModel idCuentaUsuario;
 
-    private Integer id_tipo_movimiento;
-
-    private Integer id_operacion;
+    private CatalogoModel idTipoMovimiento;
 
     private Integer monto;
 
-    private LocalDate fecha_movimiento;
+    private LocalDate fechaMovimiento;
+
+    private boolean activo;
 
     private Integer usuarioCreacion;
 

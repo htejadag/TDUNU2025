@@ -30,7 +30,7 @@ public class MovimientoModel {
     private CatalogoModel idTipoMovimiento;
 
     @Column (name = "monto")
-    private Integer monto;
+    private double monto;
     @Column (name = "fecha_movimiento")
     private LocalDate fechaMovimiento;
     @Column (name = "activo")

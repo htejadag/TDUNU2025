@@ -25,12 +25,12 @@ public class RecargaModel {
     @JoinColumn(name = "id_cuenta_usuario", referencedColumnName = "id")
     private CuentaUsuarioModel idCuentaUsuario;
 
-    @Column(name = "metodo_pago")
-    private String metodoPago;
-    @Column (name = "referencia")
-    private String referencia;
+    @ManyToOne
+    @JoinColumn(name = "id_metodo_pago", referencedColumnName="id")
+    private CatalogoModel idMetodoPago;
+
     @Column (name = "monto")
-    private Integer monto;
+    private double monto;
     @Column (name = "fecha_recarga")
     private LocalDate fechaRecarga;
     @Column (name = "activo")
