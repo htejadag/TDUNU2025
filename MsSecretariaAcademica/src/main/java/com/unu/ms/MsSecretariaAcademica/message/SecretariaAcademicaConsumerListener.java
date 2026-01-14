@@ -40,11 +40,28 @@ public class SecretariaAcademicaConsumerListener {
 
         try {
             JsonNode root = objectMapper.readTree(mensaje);
+            /*
+            
+            {
+                "consejo":  1,
+                "numeroSesion": "string",
+                "nombreSesion": "string",
+                "fechaSesion":[2026,1,14],
+                "idTipoSesion": 0,
+                "descripcion":  "string",
+                "idEstado": 0,
+                "usuarioRegistro":  0
+            }
+            
+            */
 
+            // Se extrae el ID del consejo del JSON recibido
             JsonNode consejoNode = root.get("consejo");
             if (consejoNode != null) {
                 int consejoId = consejoNode.asInt();
+                //SE MUESTRA EL ID DEL CONSEJO RECIBIDO
                 System.out.println("ID Consejo: " + consejoId);
+                //IMPLEMENTAR LA LÓGICA PARA ACTUALIZAR LAS RESOLUCIONES
             }
 
         } catch (Exception e) {
