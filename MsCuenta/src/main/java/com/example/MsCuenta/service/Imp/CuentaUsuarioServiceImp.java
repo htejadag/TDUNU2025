@@ -1,7 +1,5 @@
 package com.example.MsCuenta.service.Imp;
 
-
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -24,32 +22,31 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 public class CuentaUsuarioServiceImp implements CuentaUsuarioService {
 
+    private final CuentaUsuarioRepository cuentaUsuarioRepository;
 
-    @Autowired
-    CuentaUsuarioRepository cuentaUsuarioRepository;
-    
+    private final ModelMapper modelMapper;
 
-    @Autowired
-    private ModelMapper modelMapper;
+    public CuentaUsuarioServiceImp(CuentaUsuarioRepository cuentaUsuarioRepository, ModelMapper modelMapper) {
 
-
-
+        this.cuentaUsuarioRepository = cuentaUsuarioRepository;
+        this.modelMapper = modelMapper;
+    }
 
     @Override
     public List<CuentaUsuarioResponse> listar() {
 
         return cuentaUsuarioRepository.findAll()
-            .stream()
-            .map(model -> modelMapper.map(model, CuentaUsuarioResponse.class))
-            .toList();
-        
+                .stream()
+                .map(model -> modelMapper.map(model, CuentaUsuarioResponse.class))
+                .toList();
+
     }
 
     @Override
     public CuentaUsuarioResponse obtenerPorId(Integer id) {
-         return cuentaUsuarioRepository.findById(id)
-            .map(model -> modelMapper.map(model, CuentaUsuarioResponse.class))
-            .orElse(null);
+        return cuentaUsuarioRepository.findById(id)
+                .map(model -> modelMapper.map(model, CuentaUsuarioResponse.class))
+                .orElse(null);
     }
 
     @Override
@@ -68,56 +65,52 @@ public class CuentaUsuarioServiceImp implements CuentaUsuarioService {
         return modelMapper.map(saved, CuentaUsuarioResponse.class);
     }
 
-
     @Override
     public CuentaUsuarioResponse modificar(Integer id, CuentaUsuarioUpdateRequest request) {
 
-    CuentaUsuarioModel model = cuentaUsuarioRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("No existe una cuenta usuario con id: " + id));
+        CuentaUsuarioModel model = cuentaUsuarioRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("No existe una cuenta usuario con id: " + id));
 
-    model.setIdUsuarioRol(request.getIdUsuarioRol());
-    model.setSaldo(request.getSaldo());
-    model.setActivo(request.isActivo());
-    model.setUsuarioModificacion(request.getUsuarioModificacion());
-    model.setFechaModificacion(LocalDate.now());
+        model.setIdUsuarioRol(request.getIdUsuarioRol());
+        model.setSaldo(request.getSaldo());
+        model.setActivo(request.isActivo());
+        model.setUsuarioModificacion(request.getUsuarioModificacion());
+        model.setFechaModificacion(LocalDate.now());
 
-    CuentaUsuarioModel actualizado = cuentaUsuarioRepository.save(model);
+        CuentaUsuarioModel actualizado = cuentaUsuarioRepository.save(model);
 
-    return modelMapper.map(actualizado, CuentaUsuarioResponse.class);
+        return modelMapper.map(actualizado, CuentaUsuarioResponse.class);
     }
-
-
 
     @Override
     public CuentaUsuarioResponse eliminar(Integer id) {
 
-         CuentaUsuarioModel model = cuentaUsuarioRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("No existe una cuenta usuario con id: " + id));
+        CuentaUsuarioModel model = cuentaUsuarioRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("No existe una cuenta usuario con id: " + id));
 
+        model.setActivo(false);
 
-    model.setActivo(false);
+        CuentaUsuarioModel actualizado = cuentaUsuarioRepository.save(model);
 
-    CuentaUsuarioModel actualizado = cuentaUsuarioRepository.save(model);
+        return modelMapper.map(actualizado, CuentaUsuarioResponse.class);
 
-    return modelMapper.map(actualizado, CuentaUsuarioResponse.class);
-        
     }
 
     @Override
     @Transactional
     public void descontarSaldo(Integer id) {
-        
-         CuentaUsuarioModel cuenta = cuentaUsuarioRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("Cuenta no existe"));
+
+        CuentaUsuarioModel cuenta = cuentaUsuarioRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Cuenta no existe"));
 
         if (!cuenta.isActivo()) {
-                
+
             throw new BusinessException("Cuenta inactiva");
-        
-         }
+
+        }
 
         if (cuenta.getSaldo() <= 0) {
-       
+
             throw new BusinessException("Saldo insuficiente");
         }
 
@@ -129,25 +122,21 @@ public class CuentaUsuarioServiceImp implements CuentaUsuarioService {
 
     @Override
     @Transactional
-    public void actualizarSaldo(Integer id,double nuevoSaldo) {
+    public void actualizarSaldo(Integer id, double nuevoSaldo) {
 
         CuentaUsuarioModel cuenta = cuentaUsuarioRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("Cuenta no existe"));
+                .orElseThrow(() -> new RuntimeException("Cuenta no existe"));
 
         if (!cuenta.isActivo()) {
-                
+
             throw new BusinessException("Cuenta inactiva");
-        
-         }
 
-         double saldoActual = cuenta.getSaldo()+nuevoSaldo;
+        }
 
-         cuenta.setSaldo(saldoActual);
+        double saldoActual = cuenta.getSaldo() + nuevoSaldo;
 
-    
-        
+        cuenta.setSaldo(saldoActual);
+
     }
 
-
-    
 }

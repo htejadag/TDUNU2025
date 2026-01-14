@@ -2,7 +2,6 @@ package com.example.MsCuenta.controller;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,9 +22,12 @@ import com.example.MsCuenta.service.CuentaUsuarioService;
 @RequestMapping(ApiRoutes.CuentaUsuario.BASE)
 public class CuentaUsuarioController {
 
-    @Autowired
-    CuentaUsuarioService cuentaService;
+    private final CuentaUsuarioService cuentaService;
 
+    public CuentaUsuarioController(CuentaUsuarioService cuentaService) {
+
+        this.cuentaService = cuentaService;
+    }
 
     @GetMapping(value = ApiRoutes.CuentaUsuario.LISTAR)
     public ResponseBase<List<CuentaUsuarioResponse>> listar() {
@@ -39,8 +41,7 @@ public class CuentaUsuarioController {
         return ResponseBase.ok(response);
     }
 
-
-     @PostMapping(value = ApiRoutes.CuentaUsuario.GUARDAR)
+    @PostMapping(value = ApiRoutes.CuentaUsuario.GUARDAR)
     public ResponseBase<CuentaUsuarioResponse> guardar(@RequestBody CuentaUsuarioRequest model) {
         CuentaUsuarioResponse response = cuentaService.guardar(model);
         return ResponseBase.ok(response);
@@ -50,20 +51,16 @@ public class CuentaUsuarioController {
     public ResponseBase<CuentaUsuarioResponse> modificar(
             @RequestParam(value = "id") Integer id,
             @RequestBody CuentaUsuarioUpdateRequest request) {
-        
+
         CuentaUsuarioResponse response = cuentaService.modificar(id, request);
         return ResponseBase.ok(response);
     }
 
-
-     @DeleteMapping(value = ApiRoutes.CuentaUsuario.ELIMINAR)
+    @DeleteMapping(value = ApiRoutes.CuentaUsuario.ELIMINAR)
     public ResponseBase<CuentaUsuarioResponse> eliminar(@RequestParam(value = "id") Integer id) {
-        
+
         CuentaUsuarioResponse response = cuentaService.eliminar(id);
         return ResponseBase.ok(response);
     }
 
-    
-
-   
 }

@@ -4,7 +4,6 @@ import java.time.LocalDate;
 import java.util.List;
 
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.MsCuenta.Util.CatalogoEnum;
@@ -28,56 +27,67 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 public class RecargaServiceImp implements RecargaService {
 
-    @Autowired
-    RecargaRepository recargaRepository;
-    @Autowired
-    ModelMapper modelMapper;
-    @Autowired
-    CuentaUsuarioRepository cuentaUsuarioRepository;
-    @Autowired
-    MovimientoService movimientoService;
-    @Autowired
-    CuentaUsuarioService cuentaUsuarioService;
-    @Autowired
-    CatalogoRepository catalogoRepository;
+    private final RecargaRepository recargaRepository;
+
+    private final ModelMapper modelMapper;
+
+    private final CuentaUsuarioRepository cuentaUsuarioRepository;
+
+    private final MovimientoService movimientoService;
+
+    private final CuentaUsuarioService cuentaUsuarioService;
+
+    private final CatalogoRepository catalogoRepository;
+
+    public RecargaServiceImp(RecargaRepository recargaRepository, ModelMapper modelMapper,
+            CuentaUsuarioRepository cuentaUsuarioRepository,
+            MovimientoService movimientoService, CuentaUsuarioService cuentaUsuarioService,
+            CatalogoRepository catalogoRepository) {
+
+        this.recargaRepository = recargaRepository;
+        this.cuentaUsuarioRepository=cuentaUsuarioRepository;
+        this.modelMapper = modelMapper;
+        this.movimientoService = movimientoService;
+        this.cuentaUsuarioService = cuentaUsuarioService;
+        this.catalogoRepository = catalogoRepository;
+
+    }
 
     @Override
     public List<RecargaResponse> listar() {
         return recargaRepository.findAll()
-            .stream()
-            .map(model -> modelMapper.map(model, RecargaResponse.class))
-            .toList();
+                .stream()
+                .map(model -> modelMapper.map(model, RecargaResponse.class))
+                .toList();
     }
 
     @Override
     public RecargaResponse obtenerPorId(Integer id) {
         return recargaRepository.findById(id)
-            .map(model -> modelMapper.map(model, RecargaResponse.class))
-            .orElse(null);
+                .map(model -> modelMapper.map(model, RecargaResponse.class))
+                .orElse(null);
     }
 
     @Override
     public RecargaResponse guardar(RecargaRequest recargaRequest) {
-            
+
         RecargaModel model = new RecargaModel();
 
         CuentaUsuarioModel idCuentaUsuario = cuentaUsuarioRepository.findById(recargaRequest.getIdCuentaUsuario())
-        .orElseThrow(() -> new RuntimeException("No existe una cuenta de usuario con id: " + recargaRequest.getIdCuentaUsuario()));
+                .orElseThrow(() -> new RuntimeException(
+                        "No existe una cuenta de usuario con id: " + recargaRequest.getIdCuentaUsuario()));
 
         Integer idMetodoPagoReq = recargaRequest.getIdMetodoPago();
 
-        if (
-            !idMetodoPagoReq.equals(CatalogoEnum.EFECTIVO.getId()) &&
-            !idMetodoPagoReq.equals(CatalogoEnum.TARJETA.getId()) &&
-            !idMetodoPagoReq.equals(CatalogoEnum.YAPE.getId()) &&
-            !idMetodoPagoReq.equals(CatalogoEnum.PLIN.getId())
-        ) {
+        if (!idMetodoPagoReq.equals(CatalogoEnum.EFECTIVO.getId()) &&
+                !idMetodoPagoReq.equals(CatalogoEnum.TARJETA.getId()) &&
+                !idMetodoPagoReq.equals(CatalogoEnum.YAPE.getId()) &&
+                !idMetodoPagoReq.equals(CatalogoEnum.PLIN.getId())) {
             throw new BusinessException("Método de pago no válido");
         }
 
-
         CatalogoModel idMetodoPago = catalogoRepository.findById(idMetodoPagoReq)
-        .orElseThrow(() -> new RuntimeException("No existe el metodo de pago"));
+                .orElseThrow(() -> new RuntimeException("No existe el metodo de pago"));
 
         model.setIdCuentaUsuario(idCuentaUsuario);
         model.setIdMetodoPago(idMetodoPago);
@@ -89,44 +99,42 @@ public class RecargaServiceImp implements RecargaService {
 
         RecargaModel saved = recargaRepository.save(model);
 
-        movimientoService.guardar(idCuentaUsuario.getId(), recargaRequest.getMonto(), recargaRequest.getUsuarioCreacion());
+        movimientoService.guardar(idCuentaUsuario.getId(), recargaRequest.getMonto(),
+                recargaRequest.getUsuarioCreacion());
 
         cuentaUsuarioService.actualizarSaldo(idCuentaUsuario.getId(), recargaRequest.getMonto());
 
-      
         return modelMapper.map(saved, RecargaResponse.class);
     }
 
     @Override
     public RecargaResponse modificar(Integer id, RecargaUpdateRequest recargaUpdateRequest) {
-    
+
         RecargaModel model = recargaRepository.findById(id)
-        .orElseThrow(() -> new RuntimeException("No existe una recarga con id: " + id));
+                .orElseThrow(() -> new RuntimeException("No existe una recarga con id: " + id));
 
         CuentaUsuarioModel idCuentaUsuario = cuentaUsuarioRepository.findById(recargaUpdateRequest.getIdCuentaUsuario())
-        .orElseThrow(() -> new RuntimeException("No existe una cuenta de usuario con id: " + recargaUpdateRequest.getIdCuentaUsuario()));
+                .orElseThrow(() -> new RuntimeException(
+                        "No existe una cuenta de usuario con id: " + recargaUpdateRequest.getIdCuentaUsuario()));
 
         Integer idMetodoPagoReq = recargaUpdateRequest.getIdMetodoPago();
-        
-        if (
-            !idMetodoPagoReq.equals(CatalogoEnum.EFECTIVO.getId()) &&
-            !idMetodoPagoReq.equals(CatalogoEnum.TARJETA.getId()) &&
-            !idMetodoPagoReq.equals(CatalogoEnum.YAPE.getId()) &&
-            !idMetodoPagoReq.equals(CatalogoEnum.PLIN.getId())
-        ) {
+
+        if (!idMetodoPagoReq.equals(CatalogoEnum.EFECTIVO.getId()) &&
+                !idMetodoPagoReq.equals(CatalogoEnum.TARJETA.getId()) &&
+                !idMetodoPagoReq.equals(CatalogoEnum.YAPE.getId()) &&
+                !idMetodoPagoReq.equals(CatalogoEnum.PLIN.getId())) {
             throw new BusinessException("Método de pago no válido");
         }
 
-         CatalogoModel idMetodoPago = catalogoRepository.findById(idMetodoPagoReq)
-        .orElseThrow(() -> new RuntimeException("No existe el metodo de pago"));
-        
+        CatalogoModel idMetodoPago = catalogoRepository.findById(idMetodoPagoReq)
+                .orElseThrow(() -> new RuntimeException("No existe el metodo de pago"));
+
         model.setIdCuentaUsuario(idCuentaUsuario);
         model.setIdMetodoPago(idMetodoPago);
         model.setMonto(recargaUpdateRequest.getMonto());
         model.setActivo(recargaUpdateRequest.isActivo());
         model.setUsuarioModificacion(recargaUpdateRequest.getUsuarioModificacion());
         model.setFechaModificacion(LocalDate.now());
-
 
         RecargaModel actualizado = recargaRepository.save(model);
 
@@ -137,7 +145,7 @@ public class RecargaServiceImp implements RecargaService {
     public RecargaResponse eliminar(Integer id) {
 
         RecargaModel model = recargaRepository.findById(id)
-        .orElseThrow(() -> new RuntimeException("No existe una recarga con id: " + id));
+                .orElseThrow(() -> new RuntimeException("No existe una recarga con id: " + id));
 
         model.setActivo(false);
 
@@ -145,7 +153,6 @@ public class RecargaServiceImp implements RecargaService {
 
         return modelMapper.map(actualizado, RecargaResponse.class);
 
-        
     }
-    
+
 }

@@ -2,7 +2,6 @@ package com.example.MsCuenta.controller;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,9 +21,13 @@ import com.example.MsCuenta.service.RecargaService;
 @RestController
 @RequestMapping(ApiRoutes.Recarga.BASE_RECARGA)
 public class RecargaController {
-    
-    @Autowired
-    RecargaService recargaService;
+
+    private final RecargaService recargaService;
+
+    public RecargaController(RecargaService recargaService) {
+
+        this.recargaService = recargaService;
+    }
 
     @GetMapping(value = ApiRoutes.Recarga.LISTAR_RECARGA)
     public ResponseBase<List<RecargaResponse>> listar() {
@@ -38,8 +41,7 @@ public class RecargaController {
         return ResponseBase.ok(response);
     }
 
-
-     @PostMapping(value = ApiRoutes.Recarga.GUARDAR_RECARGA)
+    @PostMapping(value = ApiRoutes.Recarga.GUARDAR_RECARGA)
     public ResponseBase<RecargaResponse> guardar(@RequestBody RecargaRequest model) {
         RecargaResponse response = recargaService.guardar(model);
         return ResponseBase.ok(response);
@@ -54,8 +56,7 @@ public class RecargaController {
         return ResponseBase.ok(response);
     }
 
-
-     @DeleteMapping(value = ApiRoutes.Recarga.ELIMINAR_RECARGA)
+    @DeleteMapping(value = ApiRoutes.Recarga.ELIMINAR_RECARGA)
     public ResponseBase<RecargaResponse> eliminar(@RequestParam(value = "id") Integer id) {
         RecargaResponse response = recargaService.eliminar(id);
         return ResponseBase.ok(response);

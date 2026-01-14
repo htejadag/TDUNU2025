@@ -9,8 +9,6 @@ import com.example.MsCuenta.model.response.MovimientoResponse;
 import com.example.MsCuenta.service.MovimientoService;
 
 import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -21,9 +19,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RestController
 @RequestMapping(ApiRoutes.Movimiento.BASE_MOVIMIENTO)
 public class MovimientoController {
-    
-    @Autowired
-    MovimientoService movimientoService;
+
+    private final MovimientoService movimientoService;
+
+    public MovimientoController(MovimientoService movimientoService) {
+
+        this.movimientoService = movimientoService;
+    }
 
     @GetMapping(value = ApiRoutes.Movimiento.LISTAR_MOVIMIENTO)
     public ResponseBase<List<MovimientoResponse>> listar() {
@@ -43,7 +45,6 @@ public class MovimientoController {
         return ResponseBase.ok(response);
     }
 
-
     @PutMapping(value = ApiRoutes.Movimiento.MODIFICAR_MOVIMIENTO)
     public ResponseBase<MovimientoResponse> modificar(
             @RequestParam(value = "id") Integer id,
@@ -53,9 +54,9 @@ public class MovimientoController {
         return ResponseBase.ok(response);
     }
 
-     @DeleteMapping(value = ApiRoutes.Movimiento.ELIMINAR_MOVIMIENTO)
+    @DeleteMapping(value = ApiRoutes.Movimiento.ELIMINAR_MOVIMIENTO)
     public ResponseBase<MovimientoResponse> eliminar(@RequestParam(value = "id") Integer id) {
-         MovimientoResponse response = movimientoService.eliminar(id);
+        MovimientoResponse response = movimientoService.eliminar(id);
         return ResponseBase.ok(response);
     }
 }

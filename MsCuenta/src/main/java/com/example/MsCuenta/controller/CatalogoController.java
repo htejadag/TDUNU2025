@@ -2,7 +2,6 @@ package com.example.MsCuenta.controller;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,9 +22,12 @@ import com.example.MsCuenta.service.CatalogoService;
 @RequestMapping(ApiRoutes.Catalogo.BASE_CATALOGO)
 public class CatalogoController {
 
-    @Autowired
-    CatalogoService catalogoService;
+    private final CatalogoService catalogoService;
 
+    public CatalogoController(CatalogoService catalogoService) {
+
+        this.catalogoService = catalogoService;
+    }
 
     @GetMapping(value = ApiRoutes.Catalogo.LISTAR_CATALOGO)
     public ResponseBase<List<CatalogoResponse>> listar() {
@@ -39,8 +41,7 @@ public class CatalogoController {
         return ResponseBase.ok(response);
     }
 
-
-     @PostMapping(value = ApiRoutes.Catalogo.GUARDAR_CATALOGO)
+    @PostMapping(value = ApiRoutes.Catalogo.GUARDAR_CATALOGO)
     public ResponseBase<CatalogoResponse> guardar(@RequestBody CatalogoRequest model) {
         CatalogoResponse response = catalogoService.guardar(model);
         return ResponseBase.ok(response);
@@ -50,17 +51,16 @@ public class CatalogoController {
     public ResponseBase<CatalogoResponse> modificar(
             @RequestParam(value = "id") Integer id,
             @RequestBody CatalogoUpdateRequest request) {
-        
+
         CatalogoResponse response = catalogoService.modificar(id, request);
         return ResponseBase.ok(response);
     }
 
-
-     @DeleteMapping(value = ApiRoutes.Catalogo.ELIMINAR_CATALOGO)
+    @DeleteMapping(value = ApiRoutes.Catalogo.ELIMINAR_CATALOGO)
     public ResponseBase<CatalogoResponse> eliminar(@RequestParam(value = "id") Integer id) {
         catalogoService.eliminar(id);
         CatalogoResponse response = catalogoService.eliminar(id);
         return ResponseBase.ok(response);
     }
-    
+
 }
