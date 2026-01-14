@@ -45,3 +45,4 @@ public class AsistenciaSesionModel {
     private LocalDateTime fechaRegistro;
 
 }
+

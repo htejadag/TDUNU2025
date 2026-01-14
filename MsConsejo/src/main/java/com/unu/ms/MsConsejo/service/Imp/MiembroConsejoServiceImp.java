@@ -246,4 +246,10 @@ public class MiembroConsejoServiceImp implements MiembroConsejoService {
         return resultado;
     }
 
+    @Override
+    public List<MiembroConsejoResponse> listarActivosPorCargo(Integer idCargo) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'listarActivosPorCargo'");
+    }
+
 }

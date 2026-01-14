@@ -20,6 +20,7 @@ public class Auditoria {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_auditoria")
     private Integer idAuditoria;
 
     @Column(name = "nombre_entidad", nullable = false)

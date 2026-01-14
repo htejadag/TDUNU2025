@@ -1,5 +1,6 @@
 package com.unu.ms.MsConsejo.service.Imp;
 
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -8,6 +9,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.unu.ms.MsConsejo.message.KafkaProducerPublisher;
 import com.unu.ms.MsConsejo.model.entity.SesionConsejoModel;
 import com.unu.ms.MsConsejo.model.mapper.SesionConsejoMapper;
 import com.unu.ms.MsConsejo.model.request.SesionConsejoRequest;
@@ -18,10 +20,11 @@ import com.unu.ms.MsConsejo.service.SesionConsejoService;
 
 @Slf4j
 @Service
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class SesionConsejoServiceImp implements SesionConsejoService {
 
         private final SesionConsejoRepository sesionConsejoRepository;
+        KafkaProducerPublisher kafkaProducerService;
         private final SesionConsejoMapper mapper;
         
         // IDs de estados de sesión (basados en catalogo)
@@ -42,6 +45,14 @@ public class SesionConsejoServiceImp implements SesionConsejoService {
         @Override
         public SesionConsejoResponse guardar(SesionConsejoRequest sesionConsejoRequest) {
                 SesionConsejoModel model = mapper.toEntity(sesionConsejoRequest);
+
+                // Cuando se crea una nueva sesión, se envia un mensaje a Kafka con los detalles de la sesión 
+                // al microservicio de la secretaría para su gestión.
+
+                // Kafka send Message
+                kafkaProducerService.sendSesionConsejoModel(sesionConsejoRequest);
+
+
                 return mapper.toResponse(sesionConsejoRepository.save(model));
         }
 
