@@ -1,11 +1,11 @@
-package TDUNU2025.Msbiblioteca.controller;
+package tdunu2025.msbiblioteca.controller;
 
-import TDUNU2025.Msbiblioteca.model.request.CategoriaLibroRequest;
-import TDUNU2025.Msbiblioteca.model.response.CategoriaLibroResponse;
-import TDUNU2025.Msbiblioteca.service.CategoriaLibroService;
-import TDUNU2025.Msbiblioteca.util.ApiRoutes; // Asegúrate de tener esta ruta definida
-import TDUNU2025.Msbiblioteca.util.Mensaje;
-import TDUNU2025.Msbiblioteca.util.ResponseBase;
+import tdunu2025.msbiblioteca.model.request.CategoriaLibroRequest;
+import tdunu2025.msbiblioteca.model.response.CategoriaLibroResponse;
+import tdunu2025.msbiblioteca.service.CategoriaLibroService;
+import tdunu2025.msbiblioteca.util.ApiRoutes; // Asegúrate de tener esta ruta definida
+import tdunu2025.msbiblioteca.util.Mensaje;
+import tdunu2025.msbiblioteca.util.ResponseBase;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/categoria-libro") // O usa ApiRoutes si lo definiste
+@RequestMapping(ApiRoutes.CategoriaLibro.BASE) // O usa ApiRoutes si lo definiste
 @RequiredArgsConstructor
 public class CategoriaLibroController {
 

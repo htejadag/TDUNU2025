@@ -5,7 +5,7 @@
             "name": "Spring Boot-MsbibliotecaApplication<Msbiblioteca>",
             "request": "launch",
             "cwd": "${workspaceFolder}",
-            "mainClass": "com.unu.TDUNU2025.Msbiblioteca.MsbibliotecaApplication",
+            "mainClass": "com.unu.tdunu2025.msbiblioteca.MsbibliotecaApplication",
             "projectName": "Msbiblioteca",
             "args": "",
             "envFile": "${workspaceFolder}/.env"

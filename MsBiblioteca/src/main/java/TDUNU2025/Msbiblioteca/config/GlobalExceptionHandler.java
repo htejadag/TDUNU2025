@@ -1,8 +1,8 @@
-package TDUNU2025.Msbiblioteca.config;
+package tdunu2025.msbiblioteca.config;
 
-import TDUNU2025.Msbiblioteca.exception.ResourceNotFoundException; // Importar esto
-import TDUNU2025.Msbiblioteca.util.Mensaje;
-import TDUNU2025.Msbiblioteca.util.ResponseBase;
+import tdunu2025.msbiblioteca.exception.ResourceNotFoundException; // Importar esto
+import tdunu2025.msbiblioteca.util.Mensaje;
+import tdunu2025.msbiblioteca.util.ResponseBase;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;

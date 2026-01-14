@@ -1,11 +1,11 @@
-package TDUNU2025.Msbiblioteca.controller;
+package tdunu2025.msbiblioteca.controller;
 
-import TDUNU2025.Msbiblioteca.model.request.AutorRequest;
-import TDUNU2025.Msbiblioteca.model.response.AutorResponse;
-import TDUNU2025.Msbiblioteca.service.AutorService;
-import TDUNU2025.Msbiblioteca.util.ApiRoutes;
-import TDUNU2025.Msbiblioteca.util.Mensaje;
-import TDUNU2025.Msbiblioteca.util.ResponseBase;
+import tdunu2025.msbiblioteca.model.request.AutorRequest;
+import tdunu2025.msbiblioteca.model.response.AutorResponse;
+import tdunu2025.msbiblioteca.service.AutorService;
+import tdunu2025.msbiblioteca.util.ApiRoutes;
+import tdunu2025.msbiblioteca.util.Mensaje;
+import tdunu2025.msbiblioteca.util.ResponseBase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(ApiRoutes.RUTA_AUTOR) // "/api/autor"
+@RequestMapping(ApiRoutes.Autor.BASE) // "/api/autor"
 @RequiredArgsConstructor
 public class AutorController {
 

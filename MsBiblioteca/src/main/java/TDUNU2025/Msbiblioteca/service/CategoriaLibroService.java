@@ -1,9 +1,9 @@
-package TDUNU2025.Msbiblioteca.service;
+package tdunu2025.msbiblioteca.service;
 
 import java.util.List;
 
-import TDUNU2025.Msbiblioteca.model.request.CategoriaLibroRequest;
-import TDUNU2025.Msbiblioteca.model.response.CategoriaLibroResponse;
+import tdunu2025.msbiblioteca.model.request.CategoriaLibroRequest;
+import tdunu2025.msbiblioteca.model.response.CategoriaLibroResponse;
 
 public interface CategoriaLibroService {
 

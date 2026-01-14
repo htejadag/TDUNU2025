@@ -1,11 +1,11 @@
-package TDUNU2025.Msbiblioteca.service.impl;
+package tdunu2025.msbiblioteca.service.impl;
 
-import TDUNU2025.Msbiblioteca.exception.ResourceNotFoundException;
-import TDUNU2025.Msbiblioteca.model.entity.CategoriaLibro;
-import TDUNU2025.Msbiblioteca.model.request.CategoriaLibroRequest;
-import TDUNU2025.Msbiblioteca.model.response.CategoriaLibroResponse;
-import TDUNU2025.Msbiblioteca.repository.CategoriaLibroRepository;
-import TDUNU2025.Msbiblioteca.service.CategoriaLibroService;
+import tdunu2025.msbiblioteca.exception.ResourceNotFoundException;
+import tdunu2025.msbiblioteca.model.entity.CategoriaLibro;
+import tdunu2025.msbiblioteca.model.request.CategoriaLibroRequest;
+import tdunu2025.msbiblioteca.model.response.CategoriaLibroResponse;
+import tdunu2025.msbiblioteca.repository.CategoriaLibroRepository;
+import tdunu2025.msbiblioteca.service.CategoriaLibroService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;

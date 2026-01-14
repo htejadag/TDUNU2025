@@ -1,4 +1,4 @@
-package TDUNU2025.Msbiblioteca.exception;
+package tdunu2025.msbiblioteca.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

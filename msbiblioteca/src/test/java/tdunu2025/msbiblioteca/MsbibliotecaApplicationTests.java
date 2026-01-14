@@ -1,4 +1,4 @@
-package com.unu.TDUNU2025.Msbiblioteca;
+package tdunu2025.msbiblioteca;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -8,8 +8,7 @@ class MsbibliotecaApplicationTests {
 
     @Test
     void contextLoads() {
-    // Esta prueba asegura que el contexto de la aplicación Spring Boot 
-    // se cargue correctamente sin errores de configuración.
-	}
+        // Prueba de carga de contexto (Smoke Test)
+    }
 
 }

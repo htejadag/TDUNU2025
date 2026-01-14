@@ -1,4 +1,4 @@
-package TDUNU2025.Msbiblioteca.util;
+package tdunu2025.msbiblioteca.util;
 
 public class Mensaje {
     public static final String CODE_OK = "200";

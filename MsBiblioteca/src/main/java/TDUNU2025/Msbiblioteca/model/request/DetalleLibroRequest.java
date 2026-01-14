@@ -1,4 +1,4 @@
-package TDUNU2025.Msbiblioteca.model.request;
+package tdunu2025.msbiblioteca.model.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

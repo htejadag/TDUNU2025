@@ -1,7 +1,7 @@
-package TDUNU2025.Msbiblioteca.service;
+package tdunu2025.msbiblioteca.service;
 
-import TDUNU2025.Msbiblioteca.model.request.MultaRequest;
-import TDUNU2025.Msbiblioteca.model.response.MultaResponse;
+import tdunu2025.msbiblioteca.model.request.MultaRequest;
+import tdunu2025.msbiblioteca.model.response.MultaResponse;
 
 import java.util.List;
 

@@ -1,9 +1,9 @@
-package TDUNU2025.Msbiblioteca.service;
+package tdunu2025.msbiblioteca.service;
 
 import java.util.List;
 
-import TDUNU2025.Msbiblioteca.model.request.PrestamoRequest;
-import TDUNU2025.Msbiblioteca.model.response.PrestamoResponse;
+import tdunu2025.msbiblioteca.model.request.PrestamoRequest;
+import tdunu2025.msbiblioteca.model.response.PrestamoResponse;
 
 public interface PrestamoService {
     

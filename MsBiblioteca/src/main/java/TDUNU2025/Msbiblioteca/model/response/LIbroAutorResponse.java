@@ -1,4 +1,4 @@
-package TDUNU2025.Msbiblioteca.model.response;
+package tdunu2025.msbiblioteca.model.response;
 
 import lombok.*;
 import java.time.LocalDateTime;

@@ -1,10 +1,18 @@
-package TDUNU2025.Msbiblioteca.util;
+package tdunu2025.msbiblioteca.util;
 
 public class ApiRoutes {
 
-    // Ruta base para Autores (La mantenemos así para compatibilidad con tu AutorController actual)
-    public static final String RUTA_AUTOR = "/api/autor";
-
+    // =========================
+    // ✅ RUTAS DE AUTOR
+    // =========================
+public static class Autor {
+        public static final String BASE = "/api/autor";
+        public static final String GUARDAR = "/guardar";
+        public static final String LISTAR = "/listar";
+        public static final String OBTENER_POR_ID = "/obtener/{id}";
+        public static final String ACTUALIZAR ="/actualizar/{id}";
+        public static final String ELIMINAR = "/eliminar/{id}";
+    }
     // =========================
     // ✅ RUTAS DE LIBRO
     // =========================
@@ -88,6 +96,18 @@ public class ApiRoutes {
         public static final String ACTUALIZAR = "/actualizar/{id}";
         public static final String ELIMINAR = "/eliminar/{id}";
     }
+        // =========================
+    // ✅ RUTAS DE CATEGORIA LIBRO
+    // =========================
+public static class CategoriaLibro {
+        public static final String BASE = "/api/autor";
+        public static final String GUARDAR = "/guardar";
+        public static final String LISTAR = "/listar";
+        public static final String OBTENER_POR_ID = "/obtener/{id}";
+        public static final String ACTUALIZAR ="/actualizar/{id}";
+        public static final String ELIMINAR = "/eliminar/{id}";
+    }
+
 
     // =========================
     // ✅ RUTAS DE EDITORIAL 

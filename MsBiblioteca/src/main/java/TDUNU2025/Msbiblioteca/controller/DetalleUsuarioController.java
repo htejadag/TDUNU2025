@@ -1,11 +1,11 @@
-package TDUNU2025.Msbiblioteca.controller;
+package tdunu2025.msbiblioteca.controller;
 
-import TDUNU2025.Msbiblioteca.model.request.DetalleUsuarioRequest;
-import TDUNU2025.Msbiblioteca.model.response.DetalleUsuarioResponse;
-import TDUNU2025.Msbiblioteca.service.DetalleUsuarioService;
-import TDUNU2025.Msbiblioteca.util.ApiRoutes;
-import TDUNU2025.Msbiblioteca.util.Mensaje;
-import TDUNU2025.Msbiblioteca.util.ResponseBase;
+import tdunu2025.msbiblioteca.model.request.DetalleUsuarioRequest;
+import tdunu2025.msbiblioteca.model.response.DetalleUsuarioResponse;
+import tdunu2025.msbiblioteca.service.DetalleUsuarioService;
+import tdunu2025.msbiblioteca.util.ApiRoutes;
+import tdunu2025.msbiblioteca.util.Mensaje;
+import tdunu2025.msbiblioteca.util.ResponseBase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,7 +36,7 @@ public class DetalleUsuarioController {
 
     @PostMapping(ApiRoutes.DetalleUsuario.GUARDAR)
     public ResponseEntity<ResponseBase<DetalleUsuarioResponse>> registrar(@RequestBody DetalleUsuarioRequest request) {
-        return new ResponseEntity<>(new ResponseBase<DetalleUsuarioResponse>(
+        return new ResponseEntity<>(new ResponseBase<>(
             Mensaje.CODE_OK, Mensaje.MENSAJE_GUARDADO, service.registrar(request)), HttpStatus.CREATED);
     }
 

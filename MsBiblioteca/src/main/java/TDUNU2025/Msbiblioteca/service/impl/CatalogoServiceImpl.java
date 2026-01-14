@@ -1,11 +1,11 @@
-package TDUNU2025.Msbiblioteca.service.impl; // 1. Paquete corregido a minúsculas
+package tdunu2025.msbiblioteca.service.impl; // 1. Paquete corregido a minúsculas
 
-import TDUNU2025.Msbiblioteca.exception.ResourceNotFoundException;
-import TDUNU2025.Msbiblioteca.model.entity.Catalogo;
-import TDUNU2025.Msbiblioteca.model.request.CatalogoRequest;
-import TDUNU2025.Msbiblioteca.model.response.CatalogoResponse;
-import TDUNU2025.Msbiblioteca.repository.CatalogoRepository;
-import TDUNU2025.Msbiblioteca.service.CatalogoService;
+import tdunu2025.msbiblioteca.exception.ResourceNotFoundException;
+import tdunu2025.msbiblioteca.model.entity.Catalogo;
+import tdunu2025.msbiblioteca.model.request.CatalogoRequest;
+import tdunu2025.msbiblioteca.model.response.CatalogoResponse;
+import tdunu2025.msbiblioteca.repository.CatalogoRepository;
+import tdunu2025.msbiblioteca.service.CatalogoService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.cache.annotation.CacheEvict;

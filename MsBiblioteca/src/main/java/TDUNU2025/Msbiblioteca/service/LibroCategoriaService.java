@@ -1,7 +1,7 @@
-package TDUNU2025.Msbiblioteca.service;
+package tdunu2025.msbiblioteca.service;
 
-import TDUNU2025.Msbiblioteca.model.request.LibroCategoriaRequest;
-import TDUNU2025.Msbiblioteca.model.response.LibroCategoriaResponse;
+import tdunu2025.msbiblioteca.model.request.LibroCategoriaRequest;
+import tdunu2025.msbiblioteca.model.response.LibroCategoriaResponse;
 
 import java.util.List;
 

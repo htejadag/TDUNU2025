@@ -1,7 +1,7 @@
 <<<<<<<< HEAD:MsCursos/src/main/java/com/example/MsCursos/config/SwaggerConfig.java
 package com.example.MsCursos.config;
 ========
-package TDUNU2025.Msbiblioteca.config;
+package tdunu2025.msbiblioteca.config;
 >>>>>>>> origin/origin/jordinTrujillo:MsBiblioteca/src/main/java/TDUNU2025/Msbiblioteca/config/SwaggerConfig.java
 
 import io.swagger.v3.oas.models.info.Info;
