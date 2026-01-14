@@ -7,12 +7,18 @@ import java.util.List;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.example.Comedor.config.BusinessException;
+import com.example.Comedor.model.entity.CatalogoModel;
 import com.example.Comedor.model.entity.TurnoModel;
 import com.example.Comedor.model.request.turno.TurnoRequest;
 import com.example.Comedor.model.request.turno.TurnoUpdateRequest;
 import com.example.Comedor.model.response.TurnoResponse;
+import com.example.Comedor.repository.CatalogoRepository;
 import com.example.Comedor.repository.TurnoRepository;
 import com.example.Comedor.service.TurnoService;
+import com.example.Comedor.util.CatalogoEnum;
+
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -25,6 +31,9 @@ public class TurnoServiceImp implements TurnoService {
 
     @Autowired
     private ModelMapper modelMapper;
+
+    @Autowired
+    CatalogoRepository catalogoRepository;
 
     @Override
     public List<TurnoResponse> listar() {
@@ -45,9 +54,22 @@ public class TurnoServiceImp implements TurnoService {
     public TurnoResponse guardar(TurnoRequest turnoRequest) {
         
 
-        TurnoModel model = modelMapper.map(turnoRequest, TurnoModel.class);
+        TurnoModel model = new TurnoModel();
 
-        model.setDescripcion(turnoRequest.getDescripcion());
+        Integer idTipoTurnoReq = turnoRequest.getIdTipoTurno();
+
+        if (
+            !idTipoTurnoReq.equals(CatalogoEnum.MANANA.getId()) &&
+            !idTipoTurnoReq.equals(CatalogoEnum.TARDE.getId()) &&
+            !idTipoTurnoReq.equals(CatalogoEnum.NOCHE.getId())
+        ) {
+            throw new BusinessException("tipo de plato no válido");
+        }
+
+        CatalogoModel idTipoTurno = catalogoRepository.findById(idTipoTurnoReq)
+        .orElseThrow(() -> new RuntimeException("No existe el tipo de plato"));
+
+        model.setIdTipoTurno(idTipoTurno);
         model.setHoraApertura(LocalTime.parse(turnoRequest.getHoraApertura()));
         model.setHoraCierre(LocalTime.parse(turnoRequest.getHoraCierre()));
         model.setRacionesTotales(turnoRequest.getRacionesTotales());
@@ -73,7 +95,20 @@ public class TurnoServiceImp implements TurnoService {
     TurnoModel model = turnoRepository.findById(id)
             .orElseThrow(() -> new RuntimeException("No existe un turno con id: " + id));
 
-    model.setDescripcion(turnoRequest.getDescripcion());
+    Integer idTipoTurnoReq = turnoRequest.getIdTipoTurno();
+
+        if (
+            !idTipoTurnoReq.equals(CatalogoEnum.MANANA.getId()) &&
+            !idTipoTurnoReq.equals(CatalogoEnum.TARDE.getId()) &&
+            !idTipoTurnoReq.equals(CatalogoEnum.NOCHE.getId())
+        ) {
+            throw new BusinessException("tipo de plato no válido");
+        }
+
+        CatalogoModel idTipoTurno = catalogoRepository.findById(idTipoTurnoReq)
+        .orElseThrow(() -> new RuntimeException("No existe el tipo de plato"));
+
+        model.setIdTipoTurno(idTipoTurno);
     model.setHoraApertura(LocalTime.parse(turnoRequest.getHoraApertura()));
     model.setHoraCierre(LocalTime.parse(turnoRequest.getHoraCierre()));
     model.setRacionesTotales(turnoRequest.getRacionesTotales());
@@ -98,10 +133,7 @@ public class TurnoServiceImp implements TurnoService {
 
     TurnoModel actualizado = turnoRepository.save(model);
 
-    return modelMapper.map(actualizado, TurnoResponse.class);
-
-
-        
+    return modelMapper.map(actualizado, TurnoResponse.class);    
         
     }
 

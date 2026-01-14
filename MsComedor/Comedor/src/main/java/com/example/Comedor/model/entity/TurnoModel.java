@@ -8,6 +8,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
 
@@ -20,18 +22,19 @@ public class TurnoModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Integer id;
-    @Column(name = "descripcion")
-    private String descripcion;
+
+    @ManyToOne
+    @JoinColumn(name = "idTipoTurno", referencedColumnName = "id")
+    private CatalogoModel idTipoTurno;
+
     @Column(name = "hora_apertura")
     private LocalTime horaApertura;
     @Column(name = "hora_cierre")
     private LocalTime horaCierre;
-    //RECAMBIO
     @Column(name = "raciones_totales", nullable = false)
     private Integer racionesTotales;
     @Column(name = "raciones_restantes", nullable = false)
     private Integer racionesRestantes;
-    //FIN RECAMBIO
     @Column(name = "activo")
     private boolean activo;
 

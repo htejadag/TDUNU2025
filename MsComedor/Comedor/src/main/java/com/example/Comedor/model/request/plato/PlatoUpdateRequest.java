@@ -13,7 +13,7 @@ public class PlatoUpdateRequest {
 
     private Integer calorias;
   
-    private String tipo;
+    private Integer idTipo;
 
     private boolean activo;
 

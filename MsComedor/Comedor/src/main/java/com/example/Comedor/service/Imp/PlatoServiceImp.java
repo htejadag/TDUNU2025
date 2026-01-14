@@ -7,12 +7,16 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.Comedor.config.BusinessException;
+import com.example.Comedor.model.entity.CatalogoModel;
 import com.example.Comedor.model.entity.PlatoModel;
 import com.example.Comedor.model.request.plato.PlatoRequest;
 import com.example.Comedor.model.request.plato.PlatoUpdateRequest;
 import com.example.Comedor.model.response.PlatoResponse;
+import com.example.Comedor.repository.CatalogoRepository;
 import com.example.Comedor.repository.PlatoRepository;
 import com.example.Comedor.service.PlatoService;
+import com.example.Comedor.util.CatalogoEnum;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -26,6 +30,9 @@ public class PlatoServiceImp implements PlatoService {
 
     @Autowired
     private ModelMapper modelMapper;
+
+    @Autowired
+    CatalogoRepository catalogoRepository;
     
     
     
@@ -51,13 +58,28 @@ public class PlatoServiceImp implements PlatoService {
     @Override
     public PlatoResponse guardar(PlatoRequest platoRequest) {
 
-        PlatoModel model = modelMapper.map(platoRequest, PlatoModel.class);
+        PlatoModel model = new PlatoModel();
+
+        Integer idTipoReq = platoRequest.getIdTipo();
+
+        if (
+            !idTipoReq.equals(CatalogoEnum.DESAYUNO.getId()) &&
+            !idTipoReq.equals(CatalogoEnum.ALMUERZO.getId()) &&
+            !idTipoReq.equals(CatalogoEnum.CENA.getId())
+        ) {
+            throw new BusinessException("tipo de plato no válido");
+        }
+
+        CatalogoModel idTipo = catalogoRepository.findById(idTipoReq)
+        .orElseThrow(() -> new RuntimeException("No existe el tipo de plato"));
+
+
 
         model.setNombre(platoRequest.getNombre());
         model.setDescripcion(platoRequest.getDescripcion());
         model.setImagenUrl(platoRequest.getImagenUrl());
         model.setCalorias(platoRequest.getCalorias());
-        model.setTipo(platoRequest.getTipo());
+        model.setIdTipo(idTipo);
         model.setActivo(platoRequest.isActivo());
         model.setUsuarioCreacion(platoRequest.getUsuarioCreacion());
         model.setFechaCreacion(LocalDate.now());
@@ -78,13 +100,28 @@ public class PlatoServiceImp implements PlatoService {
         PlatoModel model = platoRepository.findById(id)
             .orElseThrow(() -> new RuntimeException("No existe un plato con id: " + id));
 
+        Integer idTipoReq = platoRequest.getIdTipo();
+
+        if (
+            !idTipoReq.equals(CatalogoEnum.DESAYUNO.getId()) &&
+            !idTipoReq.equals(CatalogoEnum.ALMUERZO.getId()) &&
+            !idTipoReq.equals(CatalogoEnum.CENA.getId())
+        ) {
+            throw new BusinessException("tipo de plato no válido");
+        }
+
+        CatalogoModel idTipo = catalogoRepository.findById(idTipoReq)
+        .orElseThrow(() -> new RuntimeException("No existe el tipo de plato"));
+
+        
+
         modelMapper.map(platoRequest, model);
 
         model.setNombre(platoRequest.getNombre());
         model.setDescripcion(platoRequest.getDescripcion());
         model.setImagenUrl(platoRequest.getImagenUrl());
         model.setCalorias(platoRequest.getCalorias());
-        model.setTipo(platoRequest.getTipo());
+        model.setIdTipo(idTipo);
         model.setActivo(platoRequest.isActivo());
         model.setUsuarioModificacion(platoRequest.getUsuarioModificacion());
         model.setFechaModificacion(LocalDate.now());

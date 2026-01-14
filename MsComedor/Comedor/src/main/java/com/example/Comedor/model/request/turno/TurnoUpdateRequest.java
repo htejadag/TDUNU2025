@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class TurnoUpdateRequest {
 
-    private String descripcion;
+    private Integer idTipoTurno;
 
     private String horaApertura;
 

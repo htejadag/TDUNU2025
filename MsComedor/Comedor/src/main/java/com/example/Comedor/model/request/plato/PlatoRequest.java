@@ -11,9 +11,9 @@ public class PlatoRequest {
  
     private String imagenUrl;
 
-    private Integer calorias;
+    private double calorias;
   
-    private String tipo;
+    private Integer idTipo;
 
     private boolean activo;
 

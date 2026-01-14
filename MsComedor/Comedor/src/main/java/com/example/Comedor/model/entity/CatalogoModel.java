@@ -7,39 +7,24 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "plato")
-public class PlatoModel {
+@Table(name = "catalogo")
+public class CatalogoModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id",nullable = false)
     private Integer id;
-    @Column(name = "nombre",nullable = false)
-    private String nombre;
-    @Column(name = "descripcion",nullable = false)
-    private String descripcion;
-    @Column(name = "imagen_url",nullable = false)
-    private String imagenUrl;
-    @Column(name = "calorias",nullable = false)
-    private double calorias;
-
-    @ManyToOne
-    @JoinColumn(name = "idTipo", referencedColumnName = "id")
-    private CatalogoModel idTipo;
-
-    @Column(name = "activo",nullable = false)
+    @Column (name = "tipo", nullable = false)
+    private String tipo;
+    @Column (name = "activo", nullable = false)
     private boolean activo;
 
-
     //auditoria
-    @Column(name = "usuario_creacion",nullable = false)
+    @Column(name = "usuario_creacion", nullable = false)
     private Integer usuarioCreacion;
     @Column(name = "fecha_creacion", nullable = false)
     private LocalDate fechaCreacion;

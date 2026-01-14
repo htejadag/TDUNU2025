@@ -1,36 +1,27 @@
 package com.example.Comedor.model.response;
 
-
+import java.io.Serializable;
 import java.time.LocalDate;
 
-import com.example.Comedor.model.entity.CatalogoModel;
-
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
-public class PlatoResponse {
+@NoArgsConstructor
+public class CatalogoResponse implements Serializable {
 
     private Integer id;
-    
-    private String nombre;
-  
-    private String descripcion;
- 
-    private String imagenUrl;
 
-    private Integer calorias;
-  
-    private CatalogoModel idTipo;
+    private String tipo;
 
     private boolean activo;
-    
 
     private Integer usuarioCreacion;
 
     private LocalDate fechaCreacion;
 
     private Integer usuarioModificacion;
-    
+
     private LocalDate fechaModificacion;
     
 }

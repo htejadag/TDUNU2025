@@ -28,5 +28,12 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+    @ExceptionHandler(BusinessException.class)
+    public ResponseEntity<ResponseBase<Object>> handleBusiness(BusinessException ex) {
+        return ResponseEntity
+                .badRequest()
+                .body(ResponseBase.error(ex.getMessage()));
+    }
+
     
 }
