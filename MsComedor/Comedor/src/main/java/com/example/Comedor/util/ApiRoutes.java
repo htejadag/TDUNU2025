@@ -72,6 +72,7 @@ public class ApiRoutes {
         public static final String GUARDAR_MENU_PLATO = "/guardar";
         public static final String MODIFICAR_MENU_PLATO = "/modificar";
         public static final String ELIMINAR_MENU_PLATO = "/eliminar";
+         public static final String LISTAR_MENU_PLATO_SEMANA = "/semana";
     
         
     }

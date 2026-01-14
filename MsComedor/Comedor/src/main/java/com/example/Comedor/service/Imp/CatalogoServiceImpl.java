@@ -4,7 +4,6 @@ import java.time.LocalDate;
 import java.util.List;
 
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 
@@ -22,64 +21,66 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 public class CatalogoServiceImpl implements CatalogoService {
 
-    
-    @Autowired
-    CatalogoRepository catalogoRepository;
+    private final CatalogoRepository catalogoRepository;
 
-    @Autowired
-    private ModelMapper modelMapper; 
+    private final ModelMapper modelMapper;
 
-    @Autowired
-    private CatalogoCacheService cacheService;
+    private final CatalogoCacheService cacheService;
 
+    public CatalogoServiceImpl(CatalogoRepository catalogoRepository,
+            ModelMapper modelMapper,
+            CatalogoCacheService cacheService) {
+
+        this.catalogoRepository = catalogoRepository;
+        this.modelMapper = modelMapper;
+        this.cacheService = cacheService;
+
+    }
 
     @Override
     public List<CatalogoResponse> listar() {
 
-         return cacheService.listarCacheado()
-            .stream()
-            .map(model -> modelMapper.map(model, CatalogoResponse.class))
-            .toList();
-       
+        return cacheService.listarCacheado()
+                .stream()
+                .map(model -> modelMapper.map(model, CatalogoResponse.class))
+                .toList();
+
     }
 
     @Override
     public CatalogoResponse obtenerPorId(Integer id) {
 
         return cacheService.listarCacheado()
-        .stream()
-        .filter(c -> c.getId().equals(id))
-        .findFirst()
-        .orElse(null);
-        
+                .stream()
+                .filter(c -> c.getId().equals(id))
+                .findFirst()
+                .orElse(null);
+
     }
 
     @CacheEvict(value = "catalogos_Comedor", allEntries = true)
     @Override
     public CatalogoResponse guardar(CatalogoRequest catalogoRequest) {
 
-        CatalogoModel model =modelMapper.map(catalogoRequest, CatalogoModel.class);
+        CatalogoModel model = modelMapper.map(catalogoRequest, CatalogoModel.class);
 
         model.setTipo(catalogoRequest.getTipo());
         model.setActivo(catalogoRequest.isActivo());
         model.setUsuarioCreacion(catalogoRequest.getUsuarioCreacion());
         model.setFechaCreacion(LocalDate.now());
 
-
         CatalogoModel saved = catalogoRepository.save(model);
 
         return modelMapper.map(saved, CatalogoResponse.class);
 
-    
-        
     }
 
     @CacheEvict(value = "catalogos_Comedor", allEntries = true)
     @Override
     public CatalogoResponse modificar(Integer id, CatalogoUpdateRequest catalogoRequest) {
 
-         CatalogoModel model = catalogoRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("No existe un catalogocon id: " + id));
+        CatalogoModel model = catalogoRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("No existe un catalogocon id: " + id));
 
         model.setTipo(catalogoRequest.getTipo());
         model.setActivo(catalogoRequest.isActivo());
@@ -90,8 +91,6 @@ public class CatalogoServiceImpl implements CatalogoService {
 
         return modelMapper.map(actualizado, CatalogoResponse.class);
 
-
-       
     }
 
     @CacheEvict(value = "catalogos_Comedor", allEntries = true)
@@ -99,17 +98,14 @@ public class CatalogoServiceImpl implements CatalogoService {
     public CatalogoResponse eliminar(Integer id) {
 
         CatalogoModel model = catalogoRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("No existe un catalogocon id: " + id));
+                .orElseThrow(() -> new RuntimeException("No existe un catalogocon id: " + id));
 
         model.setActivo(false);
 
         CatalogoModel actualizado = catalogoRepository.save(model);
-    
+
         return modelMapper.map(actualizado, CatalogoResponse.class);
-      
-        
+
     }
 
-
-    
 }

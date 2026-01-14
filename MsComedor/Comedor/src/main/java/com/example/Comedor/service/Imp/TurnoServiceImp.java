@@ -5,7 +5,6 @@ import java.time.LocalTime;
 import java.util.List;
 
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.Comedor.config.BusinessException;
@@ -25,15 +24,20 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 public class TurnoServiceImp implements TurnoService {
 
-    @Autowired
-    TurnoRepository turnoRepository;
-    
+    private final TurnoRepository turnoRepository;
 
-    @Autowired
-    private ModelMapper modelMapper;
+    private final ModelMapper modelMapper;
 
-    @Autowired
-    CatalogoRepository catalogoRepository;
+    private final CatalogoRepository catalogoRepository;
+
+    public TurnoServiceImp(TurnoRepository turnoRepository, ModelMapper modelMapper,
+            CatalogoRepository catalogoRepository) {
+
+        this.turnoRepository = turnoRepository;
+        this.modelMapper = modelMapper;
+        this.catalogoRepository = catalogoRepository;
+
+    }
 
     @Override
     public List<TurnoResponse> listar() {
@@ -52,22 +56,19 @@ public class TurnoServiceImp implements TurnoService {
 
     @Override
     public TurnoResponse guardar(TurnoRequest turnoRequest) {
-        
 
         TurnoModel model = new TurnoModel();
 
         Integer idTipoTurnoReq = turnoRequest.getIdTipoTurno();
 
-        if (
-            !idTipoTurnoReq.equals(CatalogoEnum.MANANA.getId()) &&
-            !idTipoTurnoReq.equals(CatalogoEnum.TARDE.getId()) &&
-            !idTipoTurnoReq.equals(CatalogoEnum.NOCHE.getId())
-        ) {
+        if (!idTipoTurnoReq.equals(CatalogoEnum.MANANA.getId()) &&
+                !idTipoTurnoReq.equals(CatalogoEnum.TARDE.getId()) &&
+                !idTipoTurnoReq.equals(CatalogoEnum.NOCHE.getId())) {
             throw new BusinessException("tipo de plato no válido");
         }
 
         CatalogoModel idTipoTurno = catalogoRepository.findById(idTipoTurnoReq)
-        .orElseThrow(() -> new RuntimeException("No existe el tipo de plato"));
+                .orElseThrow(() -> new RuntimeException("No existe el tipo de plato"));
 
         model.setIdTipoTurno(idTipoTurno);
         model.setHoraApertura(LocalTime.parse(turnoRequest.getHoraApertura()));
@@ -78,75 +79,66 @@ public class TurnoServiceImp implements TurnoService {
         model.setUsuarioCreacion(turnoRequest.getUsuarioCreacion());
         model.setFechaCreacion(LocalDate.now());
 
-
-       
         TurnoModel saved = turnoRepository.save(model);
 
         return modelMapper.map(saved, TurnoResponse.class);
 
-        
-        
-        
     }
 
     @Override
     public TurnoResponse modificar(Integer id, TurnoUpdateRequest turnoRequest) {
 
-    TurnoModel model = turnoRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("No existe un turno con id: " + id));
+        TurnoModel model = turnoRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("No existe un turno con id: " + id));
 
-    Integer idTipoTurnoReq = turnoRequest.getIdTipoTurno();
+        Integer idTipoTurnoReq = turnoRequest.getIdTipoTurno();
 
-        if (
-            !idTipoTurnoReq.equals(CatalogoEnum.MANANA.getId()) &&
-            !idTipoTurnoReq.equals(CatalogoEnum.TARDE.getId()) &&
-            !idTipoTurnoReq.equals(CatalogoEnum.NOCHE.getId())
-        ) {
+        if (!idTipoTurnoReq.equals(CatalogoEnum.MANANA.getId()) &&
+                !idTipoTurnoReq.equals(CatalogoEnum.TARDE.getId()) &&
+                !idTipoTurnoReq.equals(CatalogoEnum.NOCHE.getId())) {
             throw new BusinessException("tipo de plato no válido");
         }
 
         CatalogoModel idTipoTurno = catalogoRepository.findById(idTipoTurnoReq)
-        .orElseThrow(() -> new RuntimeException("No existe el tipo de plato"));
+                .orElseThrow(() -> new RuntimeException("No existe el tipo de plato"));
 
         model.setIdTipoTurno(idTipoTurno);
-    model.setHoraApertura(LocalTime.parse(turnoRequest.getHoraApertura()));
-    model.setHoraCierre(LocalTime.parse(turnoRequest.getHoraCierre()));
-    model.setRacionesTotales(turnoRequest.getRacionesTotales());
-    model.setRacionesRestantes(turnoRequest.getRacionesTotales());
-    model.setActivo(turnoRequest.isActivo());
-    model.setUsuarioModificacion(turnoRequest.getUsuarioModificacion());
-    model.setFechaModificacion(LocalDate.now());
+        model.setHoraApertura(LocalTime.parse(turnoRequest.getHoraApertura()));
+        model.setHoraCierre(LocalTime.parse(turnoRequest.getHoraCierre()));
+        model.setRacionesTotales(turnoRequest.getRacionesTotales());
+        model.setRacionesRestantes(turnoRequest.getRacionesTotales());
+        model.setActivo(turnoRequest.isActivo());
+        model.setUsuarioModificacion(turnoRequest.getUsuarioModificacion());
+        model.setFechaModificacion(LocalDate.now());
 
+        TurnoModel actualizado = turnoRepository.save(model);
 
-    TurnoModel actualizado = turnoRepository.save(model);
-
-    return modelMapper.map(actualizado, TurnoResponse.class);
-}
+        return modelMapper.map(actualizado, TurnoResponse.class);
+    }
 
     @Override
     public TurnoResponse eliminar(Integer id) {
 
-         TurnoModel model = turnoRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("No existe un turno con id: " + id));
+        TurnoModel model = turnoRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("No existe un turno con id: " + id));
 
-    model.setActivo(false);
+        model.setActivo(false);
 
-    TurnoModel actualizado = turnoRepository.save(model);
+        TurnoModel actualizado = turnoRepository.save(model);
 
-    return modelMapper.map(actualizado, TurnoResponse.class);    
-        
+        return modelMapper.map(actualizado, TurnoResponse.class);
+
     }
 
     @Override
     public void descontarRacion(Integer id) {
 
+        TurnoModel model = turnoRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("No existe un Racion en ese turno y con ese id: " + id));
 
-         TurnoModel model = turnoRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("No existe un Racion en ese turno y con ese id: " + id));
-
-        model.setRacionesRestantes(model.getRacionesRestantes()-1);
+        model.setRacionesRestantes(model.getRacionesRestantes() - 1);
 
         turnoRepository.save(model);
     }
-    
+
 }

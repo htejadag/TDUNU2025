@@ -2,7 +2,6 @@ package com.example.Comedor.controller;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,9 +21,12 @@ import com.example.Comedor.util.ResponseBase;
 @RequestMapping(ApiRoutes.MenuPlato.BASE_MENU_PLATO)
 public class MenuPlatoController {
 
-    @Autowired
-    private MenuPlatoService menuPlatoService;
+    private final MenuPlatoService menuPlatoService;
 
+    public MenuPlatoController(MenuPlatoService menuPlatoService) {
+
+        this.menuPlatoService = menuPlatoService;
+    }
 
     @GetMapping(ApiRoutes.MenuPlato.LISTAR_MENU_PLATO)
     public ResponseBase<List<MenuPlatoResponse>> listar() {
@@ -32,13 +34,11 @@ public class MenuPlatoController {
         return ResponseBase.ok(lista);
     }
 
-
     @GetMapping(ApiRoutes.MenuPlato.OBTENER_POR_ID_MENU_PLATO)
     public ResponseBase<MenuPlatoResponse> obtenerPorId(@RequestParam("id") Integer id) {
         MenuPlatoResponse response = menuPlatoService.obtenerPorId(id);
         return ResponseBase.ok(response);
     }
-
 
     @PostMapping(ApiRoutes.MenuPlato.GUARDAR_MENU_PLATO)
     public ResponseBase<MenuPlatoResponse> guardar(@RequestBody MenuPlatoRequest request) {
@@ -46,7 +46,6 @@ public class MenuPlatoController {
         return ResponseBase.ok(response);
     }
 
-   
     @PutMapping(ApiRoutes.MenuPlato.MODIFICAR_MENU_PLATO)
     public ResponseBase<MenuPlatoResponse> modificar(
             @RequestParam("id") Integer id,
@@ -58,11 +57,16 @@ public class MenuPlatoController {
 
     @DeleteMapping(ApiRoutes.MenuPlato.ELIMINAR_MENU_PLATO)
     public ResponseBase<MenuPlatoResponse> eliminar(@RequestParam("id") Integer id) {
-        
+
         MenuPlatoResponse response = menuPlatoService.eliminar(id);
         return ResponseBase.ok(response);
 
-
     }
-    
+
+    @GetMapping(ApiRoutes.MenuPlato.LISTAR_MENU_PLATO_SEMANA)
+    public ResponseBase<List<MenuPlatoResponse>> listarPorMenuSemana(@RequestParam("idMenuSemana") Integer id) {
+        List<MenuPlatoResponse> lista = menuPlatoService.listar();
+        return ResponseBase.ok(lista);
+    }
+
 }

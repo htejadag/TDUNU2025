@@ -23,15 +23,15 @@ public class MenuPlatoModel {
 
     @ManyToOne
     @JoinColumn(name = "id_menu_dia", nullable = false)
-    private MenuDiaModel menuDia;
+    private MenuDiaModel idMenuDia;
 
     @ManyToOne
     @JoinColumn(name = "id_turno", nullable = false)
-    private TurnoModel turno;
+    private TurnoModel idTurno;
 
     @ManyToOne
     @JoinColumn(name = "id_plato", nullable = false)
-    private PlatoModel plato;
+    private PlatoModel idPlato;
 
      @Column(name = "activo",nullable = false)
     private boolean activo;

@@ -3,7 +3,6 @@ package com.example.Comedor.service;
 import java.util.List;
 
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
@@ -13,11 +12,14 @@ import com.example.Comedor.repository.CatalogoRepository;
 @Service
 public class CatalogoCacheService {
 
-    @Autowired
-    CatalogoRepository catalogoRepository;
+    private final CatalogoRepository catalogoRepository;
+    private final ModelMapper modelMapper;
 
-    @Autowired
-    private ModelMapper modelMapper;
+    public CatalogoCacheService(CatalogoRepository catalogoRepository,
+                                ModelMapper modelMapper) {
+        this.catalogoRepository = catalogoRepository;
+        this.modelMapper = modelMapper;
+    }
 
     @Cacheable("catalogos_Comedor")
     public List<CatalogoResponse> listarCacheado() {

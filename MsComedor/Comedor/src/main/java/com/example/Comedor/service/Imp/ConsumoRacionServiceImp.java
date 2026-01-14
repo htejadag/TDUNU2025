@@ -4,7 +4,6 @@ import java.time.LocalDate;
 import java.util.List;
 
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,78 +25,84 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Service
 public class ConsumoRacionServiceImp implements ConsumoRacionService {
-    @Autowired
-    MenuPlatoRepository menuPlatoRepository;
-    @Autowired
-    ConsumoRacionRepository consumoRacionRepository;
 
-    @Autowired
-    private ModelMapper modelMapper;
+    private final MenuPlatoRepository menuPlatoRepository;
 
-    @Autowired
-    private ConsumoMessagePublish consumoMessagePublish;
+    private final ConsumoRacionRepository consumoRacionRepository;
 
-    @Autowired
-    private TurnoService  turnoService;
+    private final ModelMapper modelMapper;
 
+    private final ConsumoMessagePublish consumoMessagePublish;
 
+    private final TurnoService turnoService;
+
+    public ConsumoRacionServiceImp(MenuPlatoRepository menuPlatoRepository,
+            ConsumoRacionRepository consumoRacionRepository,
+            ModelMapper modelMapper,
+            ConsumoMessagePublish consumoMessagePublish,
+            TurnoService turnoService) {
+
+        this.menuPlatoRepository = menuPlatoRepository;
+        this.consumoRacionRepository = consumoRacionRepository;
+        this.modelMapper = modelMapper;
+        this.consumoMessagePublish = consumoMessagePublish;
+        this.turnoService = turnoService;
+
+    }
 
     @Override
     public List<ConsumoRacionResponse> listar() {
         return consumoRacionRepository.findAll()
-            .stream()
-            .map(model -> modelMapper.map(model, ConsumoRacionResponse.class))
-            .toList();
+                .stream()
+                .map(model -> modelMapper.map(model, ConsumoRacionResponse.class))
+                .toList();
     }
 
     @Override
     public ConsumoRacionResponse obtenerPorId(Integer id) {
         return consumoRacionRepository.findById(id)
-            .map(model -> modelMapper.map(model, ConsumoRacionResponse.class))
-            .orElse(null);
+                .map(model -> modelMapper.map(model, ConsumoRacionResponse.class))
+                .orElse(null);
     }
-    
+
     @Transactional
     @Override
     public ConsumoRacionResponse guardar(ConsumoRacionRequest consumoRacionRequest) {
-      
 
-      
         MenuPlatoModel plato = menuPlatoRepository.findById(consumoRacionRequest.getIdMenuPlato())
-            .orElseThrow(() -> new RuntimeException("No existe plato con id: " + consumoRacionRequest.getIdMenuPlato()));
+                .orElseThrow(
+                        () -> new RuntimeException("No existe plato con id: " + consumoRacionRequest.getIdMenuPlato()));
 
         ConsumoRacionModel modelRa = new ConsumoRacionModel();
 
-      
         modelRa.setIdMenuPlato(plato);
         modelRa.setIdCuentaUsuario(consumoRacionRequest.getIdCuentaUsuario());
         modelRa.setFechaConsumo(LocalDate.now());
 
         modelRa.setUsuarioCreacion(consumoRacionRequest.getUsuarioCreacion());
         modelRa.setFechaCreacion(LocalDate.now());
-       
+
         ConsumoRacionModel saved = consumoRacionRepository.save(modelRa);
 
         try {
 
-            KafkaEvent event =new KafkaEvent();
+            KafkaEvent event = new KafkaEvent();
 
             event.setIdCuentaUsuario(saved.getIdCuentaUsuario());
             event.setIdUsuarioCreacion(saved.getUsuarioCreacion());
             consumoMessagePublish.sendConsumoEvent(event);
-            
+
         } catch (Exception e) {
 
             log.error("Error enviando evento Kafka", e);
-   
+
         }
 
-        TurnoModel  turno = plato.getTurno();
+        TurnoModel turno = plato.getIdTurno();
 
         turnoService.descontarRacion(turno.getId());
 
         return modelMapper.map(saved, ConsumoRacionResponse.class);
-
 
     }
 
@@ -105,10 +110,11 @@ public class ConsumoRacionServiceImp implements ConsumoRacionService {
     public ConsumoRacionResponse modificar(Integer id, ConsumoRacionUpdateRequest consumoRacionRequest) {
 
         ConsumoRacionModel model = consumoRacionRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("No existe consumo racion con id: " + id));
+                .orElseThrow(() -> new RuntimeException("No existe consumo racion con id: " + id));
 
         MenuPlatoModel plato = menuPlatoRepository.findById(consumoRacionRequest.getIdMenuPlato())
-            .orElseThrow(() -> new RuntimeException("No existe menu plato con id: " + consumoRacionRequest.getIdMenuPlato()));
+                .orElseThrow(() -> new RuntimeException(
+                        "No existe menu plato con id: " + consumoRacionRequest.getIdMenuPlato()));
 
         modelMapper.map(consumoRacionRequest, model);
 
@@ -119,28 +125,24 @@ public class ConsumoRacionServiceImp implements ConsumoRacionService {
         model.setUsuarioModificacion(consumoRacionRequest.getUsuarioModificacion());
         model.setFechaModificacion(LocalDate.now());
 
-        ConsumoRacionModel actualizado=consumoRacionRepository.save(model);
+        ConsumoRacionModel actualizado = consumoRacionRepository.save(model);
 
         return modelMapper.map(actualizado, ConsumoRacionResponse.class);
-     
+
     }
 
     @Override
     public ConsumoRacionResponse eliminar(Integer id) {
 
         ConsumoRacionModel model = consumoRacionRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("No existe consumo racion con id: " + id));
+                .orElseThrow(() -> new RuntimeException("No existe consumo racion con id: " + id));
 
         model.setActivo(false);
 
-        ConsumoRacionModel actualizado=consumoRacionRepository.save(model);
+        ConsumoRacionModel actualizado = consumoRacionRepository.save(model);
 
         return modelMapper.map(actualizado, ConsumoRacionResponse.class);
 
-
     }
-    
-   
 
-    
 }

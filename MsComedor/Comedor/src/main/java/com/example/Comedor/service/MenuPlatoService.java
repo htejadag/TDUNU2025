@@ -17,5 +17,7 @@ public interface MenuPlatoService {
     MenuPlatoResponse modificar(Integer id, MenuPlatoUpdateRequest request);
 
     MenuPlatoResponse eliminar(Integer id);
+
+    List<MenuPlatoResponse> listarPorMenuSemana(Integer idMenuSemana);
     
 }

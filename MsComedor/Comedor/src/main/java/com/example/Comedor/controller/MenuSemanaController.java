@@ -2,7 +2,6 @@ package com.example.Comedor.controller;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -11,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.example.Comedor.model.request.menuSemana.MenuSemanaRequest;
 import com.example.Comedor.model.request.menuSemana.MenuSemanaUpdateRequest;
 import com.example.Comedor.model.response.MenuSemanaResponse;
@@ -23,9 +21,12 @@ import com.example.Comedor.util.ResponseBase;
 @RequestMapping(ApiRoutes.MenuSemana.BASE_MENUSEMANA)
 public class MenuSemanaController {
 
-    @Autowired
-    MenuSemanaService menuSemanaService;
+    private final MenuSemanaService menuSemanaService;
 
+    public MenuSemanaController(MenuSemanaService menuSemanaService) {
+
+        this.menuSemanaService = menuSemanaService;
+    }
 
     @GetMapping(value = ApiRoutes.MenuSemana.LISTAR_MENUSEMANA)
     public ResponseBase<List<MenuSemanaResponse>> listar() {
@@ -39,8 +40,7 @@ public class MenuSemanaController {
         return ResponseBase.ok(response);
     }
 
-
-     @PostMapping(value = ApiRoutes.MenuSemana.GUARDAR_MENUSEMANA)
+    @PostMapping(value = ApiRoutes.MenuSemana.GUARDAR_MENUSEMANA)
     public ResponseBase<MenuSemanaResponse> guardar(@RequestBody MenuSemanaRequest model) {
         MenuSemanaResponse response = menuSemanaService.guardar(model);
         return ResponseBase.ok(response);
@@ -50,19 +50,18 @@ public class MenuSemanaController {
     public ResponseBase<MenuSemanaResponse> modificar(
             @RequestParam(value = "id") Integer id,
             @RequestBody MenuSemanaUpdateRequest request) {
-        
+
         MenuSemanaResponse response = menuSemanaService.modificar(id, request);
         return ResponseBase.ok(response);
     }
 
-
-     @DeleteMapping(value = ApiRoutes.MenuSemana.ELIMINAR_MENUSEMANA)
-    public ResponseBase<MenuSemanaResponse>eliminar(
-            @RequestParam(value = "id") Integer id ) {
+    @DeleteMapping(value = ApiRoutes.MenuSemana.ELIMINAR_MENUSEMANA)
+    public ResponseBase<MenuSemanaResponse> eliminar(
+            @RequestParam(value = "id") Integer id) {
 
         MenuSemanaResponse response = menuSemanaService.eliminar(id);
         return ResponseBase.ok(response);
-        
+
     }
-  
+
 }

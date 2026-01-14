@@ -18,7 +18,7 @@ public class PlatoResponse {
  
     private String imagenUrl;
 
-    private Integer calorias;
+    private double calorias;
   
     private CatalogoModel idTipo;
 

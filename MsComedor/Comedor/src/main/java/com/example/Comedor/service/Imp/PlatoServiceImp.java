@@ -4,7 +4,6 @@ import java.time.LocalDate;
 import java.util.List;
 
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.Comedor.config.BusinessException;
@@ -23,36 +22,38 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Service
 public class PlatoServiceImp implements PlatoService {
-    
-    @Autowired
-    PlatoRepository platoRepository;
-    
 
-    @Autowired
-    private ModelMapper modelMapper;
+    private final PlatoRepository platoRepository;
 
-    @Autowired
-    CatalogoRepository catalogoRepository;
-    
-    
-    
+    private final ModelMapper modelMapper;
+
+    private final CatalogoRepository catalogoRepository;
+
+    public PlatoServiceImp(PlatoRepository platoRepository,
+            ModelMapper modelMapper,
+            CatalogoRepository catalogoRepository) {
+
+        this.platoRepository = platoRepository;
+        this.modelMapper = modelMapper;
+        this.catalogoRepository = catalogoRepository;
+    }
+
     @Override
     public List<PlatoResponse> listar() {
-        
-        return platoRepository.findAll()
-            .stream()
-            .map(model -> modelMapper.map(model, PlatoResponse.class))
-            .toList();
 
-        
+        return platoRepository.findAll()
+                .stream()
+                .map(model -> modelMapper.map(model, PlatoResponse.class))
+                .toList();
+
     }
 
     @Override
     public PlatoResponse obtenerPorId(Integer id) {
         return platoRepository.findById(id)
-            .map(model -> modelMapper.map(model, PlatoResponse.class))
-            .orElse(null);
-        
+                .map(model -> modelMapper.map(model, PlatoResponse.class))
+                .orElse(null);
+
     }
 
     @Override
@@ -62,18 +63,14 @@ public class PlatoServiceImp implements PlatoService {
 
         Integer idTipoReq = platoRequest.getIdTipo();
 
-        if (
-            !idTipoReq.equals(CatalogoEnum.DESAYUNO.getId()) &&
-            !idTipoReq.equals(CatalogoEnum.ALMUERZO.getId()) &&
-            !idTipoReq.equals(CatalogoEnum.CENA.getId())
-        ) {
+        if (!idTipoReq.equals(CatalogoEnum.DESAYUNO.getId()) &&
+                !idTipoReq.equals(CatalogoEnum.ALMUERZO.getId()) &&
+                !idTipoReq.equals(CatalogoEnum.CENA.getId())) {
             throw new BusinessException("tipo de plato no válido");
         }
 
         CatalogoModel idTipo = catalogoRepository.findById(idTipoReq)
-        .orElseThrow(() -> new RuntimeException("No existe el tipo de plato"));
-
-
+                .orElseThrow(() -> new RuntimeException("No existe el tipo de plato"));
 
         model.setNombre(platoRequest.getNombre());
         model.setDescripcion(platoRequest.getDescripcion());
@@ -84,36 +81,27 @@ public class PlatoServiceImp implements PlatoService {
         model.setUsuarioCreacion(platoRequest.getUsuarioCreacion());
         model.setFechaCreacion(LocalDate.now());
 
-
-       
         PlatoModel saved = platoRepository.save(model);
 
-       
         return modelMapper.map(saved, PlatoResponse.class);
 
-        
-        
     }
 
     @Override
     public PlatoResponse modificar(Integer id, PlatoUpdateRequest platoRequest) {
         PlatoModel model = platoRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("No existe un plato con id: " + id));
+                .orElseThrow(() -> new RuntimeException("No existe un plato con id: " + id));
 
         Integer idTipoReq = platoRequest.getIdTipo();
 
-        if (
-            !idTipoReq.equals(CatalogoEnum.DESAYUNO.getId()) &&
-            !idTipoReq.equals(CatalogoEnum.ALMUERZO.getId()) &&
-            !idTipoReq.equals(CatalogoEnum.CENA.getId())
-        ) {
+        if (!idTipoReq.equals(CatalogoEnum.DESAYUNO.getId()) &&
+                !idTipoReq.equals(CatalogoEnum.ALMUERZO.getId()) &&
+                !idTipoReq.equals(CatalogoEnum.CENA.getId())) {
             throw new BusinessException("tipo de plato no válido");
         }
 
         CatalogoModel idTipo = catalogoRepository.findById(idTipoReq)
-        .orElseThrow(() -> new RuntimeException("No existe el tipo de plato"));
-
-        
+                .orElseThrow(() -> new RuntimeException("No existe el tipo de plato"));
 
         modelMapper.map(platoRequest, model);
 
@@ -134,16 +122,14 @@ public class PlatoServiceImp implements PlatoService {
     @Override
     public PlatoResponse eliminar(Integer id) {
         PlatoModel model = platoRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("No existe un plato con id: " + id));
-    
-    model.setActivo(false);
+                .orElseThrow(() -> new RuntimeException("No existe un plato con id: " + id));
 
-    PlatoModel actualizado = platoRepository.save(model);
+        model.setActivo(false);
 
-    return modelMapper.map(actualizado, PlatoResponse.class);
-        
+        PlatoModel actualizado = platoRepository.save(model);
+
+        return modelMapper.map(actualizado, PlatoResponse.class);
+
     }
 
-
-    
 }

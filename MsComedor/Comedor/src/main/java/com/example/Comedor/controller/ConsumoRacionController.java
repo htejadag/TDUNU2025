@@ -2,7 +2,6 @@ package com.example.Comedor.controller;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,9 +21,12 @@ import com.example.Comedor.util.ResponseBase;
 @RequestMapping(ApiRoutes.ConsumoRacion.BASE_CONSUMO)
 public class ConsumoRacionController {
 
-    @Autowired
-    private ConsumoRacionService consumoRacionService;
+    private final ConsumoRacionService consumoRacionService;
 
+    public ConsumoRacionController(ConsumoRacionService consumoRacionService) {
+
+        this.consumoRacionService = consumoRacionService;
+    }
 
     @GetMapping(value = ApiRoutes.ConsumoRacion.LISTAR_CONSUMO)
     public List<ConsumoRacionResponse> listar() {
@@ -37,7 +39,7 @@ public class ConsumoRacionController {
         return ResponseBase.ok(response);
     }
 
-     @PostMapping(value = ApiRoutes.ConsumoRacion.GUARDAR_CONSUMO)
+    @PostMapping(value = ApiRoutes.ConsumoRacion.GUARDAR_CONSUMO)
     public ResponseBase<ConsumoRacionResponse> guardar(@RequestBody ConsumoRacionRequest model) {
         ConsumoRacionResponse response = consumoRacionService.guardar(model);
 
@@ -48,7 +50,7 @@ public class ConsumoRacionController {
     public ResponseBase<ConsumoRacionResponse> modificar(
             @RequestParam(value = "id") Integer id,
             @RequestBody ConsumoRacionUpdateRequest request) {
-        
+
         ConsumoRacionResponse response = consumoRacionService.modificar(id, request);
         return ResponseBase.ok(response);
     }
@@ -57,6 +59,6 @@ public class ConsumoRacionController {
     public ResponseBase<ConsumoRacionResponse> eliminar(@RequestParam(value = "id") Integer id) {
         ConsumoRacionResponse response = consumoRacionService.eliminar(id);
         return ResponseBase.ok(response);
-       
+
     }
 }
