@@ -2,7 +2,6 @@ package com.pago.controller;
 
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import com.pago.model.request.ClasificadorIngresoRequest;
 import com.pago.model.response.ClasificadorIngresoResponse;
@@ -20,8 +19,9 @@ import com.pago.util.ResponseBase;
 @RequestMapping(ApiRoutes.Demo.CLA_INGRESO)
 public class ClasificadorIngresoController {
 
-    @Autowired
-    ClasificadorIngresoService clasificadorIngresoService;
+
+
+    private final ClasificadorIngresoService clasificadorIngresoService;
 
     @GetMapping(value = ApiRoutes.Demo.LISTAR)
     public ResponseBase<List<ClasificadorIngresoResponse>> listar() {

@@ -2,7 +2,6 @@ package com.pago.controller;
 
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import com.pago.model.request.ConceptoPagoRequest;
 import com.pago.model.response.ConceptoPagoResponse;
@@ -20,8 +19,7 @@ import com.pago.util.ResponseBase;
 @RequestMapping(ApiRoutes.Demo.CONCEPTO_PAGO)
 public class ConceptoPagoController {
 
-    @Autowired
-    ConceptoPagoService conceptoPagoService;
+    private final ConceptoPagoService conceptoPagoService;
 
     @GetMapping(value = ApiRoutes.Demo.LISTAR)
     public ResponseBase<List<ConceptoPagoResponse>> listar() {
