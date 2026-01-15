@@ -5,10 +5,13 @@ import java.util.List;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+
+import com.example.Comedor.model.entity.MenuDiaModel;
 import com.example.Comedor.model.entity.MenuSemanaModel;
 import com.example.Comedor.model.request.menuSemana.MenuSemanaRequest;
 import com.example.Comedor.model.request.menuSemana.MenuSemanaUpdateRequest;
 import com.example.Comedor.model.response.MenuSemanaResponse;
+import com.example.Comedor.repository.MenuDiaRepository;
 import com.example.Comedor.repository.MenuSemanaRepository;
 import com.example.Comedor.service.MenuSemanaService;
 
@@ -22,10 +25,14 @@ public class MenuSemanaServiceImp implements MenuSemanaService {
 
     private final ModelMapper modelMapper;
 
-    public MenuSemanaServiceImp(MenuSemanaRepository menuSemanaRepository, ModelMapper modelMapper) {
+    private final MenuDiaRepository menuDiaRepository;
+
+    public MenuSemanaServiceImp(MenuSemanaRepository menuSemanaRepository, ModelMapper modelMapper,
+            MenuDiaRepository menuDiaRepository) {
 
         this.menuSemanaRepository = menuSemanaRepository;
         this.modelMapper = modelMapper;
+        this.menuDiaRepository = menuDiaRepository;
     }
 
     @Override
@@ -55,6 +62,16 @@ public class MenuSemanaServiceImp implements MenuSemanaService {
         model.setFechaCreacion(LocalDate.now());
 
         MenuSemanaModel saved = menuSemanaRepository.save(model);
+
+        for (int dia = 1; dia <= 5; dia++) {
+            MenuDiaModel menuDia = new MenuDiaModel();
+            menuDia.setMenuSemana(saved);
+            menuDia.setDia(dia);
+            menuDia.setActivo(true);
+            menuDia.setUsuarioCreacion(request.getUsuarioCreacion());
+            menuDia.setFechaCreacion(LocalDate.now());
+            menuDiaRepository.save(menuDia);
+        }
 
         return modelMapper.map(saved, MenuSemanaResponse.class);
 

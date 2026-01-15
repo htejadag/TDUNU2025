@@ -6,6 +6,7 @@ import java.util.List;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import com.example.Comedor.config.BusinessException;
 import com.example.Comedor.model.entity.MenuDiaModel;
 import com.example.Comedor.model.entity.MenuSemanaModel;
 import com.example.Comedor.model.request.menuDia.MenuDiaRequest;
@@ -59,6 +60,9 @@ public class MenuDiaServiceImp implements MenuDiaService {
 
         MenuSemanaModel semana = menuSemanaRepository.findById(req.getIdMenuSemana())
                 .orElseThrow(() -> new RuntimeException("No existe menu semana con id: " + req.getIdMenuSemana()));
+
+        
+
 
         MenuDiaModel model = new MenuDiaModel();
 

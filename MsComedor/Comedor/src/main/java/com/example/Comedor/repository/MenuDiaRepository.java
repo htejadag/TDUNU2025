@@ -7,5 +7,7 @@ import com.example.Comedor.model.entity.MenuDiaModel;
 
 @Repository
 public interface MenuDiaRepository extends JpaRepository<MenuDiaModel, Integer> {
+
+    
     
 }
