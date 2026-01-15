@@ -7,18 +7,18 @@ import lombok.Data;
 public class ClasificadorIngresoResponse {
 
     // public Integer clasificadoringresoid;
-
+    
     public String codigo;
 
     public String nombre;
 
-    public Integer usuario_creacion;
+    public Integer usuarioCreacion;
 
-    public LocalDateTime usuarioCreacion;
+    public LocalDateTime fechaCreacion;
 
-    public Integer fechaCreacion;
+    public Integer usuarioModificacion;
 
-    public LocalDateTime usuarioModificacion;
+    public LocalDateTime fechaModificacion;
 
     public Boolean activo;
 
