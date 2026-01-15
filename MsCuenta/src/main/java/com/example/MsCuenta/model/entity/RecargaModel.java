@@ -25,9 +25,8 @@ public class RecargaModel {
     @JoinColumn(name = "id_cuenta_usuario", referencedColumnName = "id")
     private CuentaUsuarioModel idCuentaUsuario;
 
-    @ManyToOne
-    @JoinColumn(name = "id_metodo_pago", referencedColumnName="id")
-    private CatalogoModel idMetodoPago;
+    @Column(name = "id_metodo_pago", nullable = false)
+    private Integer idMetodoPago;
 
     @Column (name = "monto")
     private double monto;

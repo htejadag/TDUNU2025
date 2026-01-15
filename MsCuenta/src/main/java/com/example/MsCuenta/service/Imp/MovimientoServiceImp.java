@@ -67,7 +67,7 @@ public class MovimientoServiceImp implements MovimientoService {
                 .orElseThrow(() -> new RuntimeException("No existe el tipo de movimiento con ese id"));
 
         model.setIdCuentaUsuario(cuenta);
-        model.setIdTipoMovimiento(idTipoMovimiento);
+        model.setIdTipoMovimiento(idTipoMovimiento.getId());
         model.setMonto(1);
         model.setFechaMovimiento(LocalDate.now());
         model.setActivo(false);
@@ -95,7 +95,7 @@ public class MovimientoServiceImp implements MovimientoService {
                         "No existe un tipo de movimiento con id: " + movimientoUpdateRequest.getIdTipoMovimiento()));
 
         model.setIdCuentaUsuario(idCuentaUsuario);
-        model.setIdTipoMovimiento(idTipoMovimiento);
+        model.setIdTipoMovimiento(idTipoMovimiento.getId());
         model.setMonto(movimientoUpdateRequest.getMonto());
         model.setActivo(movimientoUpdateRequest.isActivo());
         model.setUsuarioModificacion(movimientoUpdateRequest.getUsuarioModificacion());
@@ -130,7 +130,7 @@ public class MovimientoServiceImp implements MovimientoService {
 
         MovimientoModel model = new MovimientoModel();
         model.setIdCuentaUsuario(cuenta);
-        model.setIdTipoMovimiento(tipoMovimiento);
+        model.setIdTipoMovimiento(tipoMovimiento.getId());
         model.setMonto(monto);
         model.setFechaMovimiento(LocalDate.now());
         model.setActivo(true);

@@ -18,8 +18,8 @@ public class CatalogoModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @Column (name = "tipo", nullable = false)
-    private String tipo;
+    @Column (name = "descripcion", nullable = false)
+    private String descripcion;
     @Column (name = "activo", nullable = false)
     private boolean activo;
 

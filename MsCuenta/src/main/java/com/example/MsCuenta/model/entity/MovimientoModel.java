@@ -25,9 +25,8 @@ public class MovimientoModel {
     @JoinColumn(name = "id_cuenta_usuario", referencedColumnName = "id")
     private CuentaUsuarioModel idCuentaUsuario;
 
-    @ManyToOne
-    @JoinColumn(name = "id_tipo_movimiento", referencedColumnName = "id")
-    private CatalogoModel idTipoMovimiento;
+    @Column(name = "id_tipo_movimiento", nullable = false)
+    private Integer idTipoMovimiento;
 
     @Column (name = "monto")
     private double monto;

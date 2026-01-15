@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import com.example.MsCuenta.Util.CatalogoEnum;
 import com.example.MsCuenta.config.BusinessException;
-import com.example.MsCuenta.model.entity.CatalogoModel;
 import com.example.MsCuenta.model.entity.CuentaUsuarioModel;
 import com.example.MsCuenta.model.entity.RecargaModel;
 import com.example.MsCuenta.model.request.Recarga.RecargaRequest;
@@ -79,6 +78,9 @@ public class RecargaServiceImp implements RecargaService {
 
         Integer idMetodoPagoReq = recargaRequest.getIdMetodoPago();
 
+        catalogoRepository.findById(idMetodoPagoReq)
+                .orElseThrow(() -> new RuntimeException("No existe el metodo de pago"));
+
         if (!idMetodoPagoReq.equals(CatalogoEnum.EFECTIVO.getId()) &&
                 !idMetodoPagoReq.equals(CatalogoEnum.TARJETA.getId()) &&
                 !idMetodoPagoReq.equals(CatalogoEnum.YAPE.getId()) &&
@@ -86,11 +88,8 @@ public class RecargaServiceImp implements RecargaService {
             throw new BusinessException("Método de pago no válido");
         }
 
-        CatalogoModel idMetodoPago = catalogoRepository.findById(idMetodoPagoReq)
-                .orElseThrow(() -> new RuntimeException("No existe el metodo de pago"));
-
         model.setIdCuentaUsuario(idCuentaUsuario);
-        model.setIdMetodoPago(idMetodoPago);
+        model.setIdMetodoPago(idMetodoPagoReq);
         model.setMonto(recargaRequest.getMonto());
         model.setFechaRecarga(LocalDate.now());
         model.setActivo(recargaRequest.isActivo());
@@ -119,6 +118,9 @@ public class RecargaServiceImp implements RecargaService {
 
         Integer idMetodoPagoReq = recargaUpdateRequest.getIdMetodoPago();
 
+        catalogoRepository.findById(idMetodoPagoReq)
+                .orElseThrow(() -> new RuntimeException("No existe el metodo de pago"));
+
         if (!idMetodoPagoReq.equals(CatalogoEnum.EFECTIVO.getId()) &&
                 !idMetodoPagoReq.equals(CatalogoEnum.TARJETA.getId()) &&
                 !idMetodoPagoReq.equals(CatalogoEnum.YAPE.getId()) &&
@@ -126,11 +128,8 @@ public class RecargaServiceImp implements RecargaService {
             throw new BusinessException("Método de pago no válido");
         }
 
-        CatalogoModel idMetodoPago = catalogoRepository.findById(idMetodoPagoReq)
-                .orElseThrow(() -> new RuntimeException("No existe el metodo de pago"));
-
         model.setIdCuentaUsuario(idCuentaUsuario);
-        model.setIdMetodoPago(idMetodoPago);
+        model.setIdMetodoPago(idMetodoPagoReq);
         model.setMonto(recargaUpdateRequest.getMonto());
         model.setActivo(recargaUpdateRequest.isActivo());
         model.setUsuarioModificacion(recargaUpdateRequest.getUsuarioModificacion());
