@@ -10,3 +10,4 @@ import com.pago.model.entity.PagoModel;
 public interface PagoRepository extends JpaRepository<PagoModel, Integer> {
   
 }
+

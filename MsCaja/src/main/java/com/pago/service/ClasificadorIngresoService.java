@@ -18,3 +18,4 @@ public interface ClasificadorIngresoService {
 
     void eliminar(Integer id);
 }
+

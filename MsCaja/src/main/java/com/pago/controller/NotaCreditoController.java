@@ -1,7 +1,7 @@
 package com.pago.controller;
 
 import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,11 +18,11 @@ import com.pago.util.ApiRoutes;
 import com.pago.util.ResponseBase;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping(ApiRoutes.Demo.BASE + ApiRoutes.Demo.NOTA_CREDITO)
 public class NotaCreditoController {
 
-    @Autowired
-    NotaCreditoService notaCreditoService;
+    private final NotaCreditoService notaCreditoService;
 
     @GetMapping(value = ApiRoutes.Demo.LISTAR)
     public ResponseBase<List<NotaCreditoResponse>> listar() {

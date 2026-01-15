@@ -18,7 +18,7 @@ public class PagoModel {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "pagoid")
-  private Integer pagoid;
+  private Integer pagoId;
 
   @Column(name = "serie")
   private String serie;
@@ -27,10 +27,10 @@ public class PagoModel {
   private String correlativo;
 
   @Column(name = "fecha_pago")
-  private Date fecha_pago;
+  private Date fechaPago;
 
   @Column(name = "monto_total")
-  private Double monto_total;
+  private Double montoTotal;
 
   @Column(name = "estado")
   private String estado;
@@ -42,12 +42,12 @@ public class PagoModel {
   private String observaciones;
 
   @Column(name = "tipopagoid")
-  private Integer tipopagoid;
+  private Integer tipoPagoId;
 
   @Column(name = "personaid")
-  private Integer personaid;
-  
+  private Integer personaId;
+
   @Column(name = "usuarioid")
-  private Integer usuarioid;
+  private Integer usuarioId;
 
 }

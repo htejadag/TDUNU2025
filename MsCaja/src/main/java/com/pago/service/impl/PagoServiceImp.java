@@ -1,9 +1,9 @@
-package com.pago.service.Imp;
+package com.pago.service.impl;
 
 import java.util.List;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.pago.model.entity.PagoModel;
 import com.pago.model.request.PagoRequest;
@@ -13,13 +13,12 @@ import com.pago.service.PagoService;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class PagoServiceImp implements PagoService {
 
-  @Autowired
-  PagoRepository pagoRepository;
+  private final PagoRepository pagoRepository;
 
-  @Autowired
-  private ModelMapper modelMapper;
+  private final ModelMapper modelMapper;
 
   @Override
   public List<PagoResponse> listar() {
@@ -45,15 +44,13 @@ public class PagoServiceImp implements PagoService {
     PagoModel saved = pagoRepository.save(model);
 
     // 3. Model -> Response
-    PagoResponse response = modelMapper.map(saved, PagoResponse.class);
-
-    return response;
+    return modelMapper.map(saved, PagoResponse.class);
   }
 
   @Override
   public PagoResponse editar(Integer id, PagoRequest request) {
     PagoModel existente = pagoRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("No existe pago con ID: " + id));
+        .orElseThrow(() -> new RuntimeException("No existe pago con ID: " + id));
 
     // Mapear solo los campos no nulos del request al modelo existente
     modelMapper.map(request, existente);
@@ -63,12 +60,9 @@ public class PagoServiceImp implements PagoService {
     return modelMapper.map(actualizado, PagoResponse.class);
   }
 
-
   @Override
   public void eliminar(Integer id) {
     pagoRepository.deleteById(id);
   }
-
-  
 
 }

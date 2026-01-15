@@ -6,14 +6,14 @@ import lombok.Data;
 
 @Data
 public class NotaCreditoRequest {
-    private Integer notacreditoid;
+    private Integer notaCreditoId;
     private Double monto;
     private String observacion;
-    private String usuariocreacion;
-    private LocalDateTime fechacreacion;
-    private String usuariomodificacion;
-    private LocalDateTime fechamodificacion;
+    private String usuarioCreacion;
+    private LocalDateTime fechaCreacion;
+    private String usuarioModificacion;
+    private LocalDateTime fechaModificacion;
     private Boolean activo;
-    private Boolean eseliminado;
-    private Integer devolucionid;
+    private Boolean esEliminado;
+    private Integer devolucionId;
 }

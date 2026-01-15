@@ -5,25 +5,25 @@ import lombok.Data;
 
 @Data
 public class PagoResponse {
-  
-  public String serie;
 
-  public String correlativo;
+  private String serie;
 
-  public Date fecha_pago;
+  private String correlativo;
 
-  public Double monto_total;
+  private Date fechaPago;
 
-  public String estado;
+  private Double montoTotal;
 
-  public Double descuento;
+  private String estado;
 
-  public String observaciones;
+  private Double descuento;
 
-  public Integer tipopagoid;
+  private String observaciones;
 
-  public Integer personaid;
+  private Integer tipoPagoId;
 
-  public Integer usuarioid;
+  private Integer personaId;
+
+  private Integer usuarioId;
 
 }

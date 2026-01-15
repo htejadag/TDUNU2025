@@ -12,20 +12,20 @@ import lombok.Data;
 @Entity
 @Table(name = "detalle_pago")
 public class DetallePagoModel {
-  
+
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "detallepagoid")
-  private Integer detallepagoid;
+  private Integer detallePagoId;
 
   @Column(name = "codigo_recibo")
-  private String codigo_recibo;
+  private String codigoRecibo;
 
   @Column(name = "cantidad")
   private Integer cantidad;
 
   @Column(name = "precio_unitario")
-  private Double precio_unitario;
+  private Double precioUnitario;
 
   @Column(name = "subtotal")
   private Double subtotal;

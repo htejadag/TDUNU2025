@@ -9,3 +9,4 @@ import com.pago.model.entity.DevolucionModel;
 public interface DevolucionRepository extends JpaRepository<DevolucionModel, Integer> {
 
 }
+

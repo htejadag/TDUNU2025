@@ -6,23 +6,23 @@ import lombok.Data;
 @Data
 public class PagoRequest {
 
-  public String serie;
+  private String serie;
 
-  public String correlativo;
+  private String correlativo;
 
-  public Date fecha_pago;
+  private Date fechaPago;
 
-  public Double monto_total;
+  private Double montoTotal;
 
-  public String estado;
+  private String estado;
 
-  public Double descuento;
+  private Double descuento;
 
-  public String observaciones;
+  private String observaciones;
 
-  public Integer tipopagoid;
+  private Integer tipoPagoId;
 
-  public Integer personaid;
+  private Integer personaId;
 
-  public Integer usuarioid;
+  private Integer usuarioId;
 }

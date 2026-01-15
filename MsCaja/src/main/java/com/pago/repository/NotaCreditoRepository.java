@@ -9,3 +9,4 @@ import com.pago.model.entity.NotaCreditoModel;
 public interface NotaCreditoRepository extends JpaRepository<NotaCreditoModel, Integer> {
 
 }
+

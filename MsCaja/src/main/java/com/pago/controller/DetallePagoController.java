@@ -1,7 +1,7 @@
 package com.pago.controller;
 
 import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,11 +18,11 @@ import com.pago.util.ApiRoutes;
 import com.pago.util.ResponseBase;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping(ApiRoutes.Demo.BASE)
 public class DetallePagoController {
 
-  @Autowired
-  DetallePagoService detallePagoService;
+  private final DetallePagoService detallePagoService;
 
   @GetMapping(value = ApiRoutes.Demo.LISTAR)
   public ResponseBase<List<DetallePagoResponse>> listar() {
@@ -43,7 +43,8 @@ public class DetallePagoController {
   }
 
   @PutMapping(value = ApiRoutes.Demo.EDITAR)
-  public ResponseBase<DetallePagoResponse> editar(@RequestParam(value = "id") Integer id, @RequestBody DetallePagoRequest request) {
+  public ResponseBase<DetallePagoResponse> editar(@RequestParam(value = "id") Integer id,
+      @RequestBody DetallePagoRequest request) {
     DetallePagoResponse response = detallePagoService.editar(id, request);
     return ResponseBase.ok(response);
   }

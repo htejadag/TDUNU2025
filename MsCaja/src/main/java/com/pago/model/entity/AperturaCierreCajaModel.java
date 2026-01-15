@@ -11,33 +11,33 @@ public class AperturaCierreCajaModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "aperturacierrecajaid")
-    private Integer aperturacierrecajaid;
+    private Integer aperturaCierreCajaId;
 
     @Column(name = "fecha_apertura")
-    private LocalDateTime fecha_apertura;
+    private LocalDateTime fechaApertura;
 
     @Column(name = "fecha_cierre", nullable = true)
-    private LocalDateTime fecha_cierre;
+    private LocalDateTime fechaCierre;
 
     @Column(name = "usuario_creacion")
-    private Integer usuario_creacion;
+    private Integer usuarioCreacion;
 
     @Column(name = "fecha_creacion")
-    private LocalDateTime fecha_creacion;
+    private LocalDateTime fechaCreacion;
 
     @Column(name = "usuario_modificacion", nullable = true)
-    private Integer usuario_modificacion;
+    private Integer usuarioModificacion;
 
     @Column(name = "fecha_modificacion", nullable = true)
-    private LocalDateTime fecha_modificacion;
+    private LocalDateTime fechaModificacion;
 
     @Column(name = "activo")
     private Boolean activo;
 
     @Column(name = "es_eliminado")
-    private Boolean es_eliminado;
+    private Boolean esEliminado;
 
     @Transient
     private String mensaje;
-    
+
 }

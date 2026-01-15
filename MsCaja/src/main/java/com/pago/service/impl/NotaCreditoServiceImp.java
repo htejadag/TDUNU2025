@@ -1,10 +1,10 @@
-package com.pago.service.Imp;
+package com.pago.service.impl;
 
 import java.util.List;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.pago.model.entity.NotaCreditoModel;
@@ -15,13 +15,12 @@ import com.pago.service.NotaCreditoService;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class NotaCreditoServiceImp implements NotaCreditoService {
 
-    @Autowired
-    NotaCreditoRepository notaCreditoRepository;
+    private final NotaCreditoRepository notaCreditoRepository;
 
-    @Autowired
-    private ModelMapper modelMapper;
+    private final ModelMapper modelMapper;
 
     @Override
     public List<NotaCreditoResponse> listar() {

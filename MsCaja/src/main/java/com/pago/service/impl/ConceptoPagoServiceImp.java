@@ -1,9 +1,14 @@
-package com.pago.service.Imp;
+package com.pago.service.impl;
 
 import java.util.List;
+<<<<<<< Updated upstream:MsCaja/src/main/java/com/pago/service/Imp/ConceptoPagoServiceImp.java
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+=======
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Qualifier;
+>>>>>>> Stashed changes:MsCaja/src/main/java/com/pago/service/impl/ConceptoPagoServiceImp.java
 import org.springframework.stereotype.Service;
 import com.pago.model.entity.ConceptoPagoModel;
 import com.pago.model.request.ConceptoPagoRequest;
@@ -11,6 +16,7 @@ import com.pago.model.response.ConceptoPagoResponse;
 import com.pago.repository.ConceptoPagoRepository;
 import com.pago.service.ConceptoPagoService;
 
+<<<<<<< Updated upstream:MsCaja/src/main/java/com/pago/service/Imp/ConceptoPagoServiceImp.java
 @Slf4j
 @Service
 public class ConceptoPagoServiceImp implements ConceptoPagoService {
@@ -78,5 +84,41 @@ public class ConceptoPagoServiceImp implements ConceptoPagoService {
         log.info("[ConceptoPago] eliminar - inicio | id={}", id);
         conceptoPagoRepository.eliminar(id);
         log.info("[ConceptoPago] eliminar - ok | id={}", id);
+=======
+@Service("conceptoPagoServicio")
+@RequiredArgsConstructor
+public class ConceptoPagoServiceImp implements ConceptoPagoService {
+    @Qualifier("conceptoPagoRepositorio")
+    private final ConceptoPagoRepository conceptoPagoRepositorio;
+
+    @Override
+    public List<ConceptoPagoModel> listarConceptoPago() {
+        return conceptoPagoRepositorio.findAll();
+    }
+
+    @Override
+    public ConceptoPagoModel obtenerConceptoPago(int id) {
+        return conceptoPagoRepositorio.findById(id).orElse(null);
+    }
+
+    @Override
+    public ConceptoPagoModel registrarConceptoPago(ConceptoPagoModel conceptoPago) {
+        return conceptoPagoRepositorio.save(conceptoPago);
+    }
+
+    @Override
+    public ConceptoPagoModel actualizarConceptoPago(ConceptoPagoModel conceptoPago) {
+        return conceptoPagoRepositorio.save(conceptoPago);
+    }
+
+    @Override
+    public void desactivarConceptoPago(int id) {
+        conceptoPagoRepositorio.desactivar(id);
+    }
+
+    @Override
+    public void eliminarConceptoPago(int id) {
+        conceptoPagoRepositorio.eliminar(id);
+>>>>>>> Stashed changes:MsCaja/src/main/java/com/pago/service/impl/ConceptoPagoServiceImp.java
     }
 }

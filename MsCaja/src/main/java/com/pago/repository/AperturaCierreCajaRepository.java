@@ -9,17 +9,17 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import com.pago.model.entity.AperturaCierreCajaModel;
 
-@Repository("ape_cie_cajaRepositorio")
+@Repository("aperturaCierreCajaRepositorio")
 public interface AperturaCierreCajaRepository extends JpaRepository<AperturaCierreCajaModel, Serializable> {
 
     @Modifying
     @Transactional
-    @Query("UPDATE AperturaCierreCajaModel a SET a.activo = false WHERE a.aperturacierrecajaid = :id")
+    @Query("UPDATE AperturaCierreCajaModel a SET a.activo = false WHERE a.aperturaCierreCajaId = :id")
     public void desactivar(@Param("id") int id);
 
     @Modifying
     @Transactional
-    @Query("UPDATE AperturaCierreCajaModel a SET a.es_eliminado = true WHERE a.aperturacierrecajaid = :id")
+    @Query("UPDATE AperturaCierreCajaModel a SET a.esEliminado = true WHERE a.aperturaCierreCajaId = :id")
     public void eliminar(@Param("id") int id);
 
 }

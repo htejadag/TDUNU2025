@@ -6,15 +6,15 @@ import lombok.Data;
 
 @Data
 public class DevolucionResponse {
-    private Integer devolucionid;
+    private Integer devolucionId;
     private LocalDateTime fecha;
-    private Double montodevuelto;
+    private Double montoDevuelto;
     private String observaciones;
-    private Integer pagoid;
-    private String usuariocreacion;
-    private LocalDateTime fechacreacion;
-    private String usuariomodificacion;
-    private LocalDateTime fechamodificacion;
+    private Integer pagoId;
+    private String usuarioCreacion;
+    private LocalDateTime fechaCreacion;
+    private String usuarioModificacion;
+    private LocalDateTime fechaModificacion;
     private Boolean activo;
-    private Boolean eseliminado;
+    private Boolean esEliminado;
 }

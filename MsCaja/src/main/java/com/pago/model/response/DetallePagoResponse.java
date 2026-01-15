@@ -1,22 +1,21 @@
 package com.pago.model.response;
 
-
 import lombok.Data;
 
 @Data
 public class DetallePagoResponse {
 
-  public String codigo_recibo;
+  private String codigoRecibo;
 
-  public Integer cantidad;
+  private Integer cantidad;
 
-  public Double precio_unitario;
+  private Double precioUnitario;
 
-  public Double subtotal;
+  private Double subtotal;
 
-  public Double descuento;
+  private Double descuento;
 
-  public Integer conceptoPagoId;
+  private Integer conceptoPagoId;
 
-  public Integer pagoId;
+  private Integer pagoId;
 }

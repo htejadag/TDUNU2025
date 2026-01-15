@@ -11,9 +11,15 @@ public interface ConceptoPagoService {
 
     ConceptoPagoResponse obtenerPorId(Integer id);
 
+<<<<<<< Updated upstream
     ConceptoPagoResponse guardar(ConceptoPagoRequest request);
 
     ConceptoPagoResponse editar(Integer id, ConceptoPagoRequest request);
+=======
+    public abstract ConceptoPagoModel registrarConceptoPago(ConceptoPagoModel conceptoPago);
+
+    public abstract ConceptoPagoModel actualizarConceptoPago(ConceptoPagoModel conceptoPago);
+>>>>>>> Stashed changes
 
     void desactivar(Integer id);
 

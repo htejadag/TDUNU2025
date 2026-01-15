@@ -1,10 +1,10 @@
-package com.pago.service.Imp;
+package com.pago.service.impl;
 
 import java.util.List;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.pago.model.entity.DevolucionModel;
@@ -15,13 +15,12 @@ import com.pago.service.DevolucionService;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class DevolucionServiceImp implements DevolucionService {
 
-    @Autowired
-    DevolucionRepository devolucionRepository;
+    private final DevolucionRepository devolucionRepository;
 
-    @Autowired
-    private ModelMapper modelMapper;
+    private final ModelMapper modelMapper;
 
     @Override
     public List<DevolucionResponse> listar() {

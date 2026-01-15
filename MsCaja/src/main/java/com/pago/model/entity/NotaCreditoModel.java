@@ -18,7 +18,7 @@ public class NotaCreditoModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "notacreditoid")
-    private Integer notacreditoid;
+    private Integer notaCreditoId;
 
     @Column(name = "monto")
     private Double monto;
@@ -27,23 +27,23 @@ public class NotaCreditoModel {
     private String observacion;
 
     @Column(name = "usuariocreacion")
-    private String usuariocreacion;
+    private String usuarioCreacion;
 
     @Column(name = "fechacreacion")
-    private LocalDateTime fechacreacion;
+    private LocalDateTime fechaCreacion;
 
     @Column(name = "usuariomodificacion")
-    private String usuariomodificacion;
+    private String usuarioModificacion;
 
     @Column(name = "fechamodificacion")
-    private LocalDateTime fechamodificacion;
+    private LocalDateTime fechaModificacion;
 
     @Column(name = "activo")
     private Boolean activo;
 
     @Column(name = "eseliminado")
-    private Boolean eseliminado;
+    private Boolean esEliminado;
 
     @Column(name = "devolucionid")
-    private Integer devolucionid;
+    private Integer devolucionId;
 }

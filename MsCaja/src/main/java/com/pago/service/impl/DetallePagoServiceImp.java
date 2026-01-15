@@ -1,10 +1,10 @@
-package com.pago.service.Imp;
+package com.pago.service.impl;
 
 import java.util.List;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.pago.model.entity.DetallePagoModel;
@@ -15,12 +15,11 @@ import com.pago.service.DetallePagoService;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class DetallePagoServiceImp implements DetallePagoService {
-  @Autowired
-  DetallePagoRepository detallePagoRepository;
+  private final DetallePagoRepository detallePagoRepository;
 
-  @Autowired
-  private ModelMapper modelMapper;
+  private final ModelMapper modelMapper;
 
   @Override
   public List<DetallePagoResponse> listar() {
@@ -46,15 +45,13 @@ public class DetallePagoServiceImp implements DetallePagoService {
     DetallePagoModel saved = detallePagoRepository.save(model);
 
     // 3. Model -> Response
-    DetallePagoResponse response = modelMapper.map(saved, DetallePagoResponse.class);
-
-    return response;
+    return modelMapper.map(saved, DetallePagoResponse.class);
   }
 
   @Override
   public DetallePagoResponse editar(Integer id, DetallePagoRequest request) {
     DetallePagoModel existente = detallePagoRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("No existe detalle de detalle pago con ID: " + id));
+        .orElseThrow(() -> new RuntimeException("No existe detalle de detalle pago con ID: " + id));
 
     // Mapear solo los campos no nulos del request al modelo existente
     modelMapper.map(request, existente);
@@ -64,15 +61,9 @@ public class DetallePagoServiceImp implements DetallePagoService {
     return modelMapper.map(actualizado, DetallePagoResponse.class);
   }
 
-
   @Override
   public void eliminar(Integer id) {
     detallePagoRepository.deleteById(id);
   }
-
-
-
-
-  
 
 }

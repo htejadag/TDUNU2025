@@ -18,35 +18,35 @@ public class DevolucionModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "devolucionid")
-    private Integer devolucionid;
+    private Integer devolucionId;
 
     @Column(name = "fecha")
     private LocalDateTime fecha;
 
     @Column(name = "montodevuelto")
-    private Double montodevuelto;
+    private Double montoDevuelto;
 
     @Column(name = "observaciones")
     private String observaciones;
 
     @Column(name = "pagoid")
-    private Integer pagoid;
+    private Integer pagoId;
 
     @Column(name = "usuariocreacion")
-    private String usuariocreacion;
+    private String usuarioCreacion;
 
     @Column(name = "fechacreacion")
-    private LocalDateTime fechacreacion;
+    private LocalDateTime fechaCreacion;
 
     @Column(name = "usuariomodificacion")
-    private String usuariomodificacion;
+    private String usuarioModificacion;
 
     @Column(name = "fechamodificacion")
-    private LocalDateTime fechamodificacion;
+    private LocalDateTime fechaModificacion;
 
     @Column(name = "activo")
     private Boolean activo;
 
     @Column(name = "eseliminado")
-    private Boolean eseliminado;
+    private Boolean esEliminado;
 }

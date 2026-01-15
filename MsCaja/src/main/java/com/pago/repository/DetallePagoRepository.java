@@ -10,3 +10,4 @@ import com.pago.model.entity.DetallePagoModel;
 public interface DetallePagoRepository extends JpaRepository<DetallePagoModel, Integer> {
   
 }
+
