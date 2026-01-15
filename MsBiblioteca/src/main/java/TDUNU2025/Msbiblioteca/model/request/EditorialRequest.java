@@ -3,10 +3,8 @@ package tdunu2025.msbiblioteca.model.request;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.validation.constraints.NotBlank;
-import lombok.Getter;
-import lombok.Setter;
-@Getter
-@Setter
+import lombok.Data;
+@Data
 
 public class EditorialRequest {
 

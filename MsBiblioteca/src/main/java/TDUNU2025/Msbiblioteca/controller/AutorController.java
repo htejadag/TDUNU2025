@@ -14,37 +14,34 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(ApiRoutes.Autor.BASE) // "/api/autor"
+@RequestMapping(ApiRoutes.Autor.BASE)
 @RequiredArgsConstructor
 public class AutorController {
 
     private final AutorService service;
 
-    @GetMapping
+    @GetMapping(ApiRoutes.Autor.LISTAR) // <--- Corregido
     public ResponseEntity<ResponseBase<List<AutorResponse>>> listar() {
-        List<AutorResponse> lista = service.listar();
-        return ResponseEntity.ok(new ResponseBase<>(Mensaje.CODE_OK, Mensaje.MENSAJE_EXITO, lista));
+        // Inferencia de tipos <>
+        return ResponseEntity.ok(new ResponseBase<>(Mensaje.CODE_OK, Mensaje.MENSAJE_EXITO, service.listar()));
     }
 
-    @GetMapping("/{id}")
+    @GetMapping(ApiRoutes.Autor.OBTENER_POR_ID) // <--- Corregido
     public ResponseEntity<ResponseBase<AutorResponse>> obtener(@PathVariable Long id) {
-        AutorResponse response = service.obtener(id);
-        return ResponseEntity.ok(new ResponseBase<>(Mensaje.CODE_OK, Mensaje.MENSAJE_EXITO, response));
+        return ResponseEntity.ok(new ResponseBase<>(Mensaje.CODE_OK, Mensaje.MENSAJE_EXITO, service.obtener(id)));
     }
 
-    @PostMapping
+    @PostMapping(ApiRoutes.Autor.GUARDAR) // <--- Corregido
     public ResponseEntity<ResponseBase<AutorResponse>> registrar(@RequestBody AutorRequest request) {
-        AutorResponse response = service.registrar(request);
-        return new ResponseEntity<>(new ResponseBase<>(Mensaje.CODE_OK, Mensaje.MENSAJE_GUARDADO, response), HttpStatus.CREATED);
+        return new ResponseEntity<>(new ResponseBase<>(Mensaje.CODE_OK, Mensaje.MENSAJE_GUARDADO, service.registrar(request)), HttpStatus.CREATED);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping(ApiRoutes.Autor.ACTUALIZAR) // <--- Corregido
     public ResponseEntity<ResponseBase<AutorResponse>> actualizar(@PathVariable Long id, @RequestBody AutorRequest request) {
-        AutorResponse response = service.actualizar(id, request);
-        return ResponseEntity.ok(new ResponseBase<>(Mensaje.CODE_OK, Mensaje.MENSAJE_ACTUALIZADO, response));
+        return ResponseEntity.ok(new ResponseBase<>(Mensaje.CODE_OK, Mensaje.MENSAJE_ACTUALIZADO, service.actualizar(id, request)));
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping(ApiRoutes.Autor.ELIMINAR) // <--- Corregido
     public ResponseEntity<ResponseBase<Void>> eliminar(@PathVariable Long id) {
         service.eliminar(id);
         return ResponseEntity.ok(new ResponseBase<>(Mensaje.CODE_OK, Mensaje.MENSAJE_ELIMINADO, null));

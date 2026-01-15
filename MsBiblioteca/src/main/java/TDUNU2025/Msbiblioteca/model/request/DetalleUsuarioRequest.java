@@ -1,13 +1,13 @@
-package tdunu2025.msbiblioteca.model.request;
+    package tdunu2025.msbiblioteca.model.request;
 
-import lombok.Data;
-import java.time.LocalDate;
+    import lombok.Data;
 
-@Data
-public class DetalleUsuarioRequest {
-    private Long idUsuario;
-    private Long idDetalleUsuario;
-    private Integer totalPrestamos;
-    private Integer totalMultas;
-    private LocalDate fechaUltimoPrestamo;
-}
+    import jakarta.validation.constraints.NotNull;
+
+    @Data
+    public class DetalleUsuarioRequest {
+        
+        @NotNull(message = "el Id del usuario es obligatgorio")
+        private Long idUsuario;
+
+    }

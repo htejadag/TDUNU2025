@@ -2,80 +2,86 @@ package tdunu2025.msbiblioteca.model.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Set;
 
 @Entity
 @Table(name = "libro")
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Libro {
+@EqualsAndHashCode(onlyExplicitlyIncluded=true)
+public class Libro implements Serializable{
+
+    private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_libro")
+    @EqualsAndHashCode.Include
     private Long idLibro;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false, unique = true, length = 20)
     private String isbn;
+
+    @Column(nullable = false, length = 200)
     private String titulo;
+
+    @Column(length = 200)
     private String subtitulo;
+
+    @Column(columnDefinition = "TEXT")
     private String descripcion;
+    @Column(name = "numero_paginas")
     private Integer numeroPaginas;
+    @Column(length = 50)
     private String idioma;
+
+    @Column(name = "anio_publicacion")
     private Integer anioPublicacion;
+
+    @Column(length = 50)
     private String edicion;
+
+    @Column(name = "codigo_dewey", length = 50)
     private String codigoDewey;
+
+    @Column(name = "portada_url")
     private String portadaUrl;
+
+    @Column(name = "archivo_digital_url")
     private String archivoDigitalUrl;
 
-    // ********* IMPLEMENTACIÓN DE RELACIONES *********
-
-    // 1. Relación con EDITORIAL (Correcto)
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "idEditorial", insertable = false, updatable = false)
+    @JoinColumn(name = "id_editorial",nullable = false)
     @ToString.Exclude
-    @EqualsAndHashCode.Exclude
     private Editorial editorial;
 
-    // 2. Relación con ESTADO_LIBRO (CORREGIDO)
-    // Agregamos insertable=false, updatable=false para evitar conflicto con el Long de abajo
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "idEstadoLibro", insertable = false, updatable = false)
+    @ManyToOne (fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_estado_libro",nullable = false)
     @ToString.Exclude
-    @EqualsAndHashCode.Exclude
     private EstadoLibro estadoLibro;
 
-    // 3. Relación con CATEGORIA
     @OneToMany(mappedBy = "libro", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @ToString.Exclude
-    @EqualsAndHashCode.Exclude
     private Set<LibroCategoria> categorias; // <-- Ahora apunta a la tabla intermedia
 
-    // 4. Relación con DETALLE_LIBRO
     @OneToMany(mappedBy = "libro", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @ToString.Exclude
-    @EqualsAndHashCode.Exclude
     private Set<DetalleLibro> detalles;
 
-    // 5. Relación con AUTORES (Lo moví aquí para mantener orden)
+    // 4. Relación con AUTORES (Lo moví aquí para mantener orden)
     @OneToMany(mappedBy = "libro", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @ToString.Exclude
-    @EqualsAndHashCode.Exclude
     private Set<LibroAutor> autores;
-
-
-    // ********* CAMPOS DE CLAVE FORÁNEA SIMPLES *********
-    // Estos campos controlan la inserción en la BD
-    private Long idEditorial; 
-    private Long idEstadoLibro; 
-
-
-    // ********* CAMPOS DE AUDITORÍA *********
+ 
+    @Column(name = "fecha_actualizacion")
     private LocalDateTime fechaActualizacion;
     
-    @Column(updatable = false)
+    @Column(name = "fecha_registro",updatable = false)
     private LocalDateTime fechaRegistro;
 
     @PrePersist

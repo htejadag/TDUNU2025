@@ -100,7 +100,7 @@ public static class Autor {
     // ✅ RUTAS DE CATEGORIA LIBRO
     // =========================
 public static class CategoriaLibro {
-        public static final String BASE = "/api/autor";
+        public static final String BASE = "/api/categoria-libro";
         public static final String GUARDAR = "/guardar";
         public static final String LISTAR = "/listar";
         public static final String OBTENER_POR_ID = "/obtener/{id}";

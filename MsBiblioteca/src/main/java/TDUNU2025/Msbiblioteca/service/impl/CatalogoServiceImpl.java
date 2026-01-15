@@ -1,4 +1,4 @@
-package tdunu2025.msbiblioteca.service.impl; // 1. Paquete corregido a minúsculas
+package tdunu2025.msbiblioteca.service.impl;
 
 import tdunu2025.msbiblioteca.exception.ResourceNotFoundException;
 import tdunu2025.msbiblioteca.model.entity.Catalogo;
@@ -7,6 +7,7 @@ import tdunu2025.msbiblioteca.model.response.CatalogoResponse;
 import tdunu2025.msbiblioteca.repository.CatalogoRepository;
 import tdunu2025.msbiblioteca.service.CatalogoService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j; // ✅ 1. Importamos Slf4j para logs
 import org.modelmapper.ModelMapper;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -17,6 +18,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j // ✅ 2. Activamos los logs
 public class CatalogoServiceImpl implements CatalogoService {
 
     private final CatalogoRepository catalogoRepository;
@@ -26,13 +28,7 @@ public class CatalogoServiceImpl implements CatalogoService {
     @Transactional(readOnly = true)
     @Cacheable(value = "lista_catalogos") 
     public List<CatalogoResponse> listar() {
-        try { 
-            Thread.sleep(2000); 
-        } catch (InterruptedException e) {
-            // SOLUCIÓN A java:S2142: Restaurar el estado de interrupción
-            Thread.currentThread().interrupt(); 
-        } 
-
+        log.info("Obteniendo lista de catálogos"); // Log informativo
         List<Catalogo> catalogos = catalogoRepository.findAll();
         return catalogos.stream()
                 .map(c -> modelMapper.map(c, CatalogoResponse.class))
@@ -52,8 +48,9 @@ public class CatalogoServiceImpl implements CatalogoService {
     @Transactional
     @CacheEvict(value = "lista_catalogos", allEntries = true) 
     public CatalogoResponse registrar(CatalogoRequest request) {
+        log.info("Intentando registrar catálogo: {}", request.getNombre());             
         Catalogo catalogo = modelMapper.map(request, Catalogo.class);
-        if(catalogo.getEstado() == null) catalogo.setEstado(1);
+        if(catalogo.getEstado() == null) catalogo.setEstado(true);
         
         Catalogo saved = catalogoRepository.save(catalogo);
         return modelMapper.map(saved, CatalogoResponse.class);
@@ -63,6 +60,8 @@ public class CatalogoServiceImpl implements CatalogoService {
     @Transactional
     @CacheEvict(value = {"lista_catalogos", "catalogo"}, allEntries = true) 
     public CatalogoResponse actualizar(Long id, CatalogoRequest request) {
+        log.info("Actualizando catálogo ID: {}", id);
+        
         Catalogo catalogoExistente = catalogoRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Catalogo", "id", id));
 
@@ -77,6 +76,7 @@ public class CatalogoServiceImpl implements CatalogoService {
     @Transactional
     @CacheEvict(value = {"lista_catalogos", "catalogo"}, allEntries = true)
     public void eliminar(Long id) {
+        log.warn("Eliminando catálogo ID: {}", id); // Log de advertencia
         if (!catalogoRepository.existsById(id)) {
             throw new ResourceNotFoundException("Catalogo", "id", id);
         }

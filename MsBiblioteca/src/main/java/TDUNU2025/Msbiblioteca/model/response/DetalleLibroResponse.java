@@ -1,38 +1,23 @@
 package tdunu2025.msbiblioteca.model.response;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import java.time.LocalDateTime;
 
-@Getter
-@Setter
+@Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class DetalleLibroResponse {
 
-    @JsonProperty("idDetalleLibro")
     private Long idDetalleLibro;
-
-    @JsonProperty("idLibro") 
-    private Long idLibro; 
-    
-    @JsonProperty("stockTotal")
+    private Long idLibro;     
     private Integer stockTotal;
-
-    @JsonProperty("stockDisponible")
     private Integer stockDisponible;
-
-    @JsonProperty("ubicacionFisica")
     private String ubicacionFisica;
-
-    @JsonProperty("fechaActualizacion")
     private LocalDateTime fechaActualizacion;
 
 }

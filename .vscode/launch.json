@@ -9,6 +9,16 @@
             "projectName": "Msbiblioteca",
             "args": "",
             "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-MsbibliotecaApplication<MsBiblioteca>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "tdunu2025.msbiblioteca.MsbibliotecaApplication",
+            "projectName": "MsBiblioteca",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
         }
     ]
 }

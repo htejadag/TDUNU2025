@@ -9,8 +9,7 @@ import tdunu2025.msbiblioteca.service.MultaService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
-
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -39,7 +38,7 @@ public class MultaServiceImpl implements MultaService {
         Multa entity = modelMapper.map(request, Multa.class);
         
         // Lógica de negocio
-        entity.setFechaGeneracion(LocalDate.now());
+        entity.setFechaGeneracion(LocalDateTime.now());
         entity.setFechaPago(null);
         entity.setDiasRetraso(0);
 

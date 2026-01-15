@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Service
@@ -34,21 +35,26 @@ public class DetalleUsuarioServiceImpl implements DetalleUsuarioService {
     }
 
     @Override
-    public DetalleUsuarioResponse registrar(DetalleUsuarioRequest request) { // Cambiado a registrar
+    public DetalleUsuarioResponse registrar(DetalleUsuarioRequest request) {
         DetalleUsuario du = modelMapper.map(request, DetalleUsuario.class);
+        // Valores iniciales obligatorios
+        du.setTotalPrestamos(0);
+        du.setTotalMultas(BigDecimal.ZERO);
+        du.setFechaUltimoPrestamo(null);
+        
         DetalleUsuario saved = detalleUsuarioRepository.save(du);
         return modelMapper.map(saved, DetalleUsuarioResponse.class);
     }
 
     @Override
-    public DetalleUsuarioResponse actualizar(long id, DetalleUsuarioRequest request) {
-        DetalleUsuario existing = detalleUsuarioRepository.findById(id)
+    public DetalleUsuarioResponse actualizar(Long id, DetalleUsuarioRequest request) {
+        DetalleUsuario du = detalleUsuarioRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("DetalleUsuario", "id", id));
+        
+        modelMapper.map(request, du);
+        du.setId(id);
 
-        modelMapper.map(request, existing);
-        existing.setIdDetalleUsuario(id); // Asegurar ID
-
-        DetalleUsuario updated = detalleUsuarioRepository.save(existing);
+        DetalleUsuario updated = detalleUsuarioRepository.save(du);
         return modelMapper.map(updated, DetalleUsuarioResponse.class);
     }
 
@@ -58,5 +64,17 @@ public class DetalleUsuarioServiceImpl implements DetalleUsuarioService {
             throw new ResourceNotFoundException("DetalleUsuario", "id", id);
         }
         detalleUsuarioRepository.deleteById(id);
+    }
+
+    @Override
+    public boolean existePorIdUsuario(Long idUsuario) {
+        return detalleUsuarioRepository.existsByIdUsuario(idUsuario);
+    }
+
+    @Override
+    public DetalleUsuarioResponse obtenerPorIdExterno(Long idUsuarioExterno) {
+        DetalleUsuario du = detalleUsuarioRepository.findByIdUsuario(idUsuarioExterno)
+             .orElseThrow(() -> new ResourceNotFoundException("Usuario no registrado en biblioteca", "idUsuario", idUsuarioExterno));
+        return modelMapper.map(du, DetalleUsuarioResponse.class);
     }
 }

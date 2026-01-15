@@ -2,11 +2,17 @@ package tdunu2025.msbiblioteca.model.response;
 
 import java.util.List;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
-
+import lombok.NoArgsConstructor;
 @Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+
 public class LibroResponse {
-    private Long id;
+    private Long idLibro;
     private String isbn;
     private String titulo;
     private String subtitulo;

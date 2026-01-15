@@ -2,32 +2,40 @@ package tdunu2025.msbiblioteca.model.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Set;
 
 @Entity
 @Table(name = "editorial")
-@Data 
+@Getter
+@Setter
+@ToString
 @NoArgsConstructor 
 @AllArgsConstructor 
 @Builder 
-public class Editorial {
+@EqualsAndHashCode(onlyExplicitlyIncluded=true)
+public class Editorial implements Serializable{
     
+    private static final long serialVersionUID = 1L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @EqualsAndHashCode.Include
     @Column(name = "id_editorial")
     private Long idEditorial;
 
-    @Column(name="nombre", length = 100, nullable = false, unique = true)
+    @Column( length = 100, nullable = false, unique = true)
     private String nombre;
 
-    @Column(name="direccion", length = 200)
+    @Column(length = 200)
     private String direccion;
 
-    @Column(name="telefono", length = 20)
+    @Column(length = 20)
     private String telefono;
 
-    @Column(name="email", length = 100)
+    @Column(length = 100)
     private String email;
 
     @Column(name = "sitio_web", length = 150)
@@ -42,6 +50,7 @@ public class Editorial {
     @Column(name = "fecha_actualizacion")
     private LocalDateTime fechaActualizacion;
     
+
     @PrePersist
     public void prePersist() {
         this.fechaRegistro = LocalDateTime.now();
@@ -56,6 +65,6 @@ public class Editorial {
     // Relación Inversa (Uno a Muchos) con Libro
     @OneToMany(mappedBy = "editorial", fetch = FetchType.LAZY)
     @ToString.Exclude 
-    @EqualsAndHashCode.Exclude 
+    //@EqualsAndHashCode.Exclude 
     private Set<Libro> libros;
 }

@@ -1,22 +1,24 @@
 package tdunu2025.msbiblioteca.model.entity;
 
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
-import lombok.AllArgsConstructor;
+import lombok.*;
+
+import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.Set; 
+import java.util.Set;
 
 @Entity
 @Table(name = "autor")
-@Data
+@Getter @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Autor {
+public class Autor implements Serializable{
+
+    private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @EqualsAndHashCode.Include
     private Long idAutor;
 
     // CLAVE FORÁNEA (Tratada como campo simple por ahora)

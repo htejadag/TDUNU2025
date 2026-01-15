@@ -1,55 +1,62 @@
 package tdunu2025.msbiblioteca.model.entity;
 
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
-import lombok.AllArgsConstructor;
+import jakarta.validation.constraints.Min;
+import lombok.*;
+
+import java.io.Serializable;
+import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "multa")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Multa {
+@EqualsAndHashCode(onlyExplicitlyIncluded=true)
+public class Multa implements Serializable{
 
+    private static final long serialVersionUID = 1L;
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_multa")
+    @EqualsAndHashCode.Include
     private Long idMulta;
 
-    // CLAVE FORÁNEA (Usuario)
-    @Column(nullable = false)
+    @Column(name = "id_usuario",nullable = false)
     private Long idUsuario;
 
-    // CLAVE FORÁNEA (Prestamo)
     @Column(nullable = false)
-    private Long idPrestamo;
+    @Min(value = 0, message = "El valor no puede ser negativo")
+    private BigDecimal monto;
 
-    // Importe
-    @Column(nullable = false)
-    private Double monto;
-
-    // Motivo
     @Column(length = 255)
     private String concepto;
 
-    // Automática
-    @Column(nullable = false)
-    private LocalDate fechaGeneracion;
+    @Column(name = "fecha_generacion" ,nullable = false)
+    private LocalDateTime fechaGeneracion;
 
-    // Si fue pagada (puede ser nulo si aún no paga)
+    @Column(name = "fecha_pago")
     private LocalDate fechaPago;
 
-    // Estado de pago (FK o ID simple)
-    @Column(nullable = false)
+    @Column(name = "id_estado_multa",nullable = false)
     private Long idEstadoMulta;
 
-    // Cálculo automático
+    @Column(name = "dias_retraso")
     private Integer diasRetraso;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "idPrestamo",nullable = false, insertable = false, updatable = false)
+    @JoinColumn(name = "id_prestamo",nullable = false)
     @ToString.Exclude
     private Prestamo prestamo;
+
+    @PrePersist
+    public void prePersist(){
+        if (this.fechaGeneracion == null){
+            this.fechaGeneracion = LocalDateTime.now();
+        }
+    }
 }

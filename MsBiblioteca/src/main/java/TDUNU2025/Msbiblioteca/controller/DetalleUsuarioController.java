@@ -20,37 +20,41 @@ public class DetalleUsuarioController {
 
     private final DetalleUsuarioService service;
 
+    // 1. LISTAR
     @GetMapping(ApiRoutes.DetalleUsuario.LISTAR)
     public ResponseEntity<ResponseBase<List<DetalleUsuarioResponse>>> listar() {
-        // Se especifica el tipo <List<DetalleUsuarioResponse>>
-        return ResponseEntity.ok(new ResponseBase<List<DetalleUsuarioResponse>>(
+        // CORRECCIÓN: Usamos <> para que Java infiera el tipo automáticamente.
+        return ResponseEntity.ok(new ResponseBase<>(
             Mensaje.CODE_OK, Mensaje.MENSAJE_EXITO, service.listar()));
     }
 
+    // 2. OBTENER POR ID
     @GetMapping(ApiRoutes.DetalleUsuario.OBTENER_POR_ID)
     public ResponseEntity<ResponseBase<DetalleUsuarioResponse>> obtener(@PathVariable Long id) {
-        // Se especifica el tipo <DetalleUsuarioResponse>
-        return ResponseEntity.ok(new ResponseBase<DetalleUsuarioResponse>(
+        return ResponseEntity.ok(new ResponseBase<>(
             Mensaje.CODE_OK, Mensaje.MENSAJE_EXITO, service.obtener(id)));
     }
 
+    // 3. GUARDAR
     @PostMapping(ApiRoutes.DetalleUsuario.GUARDAR)
     public ResponseEntity<ResponseBase<DetalleUsuarioResponse>> registrar(@RequestBody DetalleUsuarioRequest request) {
         return new ResponseEntity<>(new ResponseBase<>(
             Mensaje.CODE_OK, Mensaje.MENSAJE_GUARDADO, service.registrar(request)), HttpStatus.CREATED);
     }
 
+    // 4. ACTUALIZAR
     @PutMapping(ApiRoutes.DetalleUsuario.ACTUALIZAR)
     public ResponseEntity<ResponseBase<DetalleUsuarioResponse>> actualizar(@PathVariable Long id, @RequestBody DetalleUsuarioRequest request) {
-        // ERROR PREVIO SOLUCIONADO: Inferencia explícita para Java 25
-        return ResponseEntity.ok(new ResponseBase<DetalleUsuarioResponse>(
+        return ResponseEntity.ok(new ResponseBase<>(
             Mensaje.CODE_OK, Mensaje.MENSAJE_ACTUALIZADO, service.actualizar(id, request)));
     }
 
+    // 5. ELIMINAR
     @DeleteMapping(ApiRoutes.DetalleUsuario.ELIMINAR)
     public ResponseEntity<ResponseBase<Void>> eliminar(@PathVariable Long id) {
         service.eliminar(id);
-        return ResponseEntity.ok(new ResponseBase<Void>(
+        // CORRECCIÓN: Incluso para Void, el operador <> funciona perfecto.
+        return ResponseEntity.ok(new ResponseBase<>(
             Mensaje.CODE_OK, Mensaje.MENSAJE_ELIMINADO, null));
     }
 }

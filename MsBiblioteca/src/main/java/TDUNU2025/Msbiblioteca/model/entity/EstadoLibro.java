@@ -2,37 +2,38 @@ package tdunu2025.msbiblioteca.model.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Set;
 
 @Entity
 @Table(name = "estado_libro")
-@Data 
+@Getter
+@Setter
 @NoArgsConstructor 
 @AllArgsConstructor 
-@Builder 
-public class EstadoLibro {
+@Builder
+@EqualsAndHashCode(onlyExplicitlyIncluded=true) 
+public class EstadoLibro implements Serializable{
     
+    private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_estado_libro")
+    @EqualsAndHashCode.Include
     private Long idEstadoLibro;
 
-    // Nombre del estado (ej. "ACTIVO", "AGOTADO"). Debe ser único.
     @Column(name="nombre", length = 50, nullable = false, unique = true)
     private String nombre;
 
-    // Descripción opcional del estado
     @Column(name="descripcion", length = 200)
     private String descripcion;
     
-    // --- Relación Inversa (opcional, pero recomendada) ---
-    // Mapeo inverso a la tabla Libro (Muchos Libros tienen Un Estado)
     @OneToMany(mappedBy = "estadoLibro", fetch = FetchType.LAZY)
     @ToString.Exclude
-    @EqualsAndHashCode.Exclude
     private Set<Libro> libros;
     
-    // --- Auditoría ---
     @Column(name = "fecha_registro", updatable = false)
     private LocalDateTime fechaRegistro;
 

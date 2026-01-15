@@ -12,8 +12,12 @@ public interface DetalleUsuarioService {
     DetalleUsuarioResponse obtener(Long idUsuario);
 
     DetalleUsuarioResponse registrar (DetalleUsuarioRequest request);
-    
-    DetalleUsuarioResponse actualizar (long idUsuario, DetalleUsuarioRequest request);
-    
+
+    DetalleUsuarioResponse actualizar(Long id, DetalleUsuarioRequest request);
+
     void eliminar(Long idUsuario);
+
+    boolean existePorIdUsuario(Long idUsuario);
+
+    DetalleUsuarioResponse obtenerPorIdExterno(Long idUsuarioExterno);
 }

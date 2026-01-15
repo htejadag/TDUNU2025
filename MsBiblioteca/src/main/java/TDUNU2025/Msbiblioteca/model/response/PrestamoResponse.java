@@ -1,16 +1,26 @@
 package tdunu2025.msbiblioteca.model.response;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
-import java.time.LocalDate;
+import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 @Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+
 public class PrestamoResponse {
+    
     private Long idPrestamo; 
     private Long idUsuario;
     private Long idDetalleLibro;
-    private LocalDate fechaPrestamo;
+    private String tituloLibro;
+    private LocalDateTime fechaPrestamo;
     private LocalDate fechaVencimiento;
-    private LocalDate fechaDevolucion;
+    private LocalDateTime fechaDevolucion;
     private Long idEstadoPrestamo;
     private String observaciones;
 }

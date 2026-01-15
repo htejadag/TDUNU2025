@@ -1,19 +1,22 @@
 package tdunu2025.msbiblioteca.model.entity;
 
+import java.io.Serializable;
+
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.AllArgsConstructor;
+import lombok.*;
 
 @Entity
 @Table(name = "catalogo")
-@Data
+@Getter @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Catalogo {
+public class Catalogo implements Serializable{
+
+    private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @EqualsAndHashCode.Include  
     private Long idCatalogo;
 
     @Column(nullable = false, length = 100)
@@ -23,5 +26,6 @@ public class Catalogo {
     private String descripcion;
 
     @Column(nullable = false)
-    private Integer estado; // 1 para Activo, 0 para Inactivo
+    private Boolean estado;
+
 }

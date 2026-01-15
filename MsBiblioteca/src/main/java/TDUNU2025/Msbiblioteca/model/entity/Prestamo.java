@@ -1,50 +1,65 @@
 package tdunu2025.msbiblioteca.model.entity;
 
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
-import lombok.AllArgsConstructor;
+import lombok.*;
+
+import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "prestamo") 
-@Data 
+@Getter
+@Setter
 @NoArgsConstructor 
-@AllArgsConstructor 
-public class Prestamo {
+@AllArgsConstructor
+@EqualsAndHashCode(onlyExplicitlyIncluded=true) 
+public class Prestamo implements Serializable{
 
+    private static final long serialVersionUID = 1L;
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_prestamo")
+    @EqualsAndHashCode.Include
     private Long idPrestamo;
 
-    // --- CLAVES FORÁNEAS (Tratadas como campos simples) ---
-    @Column(nullable = false)
+    @Column(name = "id_usuario" ,nullable = false)
     private Long idUsuario;
 
-    @Column(nullable = false)
-    private Long idDetalleLibro;
 
-    // --- FECHAS ---
-    // Usamos LocalDate, JPA lo mapea automáticamente a DATE en SQL
-    @Column(nullable = false)
-    private LocalDate fechaPrestamo;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_detalle_libro", nullable = false) 
+    @ToString.Exclude 
+    private DetalleLibro detalleLibro;
 
-    @Column(nullable = false)
+    @Column(name = "fecha_prestamo",nullable = false, updatable = false)
+    private LocalDateTime fechaPrestamo;
+
+    @Column(name = "fecha_vencimiento")
     private LocalDate fechaVencimiento;
 
-    // Puede ser nulo porque al crear el préstamo aún no se devuelve
-    private LocalDate fechaDevolucion;
+    @Column(name = "fecha_devolucion")
+    private LocalDateTime fechaDevolucion;
 
-    // --- OTROS CAMPOS ---
-    @Column(nullable = false)
-    private Long idEstadoPrestamo; // 1: Pendiente, 2: Devuelto, etc.
+    @Column(name = "id_estado_prestamo",nullable = false)
+    private Long idEstadoPrestamo; 
 
     @Column(columnDefinition = "TEXT")
     private String observaciones;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "idDetalleLibro",nullable = false, insertable = false, updatable = false)
-    @ToString.Exclude
-    private DetalleLibro detalleLibro;
+    @PrePersist
+    public void prePersist(){
+        if (this.fechaPrestamo == null){
+            this.fechaPrestamo = LocalDateTime.now();   
+        }
+        if (this.fechaVencimiento == null){
+            this.fechaVencimiento = LocalDate.now().plusDays(7);
+        }
+
+        if (this.idEstadoPrestamo == null){
+            this.idEstadoPrestamo = 1L;
+        }
+
+    }
 }
