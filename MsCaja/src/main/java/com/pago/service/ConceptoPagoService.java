@@ -1,19 +1,21 @@
 package com.pago.service;
 
 import java.util.List;
-import com.pago.model.entity.ConceptoPagoModel;
+
+import com.pago.model.request.ConceptoPagoRequest;
+import com.pago.model.response.ConceptoPagoResponse;
 
 public interface ConceptoPagoService {
 
-    public abstract List<ConceptoPagoModel> listarConceptoPago();
+    List<ConceptoPagoResponse> listar();
 
-    public abstract ConceptoPagoModel obtenerConceptoPago(int id);
+    ConceptoPagoResponse obtenerPorId(Integer id);
 
-    public abstract ConceptoPagoModel registrarConceptoPago(ConceptoPagoModel clasificadorPago);
+    ConceptoPagoResponse guardar(ConceptoPagoRequest request);
 
-    public abstract ConceptoPagoModel actualizarConceptoPago(ConceptoPagoModel clasificadorPago);
+    ConceptoPagoResponse editar(Integer id, ConceptoPagoRequest request);
 
-    public abstract void desactivarConceptoPago(int id);
+    void desactivar(Integer id);
 
-    public abstract void eliminarConceptoPago(int id);
+    void eliminar(Integer id);
 }

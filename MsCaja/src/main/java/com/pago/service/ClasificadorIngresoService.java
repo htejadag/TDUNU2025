@@ -1,19 +1,20 @@
 package com.pago.service;
 
 import java.util.List;
-import com.pago.model.entity.ClasificadorIngresoModel;
+import com.pago.model.request.ClasificadorIngresoRequest;
+import com.pago.model.response.ClasificadorIngresoResponse;
 
 public interface ClasificadorIngresoService {
 
-    public abstract List<ClasificadorIngresoModel> listarClasificadorIngreso();
+    List<ClasificadorIngresoResponse> listar();
 
-    public abstract ClasificadorIngresoModel obtenerClasificadorIngreso(int id);
+    ClasificadorIngresoResponse obtenerPorId(Integer id);
 
-    public abstract ClasificadorIngresoModel registrarClasificadorIngreso(ClasificadorIngresoModel clasificadorIngreso);
+    ClasificadorIngresoResponse guardar(ClasificadorIngresoRequest request);
 
-    public abstract ClasificadorIngresoModel actualizarClasificadorIngreso(ClasificadorIngresoModel clasificadorIngreso);
+    ClasificadorIngresoResponse editar(Integer id, ClasificadorIngresoRequest request);
 
-    public abstract void desactivarClasificadorIngreso(int id);
+    void desactivar(Integer id);
 
-    public abstract void eliminarClasificadorIngreso(int id);
+    void eliminar(Integer id);
 }

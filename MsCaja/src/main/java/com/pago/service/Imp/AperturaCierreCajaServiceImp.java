@@ -4,59 +4,81 @@ import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import com.pago.model.entity.AperturaCierreCajaModel;
+import com.pago.model.request.AperturaCierreCajaRequest;
+import com.pago.model.response.AperturaCierreCajaResponse;
 import com.pago.repository.AperturaCierreCajaRepository;
 import com.pago.service.AperturaCierreCajaService;
 
 @Slf4j
-@Service("ape_cie_cajaServicio")
+@Service
 public class AperturaCierreCajaServiceImp implements AperturaCierreCajaService {
+
     @Autowired
-    @Qualifier("ape_cie_cajaRepositorio")
-    private AperturaCierreCajaRepository ape_cie_cajaRepositorio;
-    
+    AperturaCierreCajaRepository aperturaCierreCajaRepository;
+
     @Autowired
     private ModelMapper modelMapper;
 
     @Override
-    public List<AperturaCierreCajaModel> listarApeCieCaja() {
-        return ape_cie_cajaRepositorio.findAll().
-        stream()
-        .map(model -> modelMapper.map(model, AperturaCierreCajaModel.class))
-        .toList();
+    public List<AperturaCierreCajaResponse> listar() {
+        log.info("[AperturaCierreCaja] listar - inicio");
+        List<AperturaCierreCajaResponse> resp = aperturaCierreCajaRepository.findAll()
+                .stream()
+                .map(model -> modelMapper.map(model, AperturaCierreCajaResponse.class))
+                .toList();
+        log.info("[AperturaCierreCaja] listar - fin | total={}", resp.size());
+        return resp;
     }
 
     @Override
-    public AperturaCierreCajaModel obtenerApeCieCaja(int id) {
-        return ape_cie_cajaRepositorio.findById(id)
-        .map(model -> modelMapper.map(model, AperturaCierreCajaModel.class))
-        .orElse(null);
+    public AperturaCierreCajaResponse obtenerPorId(Integer id) {
+        log.info("[AperturaCierreCaja] obtenerPorId - id={}", id);
+        AperturaCierreCajaResponse resp = aperturaCierreCajaRepository.findById(id)
+                .map(model -> modelMapper.map(model, AperturaCierreCajaResponse.class))
+                .orElse(null);
+        if (resp == null) {
+            log.warn("[AperturaCierreCaja] obtenerPorId - no encontrado | id={}", id);
+        } else {
+            log.info("[AperturaCierreCaja] obtenerPorId - encontrado | id={}", id);
+        }
+        return resp;
     }
 
     @Override
-    public AperturaCierreCajaModel registrarApeCieCaja(AperturaCierreCajaModel ape_cie_caja) {
-        AperturaCierreCajaModel model = modelMapper.map(ape_cie_caja, AperturaCierreCajaModel.class);
-        AperturaCierreCajaModel saved = ape_cie_cajaRepositorio.save(model);
-        return modelMapper.map(saved, AperturaCierreCajaModel.class);
+    public AperturaCierreCajaResponse guardar(AperturaCierreCajaRequest request) {
+        AperturaCierreCajaModel model = modelMapper.map(request, AperturaCierreCajaModel.class);
+        AperturaCierreCajaModel saved = aperturaCierreCajaRepository.save(model);
+        log.info("[AperturaCierreCaja] guardar - ok | id={}", saved.getAperturacierrecajaid());
+        AperturaCierreCajaResponse response = modelMapper.map(saved, AperturaCierreCajaResponse.class);
+        //return modelMapper.map(saved, AperturaCierreCajaResponse.class);
+        return response;
     }
 
     @Override
-    public AperturaCierreCajaModel actualizarApeCieCaja(AperturaCierreCajaModel ape_cie_caja) {
-        AperturaCierreCajaModel model = modelMapper.map(ape_cie_caja, AperturaCierreCajaModel.class);
-        AperturaCierreCajaModel saved = ape_cie_cajaRepositorio.save(model);
-        return modelMapper.map(saved, AperturaCierreCajaModel.class);
+    public AperturaCierreCajaResponse editar(Integer id, AperturaCierreCajaRequest request) {
+        log.info("[AperturaCierreCaja] editar - inicio | id={}", id);
+        AperturaCierreCajaModel existente = aperturaCierreCajaRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("No existe apertura/cierre de caja con ID: " + id));
+
+        modelMapper.map(request, existente);
+        AperturaCierreCajaModel actualizado = aperturaCierreCajaRepository.save(existente);
+        log.info("[AperturaCierreCaja] editar - ok | id={}", id);
+        return modelMapper.map(actualizado, AperturaCierreCajaResponse.class);
     }
 
     @Override
-    public void desactivarApeCieCaja(int id) {
-        ape_cie_cajaRepositorio.desactivar(id);
+    public void desactivar(Integer id) {
+        log.info("[AperturaCierreCaja] desactivar - inicio | id={}", id);
+        aperturaCierreCajaRepository.desactivar(id);
+        log.info("[AperturaCierreCaja] desactivar - ok | id={}", id);
     }
 
     @Override
-    public void eliminarApeCieCaja(int id) {
-        ape_cie_cajaRepositorio.eliminar(id);
+    public void eliminar(Integer id) {
+        log.info("[AperturaCierreCaja] eliminar - inicio | id={}", id);
+        aperturaCierreCajaRepository.eliminar(id);
+        log.info("[AperturaCierreCaja] eliminar - ok | id={}", id);
     }
-    
 }

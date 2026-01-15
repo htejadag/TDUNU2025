@@ -1,20 +1,20 @@
 package com.pago.service;
 
 import java.util.List;
-import com.pago.model.entity.AperturaCierreCajaModel;
+import com.pago.model.request.AperturaCierreCajaRequest;
+import com.pago.model.response.AperturaCierreCajaResponse;
 
 public interface AperturaCierreCajaService {
 
-    public abstract List<AperturaCierreCajaModel> listarApeCieCaja();
+    List<AperturaCierreCajaResponse> listar();
 
-    public abstract AperturaCierreCajaModel obtenerApeCieCaja(int id);
+    AperturaCierreCajaResponse obtenerPorId(Integer id);
 
-    public abstract AperturaCierreCajaModel registrarApeCieCaja(AperturaCierreCajaModel ape_cie_caja);
+    AperturaCierreCajaResponse guardar(AperturaCierreCajaRequest request);
 
-    public abstract AperturaCierreCajaModel actualizarApeCieCaja(AperturaCierreCajaModel ape_cie_caja);
+    AperturaCierreCajaResponse editar(Integer id, AperturaCierreCajaRequest request);
 
-    public abstract void desactivarApeCieCaja(int id);
+    void desactivar(Integer id);
 
-    public abstract void eliminarApeCieCaja(int id);
-
+    void eliminar(Integer id);
 }

@@ -1,6 +1,5 @@
 package com.pago.model.request;
 
-
 import lombok.Data;
 
 @Data

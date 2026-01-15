@@ -1,18 +1,16 @@
-package com.pago.model.response;
+package com.pago.model.request;
 
 import java.time.LocalDateTime;
 import lombok.Data;
 
 @Data
-public class ConceptoPagoResponse {
-    
-    public Integer conceptopagoid;
+public class ClasificadorIngresoRequest {
 
     public Integer clasificadoringresoid;
 
-    public String nombre_concepto;
+    public String codigo;
 
-    public float precio_base;
+    public String nombre;
 
     public Integer usuario_creacion;
 

@@ -1,11 +1,10 @@
-package com.pago.model.response;
+package com.pago.model.request;
 
 import java.time.LocalDateTime;
 import lombok.Data;
 
 @Data
-public class ConceptoPagoResponse {
-    
+public class ConceptoPagoRequest {
     public Integer conceptopagoid;
 
     public Integer clasificadoringresoid;
