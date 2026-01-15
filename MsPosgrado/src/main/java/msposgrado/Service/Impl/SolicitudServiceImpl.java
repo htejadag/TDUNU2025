@@ -22,7 +22,7 @@ import jakarta.persistence.EntityManager;
 public class SolicitudServiceImpl implements SolicitudService {
 
     private final SolicitudRepository repository;
-    private final KafkaTemplate<String, String> kafkaTemplate;
+    private final KafkaTemplate<String, Object> kafkaTemplate;
     private final ObjectMapper objectMapper;
     private final EntityManager entityManager;
 
@@ -36,7 +36,7 @@ public class SolicitudServiceImpl implements SolicitudService {
      *                      avanzadas.
      */
     public SolicitudServiceImpl(SolicitudRepository repository,
-            KafkaTemplate<String, String> kafkaTemplate,
+            KafkaTemplate<String, Object> kafkaTemplate,
             ObjectMapper objectMapper,
             EntityManager entityManager) {
         this.repository = repository;
@@ -64,8 +64,7 @@ public class SolicitudServiceImpl implements SolicitudService {
                     nuevaSolicitud.getDescripcion(),
                     java.time.LocalDateTime.now());
 
-            String json = objectMapper.writeValueAsString(event);
-            kafkaTemplate.send("solicitudes-events", json);
+            kafkaTemplate.send("solicitudes-events", event);
         } catch (Exception e) {
             e.printStackTrace();
         }
