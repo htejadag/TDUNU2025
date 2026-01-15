@@ -2,21 +2,14 @@ package com.pago.controller;
 
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import com.pago.model.request.AperturaCierreCajaRequest;
 import com.pago.model.response.AperturaCierreCajaResponse;
 import com.pago.service.AperturaCierreCajaService;
 import com.pago.util.ApiRoutes;
 import com.pago.util.ResponseBase;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 
 @Slf4j
 @RestController
@@ -24,8 +17,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 @RequestMapping(ApiRoutes.Demo.APE_CIE_CAJA)
 public class AperturaCierreCajaController {
 
-    @Autowired
-    AperturaCierreCajaService aperturaCierreCajaService;
+    private final AperturaCierreCajaService aperturaCierreCajaService;
 
     @GetMapping(value = ApiRoutes.Demo.LISTAR)
     public ResponseBase<List<AperturaCierreCajaResponse>> listar() {
