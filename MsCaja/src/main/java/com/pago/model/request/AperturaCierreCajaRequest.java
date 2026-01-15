@@ -6,22 +6,22 @@ import lombok.Data;
 @Data
 public class AperturaCierreCajaRequest {
 
-    public Integer aperturacierrecajaid;
+    // public Integer aperturacierrecajaid;
 
-    public LocalDateTime fecha_apertura;
+    public LocalDateTime fechaApertura;
 
-    public LocalDateTime fecha_cierre;
+    public LocalDateTime fechaCierre;
 
-    public Integer usuario_creacion;
+    public Integer usuarioCreacion;
 
-    public LocalDateTime fecha_creacion;
+    public LocalDateTime fechaCreacion;
 
-    public Integer usuario_modificacion;
+    public Integer usuarioModificacion;
 
-    public LocalDateTime fecha_modificacion;
+    public LocalDateTime fechaModificacion;
 
     public Boolean activo;
 
-    public Boolean es_eliminado;
+    public Boolean esEliminado;
 
 }

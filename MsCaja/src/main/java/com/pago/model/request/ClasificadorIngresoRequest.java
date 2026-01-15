@@ -6,22 +6,22 @@ import lombok.Data;
 @Data
 public class ClasificadorIngresoRequest {
 
-    public Integer clasificadoringresoid;
-
+    // public Integer clasificadoringresoid;
+    
     public String codigo;
 
     public String nombre;
 
     public Integer usuario_creacion;
 
-    public LocalDateTime fecha_creacion;
+    public LocalDateTime usuarioCreacion;
 
-    public Integer usuario_modificacion;
+    public Integer fechaCreacion;
 
-    public LocalDateTime fecha_modificacion;
+    public LocalDateTime usuarioModificacion;
 
     public Boolean activo;
 
-    public Boolean es_eliminado;
+    public Boolean esEliminado;
 
 }
