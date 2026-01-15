@@ -124,5 +124,4 @@ public class SesionConsejoServiceImp implements SesionConsejoService {
                                 .sesionesCanceladas(sesionesCanceladas)
                                 .build();
         }
-
 }
