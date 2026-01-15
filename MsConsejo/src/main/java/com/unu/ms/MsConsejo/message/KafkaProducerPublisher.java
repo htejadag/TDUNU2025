@@ -42,8 +42,11 @@ public class KafkaProducerPublisher {
     }
 
     public void sendSesionConsejoModel(Object model) {
+        
         try {
             String json = objectMapper.writeValueAsString(model);
+
+            System.out.println("Enviando mensaje al topic de Kafka: " + json);
             kafkaTemplate.send(topicName, json);
         } catch (JsonProcessingException e) {
             throw new RuntimeException("Error serializando mensaje Kafka", e);
