@@ -6,6 +6,7 @@ import java.util.List;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import com.example.Comedor.config.BusinessException;
 import com.example.Comedor.model.entity.MenuDiaModel;
 import com.example.Comedor.model.entity.MenuPlatoModel;
 import com.example.Comedor.model.entity.PlatoModel;
@@ -70,6 +71,9 @@ public class MenuPlatoServiceImp implements MenuPlatoService {
                 MenuDiaModel menuDia = menuDiaRepository.findById(req.getIdMenuDia())
                                 .orElseThrow(() -> new RuntimeException(
                                                 "No existe menuDia con id: " + req.getIdMenuDia()));
+                if (!menuDia.getMenuSemana().getId().equals(req.getIdMenuSemana())) {
+                        throw new BusinessException("El día no pertenece a la semana indicada");
+                }
 
                 PlatoModel plato = platoRepository.findById(req.getIdPlato())
                                 .orElseThrow(() -> new RuntimeException("No existe plato con id: " + req.getIdPlato()));

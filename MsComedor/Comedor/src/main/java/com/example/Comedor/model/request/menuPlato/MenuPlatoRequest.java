@@ -7,6 +7,8 @@ import lombok.Data;
 @Data
 public class MenuPlatoRequest {
 
+    private Integer idMenuSemana;
+    
     private Integer idMenuDia;
 
     private Integer idTurno;

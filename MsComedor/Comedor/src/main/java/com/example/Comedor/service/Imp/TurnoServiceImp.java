@@ -8,7 +8,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import com.example.Comedor.config.BusinessException;
-import com.example.Comedor.model.entity.CatalogoModel;
 import com.example.Comedor.model.entity.TurnoModel;
 import com.example.Comedor.model.request.turno.TurnoRequest;
 import com.example.Comedor.model.request.turno.TurnoUpdateRequest;
@@ -61,16 +60,16 @@ public class TurnoServiceImp implements TurnoService {
 
         Integer idTipoTurnoReq = turnoRequest.getIdTipoTurno();
 
+        catalogoRepository.findById(idTipoTurnoReq)
+                .orElseThrow(() -> new BusinessException("No existe el tipo de turno"));
+
         if (!idTipoTurnoReq.equals(CatalogoEnum.MANANA.getId()) &&
                 !idTipoTurnoReq.equals(CatalogoEnum.TARDE.getId()) &&
                 !idTipoTurnoReq.equals(CatalogoEnum.NOCHE.getId())) {
-            throw new BusinessException("tipo de plato no válido");
-        }
+            throw new BusinessException("tipo de turno no válido");
+        } 
 
-        CatalogoModel idTipoTurno = catalogoRepository.findById(idTipoTurnoReq)
-                .orElseThrow(() -> new RuntimeException("No existe el tipo de plato"));
-
-        model.setIdTipoTurno(idTipoTurno);
+        model.setIdTipoTurno(idTipoTurnoReq);
         model.setHoraApertura(LocalTime.parse(turnoRequest.getHoraApertura()));
         model.setHoraCierre(LocalTime.parse(turnoRequest.getHoraCierre()));
         model.setRacionesTotales(turnoRequest.getRacionesTotales());
@@ -93,16 +92,16 @@ public class TurnoServiceImp implements TurnoService {
 
         Integer idTipoTurnoReq = turnoRequest.getIdTipoTurno();
 
+        catalogoRepository.findById(idTipoTurnoReq)
+                .orElseThrow(() -> new RuntimeException("No existe el tipo de turno"));
+
         if (!idTipoTurnoReq.equals(CatalogoEnum.MANANA.getId()) &&
                 !idTipoTurnoReq.equals(CatalogoEnum.TARDE.getId()) &&
                 !idTipoTurnoReq.equals(CatalogoEnum.NOCHE.getId())) {
-            throw new BusinessException("tipo de plato no válido");
+            throw new BusinessException("tipo de turno no válido");
         }
 
-        CatalogoModel idTipoTurno = catalogoRepository.findById(idTipoTurnoReq)
-                .orElseThrow(() -> new RuntimeException("No existe el tipo de plato"));
-
-        model.setIdTipoTurno(idTipoTurno);
+        model.setIdTipoTurno(idTipoTurnoReq);
         model.setHoraApertura(LocalTime.parse(turnoRequest.getHoraApertura()));
         model.setHoraCierre(LocalTime.parse(turnoRequest.getHoraCierre()));
         model.setRacionesTotales(turnoRequest.getRacionesTotales());

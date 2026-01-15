@@ -4,8 +4,6 @@ package com.example.Comedor.model.response;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-import com.example.Comedor.model.entity.CatalogoModel;
-
 import lombok.Data;
  
 @Data
@@ -13,7 +11,7 @@ public class TurnoResponse {
 
     private Integer id;
 
-    private CatalogoModel idTipoTurno;
+    private Integer idTipoTurno;
 
     private LocalTime horaApertura;
 

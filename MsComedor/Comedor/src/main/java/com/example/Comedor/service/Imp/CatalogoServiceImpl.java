@@ -64,7 +64,7 @@ public class CatalogoServiceImpl implements CatalogoService {
 
         CatalogoModel model = modelMapper.map(catalogoRequest, CatalogoModel.class);
 
-        model.setTipo(catalogoRequest.getTipo());
+        model.setDescripcion(catalogoRequest.getDescripcion());
         model.setActivo(catalogoRequest.isActivo());
         model.setUsuarioCreacion(catalogoRequest.getUsuarioCreacion());
         model.setFechaCreacion(LocalDate.now());
@@ -82,7 +82,7 @@ public class CatalogoServiceImpl implements CatalogoService {
         CatalogoModel model = catalogoRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("No existe un catalogocon id: " + id));
 
-        model.setTipo(catalogoRequest.getTipo());
+        model.setDescripcion(catalogoRequest.getDescripcion());
         model.setActivo(catalogoRequest.isActivo());
         model.setUsuarioModificacion(catalogoRequest.getUsuarioModificacion());
         model.setFechaModificacion(LocalDate.now());

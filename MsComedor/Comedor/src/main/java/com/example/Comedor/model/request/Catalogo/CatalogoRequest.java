@@ -6,7 +6,7 @@ import lombok.Data;
 public class CatalogoRequest {
 
 
-    private String tipo;
+    private String descripcion;
 
     private boolean activo;
     

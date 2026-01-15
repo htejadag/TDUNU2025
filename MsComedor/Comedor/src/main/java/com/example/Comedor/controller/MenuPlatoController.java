@@ -65,7 +65,7 @@ public class MenuPlatoController {
 
     @GetMapping(ApiRoutes.MenuPlato.LISTAR_MENU_PLATO_SEMANA)
     public ResponseBase<List<MenuPlatoResponse>> listarPorMenuSemana(@RequestParam("idMenuSemana") Integer id) {
-        List<MenuPlatoResponse> lista = menuPlatoService.listar();
+        List<MenuPlatoResponse> lista = menuPlatoService.listarPorMenuSemana(id);
         return ResponseBase.ok(lista);
     }
 

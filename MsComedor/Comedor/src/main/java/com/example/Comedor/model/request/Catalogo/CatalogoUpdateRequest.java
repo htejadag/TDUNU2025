@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class CatalogoUpdateRequest {
 
-    private String tipo;
+    private String descripcion;
 
     private boolean activo;
     

@@ -30,9 +30,9 @@ public class PlatoModel {
     @Column(name = "calorias",nullable = false)
     private double calorias;
 
-    @ManyToOne
-    @JoinColumn(name = "idTipo", referencedColumnName = "id")
-    private CatalogoModel idTipo;
+    
+    @Column(name = "idTipo",nullable = false)
+    private Integer idTipo;
 
     @Column(name = "activo",nullable = false)
     private boolean activo;

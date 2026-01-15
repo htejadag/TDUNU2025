@@ -63,20 +63,20 @@ public class PlatoServiceImp implements PlatoService {
 
         Integer idTipoReq = platoRequest.getIdTipo();
 
+        catalogoRepository.findById(idTipoReq)
+                .orElseThrow(() -> new RuntimeException("No existe el tipo de plato"));
+
         if (!idTipoReq.equals(CatalogoEnum.DESAYUNO.getId()) &&
                 !idTipoReq.equals(CatalogoEnum.ALMUERZO.getId()) &&
                 !idTipoReq.equals(CatalogoEnum.CENA.getId())) {
             throw new BusinessException("tipo de plato no válido");
         }
 
-        CatalogoModel idTipo = catalogoRepository.findById(idTipoReq)
-                .orElseThrow(() -> new RuntimeException("No existe el tipo de plato"));
-
         model.setNombre(platoRequest.getNombre());
         model.setDescripcion(platoRequest.getDescripcion());
         model.setImagenUrl(platoRequest.getImagenUrl());
         model.setCalorias(platoRequest.getCalorias());
-        model.setIdTipo(idTipo);
+        model.setIdTipo(idTipoReq);
         model.setActivo(platoRequest.isActivo());
         model.setUsuarioCreacion(platoRequest.getUsuarioCreacion());
         model.setFechaCreacion(LocalDate.now());
@@ -94,14 +94,14 @@ public class PlatoServiceImp implements PlatoService {
 
         Integer idTipoReq = platoRequest.getIdTipo();
 
+        catalogoRepository.findById(idTipoReq)
+                .orElseThrow(() -> new RuntimeException("No existe el tipo de plato"));
+
         if (!idTipoReq.equals(CatalogoEnum.DESAYUNO.getId()) &&
                 !idTipoReq.equals(CatalogoEnum.ALMUERZO.getId()) &&
                 !idTipoReq.equals(CatalogoEnum.CENA.getId())) {
             throw new BusinessException("tipo de plato no válido");
         }
-
-        CatalogoModel idTipo = catalogoRepository.findById(idTipoReq)
-                .orElseThrow(() -> new RuntimeException("No existe el tipo de plato"));
 
         modelMapper.map(platoRequest, model);
 
@@ -109,7 +109,7 @@ public class PlatoServiceImp implements PlatoService {
         model.setDescripcion(platoRequest.getDescripcion());
         model.setImagenUrl(platoRequest.getImagenUrl());
         model.setCalorias(platoRequest.getCalorias());
-        model.setIdTipo(idTipo);
+        model.setIdTipo(idTipoReq);
         model.setActivo(platoRequest.isActivo());
         model.setUsuarioModificacion(platoRequest.getUsuarioModificacion());
         model.setFechaModificacion(LocalDate.now());
