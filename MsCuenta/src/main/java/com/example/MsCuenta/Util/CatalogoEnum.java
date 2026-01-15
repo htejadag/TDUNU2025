@@ -1,6 +1,6 @@
 package com.example.MsCuenta.Util;
 
-public enum CatalogoEnum {
+public enum CatalogoEnum {  
 
     RECARGA(1),
     CONSUMO(2),

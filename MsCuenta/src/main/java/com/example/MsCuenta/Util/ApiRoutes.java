@@ -53,6 +53,7 @@ public class ApiRoutes {
         public static final String GUARDAR_CATALOGO = "/guardar";
         public static final String MODIFICAR_CATALOGO = "/modificar";
         public static final String ELIMINAR_CATALOGO = "/eliminar";
+        
     }
 
 }
