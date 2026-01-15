@@ -11,7 +11,8 @@ import java.util.List;
 import jakarta.persistence.EntityManager;
 
 /**
- * Implementación del servicio {@link SolicitudService} para la gestión de solicitudes.
+ * Implementación del servicio {@link SolicitudService} para la gestión de
+ * solicitudes.
  *
  * Gestiona operaciones CRUD sobre {@link Solicitud} y envía notificaciones
  * de creación a un tópico Kafka.
@@ -28,15 +29,16 @@ public class SolicitudServiceImpl implements SolicitudService {
     /**
      * Constructor que inyecta las dependencias necesarias.
      *
-     * @param repository Repositorio para operaciones de {@link Solicitud}.
+     * @param repository    Repositorio para operaciones de {@link Solicitud}.
      * @param kafkaTemplate Template para enviar mensajes a Kafka.
-     * @param objectMapper Mapeador JSON para serializar objetos.
-     * @param entityManager EntityManager para operaciones de persistencia avanzadas.
+     * @param objectMapper  Mapeador JSON para serializar objetos.
+     * @param entityManager EntityManager para operaciones de persistencia
+     *                      avanzadas.
      */
     public SolicitudServiceImpl(SolicitudRepository repository,
-                                KafkaTemplate<String, String> kafkaTemplate,
-                                ObjectMapper objectMapper,
-                                EntityManager entityManager) {
+            KafkaTemplate<String, String> kafkaTemplate,
+            ObjectMapper objectMapper,
+            EntityManager entityManager) {
         this.repository = repository;
         this.kafkaTemplate = kafkaTemplate;
         this.objectMapper = objectMapper;
@@ -54,8 +56,15 @@ public class SolicitudServiceImpl implements SolicitudService {
         Solicitud nuevaSolicitud = repository.save(solicitud);
         entityManager.refresh(nuevaSolicitud); // Forzar refresco desde la BD
         try {
-            String json = objectMapper.writeValueAsString(nuevaSolicitud);
-            System.out.println("DEBUG KAFKA JSON: " + json);
+            // Mapear entidad a DTO de evento
+            msposgrado.Dto.SolicitudEvent event = new msposgrado.Dto.SolicitudEvent(
+                    nuevaSolicitud.getIdSolicitud(),
+                    nuevaSolicitud.getTipoSolicitud().getNombre(),
+                    nuevaSolicitud.getEstadoSolicitud().getNombre(),
+                    nuevaSolicitud.getDescripcion(),
+                    java.time.LocalDateTime.now());
+
+            String json = objectMapper.writeValueAsString(event);
             kafkaTemplate.send("solicitudes-events", json);
         } catch (Exception e) {
             e.printStackTrace();
@@ -77,7 +86,8 @@ public class SolicitudServiceImpl implements SolicitudService {
      * Obtiene una solicitud por su ID solo si está activa.
      *
      * @param id ID de la solicitud a obtener.
-     * @return La {@link Solicitud} correspondiente o {@code null} si no existe o está inactiva.
+     * @return La {@link Solicitud} correspondiente o {@code null} si no existe o
+     *         está inactiva.
      */
     @Override
     public Solicitud obtenerPorId(Integer id) {
@@ -85,7 +95,8 @@ public class SolicitudServiceImpl implements SolicitudService {
     }
 
     /**
-     * Realiza un borrado lógico de la solicitud marcando su atributo {@code activo} como {@code false}.
+     * Realiza un borrado lógico de la solicitud marcando su atributo {@code activo}
+     * como {@code false}.
      *
      * @param id ID de la solicitud a eliminar.
      */
