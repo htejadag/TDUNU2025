@@ -53,7 +53,6 @@ public class CatalogoServiceImpl implements CatalogoService {
     public CatalogoResponse guardarCatalogo(CatalogoRequest request) {
         validarDatosCatalogo(request);
 
-        // ✅ CORRECCIÓN: Validar duplicados
         if (catalogoRepository.existsByNombre(request.getNombre())) {
             throw new BusinessException("El catálogo '" + request.getNombre() + "' ya existe.");
         }
@@ -75,7 +74,6 @@ public class CatalogoServiceImpl implements CatalogoService {
 
         validarDatosCatalogo(request);
 
-        // Validar si el nombre cambia, que no choque con otro existente
         if (!catalogo.getNombre().equalsIgnoreCase(request.getNombre()) && 
             catalogoRepository.existsByNombre(request.getNombre())) {
             throw new BusinessException("El nombre '" + request.getNombre() + "' ya está en uso por otro catálogo.");

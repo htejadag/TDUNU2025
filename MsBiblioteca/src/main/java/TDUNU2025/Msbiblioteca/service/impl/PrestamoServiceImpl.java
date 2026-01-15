@@ -60,10 +60,9 @@ public class PrestamoServiceImpl implements PrestamoService {
     @Override
     @Transactional
     public PrestamoResponse guardarPrestamo(PrestamoRequest request) {
-        // 1. Validaciones
+
         validarRequest(request);
 
-        // 2. Integridad Referencial
         if (!libroRepository.existsById(request.getIdLibro())) {
             throw new BusinessException("El Libro indicado no existe");
         }
@@ -71,24 +70,20 @@ public class PrestamoServiceImpl implements PrestamoService {
             throw new BusinessException("El Usuario indicado no existe en la biblioteca");
         }
         
-        // 3. Validar Disponibilidad (Libro único prestado)
         if (prestamoRepository.existsByIdLibroAndIdEstadoPrestamo(request.getIdLibro(), ESTADO_PRESTADO)) {
             throw new BusinessException("El libro ya está prestado y no ha sido devuelto");
         }
 
-        // 4. Creación del Préstamo
         Prestamo prestamo = modelMapper.map(request, Prestamo.class);
         prestamo.setFechaPrestamo(LocalDate.now());
         prestamo.setIdEstadoPrestamo(ESTADO_PRESTADO);
         
-        // Regla de negocio: 7 días de préstamo por defecto si no se especifica
         if (prestamo.getFechaVencimiento() == null) {
             prestamo.setFechaVencimiento(LocalDate.now().plusDays(7));
         }
 
         Prestamo guardado = prestamoRepository.save(prestamo);
         
-        // 5. Notificar evento asíncrono
         enviarEventoKafka(guardado);
         
         return modelMapper.map(guardado, PrestamoResponse.class);
@@ -106,7 +101,6 @@ public class PrestamoServiceImpl implements PrestamoService {
 
         LocalDate fechaDevolucionReal = LocalDate.now();
         
-        // --- LÓGICA DE DETECCIÓN DE MORA ---
         if (fechaDevolucionReal.isAfter(prestamo.getFechaVencimiento())) {
             
             long diasRetraso = ChronoUnit.DAYS.between(prestamo.getFechaVencimiento(), fechaDevolucionReal);
@@ -116,23 +110,20 @@ public class PrestamoServiceImpl implements PrestamoService {
                 
                 double montoMulta = diasRetraso * COSTO_POR_DIA_RETRASO;
 
-                // Generar Multa Automática
                 MultaRequest multaReq = MultaRequest.builder()
                         .idUsuario(prestamo.getIdUsuario())
                         .idPrestamo(prestamo.getIdPrestamo())
                         .monto(montoMulta)
                         .concepto("Mora automática por " + diasRetraso + " días de retraso.")
-                        .idEstadoMulta(1) // 1 = Pendiente
+                        .idEstadoMulta(1) 
                         .build();
 
                 multaService.registrar(multaReq);
-                
-                // Actualizar observación del préstamo para feedback visual
+
                 String notaMulta = " [SISTEMA: MULTA GENERADA POR " + diasRetraso + " DÍAS DE RETRASO]";
                 observaciones = (observaciones == null ? "" : observaciones) + notaMulta;
             }
         }
-        // -----------------------------------
 
         prestamo.setFechaDevolucion(fechaDevolucionReal);
         prestamo.setIdEstadoPrestamo(ESTADO_DEVUELTO);

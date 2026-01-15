@@ -64,14 +64,13 @@ public class EditorialServiceImpl implements EditorialService {
 
         validarDatosEditorial(request);
 
-        // Validamos que el nombre no se repita con otra editorial diferente
         if (!editorial.getNombre().equalsIgnoreCase(request.getNombre()) &&
                 editorialRepository.existsByNombre(request.getNombre())) {
             throw new BusinessException("El nuevo nombre ya pertenece a otra editorial");
         }
 
         modelMapper.map(request, editorial);
-        editorial.setIdEditorial(id); // Aseguramos el ID
+        editorial.setIdEditorial(id); 
 
         Editorial updated = editorialRepository.save(editorial);
         log.info("Editorial actualizada ID: {}", id);

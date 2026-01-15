@@ -21,9 +21,6 @@ public class LibroCategoriaController {
 
     private final LibroCategoriaService service;
 
-    // =========================
-    // REGISTRAR
-    // =========================
     @PostMapping(ApiRoutes.LibroCategoria.GUARDAR)
     public ResponseEntity<ResponseBase<LibroCategoriaResponse>> registrar(
             @RequestBody LibroCategoriaRequest request) {
@@ -39,9 +36,6 @@ public class LibroCategoriaController {
         );
     }
 
-    // =========================
-    // LISTAR
-    // =========================
     @GetMapping(ApiRoutes.LibroCategoria.LISTAR)
     public ResponseEntity<ResponseBase<List<LibroCategoriaResponse>>> listar() {
 
@@ -56,9 +50,6 @@ public class LibroCategoriaController {
         );
     }
 
-    // =========================
-    // OBTENER POR ID
-    // =========================
     @GetMapping(ApiRoutes.LibroCategoria.OBTENER_POR_ID)
     public ResponseEntity<ResponseBase<LibroCategoriaResponse>> obtener(
             @PathVariable Long id) {
@@ -74,9 +65,7 @@ public class LibroCategoriaController {
         );
     }
 
-    // =========================
-    // ACTUALIZAR
-    // =========================
+
     @PutMapping(ApiRoutes.LibroCategoria.ACTUALIZAR)
     public ResponseEntity<ResponseBase<LibroCategoriaResponse>> actualizar(
             @PathVariable Long id,
@@ -93,9 +82,6 @@ public class LibroCategoriaController {
         );
     }
 
-    // =========================
-    // ELIMINAR
-    // =========================
     @DeleteMapping(ApiRoutes.LibroCategoria.ELIMINAR)
     public ResponseEntity<ResponseBase<Void>> eliminar(@PathVariable Long id) {
 

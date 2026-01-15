@@ -34,7 +34,7 @@ public class DetalleUsuarioServiceImpl implements DetalleUsuarioService {
     @Override
     @Transactional(readOnly = true)
     public DetalleUsuarioResponse obtenerPorIdUsuario(Integer idUsuario) {
-        // Buscamos por el ID del Usuario (campo de negocio), no por PK
+  
         DetalleUsuario detalle = repository.findByIdUsuario(idUsuario)
                 .orElseThrow(() -> new BusinessException("El usuario con ID " + idUsuario + " no tiene historial en biblioteca."));
         
@@ -59,7 +59,6 @@ public class DetalleUsuarioServiceImpl implements DetalleUsuarioService {
         log.info("Creando historial manualmente para usuario ID: {}", request.getIdUsuario());
         DetalleUsuario detalle = modelMapper.map(request, DetalleUsuario.class);
         
-        // Inicializar valores por defecto si vienen nulos
         if (detalle.getTotalPrestamos() == null) detalle.setTotalPrestamos(0);
         if (detalle.getTotalMultas() == null) detalle.setTotalMultas(0);
 
@@ -67,7 +66,6 @@ public class DetalleUsuarioServiceImpl implements DetalleUsuarioService {
         return modelMapper.map(guardado, DetalleUsuarioResponse.class);
     }
 
-    // Sobrecarga para uso interno (KAFKA)
     @Override
     @Transactional
     public void guardar(DetalleUsuario entity) {
@@ -82,12 +80,11 @@ public class DetalleUsuarioServiceImpl implements DetalleUsuarioService {
     @Override
     @Transactional
     public DetalleUsuarioResponse actualizar(Integer idUsuario, DetalleUsuarioRequest request) {
-        // Buscamos por ID Usuario para asegurar que actualizamos el correcto
+
         DetalleUsuario detalle = repository.findByIdUsuario(idUsuario)
                 .orElseThrow(() -> new BusinessException("No se encontraron detalles para el usuario ID: " + idUsuario));
 
-        // Solo permitimos actualizar ciertos campos lógicos si fuera manual
-        // Nota: Generalmente esto lo actualiza el sistema de Préstamos, no el usuario manual.
+
         if (request.getTotalPrestamos() != null) detalle.setTotalPrestamos(request.getTotalPrestamos());
         if (request.getTotalMultas() != null) detalle.setTotalMultas(request.getTotalMultas());
         if (request.getFechaUltimoPrestamo() != null) detalle.setFechaUltimoPrestamo(request.getFechaUltimoPrestamo());
@@ -112,6 +109,6 @@ public class DetalleUsuarioServiceImpl implements DetalleUsuarioService {
         if (request.getIdUsuario() == null || request.getIdUsuario() <= 0) {
             throw new BusinessException("El ID del usuario es obligatorio");
         }
-        // Eliminada validación de dirección y teléfono porque NO existen en esta entidad
+
     }
 }

@@ -25,8 +25,8 @@ import java.util.List;
 public class MultaServiceImpl implements MultaService {
 
     private final MultaRepository multaRepository;
-    private final PrestamoRepository prestamoRepository;      // Inyectado para validar
-    private final DetalleUsuarioRepository usuarioRepository; // Inyectado para validar
+    private final PrestamoRepository prestamoRepository;      
+    private final DetalleUsuarioRepository usuarioRepository; 
     private final ModelMapper modelMapper;
 
     // Constantes
@@ -55,12 +55,10 @@ public class MultaServiceImpl implements MultaService {
     public MultaResponse registrar(MultaRequest request) {
         validarDatosMulta(request);
 
-        // 1. Validar que el usuario exista (Integridad)
         if (!usuarioRepository.existsByIdUsuario(request.getIdUsuario())) {
             throw new BusinessException("El usuario indicado no existe en el registro de biblioteca");
         }
 
-        // 2. Validar que el préstamo exista
         Prestamo prestamo = prestamoRepository.findById(request.getIdPrestamo())
                 .orElseThrow(() -> new BusinessException("El préstamo indicado no existe"));
 
@@ -92,7 +90,6 @@ public class MultaServiceImpl implements MultaService {
         Multa multa = multaRepository.findById(id)
                 .orElseThrow(() -> new BusinessException("No se puede actualizar: Multa no encontrada"));
 
-        // Nota: Generalmente las multas no se editan manualmente, pero mantenemos la lógica
         if (request.getMonto() != null && request.getMonto() >= 0) {
             multa.setMonto(request.getMonto());
         }
@@ -128,10 +125,8 @@ public class MultaServiceImpl implements MultaService {
         multa.setFechaPago(LocalDate.now());
 
         Multa pagada = multaRepository.save(multa);
-        log.info("💰 Multa ID {} pagada exitosamente.", id);
+        log.info(" Multa ID {} pagada exitosamente.", id);
 
-        // OJO: Aquí podrías llamar a 'usuarioRepository' para actualizar el historial de multas del usuario
-        // pero lo dejaremos simple por ahora.
 
         return modelMapper.map(pagada, MultaResponse.class);
     }

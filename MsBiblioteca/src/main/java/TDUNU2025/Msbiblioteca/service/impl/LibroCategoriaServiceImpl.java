@@ -23,8 +23,8 @@ import java.util.List;
 public class LibroCategoriaServiceImpl implements LibroCategoriaService {
 
     private final LibroCategoriaRepository repo;
-    private final LibroRepository libroRepository;         // Inyección para validar
-    private final CategoriaRepository categoriaRepository; // Inyección para validar
+    private final LibroRepository libroRepository;         
+    private final CategoriaRepository categoriaRepository; 
     private final ModelMapper modelMapper;
 
     @Override
@@ -58,13 +58,10 @@ public class LibroCategoriaServiceImpl implements LibroCategoriaService {
             throw new BusinessException("El Libro con ID " + request.getIdLibro() + " no existe.");
         }
 
-        // 3. Validar existencia de la Categoría
         if (!categoriaRepository.existsById(request.getIdCategoria().intValue())) { 
-            // Nota: ID Categoria es Integer, ID Libro es Long. Cuidado con los tipos.
             throw new BusinessException("La Categoría con ID " + request.getIdCategoria() + " no existe.");
         }
 
-        // 4. Validar duplicados
         if (repo.existsByIdLibroAndIdCategoria(request.getIdLibro(), request.getIdCategoria())) {
             throw new BusinessException("El libro ya está asignado a esta categoría");
         }
@@ -83,19 +80,15 @@ public class LibroCategoriaServiceImpl implements LibroCategoriaService {
         LibroCategoria entity = repo.findById(id)
                 .orElseThrow(() -> new BusinessException("No se puede actualizar: Relación no encontrada"));
 
-        // Validar si cambiamos el libro
         if (!entity.getIdLibro().equals(request.getIdLibro()) && !libroRepository.existsById(request.getIdLibro())) {
                  throw new BusinessException("El nuevo Libro ID no existe");
              }
         
 
-        // Validar si cambiamos la categoría
         if (!entity.getIdCategoria().equals(request.getIdCategoria()) && !categoriaRepository.existsById(request.getIdCategoria().intValue())) {
                  throw new BusinessException("La nueva Categoría ID no existe");
              }
         
-
-        // Validar duplicados si cambiaron los IDs
         boolean cambiaronIds = !entity.getIdLibro().equals(request.getIdLibro()) || 
                                !entity.getIdCategoria().equals(request.getIdCategoria());
 
@@ -104,7 +97,7 @@ public class LibroCategoriaServiceImpl implements LibroCategoriaService {
         }
 
         modelMapper.map(request, entity);
-        entity.setIdLibroCategoria(id); // Proteger ID
+        entity.setIdLibroCategoria(id); 
 
         LibroCategoria updated = repo.save(entity);
         log.info("Relación Libro-Categoría actualizada ID: {}", id);

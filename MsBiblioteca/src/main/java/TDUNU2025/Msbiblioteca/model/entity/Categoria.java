@@ -24,7 +24,7 @@ public class Categoria implements Serializable {
     private Integer idCategoria;
 
     @Column(nullable = false, length = 50, unique = true)
-    private String nombre; // Ej: "Terror", "Comedia"
+    private String nombre;
 
     @Column(length = 255)
     private String descripcion;

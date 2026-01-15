@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(ApiRoutes.Autor.BASE) // Ahora usa la clase estática
+@RequestMapping(ApiRoutes.Autor.BASE) 
 @RequiredArgsConstructor
 public class AutorController {
 
