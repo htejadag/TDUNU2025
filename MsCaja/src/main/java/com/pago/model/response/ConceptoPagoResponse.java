@@ -6,24 +6,24 @@ import lombok.Data;
 @Data
 public class ConceptoPagoResponse {
     
-    public Integer conceptopagoid;
+    //public Integer conceptopagoid;
 
     public Integer clasificadoringresoid;
 
-    public String nombre_concepto;
+    public String nombreConcepto;
 
-    public float precio_base;
+    public float precioBase;
 
-    public Integer usuario_creacion;
+    public Integer usuarioCreacion;
 
-    public LocalDateTime fecha_creacion;
+    public LocalDateTime fechaCreacion;
 
-    public Integer usuario_modificacion;
+    public Integer usuarioModificacion;
 
-    public LocalDateTime fecha_modificacion;
+    public LocalDateTime fechaModificacion;
 
     public Boolean activo;
 
-    public Boolean es_eliminado;
+    public Boolean esEliminado;
 
 }
