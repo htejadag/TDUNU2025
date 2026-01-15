@@ -30,4 +30,18 @@ public class EstadoSolicitudServiceImpl implements EstadoSolicitudService {
     public EstadoSolicitud obtenerPorId(Integer id) {
         return repository.findById(id).orElse(null);
     }
+
+    @Override
+    @Transactional
+    @org.springframework.cache.annotation.CacheEvict(value = "estadosSolicitud", allEntries = true)
+    public EstadoSolicitud guardar(EstadoSolicitud estadoSolicitud) {
+        return repository.save(estadoSolicitud);
+    }
+
+    @Override
+    @Transactional
+    @org.springframework.cache.annotation.CacheEvict(value = "estadosSolicitud", allEntries = true)
+    public void eliminar(Integer id) {
+        repository.deleteById(id);
+    }
 }

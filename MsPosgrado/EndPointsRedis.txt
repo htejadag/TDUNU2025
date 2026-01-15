@@ -1,0 +1,50 @@
+
+--------------------------------------------------------------------
+
+TIPO SOLICITUD (REDIS CACHED):
+
+CREAR:  POST http://localhost:8080/api/tipos-solicitud
+
+{
+    "nombre": "RECTIFICACIÓN DE JURADO",
+    "descripcion": "Solicitud para cambio o corrección de miembros del jurado"
+}
+
+LISTAR (CACHE):  GET http://localhost:8080/api/tipos-solicitud
+
+OBTENER POR ID (CACHE):  GET http://localhost:8080/api/tipos-solicitud/{id}
+
+ACTUALIZAR (EVICT CACHE):  PUT http://localhost:8080/api/tipos-solicitud/{id}
+
+{
+    "nombre": "RECTIFICACIÓN DE JURADO V2",
+    "descripcion": "Actualización de la descripción"
+}
+
+ELIMINAR (EVICT CACHE):  DELETE http://localhost:8080/api/tipos-solicitud/{id}
+
+--------------------------------------------------------------------
+
+ESTADO SOLICITUD (REDIS CACHED):
+
+CREAR:  POST http://localhost:8080/api/estados-solicitud
+
+{
+    "nombre": "DERIVADO",
+    "descripcion": "El trámite ha sido derivado a otra área"
+}
+
+LISTAR (CACHE):  GET http://localhost:8080/api/estados-solicitud
+
+OBTENER POR ID (CACHE):  GET http://localhost:8080/api/estados-solicitud/{id}
+
+ACTUALIZAR (EVICT CACHE):  PUT http://localhost:8080/api/estados-solicitud/{id}
+
+{
+    "nombre": "DERIVADO_FINAL",
+    "descripcion": "Corrección del nombre del estado"
+}
+
+ELIMINAR (EVICT CACHE):  DELETE http://localhost:8080/api/estados-solicitud/{id}
+
+--------------------------------------------------------------------

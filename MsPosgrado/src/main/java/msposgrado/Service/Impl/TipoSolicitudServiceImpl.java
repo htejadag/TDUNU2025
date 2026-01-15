@@ -30,4 +30,18 @@ public class TipoSolicitudServiceImpl implements TipoSolicitudService {
     public TipoSolicitud obtenerPorId(Integer id) {
         return repository.findById(id).orElse(null);
     }
+
+    @Override
+    @Transactional
+    @org.springframework.cache.annotation.CacheEvict(value = "tiposSolicitud", allEntries = true)
+    public TipoSolicitud guardar(TipoSolicitud tipoSolicitud) {
+        return repository.save(tipoSolicitud);
+    }
+
+    @Override
+    @Transactional
+    @org.springframework.cache.annotation.CacheEvict(value = "tiposSolicitud", allEntries = true)
+    public void eliminar(Integer id) {
+        repository.deleteById(id);
+    }
 }

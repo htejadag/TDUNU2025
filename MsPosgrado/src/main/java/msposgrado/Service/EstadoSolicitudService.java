@@ -7,4 +7,8 @@ public interface EstadoSolicitudService {
     List<EstadoSolicitud> listar();
 
     EstadoSolicitud obtenerPorId(Integer id);
+
+    EstadoSolicitud guardar(EstadoSolicitud estadoSolicitud);
+
+    void eliminar(Integer id);
 }

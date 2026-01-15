@@ -33,4 +33,24 @@ public class EstadoSolicitudController {
         }
         return ResponseEntity.notFound().build();
     }
+
+    @org.springframework.web.bind.annotation.PostMapping
+    public ResponseEntity<EstadoSolicitud> guardar(
+            @org.springframework.web.bind.annotation.RequestBody EstadoSolicitud estadoSolicitud) {
+        return ResponseEntity.ok(service.guardar(estadoSolicitud));
+    }
+
+    @org.springframework.web.bind.annotation.PutMapping("/{id}")
+    public ResponseEntity<EstadoSolicitud> actualizar(
+            @org.springframework.web.bind.annotation.PathVariable("id") Integer id,
+            @org.springframework.web.bind.annotation.RequestBody EstadoSolicitud estadoSolicitud) {
+        estadoSolicitud.setIdEstadoSolicitud(id);
+        return ResponseEntity.ok(service.guardar(estadoSolicitud));
+    }
+
+    @org.springframework.web.bind.annotation.DeleteMapping("/{id}")
+    public ResponseEntity<Void> eliminar(@org.springframework.web.bind.annotation.PathVariable("id") Integer id) {
+        service.eliminar(id);
+        return ResponseEntity.ok().build();
+    }
 }
