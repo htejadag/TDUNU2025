@@ -42,5 +42,4 @@ public class ConsejoModel extends AuditoriaModel {
     @OneToMany(mappedBy = "consejo", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<SesionConsejoModel> sesiones;
 
-
 }

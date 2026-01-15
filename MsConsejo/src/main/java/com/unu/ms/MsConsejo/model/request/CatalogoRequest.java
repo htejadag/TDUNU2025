@@ -9,10 +9,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class CatalogoRequest {
 
-    // Integer idCatalogo;
-    Integer idPadre;
-    String descripcionCatalogo;
-    String abreviaturaCatalogo;
-    String estadoCatalogo;
+    Integer idCatalogo;
+    String categoria;
+    String valor;
+    String descripcion;
 
 }

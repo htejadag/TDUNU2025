@@ -23,5 +23,5 @@ public class Mensajes {
     public static final String ERROR_CONEXION_BD = "No se pudo conectar a la base de datos. Intente nuevamente más tarde.";
     public static final String ERROR_ACCESO_DATOS = "Ocurrió un error al acceder a los datos.";
     public static final String FORMATO_NUMERICO_INVALIDO = "Formato numérico inválido. Verifique los valores enviados.";
-    
+
 }

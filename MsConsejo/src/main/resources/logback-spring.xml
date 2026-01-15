@@ -15,27 +15,21 @@
     <property name="CONSOLE_PATTERN"
               value="%cyan(%d{HH:mm:ss}) %highlight(%-5level) %yellow([${APP_NAME}]) %blue(%X{method} %X{uri}) - %msg%n"/>
 
-    <!-- ========================================= -->
     <!--             ROOT LOGGER                    -->
-    <!-- ========================================= -->
     <root level="INFO">
         <appender-ref ref="CONSOLE"/>
         <appender-ref ref="FILE_APP"/>
         <appender-ref ref="FILE_ERROR"/>
     </root>
 
-    <!-- ========================================= -->
     <!--             CONSOLA COLOR                  -->
-    <!-- ========================================= -->
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
             <pattern>${CONSOLE_PATTERN}</pattern>
         </encoder>
     </appender>
 
-    <!-- ========================================= -->
     <!--        ARCHIVO GENERAL INFO-ERROR          -->
-    <!-- ========================================= -->
     <appender name="FILE_APP" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>${logPath}/app.log</file>
 
@@ -50,9 +44,7 @@
         </encoder>
     </appender>
 
-    <!-- ========================================= -->
     <!--               ARCHIVO ERRORES              -->
-    <!-- ========================================= -->
     <appender name="FILE_ERROR" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>${logPath}/error.log</file>
 

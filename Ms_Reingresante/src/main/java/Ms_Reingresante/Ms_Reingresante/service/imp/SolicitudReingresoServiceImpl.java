@@ -35,16 +35,19 @@ public class SolicitudReingresoServiceImpl implements SolicitudReingresoService 
     }
 
     @Override
-    public SolicitudReingresoResponse guardar(SolicitudReingresoRequest request) {
-        // Request -> Model
-        SolicitudReingresoModel model = modelMapper.map(request, SolicitudReingresoModel.class);
-        
-        // Guardar en BD
-        SolicitudReingresoModel saved = solicitudReingresoRepository.save(model);
-        
-        // Model -> Response
-        return modelMapper.map(saved, SolicitudReingresoResponse.class);
-    }
+public SolicitudReingresoResponse guardar(SolicitudReingresoRequest request) {
+
+    SolicitudReingresoModel model = modelMapper.map(request, SolicitudReingresoModel.class);
+
+    // 🔴 CLAVE: forzar INSERT
+    model.setIdSolicitud(null);
+
+    SolicitudReingresoModel saved = solicitudReingresoRepository.save(model);
+
+    return modelMapper.map(saved, SolicitudReingresoResponse.class);
+}
+
+
 
     @Override
     public void eliminar(Integer id) {

@@ -7,6 +7,7 @@ import unu.td.MsAcademico.model.request.EscuelaProfesionalRequest;
 import unu.td.MsAcademico.model.response.EscuelaProfesionalResponse;
 import unu.td.MsAcademico.service.IEscuelaProfesionalService;
 import unu.td.MsAcademico.utils.ApiRoutes;
+import unu.td.MsAcademico.utils.Messages;
 import unu.td.MsAcademico.utils.ResponseBase;
 
 import java.util.List;
@@ -18,7 +19,7 @@ public class EscuelaProfesionalController {
 
     private IEscuelaProfesionalService service;
 
-    @PostMapping(ApiRoutes.EscuelaProfesional.add)
+    @PostMapping(ApiRoutes.General.add)
     public ResponseBase<EscuelaProfesionalResponse> add(@Valid @RequestBody EscuelaProfesionalRequest request) {
         EscuelaProfesionalResponse response = service.add(request);
         return ResponseBase.ok(response);
@@ -30,22 +31,39 @@ public class EscuelaProfesionalController {
         return ResponseBase.ok(response);
     }
 
-    @GetMapping(ApiRoutes.EscuelaProfesional.byId)
+    @GetMapping(ApiRoutes.General.byId)
     public ResponseBase<EscuelaProfesionalResponse> getById(@PathVariable Integer id) {
         EscuelaProfesionalResponse response = service.getById(id);
         return ResponseBase.ok(response);
     }
 
-    @PutMapping(ApiRoutes.EscuelaProfesional.update)
+    @PutMapping(ApiRoutes.General.update)
     public ResponseBase<EscuelaProfesionalResponse> update(@PathVariable Integer id, @Valid @RequestBody EscuelaProfesionalRequest request) {
         EscuelaProfesionalResponse response = service.update(id, request);
         return ResponseBase.ok(response);
     }
 
-
-    @DeleteMapping(ApiRoutes.EscuelaProfesional.delete)
-    public ResponseBase<EscuelaProfesionalResponse> delete(@PathVariable Integer id) {
+    @PatchMapping(ApiRoutes.General.delete)
+    public ResponseBase<Void> delete(@PathVariable Integer id) {
         service.delete(id);
-        return ResponseBase.ok(null);
+        return ResponseBase.ok(Messages.ELIMINACION_EXITOSA, null);
+    }
+
+    @PatchMapping(ApiRoutes.General.activate)
+    public ResponseBase<Void> activate(@PathVariable Integer id) {
+        service.activate(id);
+        return ResponseBase.ok(Messages.ACTIVACION_EXITOSA, null);
+    }
+
+    @PatchMapping(ApiRoutes.General.deactivate)
+    public ResponseBase<Void> deactivate(@PathVariable Integer id) {
+        service.deactivate(id);
+        return ResponseBase.ok(Messages.DESACTIVACION_EXITOSA, null);
+    }
+
+    @GetMapping(ApiRoutes.EscuelaProfesional.byIdFacultad)
+    public ResponseBase<List<EscuelaProfesionalResponse>> byIdFacultad(@PathVariable Integer idFacultad) {
+        List<EscuelaProfesionalResponse> response = service.getByIdFacultad(idFacultad);
+        return ResponseBase.ok(response);
     }
 }

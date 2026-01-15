@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import org.hibernate.annotations.CreationTimestamp;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -17,13 +19,11 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 @Entity
 @Table(name = "sesion_consejo")
 @Data
-@EqualsAndHashCode(callSuper = true)
-public class SesionConsejoModel extends AuditoriaModel {
+public class SesionConsejoModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -51,6 +51,13 @@ public class SesionConsejoModel extends AuditoriaModel {
 
     @Column(name = "id_estado")
     private Integer idEstado;
+
+    @Column(name = "id_usuario_registro")
+    private Integer usuarioRegistro;
+
+    @CreationTimestamp
+    @Column(name = "fecha_creacion")
+    private LocalDateTime fechaCreacion;
 
     @OneToMany(mappedBy = "sesion", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<AsistenciaSesionModel> asistencias;

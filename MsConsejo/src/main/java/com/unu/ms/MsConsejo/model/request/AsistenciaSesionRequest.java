@@ -10,8 +10,10 @@ import lombok.NoArgsConstructor;
 public class AsistenciaSesionRequest {
 
     // Integer idAsistencia;
-    // SesionConsejoModel idSesion;
-    // MiembroConsejoModel idMiembro;
+    Integer sesion;
+    Integer miembro;
     Integer idEstadoAsistencia;
+    Integer usuarioRegistro;
+    // LocalDateTime fechaRegistro;
 
 }

@@ -8,6 +8,7 @@ import unu.td.MsAcademico.model.response.FacultadResponse;
 import unu.td.MsAcademico.model.request.FacultadRequest;
 import unu.td.MsAcademico.repository.IFacultadRepository;
 import unu.td.MsAcademico.service.IFacultadService;
+import unu.td.MsAcademico.utils.Mapper;
 import unu.td.MsAcademico.utils.Messages;
 import unu.td.MsAcademico.utils.exceptions.AlreadyExistsException;
 import unu.td.MsAcademico.utils.exceptions.NotFoundException;
@@ -23,7 +24,7 @@ public class FacultadService implements IFacultadService {
 
     @Override
     public List<FacultadResponse> getAll() {
-        return repository.findAll()
+        return repository.findByEliminadoFalse()
                 .stream()
                 .map(model -> mapper.map(model, FacultadResponse.class))
                 .toList();
@@ -31,40 +32,26 @@ public class FacultadService implements IFacultadService {
 
     @Override
     public FacultadResponse getById(Integer id) {
-        FacultadModel facultad = repository.findById(id).orElse(null);
-        if (facultad == null) {
-            throw new NotFoundException(Messages.NOT_FOUND_FACULTAD_BY_ID);
-        }
+        FacultadModel facultad = checkExistsById(id);
         return mapper.map(facultad, FacultadResponse.class);
     }
 
     @Override
     public FacultadResponse add(FacultadRequest request) {
-        FacultadModel byNombre = repository.findByNombre(request.getNombre());
-        if (byNombre != null) {
-            throw new AlreadyExistsException(Messages.ALREADY_EXISTS_FACULTAD_BY_NOMBRE);
-        }
+        checkExistsByNombre(request.getNombre(), 0);
 
         FacultadModel facultad = mapper.map(request, FacultadModel.class);
-        facultad.setUsuarioCreacion("dbd2a268-a9b0-42ba-981d-3977361f11f5");
-
         facultad = repository.save(facultad);
+
         return mapper.map(facultad, FacultadResponse.class);
     }
 
     @Override
     public FacultadResponse update(Integer id, FacultadRequest request) {
-        FacultadModel facultad = repository.findById(id).orElse(null);
-        if (facultad == null) {
-            throw new NotFoundException(Messages.NOT_FOUND_FACULTAD_BY_ID);
-        }
+        FacultadModel facultad = checkExistsById(id);
+        checkExistsByNombre(request.getNombre(), facultad.getId());
 
-        FacultadModel byNombre = repository.findByNombre(request.getNombre());
-        if (byNombre != null) {
-            throw new AlreadyExistsException(Messages.ALREADY_EXISTS_FACULTAD_BY_NOMBRE);
-        }
-
-        facultad.setNombre(request.getNombre());
+        facultad = Mapper.Facultad.requestToModel(facultad, request);
         facultad = repository.save(facultad);
 
         return mapper.map(facultad, FacultadResponse.class);
@@ -72,10 +59,38 @@ public class FacultadService implements IFacultadService {
 
     @Override
     public void delete(Integer id) {
-        FacultadModel facultad = repository.findById(id).orElse(null);
+        checkExistsById(id);
+        repository.softDelete(id);
+    }
+
+    @Override
+    public void activate(Integer id) {
+        checkExistsById(id);
+        repository.activate(id);
+    }
+
+    @Override
+    public void deactivate(Integer id) {
+        checkExistsById(id);
+        repository.deactivate(id);
+    }
+
+    private FacultadModel checkExistsById(Integer id) {
+        FacultadModel facultad = repository.findByIdAndEliminadoFalse(id).orElse(null);
         if (facultad == null) {
             throw new NotFoundException(Messages.NOT_FOUND_FACULTAD_BY_ID);
         }
-        repository.deleteById(id);
+
+        return facultad;
+    }
+
+    private void checkExistsByNombre(String nombre, Integer id) {
+        FacultadModel byNombre = repository.findByNombre(nombre);
+        if (byNombre != null && !byNombre.getId().equals(id)) {
+            if (byNombre.getEliminado()) {
+                throw new AlreadyExistsException(Messages.ALREADY_EXISTS_FACULTAD_BY_NOMBRE_DEACTIVATE); //pero ya no tiene reversa desde el sistema, debe tocar la db??
+            }
+            throw new AlreadyExistsException(Messages.ALREADY_EXISTS_FACULTAD_BY_NOMBRE);
+        }
     }
 }

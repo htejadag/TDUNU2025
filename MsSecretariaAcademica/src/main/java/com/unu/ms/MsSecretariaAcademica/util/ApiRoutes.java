@@ -9,14 +9,13 @@ public class ApiRoutes {
         public static final String GUARDAR = "/crear";
         public static final String ELIMINAR = "/eliminar";
         public static final String OBTENER_POR_ID = "/obtenerPorId";
-
         public static final String OBTENER_POR_PERSONA = "/obtenerPorPersona";
         public static final String OBTENER_POR_ESTADO = "/obtenerPorEstado";
         public static final String OBTENER_POR_PERSONA_Y_ESTADO = "/obtenerPorPersonaYEstado";
         public static final String OBTENER_POR_TIPO = "/obtenerPorTipo";
         public static final String OBTENER_POR_TIPO_Y_ESTADO = "/obtenerPorTipoYEstado";
         public static final String OBTENER_POR_FECHA_RANGO = "/obtenerPorFechaRango";
-        
+
     }
 
     public static class Resolucion {
@@ -26,7 +25,6 @@ public class ApiRoutes {
         public static final String GUARDAR = "/crear";
         public static final String ELIMINAR = "/eliminar";
         public static final String OBTENER_POR_ID = "/obtenerPorId";
-
         public static final String BUSCAR_POR_EXPEDIENTE = "/buscarPorExpediente";
         public static final String BUSCAR_POR_NUMERO = "/buscarPorNumero";
         public static final String BUSCAR_POR_TIPO = "/buscarPorTipo";
@@ -42,12 +40,10 @@ public class ApiRoutes {
         public static final String GUARDAR = "/crear";
         public static final String ELIMINAR = "/eliminar";
         public static final String OBTENER_POR_ID = "/obtenerPorId";
-
         public static final String BUSCAR_POR_CODIGO = "/buscarPorCodigo";
         public static final String BUSCAR_POR_PERSONA = "/buscarPorPersona";
         public static final String BUSCAR_POR_ESTADO = "/buscarPorEstado";
         public static final String BUSCAR_POR_TIPO_Y_ESTADO = "/buscarPorTipoYEstado";
-    
     }
 
     public static class ResolucionArticulo {
@@ -57,7 +53,6 @@ public class ApiRoutes {
         public static final String GUARDAR = "/crear";
         public static final String ELIMINAR = "/eliminar";
         public static final String OBTENER_POR_ID = "/obtenerPorId";
-
         public static final String BUSCAR_POR_RESOLUCION = "/buscarPorResolucion";
     }
 
@@ -68,7 +63,6 @@ public class ApiRoutes {
         public static final String GUARDAR = "/crear";
         public static final String ELIMINAR = "/eliminar";
         public static final String OBTENER_POR_ID = "/obtenerPorId";
-
         public static final String BUSCAR_POR_ENTIDAD = "/buscarPorEntidad";
     }
 
@@ -79,7 +73,6 @@ public class ApiRoutes {
         public static final String GUARDAR = "/crear";
         public static final String ELIMINAR = "/eliminar";
         public static final String OBTENER_POR_ID = "/obtenerPorId";
-
         public static final String BUSCAR_POR_CATEGORIA_Y_VALOR = "/buscarPorCategoriaYValor";
         public static final String BUSCAR_POR_CATEGORIA = "/buscarPorCategoria";
     }

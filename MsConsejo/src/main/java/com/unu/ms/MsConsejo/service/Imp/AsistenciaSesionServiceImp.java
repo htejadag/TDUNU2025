@@ -1,5 +1,6 @@
 package com.unu.ms.MsConsejo.service.Imp;
 
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -19,7 +20,7 @@ import com.unu.ms.MsConsejo.service.AsistenciaSesionService;
 
 @Slf4j
 @Service
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class AsistenciaSesionServiceImp implements AsistenciaSesionService {
 
         private final AsistenciaSesionRepository asistenciaSesionRepository;

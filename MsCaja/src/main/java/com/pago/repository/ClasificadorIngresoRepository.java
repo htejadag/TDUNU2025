@@ -13,11 +13,11 @@ import com.pago.model.entity.ClasificadorIngresoModel;
 public interface ClasificadorIngresoRepository extends JpaRepository<ClasificadorIngresoModel, Serializable> {
     @Modifying
     @Transactional
-    @Query("UPDATE ClasificadorIngresoModel a SET a.activo = false WHERE a.clasificador_ingresoid = :id")
+    @Query("UPDATE ClasificadorIngresoModel a SET a.activo = false WHERE a.clasificadoringresoid = :id")
     public void desactivar(@Param("id") int id);
 
     @Modifying
     @Transactional
-    @Query("UPDATE ClasificadorIngresoModel a SET a.es_eliminado = true WHERE a.clasificador_ingresoid = :id")
+    @Query("UPDATE ClasificadorIngresoModel a SET a.es_eliminado = true WHERE a.clasificadoringresoid = :id")
     public void eliminar(@Param("id") int id);
 }

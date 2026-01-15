@@ -7,10 +7,10 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import Ms_Reingresante.Ms_Reingresante.model.entity.procesoReingresoModel;
-import Ms_Reingresante.Ms_Reingresante.model.request.procesoReingresoRequest;
-import Ms_Reingresante.Ms_Reingresante.model.response.procesoReingresoResponse;
-import Ms_Reingresante.Ms_Reingresante.repository.procesoReingresoRepository;
+import Ms_Reingresante.Ms_Reingresante.model.entity.ProcesoReingresoModel;
+import Ms_Reingresante.Ms_Reingresante.model.request.ProcesoReingresoRequest;
+import Ms_Reingresante.Ms_Reingresante.model.response.ProcesoReingresoResponse;
+import Ms_Reingresante.Ms_Reingresante.repository.ProcesoReingresoRepository;
 import Ms_Reingresante.Ms_Reingresante.service.ProcesoReingresoService;
 
 
@@ -18,44 +18,51 @@ import Ms_Reingresante.Ms_Reingresante.service.ProcesoReingresoService;
 @Service
 public class ProcesoReingresanteServiceImp implements ProcesoReingresoService {
  
-    private procesoReingresoRepository ProcesoReingresanteRepository;
+   @Autowired
+    private ProcesoReingresoRepository procesoReingresoRepository;
 
     @Autowired
     private ModelMapper modelMapper;
 
     @Override
-    public List<procesoReingresoResponse> listar() {
-        return ProcesoReingresanteRepository.findAll()
+    public List<ProcesoReingresoResponse> listarProcesoReingreso() {
+        return procesoReingresoRepository.findAll()
             .stream()
-            .map(model -> modelMapper.map(model, procesoReingresoResponse.class))
+            .map(model -> modelMapper.map(model, ProcesoReingresoResponse.class))
             .toList();
-    }
+    }  
+
+
+
    
      @Override
-  public procesoReingresoResponse obtenerPorId(Integer id) {
-    return ProcesoReingresanteRepository.findById(id)
-        .map(model -> modelMapper.map(model, procesoReingresoResponse.class))
+  public ProcesoReingresoResponse obtenerPorIdProcesoReingreso(Integer id) {
+    return procesoReingresoRepository.findById(id)
+        .map(model -> modelMapper.map(model, ProcesoReingresoResponse.class))
         .orElse(null);
   }
 
  
-   @Override
-  public procesoReingresoResponse guardar(procesoReingresoRequest request) {
-    // 1. Request -> Model
-    procesoReingresoModel model = modelMapper.map(request,procesoReingresoModel.class);
+@Override
+public ProcesoReingresoResponse guardarProcesoReingreso(ProcesoReingresoRequest request) {
 
-    // 2. Guardar en BD
-    procesoReingresoModel saved = ProcesoReingresanteRepository.save(model);
+    ProcesoReingresoModel model =
+            modelMapper.map(request, ProcesoReingresoModel.class);
 
-    // 3. Model -> Response
-   procesoReingresoResponse response = modelMapper.map(saved, procesoReingresoResponse.class);
+    // 🔥 CLAVE: forzar INSERT
+    model.setIdProceso(null);
 
-    return response;
-  }
+    ProcesoReingresoModel saved =
+            procesoReingresoRepository.save(model);
+
+    return modelMapper.map(saved, ProcesoReingresoResponse.class);
+}
+
+
 
 @Override
-  public void eliminar(Integer id) {
-    ProcesoReingresanteRepository.deleteById(id);
+  public void eliminarProcesoReingreso(Integer id) {
+    procesoReingresoRepository.deleteById(id);
   }
 
 

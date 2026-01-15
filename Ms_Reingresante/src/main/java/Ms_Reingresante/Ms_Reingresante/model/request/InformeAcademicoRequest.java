@@ -1,28 +1,35 @@
 package Ms_Reingresante.Ms_Reingresante.model.request;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+
 import java.time.LocalTime;
+
+import lombok.Data;
+
+@Data
 
 public class InformeAcademicoRequest {
 
-    // Clave Foránea: Necesario para vincular el informe al proceso
-    public Integer idProceso;
+     private Integer idProceso;
+    private String infNumero;
+    private String infTupa;
+    private String infNumRegistro;
 
-    // Datos principales del registro (según el diagrama DB)
-    public String infNumero;
-    public String infTupa;
-    public String infNumRegistro;
-    public LocalTime horaRecepcion; // Se necesita LocalTime para TIME
-    public LocalDate fechaSolicitud;
-    public LocalDate fechaEmision;
-    public String emitidoPor;
-    
-    // Campos de Auditoría (siguiendo el patrón de tu ejemplo)
-    public LocalDateTime fechaCreacion;
-    public String usuarioCreacion;
-    public LocalDateTime fechaModificacion;
-    public String usuarioModificacion;
+    // ✅ TIME
+    private LocalTime horaRecepcion;
 
-    // Nota: El id_Informe (PK) se omite ya que es autogenerado.
+    // ✅ DATE
+    private LocalDate fechaSolicitud;
+
+    // ✅ DATE
+    private LocalDate fechaEmision;
+
+    private String emitidoPor;
+
+    // ✅ DATETIME
+    private LocalDate fechaCreacion;
+    private String usuarioCreacion;
+    private LocalDate fechaModificacion;
+    private String usuarioModificacion;
+
 }

@@ -36,3 +36,4 @@ public class AsistenciaSesionModel extends AuditoriaModel {
     private Integer idEstadoAsistencia;
 
 }
+
