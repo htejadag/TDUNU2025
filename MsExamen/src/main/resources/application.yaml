@@ -1,11 +1,13 @@
 spring:
   application:
-     name: MsExamen
+    name: MsExamen
+
   datasource:
     url: jdbc:postgresql://localhost:5455/examendb
     username: postgres
     password: 'admin123'
     driver-class-name: org.postgresql.Driver
+
   jpa:
     hibernate:
       ddl-auto: update
@@ -14,24 +16,21 @@ spring:
       hibernate:
         format_sql: true
         dialect: org.hibernate.dialect.PostgreSQLDialect
+
   cache:
     type: redis
+
   data:
     redis:
       host: localhost
       port: 6379
+
   kafka:
-    bootstrap-servers: localhost:9092
-    producer:
-      key-serializer: org.apache.kafka.common.serialization.StringSerializer
-      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+    bootstrap-servers: 192.168.1.75:9092
     consumer:
-      group-id: msexamen-group
+      group-id: grupo-ms-b
       auto-offset-reset: earliest
-      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
-      properties:
-        spring.json.trusted.packages: "*"
+
 
 server:
   port: 8080

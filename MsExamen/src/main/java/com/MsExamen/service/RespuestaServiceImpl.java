@@ -1,5 +1,6 @@
 package com.MsExamen.service;
 
+import com.MsExamen.exception.ResourceNotFoundException;
 import com.MsExamen.dto.RespuestaDTO;
 import com.MsExamen.dto.request.RespuestaRequest;
 import com.MsExamen.model.Pregunta;
@@ -28,6 +29,9 @@ public class RespuestaServiceImpl implements IRespuestaService {
     @Autowired
     private ModelMapper modelMapper;
 
+    @Autowired
+    private KafkaProducerService kafkaProducerService;
+
     @Override
     public List<RespuestaDTO> getAllRespuestas() {
         return respuestaRepository.findAll().stream()
@@ -45,7 +49,7 @@ public class RespuestaServiceImpl implements IRespuestaService {
     @Override
     public RespuestaDTO getRespuestaById(Integer id) {
         Respuesta respuesta = respuestaRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException(AppConstants.RESPUESTA_NOT_FOUND));
+                .orElseThrow(() -> new ResourceNotFoundException(AppConstants.RESPUESTA_NOT_FOUND));
         return modelMapper.map(respuesta, RespuestaDTO.class);
     }
 
@@ -57,7 +61,7 @@ public class RespuestaServiceImpl implements IRespuestaService {
         Pregunta pregunta = preguntaRepository.findById(respuestaRequest.getIdPregunta())
                 .orElseThrow(() -> {
                     log.error("Pregunta not found with ID: {}", respuestaRequest.getIdPregunta());
-                    return new RuntimeException(AppConstants.PREGUNTA_NOT_FOUND);
+                    return new ResourceNotFoundException(AppConstants.PREGUNTA_NOT_FOUND);
                 });
         respuesta.setPregunta(pregunta);
 
@@ -67,7 +71,11 @@ public class RespuestaServiceImpl implements IRespuestaService {
 
         Respuesta savedRespuesta = respuestaRepository.save(respuesta);
         log.info("Respuesta created successfully with ID: {}", savedRespuesta.getIdRespuesta());
-        return modelMapper.map(savedRespuesta, RespuestaDTO.class);
+
+        RespuestaDTO savedRespuestaDTO = modelMapper.map(savedRespuesta, RespuestaDTO.class);
+        kafkaProducerService.sendEvent("respuesta-created", "RESPUESTA_CREATED", savedRespuestaDTO);
+
+        return savedRespuestaDTO;
     }
 
     @Override
@@ -76,7 +84,7 @@ public class RespuestaServiceImpl implements IRespuestaService {
         Respuesta existingRespuesta = respuestaRepository.findById(id)
                 .orElseThrow(() -> {
                     log.error("Respuesta not found with ID: {}", id);
-                    return new RuntimeException(AppConstants.RESPUESTA_NOT_FOUND);
+                    return new ResourceNotFoundException(AppConstants.RESPUESTA_NOT_FOUND);
                 });
 
         existingRespuesta.setRespuestaTexto(respuestaRequest.getRespuestaTexto());
@@ -89,23 +97,28 @@ public class RespuestaServiceImpl implements IRespuestaService {
             Pregunta pregunta = preguntaRepository.findById(respuestaRequest.getIdPregunta())
                     .orElseThrow(() -> {
                         log.error("Pregunta not found with ID: {}", respuestaRequest.getIdPregunta());
-                        return new RuntimeException(AppConstants.PREGUNTA_NOT_FOUND);
+                        return new ResourceNotFoundException(AppConstants.PREGUNTA_NOT_FOUND);
                     });
             existingRespuesta.setPregunta(pregunta);
         }
 
         Respuesta updatedRespuesta = respuestaRepository.save(existingRespuesta);
         log.info("Respuesta updated successfully with ID: {}", id);
-        return modelMapper.map(updatedRespuesta, RespuestaDTO.class);
+
+        RespuestaDTO updatedRespuestaDTO = modelMapper.map(updatedRespuesta, RespuestaDTO.class);
+        kafkaProducerService.sendEvent("respuesta-updated", "RESPUESTA_UPDATED", updatedRespuestaDTO);
+
+        return updatedRespuestaDTO;
     }
 
     @Override
     public void deleteRespuesta(Integer id) {
         if (!respuestaRepository.existsById(id)) {
             log.error("Cannot delete. Respuesta not found with ID: {}", id);
-            throw new RuntimeException(AppConstants.RESPUESTA_NOT_FOUND);
+            throw new ResourceNotFoundException(AppConstants.RESPUESTA_NOT_FOUND);
         }
         respuestaRepository.deleteById(id);
         log.info("Respuesta deleted successfully with ID: {}", id);
+        kafkaProducerService.sendEvent("respuesta-deleted", "RESPUESTA_DELETED", id);
     }
 }

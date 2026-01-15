@@ -28,6 +28,9 @@ public class CatalogoServiceImpl implements ICatalogoService {
     @Autowired
     private ModelMapper modelMapper;
 
+    @Autowired
+    private KafkaProducerService kafkaProducerService;
+
     @Override
     @Cacheable(value = "catalogos", key = "'all'")
     public List<CatalogoDto> getAllCatalogos() {
@@ -63,7 +66,11 @@ public class CatalogoServiceImpl implements ICatalogoService {
 
         Catalogo savedCatalogo = catalogoRepository.save(catalogo);
         log.info("Catalogo created successfully with ID: {}", savedCatalogo.getIdCatalogo());
-        return modelMapper.map(savedCatalogo, CatalogoDto.class);
+
+        CatalogoDto savedCatalogoDTO = modelMapper.map(savedCatalogo, CatalogoDto.class);
+        kafkaProducerService.sendEvent("catalogo-created", "CATALOGO_CREATED", savedCatalogoDTO);
+
+        return savedCatalogoDTO;
     }
 
     @Override
@@ -86,7 +93,11 @@ public class CatalogoServiceImpl implements ICatalogoService {
 
         Catalogo updatedCatalogo = catalogoRepository.save(existingCatalogo);
         log.info("Catalogo updated successfully with ID: {}", id);
-        return modelMapper.map(updatedCatalogo, CatalogoDto.class);
+
+        CatalogoDto updatedCatalogoDTO = modelMapper.map(updatedCatalogo, CatalogoDto.class);
+        kafkaProducerService.sendEvent("catalogo-updated", "CATALOGO_UPDATED", updatedCatalogoDTO);
+
+        return updatedCatalogoDTO;
     }
 
     @Override
@@ -98,5 +109,6 @@ public class CatalogoServiceImpl implements ICatalogoService {
         }
         catalogoRepository.deleteById(id);
         log.info("Catalogo deleted successfully with ID: {}", id);
+        kafkaProducerService.sendEvent("catalogo-deleted", "CATALOGO_DELETED", id);
     }
 }

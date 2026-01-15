@@ -121,5 +121,6 @@ public class ExamenServiceImpl implements IExamenService {
         }
         examenRepository.deleteById(id);
         log.info("Examen deleted successfully with ID: {}", id);
+        kafkaProducerService.sendEvent("examen-deleted", "EXAMEN_DELETED", id);
     }
 }

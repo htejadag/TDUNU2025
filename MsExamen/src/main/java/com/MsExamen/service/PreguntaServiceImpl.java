@@ -1,5 +1,6 @@
 package com.MsExamen.service;
 
+import com.MsExamen.exception.ResourceNotFoundException;
 import com.MsExamen.dto.PreguntaDTO;
 import com.MsExamen.dto.request.PreguntaRequest;
 import com.MsExamen.model.Examen;
@@ -28,6 +29,9 @@ public class PreguntaServiceImpl implements IPreguntaService {
     @Autowired
     private ModelMapper modelMapper;
 
+    @Autowired
+    private KafkaProducerService kafkaProducerService;
+
     @Override
     public List<PreguntaDTO> getAllPreguntas() {
         return preguntaRepository.findAll().stream()
@@ -45,7 +49,7 @@ public class PreguntaServiceImpl implements IPreguntaService {
     @Override
     public PreguntaDTO getPreguntaById(Integer id) {
         Pregunta pregunta = preguntaRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException(AppConstants.PREGUNTA_NOT_FOUND));
+                .orElseThrow(() -> new ResourceNotFoundException(AppConstants.PREGUNTA_NOT_FOUND));
         return modelMapper.map(pregunta, PreguntaDTO.class);
     }
 
@@ -57,7 +61,7 @@ public class PreguntaServiceImpl implements IPreguntaService {
         Examen examen = examenRepository.findById(preguntaRequest.getIdExamen())
                 .orElseThrow(() -> {
                     log.error("Examen not found with ID: {}", preguntaRequest.getIdExamen());
-                    return new RuntimeException(AppConstants.EXAMEN_NOT_FOUND);
+                    return new ResourceNotFoundException(AppConstants.EXAMEN_NOT_FOUND);
                 });
         pregunta.setExamen(examen);
 
@@ -67,7 +71,11 @@ public class PreguntaServiceImpl implements IPreguntaService {
 
         Pregunta savedPregunta = preguntaRepository.save(pregunta);
         log.info("Pregunta created successfully with ID: {}", savedPregunta.getIdPregunta());
-        return modelMapper.map(savedPregunta, PreguntaDTO.class);
+
+        PreguntaDTO savedPreguntaDTO = modelMapper.map(savedPregunta, PreguntaDTO.class);
+        kafkaProducerService.sendEvent("pregunta-created", "PREGUNTA_CREATED", savedPreguntaDTO);
+
+        return savedPreguntaDTO;
     }
 
     @Override
@@ -76,7 +84,7 @@ public class PreguntaServiceImpl implements IPreguntaService {
         Pregunta existingPregunta = preguntaRepository.findById(id)
                 .orElseThrow(() -> {
                     log.error("Pregunta not found with ID: {}", id);
-                    return new RuntimeException(AppConstants.PREGUNTA_NOT_FOUND);
+                    return new ResourceNotFoundException(AppConstants.PREGUNTA_NOT_FOUND);
                 });
 
         existingPregunta.setPreguntaTexto(preguntaRequest.getPreguntaTexto());
@@ -90,23 +98,28 @@ public class PreguntaServiceImpl implements IPreguntaService {
             Examen examen = examenRepository.findById(preguntaRequest.getIdExamen())
                     .orElseThrow(() -> {
                         log.error("Examen not found with ID: {}", preguntaRequest.getIdExamen());
-                        return new RuntimeException(AppConstants.EXAMEN_NOT_FOUND);
+                        return new ResourceNotFoundException(AppConstants.EXAMEN_NOT_FOUND);
                     });
             existingPregunta.setExamen(examen);
         }
 
         Pregunta updatedPregunta = preguntaRepository.save(existingPregunta);
         log.info("Pregunta updated successfully with ID: {}", id);
-        return modelMapper.map(updatedPregunta, PreguntaDTO.class);
+
+        PreguntaDTO updatedPreguntaDTO = modelMapper.map(updatedPregunta, PreguntaDTO.class);
+        kafkaProducerService.sendEvent("pregunta-updated", "PREGUNTA_UPDATED", updatedPreguntaDTO);
+
+        return updatedPreguntaDTO;
     }
 
     @Override
     public void deletePregunta(Integer id) {
         if (!preguntaRepository.existsById(id)) {
             log.error("Cannot delete. Pregunta not found with ID: {}", id);
-            throw new RuntimeException(AppConstants.PREGUNTA_NOT_FOUND);
+            throw new ResourceNotFoundException(AppConstants.PREGUNTA_NOT_FOUND);
         }
         preguntaRepository.deleteById(id);
         log.info("Pregunta deleted successfully with ID: {}", id);
+        kafkaProducerService.sendEvent("pregunta-deleted", "PREGUNTA_DELETED", id);
     }
 }

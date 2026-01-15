@@ -1,0 +1,19 @@
+version: "1"
+
+services:
+   broker:
+    image: johnnypark/kafka-zookeeper:2.6.0
+    container_name: service-broker
+    restart: always
+    ports:
+      - "2181:2181"
+      - "9092:9092"
+    environment:
+      - ADVERTISED_HOST=192.168.1.75
+      - NUM_PARTITIONS=3
+    networks:
+    - td2025
+    
+networks:
+  td2025:
+    name: ms-unu
