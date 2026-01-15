@@ -1,16 +1,18 @@
-package msposgrado.Dto;
+package pe.unu.MsNotificacionesPosgrado.Dto;
 
 import java.time.LocalDateTime;
 
 /**
  * Evento que representa la creación o modificación de una solicitud.
- * Este objeto es el contrato de datos que se envía a Kafka.
+ * Este objeto es el contrato de datos que se recibe de Kafka.
  */
+@com.fasterxml.jackson.annotation.JsonIgnoreProperties(ignoreUnknown = true)
 public class SolicitudEvent {
     private Integer idSolicitud;
     private String tipoSolicitud;
     private String estadoSolicitud;
     private String descripcion;
+
     @com.fasterxml.jackson.annotation.JsonFormat(shape = com.fasterxml.jackson.annotation.JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
     @com.fasterxml.jackson.databind.annotation.JsonSerialize(using = com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer.class)
     @com.fasterxml.jackson.databind.annotation.JsonDeserialize(using = com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer.class)
@@ -66,5 +68,16 @@ public class SolicitudEvent {
 
     public void setFechaRegistro(LocalDateTime fechaRegistro) {
         this.fechaRegistro = fechaRegistro;
+    }
+
+    @Override
+    public String toString() {
+        return "SolicitudEvent{" +
+                "idSolicitud=" + idSolicitud +
+                ", tipoSolicitud='" + tipoSolicitud + '\'' +
+                ", estadoSolicitud='" + estadoSolicitud + '\'' +
+                ", descripcion='" + descripcion + '\'' +
+                ", fechaRegistro=" + fechaRegistro +
+                '}';
     }
 }
