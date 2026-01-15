@@ -38,5 +38,12 @@ services:
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
 
+  redis:
+    image: redis:alpine
+    container_name: redis-posgrado
+    ports:
+      - "6379:6379"
+    restart: always
+
 volumes:
   mysql_data:
