@@ -37,6 +37,7 @@ public class KafkaProducerPublisher {
     ObjectMapper objectMapper;
 
     public void sendMessage(String mensaje) {
+        System.out.println("Enviando mensaje al topic de Kafka: " + topicName);
         kafkaTemplate.send(topicName, mensaje);
     }
 

@@ -367,4 +367,23 @@ public class ResolucionServiceImp implements ResolucionService {
         return resultado;
     }
 
+    @Override
+    public void procesarConsejo(Integer consejoId) {
+        log.info("Inicio servicio: procesar consejo para resoluciones");
+        log.debug("Id consejo: {}", consejoId);
+
+        List<ResolucionModel> resoluciones =
+                resolucionRepository.findByAprobadoEnSesion(consejoId);
+
+        for (ResolucionModel resolucion : resoluciones) {
+            log.info("Procesando resolucion. Id: {}, Numero: {}",
+                    resolucion.getIdResolucion(),
+                    resolucion.getNumeroResolucion());
+
+            // Aquí se pueden agregar más acciones según los requisitos del negocio
+        }
+
+        log.info("Fin servicio: procesar consejo para resoluciones. Total procesadas: {}", resoluciones.size());
+    }
+
 }

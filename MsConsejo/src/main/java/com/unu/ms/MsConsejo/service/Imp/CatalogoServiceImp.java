@@ -1,12 +1,16 @@
 package com.unu.ms.MsConsejo.service.Imp;
 
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
 
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.stereotype.Service;
 
 import com.unu.ms.MsConsejo.model.entity.Catalogo;
@@ -19,7 +23,7 @@ import com.unu.ms.MsConsejo.service.CatalogoService;
 @Slf4j
 @Service
 @AllArgsConstructor
-@CacheConfig(cacheNames = "catalogo")
+@CacheConfig(cacheNames = "ms-consejo:catalogo")
 public class CatalogoServiceImp implements CatalogoService {
 
     CatalogoRepository catalogoRepository;
@@ -45,7 +49,10 @@ public class CatalogoServiceImp implements CatalogoService {
     }
 
     @Override
-    @Cacheable(key = "'catalogo:' + #id", unless = "#result == null")
+    @Cacheable(
+        key = "'id:' + #id",
+        unless = "#result == null"
+    )
     public CatalogoResponse obtenerPorId(Integer id) {
 
         log.info("Inicio servicio: obtener catalogo por id");
@@ -86,6 +93,11 @@ public class CatalogoServiceImp implements CatalogoService {
     }
 
     @Override
+    @Caching(evict = {
+        @CacheEvict(key = "'id:' + #id"),
+        @CacheEvict(key = "'all'"),
+        @CacheEvict(key = "'categoria:*'", allEntries = true)
+    })
     public void eliminar(Integer id) {
 
         log.info("Inicio servicio: eliminar catalogo");
@@ -106,6 +118,13 @@ public class CatalogoServiceImp implements CatalogoService {
     }
 
     @Override
+    @Caching(
+        put = @CachePut(key = "'id:' + #id"),
+        evict = {
+            @CacheEvict(key = "'all'"),
+            @CacheEvict(key = "'categoria:*'", allEntries = true)
+        }
+    )
     public CatalogoResponse actualizar(Integer id, CatalogoRequest catalogoActualizado) {
 
         log.info("Inicio servicio: actualizar catalogo");
@@ -179,6 +198,7 @@ public class CatalogoServiceImp implements CatalogoService {
     }
 
     @Override
+    @Cacheable(key = "'catalogos:categoria:' + #categoria", unless = "#result == null || #result.isEmpty()")
     public List<CatalogoResponse> buscarPorCategoria(String categoria) {
 
         log.info("Inicio servicio: buscar catalogos por categoria");

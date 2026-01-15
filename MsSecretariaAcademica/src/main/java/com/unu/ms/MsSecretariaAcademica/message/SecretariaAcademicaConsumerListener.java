@@ -44,7 +44,13 @@ public class SecretariaAcademicaConsumerListener {
             JsonNode consejoNode = root.get("consejo");
             if (consejoNode != null) {
                 int consejoId = consejoNode.asInt();
+
+
                 System.out.println("ID Consejo: " + consejoId);
+
+                resolucionService.procesarConsejo(consejoId);
+
+
             }
 
         } catch (Exception e) {

@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class CatalogoResponse {
 
+
     Integer idCatalogo;
     String categoria;
     String valor;

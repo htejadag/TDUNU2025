@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class CatalogoRequest {
+public class CatalogoRequest{
 
     Integer idCatalogo;
     String categoria;

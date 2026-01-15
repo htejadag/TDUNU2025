@@ -22,15 +22,15 @@ public interface AsistenciaSesionMapper {
 
     @Mapping(target = "idAsistencia", ignore = true)
     @Mapping(target = "fechaRegistro", ignore = true)
-    @Mapping(target = "sesion", source = "sesion", qualifiedByName = "mapIdToSesionConsejoModel")
-    @Mapping(target = "miembro", source = "miembro", qualifiedByName = "mapIdToMiembroConsejoModel")
+    @Mapping(source = "sesion", target = "sesion", qualifiedByName = "mapIdToSesionConsejoModel")
+    @Mapping(source = "miembro", target = "miembro", qualifiedByName = "mapIdToMiembroConsejoModel")
     AsistenciaSesionModel toEntity(AsistenciaSesionRequest request);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     @Mapping(target = "idAsistencia", ignore = true)
     @Mapping(target = "fechaRegistro", ignore = true)
-    @Mapping(target = "sesion", source = "sesion", qualifiedByName = "mapIdToSesionConsejoModel")
-    @Mapping(target = "miembro", source = "miembro", qualifiedByName = "mapIdToMiembroConsejoModel")
+    @Mapping(source = "sesion", target = "sesion", qualifiedByName = "mapIdToSesionConsejoModel")
+    @Mapping(source = "miembro", target = "miembro", qualifiedByName = "mapIdToMiembroConsejoModel")
     void updateEntityFromRequest(AsistenciaSesionRequest request, @MappingTarget AsistenciaSesionModel entity);
 
     @Named("mapIdToSesionConsejoModel")

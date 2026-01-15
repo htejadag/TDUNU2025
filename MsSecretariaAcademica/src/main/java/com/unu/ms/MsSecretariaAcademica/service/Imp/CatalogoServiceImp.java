@@ -6,7 +6,10 @@ import lombok.extern.slf4j.Slf4j;
 import java.util.List;
 
 import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 
 import com.unu.ms.MsSecretariaAcademica.model.entity.Catalogo;
@@ -28,7 +31,7 @@ import com.unu.ms.MsSecretariaAcademica.service.CatalogoService;
 @Slf4j
 @Service
 @AllArgsConstructor
-@CacheConfig(cacheNames = "catalogo")
+@CacheConfig(cacheNames = "ms-secretaria:catalogo")
 public class CatalogoServiceImp implements CatalogoService {
 
     /**
@@ -71,7 +74,10 @@ public class CatalogoServiceImp implements CatalogoService {
      * @return catálogo encontrado o {@code null} si no existe
      */
     @Override
-    @Cacheable(key = "'catalogo:' + #id", unless = "#result == null")
+    @Cacheable(
+        key = "'id:' + #id",
+        unless = "#result == null"
+    )
     public CatalogoResponse obtenerPorId(Integer id) {
 
         log.info("Inicio servicio: obtener catalogo por id");
@@ -121,6 +127,11 @@ public class CatalogoServiceImp implements CatalogoService {
      * @param id identificador del catálogo a eliminar
      */
     @Override
+    @Caching(evict = {
+        @CacheEvict(key = "'id:' + #id"),
+        @CacheEvict(key = "'all'"),
+        @CacheEvict(key = "'categoria:*'", allEntries = true)
+    })
     public void eliminar(Integer id) {
 
         log.info("Inicio servicio: eliminar catalogo");
@@ -139,6 +150,13 @@ public class CatalogoServiceImp implements CatalogoService {
      * @return catálogo actualizado
      */
     @Override
+    @Caching(
+        put = @CachePut(key = "'id:' + #id"),
+        evict = {
+            @CacheEvict(key = "'all'"),
+            @CacheEvict(key = "'categoria:*'", allEntries = true)
+        }
+    )
     public CatalogoResponse actualizar(Integer id, CatalogoRequest catalogoActualizado) {
 
         log.info("Inicio servicio: actualizar catalogo");

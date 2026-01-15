@@ -15,11 +15,9 @@ public interface CatalogoMapper {
 
     CatalogoResponse toResponse(Catalogo model);
     
-    @Mapping(target = "idCatalogo", ignore = true)
     Catalogo toEntity(CatalogoRequest request);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    @Mapping(target = "idCatalogo", ignore = true)
     void updateEntityFromRequest(CatalogoRequest request, @MappingTarget Catalogo entity);
 
 }

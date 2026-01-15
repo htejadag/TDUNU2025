@@ -40,6 +40,7 @@ public class CatalogoController {
         List<CatalogoResponse> listaResponse = catalogoService.listar();
 
         log.info("Fin request: listar catalogos. Total registros: {}", listaResponse.size());
+       
 
         return ResponseBase.ok(Mensajes.LISTAR_OK, listaResponse);
     }
@@ -95,6 +96,7 @@ public class CatalogoController {
         CatalogoResponse response = catalogoService.obtenerPorId(id);
 
         log.info("Fin request: obtener catalogo por id");
+
 
         return ResponseBase.ok(Mensajes.OBTENER_POR_OK, response);
     }

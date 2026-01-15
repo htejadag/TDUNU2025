@@ -1,5 +1,6 @@
 package com.unu.ms.MsConsejo.model.response;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -10,7 +11,9 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class SesionConsejoResponse {
+public class SesionConsejoResponse implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     Integer idSesion;
     Integer consejo;

@@ -31,4 +31,6 @@ public interface ResolucionService {
 
     public List<ResolucionResponse> buscarPorAprobadoEnSesion(Integer aprobadoEnSesion);
 
+    public void procesarConsejo(Integer consejoId);
+
 }

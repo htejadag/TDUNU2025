@@ -20,15 +20,13 @@ public interface MiembroConsejoMapper {
 
     @Mapping(target = "idMiembro", ignore = true)
     @Mapping(target = "asistencias", ignore = true)
-    @Mapping(target = "fechaFin", ignore = true)
-    @Mapping(target = "consejo", source = "consejo", qualifiedByName = "mapIdToConsejo")
+    @Mapping(source = "consejo", target = "consejo", qualifiedByName = "mapIdToConsejo")
     MiembroConsejoModel toEntity(MiembroConsejoRequest request);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     @Mapping(target = "idMiembro", ignore = true)
     @Mapping(target = "asistencias", ignore = true)
-    @Mapping(target = "fechaFin", ignore = true)
-    @Mapping(target = "consejo", source = "consejo", qualifiedByName = "mapIdToConsejo")
+    @Mapping(source = "consejo", target = "consejo", qualifiedByName = "mapIdToConsejo")
     void updateEntityFromRequest(MiembroConsejoRequest request, @MappingTarget MiembroConsejoModel entity);
 
     @Named("mapIdToConsejo")

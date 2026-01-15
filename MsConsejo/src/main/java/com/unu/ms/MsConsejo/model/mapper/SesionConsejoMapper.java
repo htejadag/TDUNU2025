@@ -21,14 +21,14 @@ public interface SesionConsejoMapper {
     @Mapping(target = "idSesion", ignore = true)
     @Mapping(target = "fechaCreacion", ignore = true)
     @Mapping(target = "asistencias", ignore = true)
-    @Mapping(target = "consejo", source = "consejo", qualifiedByName = "mapIdToConsejo")
+    @Mapping(source = "consejo", target = "consejo", qualifiedByName = "mapIdToConsejo")
     SesionConsejoModel toEntity(SesionConsejoRequest request);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     @Mapping(target = "idSesion", ignore = true)
     @Mapping(target = "fechaCreacion", ignore = true)
     @Mapping(target = "asistencias", ignore = true)
-    @Mapping(target = "consejo", source = "consejo", qualifiedByName = "mapIdToConsejo")
+    @Mapping(source = "consejo", target = "consejo", qualifiedByName = "mapIdToConsejo")
     void updateEntityFromRequest(SesionConsejoRequest request, @MappingTarget SesionConsejoModel entity);
 
     @Named("mapIdToConsejo")
