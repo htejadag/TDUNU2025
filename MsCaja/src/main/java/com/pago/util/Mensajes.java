@@ -2,6 +2,10 @@ package com.pago.util;
 
 public class Mensajes {
 
+  private Mensajes() {
+    throw new IllegalStateException("Utility class");
+  }
+
   // Genericos
   public static final String GUARDADO_OK    = "Se guardó correctamente";
   public static final String ACTUALIZADO_OK = "Se actualizó correctamente";

@@ -14,10 +14,7 @@ public interface AperturaCierreCajaService {
 
     AperturaCierreCajaResponse editar(Integer id, AperturaCierreCajaRequest request);
 
-    // public abstract AperturaCierreCajaModel registrarApeCieCaja(AperturaCierreCajaModel apeCieCaja);
-
-    // public abstract AperturaCierreCajaModel actualizarApeCieCaja(AperturaCierreCajaModel apeCieCaja);
-
+   
     void desactivar(Integer id);
 
     void eliminar(Integer id);

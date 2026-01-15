@@ -15,10 +15,7 @@ public interface ConceptoPagoService {
 
     ConceptoPagoResponse editar(Integer id, ConceptoPagoRequest request);
 
-    // public abstract ConceptoPagoModel registrarConceptoPago(ConceptoPagoModel conceptoPago);
-
-    // public abstract ConceptoPagoModel actualizarConceptoPago(ConceptoPagoModel conceptoPago);
-
+   
     void desactivar(Integer id);
 
     void eliminar(Integer id);
