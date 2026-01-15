@@ -1,14 +1,11 @@
 package com.pago.service.impl;
 
 import java.util.List;
-<<<<<<< Updated upstream:MsCaja/src/main/java/com/pago/service/Imp/ClasificadorIngresoServiceImp.java
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-=======
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
->>>>>>> Stashed changes:MsCaja/src/main/java/com/pago/service/impl/ClasificadorIngresoServiceImp.java
 import org.springframework.stereotype.Service;
 import com.pago.model.entity.ClasificadorIngresoModel;
 import com.pago.model.request.ClasificadorIngresoRequest;
@@ -16,7 +13,6 @@ import com.pago.model.response.ClasificadorIngresoResponse;
 import com.pago.repository.ClasificadorIngresoRepository;
 import com.pago.service.ClasificadorIngresoService;
 
-<<<<<<< Updated upstream:MsCaja/src/main/java/com/pago/service/Imp/ClasificadorIngresoServiceImp.java
 @Slf4j
 @Service
 public class ClasificadorIngresoServiceImp implements ClasificadorIngresoService {
@@ -57,7 +53,7 @@ public class ClasificadorIngresoServiceImp implements ClasificadorIngresoService
         log.info("[ClasificadorIngreso] guardar - inicio");
         ClasificadorIngresoModel model = modelMapper.map(request, ClasificadorIngresoModel.class);
         ClasificadorIngresoModel saved = clasificadorIngresoRepository.save(model);
-        log.info("[ClasificadorIngreso] guardar - ok | id={}", saved.getClasificadoringresoid());
+        log.info("[ClasificadorIngreso] guardar - ok | id={}", saved.getClasificadorIngresoId());
         return modelMapper.map(saved, ClasificadorIngresoResponse.class);
     }
 
@@ -84,41 +80,5 @@ public class ClasificadorIngresoServiceImp implements ClasificadorIngresoService
         log.info("[ClasificadorIngreso] eliminar - inicio | id={}", id);
         clasificadorIngresoRepository.eliminar(id);
         log.info("[ClasificadorIngreso] eliminar - ok | id={}", id);
-=======
-@Service("clasificadorIngresoServicio")
-@RequiredArgsConstructor
-public class ClasificadorIngresoServiceImp implements ClasificadorIngresoService {
-    @Qualifier("clasificadorIngresoRepositorio")
-    private final ClasificadorIngresoRepository clasificadorIngresoRepositorio;
-
-    @Override
-    public List<ClasificadorIngresoModel> listarClasificadorIngreso() {
-        return clasificadorIngresoRepositorio.findAll();
-    }
-
-    @Override
-    public ClasificadorIngresoModel obtenerClasificadorIngreso(int id) {
-        return clasificadorIngresoRepositorio.findById(id).orElse(null);
-    }
-
-    @Override
-    public ClasificadorIngresoModel registrarClasificadorIngreso(ClasificadorIngresoModel clasificadorIngreso) {
-        return clasificadorIngresoRepositorio.save(clasificadorIngreso);
-    }
-
-    @Override
-    public ClasificadorIngresoModel actualizarClasificadorIngreso(ClasificadorIngresoModel clasificadorIngreso) {
-        return clasificadorIngresoRepositorio.save(clasificadorIngreso);
-    }
-
-    @Override
-    public void desactivarClasificadorIngreso(int id) {
-        clasificadorIngresoRepositorio.desactivar(id);
-    }
-
-    @Override
-    public void eliminarClasificadorIngreso(int id) {
-        clasificadorIngresoRepositorio.eliminar(id);
->>>>>>> Stashed changes:MsCaja/src/main/java/com/pago/service/impl/ClasificadorIngresoServiceImp.java
     }
 }

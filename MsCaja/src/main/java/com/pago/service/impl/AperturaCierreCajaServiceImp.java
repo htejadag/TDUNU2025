@@ -1,14 +1,9 @@
 package com.pago.service.impl;
 
 import java.util.List;
-<<<<<<< Updated upstream:MsCaja/src/main/java/com/pago/service/Imp/AperturaCierreCajaServiceImp.java
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-=======
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Qualifier;
->>>>>>> Stashed changes:MsCaja/src/main/java/com/pago/service/impl/AperturaCierreCajaServiceImp.java
 import org.springframework.stereotype.Service;
 import com.pago.model.entity.AperturaCierreCajaModel;
 import com.pago.model.request.AperturaCierreCajaRequest;
@@ -16,7 +11,6 @@ import com.pago.model.response.AperturaCierreCajaResponse;
 import com.pago.repository.AperturaCierreCajaRepository;
 import com.pago.service.AperturaCierreCajaService;
 
-<<<<<<< Updated upstream:MsCaja/src/main/java/com/pago/service/Imp/AperturaCierreCajaServiceImp.java
 @Slf4j
 @Service
 public class AperturaCierreCajaServiceImp implements AperturaCierreCajaService {
@@ -56,7 +50,7 @@ public class AperturaCierreCajaServiceImp implements AperturaCierreCajaService {
     public AperturaCierreCajaResponse guardar(AperturaCierreCajaRequest request) {
         AperturaCierreCajaModel model = modelMapper.map(request, AperturaCierreCajaModel.class);
         AperturaCierreCajaModel saved = aperturaCierreCajaRepository.save(model);
-        log.info("[AperturaCierreCaja] guardar - ok | id={}", saved.getAperturacierrecajaid());
+        log.info("[AperturaCierreCaja] guardar - ok | id={}", saved.getAperturaCierreCajaId());
         AperturaCierreCajaResponse response = modelMapper.map(saved, AperturaCierreCajaResponse.class);
         //return modelMapper.map(saved, AperturaCierreCajaResponse.class);
         return response;
@@ -87,42 +81,4 @@ public class AperturaCierreCajaServiceImp implements AperturaCierreCajaService {
         aperturaCierreCajaRepository.eliminar(id);
         log.info("[AperturaCierreCaja] eliminar - ok | id={}", id);
     }
-=======
-@Service("aperturaCierreCajaServicio")
-@RequiredArgsConstructor
-public class AperturaCierreCajaServiceImp implements AperturaCierreCajaService {
-    @Qualifier("aperturaCierreCajaRepositorio")
-    private final AperturaCierreCajaRepository apeCieCajaRepositorio;
-
-    @Override
-    public List<AperturaCierreCajaModel> listarApeCieCaja() {
-        return apeCieCajaRepositorio.findAll();
-    }
-
-    @Override
-    public AperturaCierreCajaModel obtenerApeCieCaja(int id) {
-        return apeCieCajaRepositorio.findById(id).orElse(null);
-    }
-
-    @Override
-    public AperturaCierreCajaModel registrarApeCieCaja(AperturaCierreCajaModel apeCieCaja) {
-        return apeCieCajaRepositorio.save(apeCieCaja);
-    }
-
-    @Override
-    public AperturaCierreCajaModel actualizarApeCieCaja(AperturaCierreCajaModel apeCieCaja) {
-        return apeCieCajaRepositorio.save(apeCieCaja);
-    }
-
-    @Override
-    public void desactivarApeCieCaja(int id) {
-        apeCieCajaRepositorio.desactivar(id);
-    }
-
-    @Override
-    public void eliminarApeCieCaja(int id) {
-        apeCieCajaRepositorio.eliminar(id);
-    }
-
->>>>>>> Stashed changes:MsCaja/src/main/java/com/pago/service/impl/AperturaCierreCajaServiceImp.java
 }

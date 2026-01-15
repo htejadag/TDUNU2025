@@ -10,15 +10,13 @@ public interface AperturaCierreCajaService {
 
     AperturaCierreCajaResponse obtenerPorId(Integer id);
 
-<<<<<<< Updated upstream
     AperturaCierreCajaResponse guardar(AperturaCierreCajaRequest request);
 
     AperturaCierreCajaResponse editar(Integer id, AperturaCierreCajaRequest request);
-=======
-    public abstract AperturaCierreCajaModel registrarApeCieCaja(AperturaCierreCajaModel apeCieCaja);
 
-    public abstract AperturaCierreCajaModel actualizarApeCieCaja(AperturaCierreCajaModel apeCieCaja);
->>>>>>> Stashed changes
+    // public abstract AperturaCierreCajaModel registrarApeCieCaja(AperturaCierreCajaModel apeCieCaja);
+
+    // public abstract AperturaCierreCajaModel actualizarApeCieCaja(AperturaCierreCajaModel apeCieCaja);
 
     void desactivar(Integer id);
 
