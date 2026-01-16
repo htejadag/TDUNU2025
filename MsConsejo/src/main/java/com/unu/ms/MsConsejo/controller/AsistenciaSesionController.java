@@ -24,6 +24,26 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * Controlador REST para la gestión de asistencia en sesiones de consejo.
+ * 
+ * Proporciona endpoints para registrar y consultar la asistencia de los
+ * miembros del consejo en las sesiones. Permite marcar presencia, ausencia
+ * y otras variantes de asistencia durante las reuniones.
+ * 
+ * Endpoints disponibles:
+ * - GET /asistencia-sesion - Listar todos los registros de asistencia
+ * - GET /asistencia-sesion?id={id} - Obtener registro de asistencia por ID
+ * - GET /asistencia-sesion/sesion?idSesion={id} - Buscar asistencias de una sesión
+ * - GET /asistencia-sesion/miembro?idMiembro={id} - Buscar asistencias de un miembro
+ * - POST /asistencia-sesion - Registrar nueva asistencia
+ * - PUT /asistencia-sesion?id={id} - Actualizar registro de asistencia
+ * - DELETE /asistencia-sesion?id={id} - Eliminar registro de asistencia
+ * 
+ * @author Microservicio de Consejo
+ * @version 1.0
+ * @since 2024
+ */
 @Slf4j
 @RestController
 @AllArgsConstructor
@@ -31,8 +51,14 @@ import lombok.extern.slf4j.Slf4j;
 @Tag(name = "AsistenciaSesion Controller")
 public class AsistenciaSesionController {
 
+    /** Servicio para la gestión de operaciones de asistencia en sesiones */
     private AsistenciaSesionService asistenciaSesionService;
 
+    /**
+     * Lista todos los registros de asistencia en sesiones disponibles en el sistema.
+     * 
+     * @return respuesta base con lista completa de registros de asistencia
+     */
     @GetMapping(value = ApiRoutes.AsistenciaSesion.LISTAR)
     public ResponseBase<List<AsistenciaSesionResponse>> listar() {
 
@@ -45,6 +71,12 @@ public class AsistenciaSesionController {
         return ResponseBase.ok(Mensajes.LISTAR_OK, listaResponse);
     }
 
+    /**
+     * Registra una nueva asistencia en el sistema para una sesión.
+     * 
+     * @param request datos del registro de asistencia (miembro, sesión, estado, etc.)
+     * @return respuesta base con el registro de asistencia creado incluyendo su ID generado
+     */
     @PostMapping(value = ApiRoutes.AsistenciaSesion.GUARDAR)
     public ResponseBase<AsistenciaSesionResponse> guardar(@RequestBody AsistenciaSesionRequest request) {
 
@@ -58,6 +90,12 @@ public class AsistenciaSesionController {
         return ResponseBase.ok(Mensajes.CREADO_OK, response);
     }
 
+    /**
+     * Elimina un registro de asistencia del sistema.
+     * 
+     * @param id identificador del registro de asistencia a eliminar
+     * @return respuesta base indicando éxito de la eliminación
+     */
     @DeleteMapping(value = ApiRoutes.AsistenciaSesion.ELIMINAR)
     public ResponseBase<String> eliminar(@RequestParam(value = "id") Integer id) {
 
@@ -71,6 +109,13 @@ public class AsistenciaSesionController {
         return ResponseBase.ok(Mensajes.ELIMINADO_OK);
     }
 
+    /**
+     * Actualiza los datos de un registro de asistencia existente.
+     * 
+     * @param id identificador del registro a actualizar
+     * @param request nuevos datos del registro de asistencia
+     * @return respuesta base con el registro de asistencia actualizado
+     */
     @PutMapping(value = ApiRoutes.AsistenciaSesion.ACTUALIZAR)
     public ResponseBase<AsistenciaSesionResponse> actualizar(
             @RequestParam(value = "id") Integer id,
@@ -87,6 +132,12 @@ public class AsistenciaSesionController {
         return ResponseBase.ok(Mensajes.ACTUALIZADO_OK, response);
     }
 
+    /**
+     * Obtiene un registro de asistencia específico por su identificador.
+     * 
+     * @param id identificador del registro de asistencia a obtener
+     * @return respuesta base con el registro de asistencia encontrado
+     */
     @GetMapping(value = ApiRoutes.AsistenciaSesion.OBTENER_POR_ID)
     public ResponseBase<AsistenciaSesionResponse> obtenerPorId(@RequestParam(value = "id") Integer id) {
 
@@ -100,6 +151,12 @@ public class AsistenciaSesionController {
         return ResponseBase.ok(Mensajes.OBTENER_POR_OK, response);
     }
 
+    /**
+     * Busca todos los registros de asistencia de una sesión específica.
+     * 
+     * @param idSesion identificador de la sesión
+     * @return respuesta base con lista de asistencias de esa sesión
+     */
     @GetMapping(value = ApiRoutes.AsistenciaSesion.BUSCAR_POR_SESION)
     public ResponseBase<List<AsistenciaSesionResponse>> buscarPorSesion(@RequestParam Integer idSesion) {
 
@@ -116,6 +173,12 @@ public class AsistenciaSesionController {
         return ResponseBase.ok(Mensajes.LISTAR_OK, listaResponse);
     }
 
+    /**
+     * Busca todos los registros de asistencia de un miembro específico.
+     * 
+     * @param idMiembro identificador del miembro del consejo
+     * @return respuesta base con lista de asistencias de ese miembro
+     */
     @GetMapping(value = ApiRoutes.AsistenciaSesion.BUSCAR_POR_MIEMBRO)
     public ResponseBase<List<AsistenciaSesionResponse>> buscarPorMiembro(@RequestParam Integer idMiembro) {
 
@@ -132,6 +195,12 @@ public class AsistenciaSesionController {
         return ResponseBase.ok(Mensajes.LISTAR_OK, listaResponse);
     }
 
+    /**
+     * Busca todos los registros de asistencia con un estado específico.
+     * 
+     * @param idEstadoAsistencia identificador del estado de asistencia (presente, ausente, etc.)
+     * @return respuesta base con lista de asistencias con ese estado
+     */
     @GetMapping(value = ApiRoutes.AsistenciaSesion.BUSCAR_POR_ESTADO)
     public ResponseBase<List<AsistenciaSesionResponse>> buscarPorEstadoAsistencia(@RequestParam Integer idEstadoAsistencia) {
 

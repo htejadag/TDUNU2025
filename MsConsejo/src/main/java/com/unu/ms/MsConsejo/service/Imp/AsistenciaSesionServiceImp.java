@@ -14,17 +14,39 @@ import com.unu.ms.MsConsejo.model.response.AsistenciaSesionResponse;
 import com.unu.ms.MsConsejo.repository.AsistenciaSesionRepository;
 import com.unu.ms.MsConsejo.service.AsistenciaSesionService;
 
+/**
+ * Implementación del servicio para la gestión de asistencias de sesión.
+ * 
+ * Proporciona la lógica de negocio para las operaciones CRUD sobre registros
+ * de asistencia, incluyendo búsquedas por sesión, miembro y estado de asistencia.
+ * Registra auditoría para todas las operaciones de creación, actualización y eliminación.
+ * 
+ * @author Microservicio de Consejo
+ * @version 1.0
+ * @since 2024
+ */
 @Slf4j
 @Service
 @AllArgsConstructor
 public class AsistenciaSesionServiceImp implements AsistenciaSesionService {
 
-        AsistenciaSesionRepository asistenciaSesionRepository;
-        AuditoriaServiceImp auditoriaServiceImp;
-        AsistenciaSesionMapper mapper;
+        /** Repositorio para acceso a datos de asistencias de sesión */
+        private AsistenciaSesionRepository asistenciaSesionRepository;
+        
+        /** Servicio de auditoría para registrar cambios */
+        private AuditoriaServiceImp auditoriaServiceImp;
+        
+        /** Mapeador para convertir entre entidades y DTOs */
+        private AsistenciaSesionMapper mapper;
 
+        /** Nombre de la entidad para auditoría */
         private static final String NAME_ENTITY = "ASISTENCIA_SESION";
 
+        /**
+         * Lista todos los registros de asistencia de sesión disponibles en el sistema.
+         * 
+         * @return lista completa de asistencias convertidas a AsistenciaSesionResponse
+         */
         @Override
         public List<AsistenciaSesionResponse> listar() {
 
@@ -42,6 +64,12 @@ public class AsistenciaSesionServiceImp implements AsistenciaSesionService {
                 return resultado;
         }
 
+        /**
+         * Obtiene un registro de asistencia específico por su identificador.
+         * 
+         * @param id identificador de la asistencia a obtener
+         * @return el registro de asistencia encontrado, o null si no existe
+         */
         @Override
         public AsistenciaSesionResponse obtenerPorId(Integer id) {
 
@@ -63,6 +91,13 @@ public class AsistenciaSesionServiceImp implements AsistenciaSesionService {
                 return response;
         }
 
+        /**
+         * Crea un nuevo registro de asistencia de sesión en el sistema.
+         * Registra la acción en auditoría.
+         * 
+         * @param asistenciaSesionRequest datos de la asistencia a crear
+         * @return el registro de asistencia creado con su identificador generado
+         */
         @Override
         public AsistenciaSesionResponse guardar(AsistenciaSesionRequest asistenciaSesionRequest) {
 
@@ -91,6 +126,13 @@ public class AsistenciaSesionServiceImp implements AsistenciaSesionService {
                 return mapper.toResponse(guardado);
         }
 
+        /**
+         * Elimina un registro de asistencia de sesión del sistema por su identificador.
+         * Registra la acción en la auditoría.
+         * 
+         * @param id identificador de la asistencia a eliminar
+         * @throws RuntimeException si la asistencia no existe
+         */
         @Override
         public void eliminar(Integer id) {
 
@@ -117,6 +159,15 @@ public class AsistenciaSesionServiceImp implements AsistenciaSesionService {
                 log.info("Fin servicio: eliminar asistencia de sesión. Id eliminado: {}", id);
         }
 
+        /**
+         * Actualiza los datos de un registro de asistencia existente.
+         * Registra la acción en auditoría con los datos antes y después.
+         * 
+         * @param id identificador de la asistencia a actualizar
+         * @param asistenciaSesionActualizado nuevos datos de la asistencia
+         * @return el registro de asistencia actualizado
+         * @throws RuntimeException si la asistencia no existe
+         */
         @Override
         public AsistenciaSesionResponse actualizar(
                         Integer id,
@@ -156,6 +207,12 @@ public class AsistenciaSesionServiceImp implements AsistenciaSesionService {
                 return mapper.toResponse(actualizado);
         }
 
+        /**
+         * Verifica si un registro de asistencia existe en el sistema.
+         * 
+         * @param id identificador de la asistencia a verificar
+         * @return true si el registro existe, false en caso contrario
+         */
         @Override
         public boolean existePorId(Integer id) {
 
@@ -171,6 +228,12 @@ public class AsistenciaSesionServiceImp implements AsistenciaSesionService {
                 return existe;
         }
 
+        /**
+         * Busca todos los registros de asistencia de una sesión específica.
+         * 
+         * @param idSesion identificador de la sesión
+         * @return lista de asistencias de esa sesión
+         */
         @Override
         public List<AsistenciaSesionResponse> buscarPorSesion(Integer idSesion) {
 
@@ -189,6 +252,12 @@ public class AsistenciaSesionServiceImp implements AsistenciaSesionService {
                 return resultado;
         }
 
+        /**
+         * Busca todos los registros de asistencia de un miembro específico.
+         * 
+         * @param idMiembro identificador del miembro
+         * @return lista de asistencias de ese miembro
+         */
         @Override
         public List<AsistenciaSesionResponse> buscarPorMiembro(Integer idMiembro) {
 
@@ -207,6 +276,12 @@ public class AsistenciaSesionServiceImp implements AsistenciaSesionService {
                 return resultado;
         }
 
+        /**
+         * Busca todos los registros de asistencia con un estado específico.
+         * 
+         * @param idEstadoAsistencia identificador del estado de asistencia
+         * @return lista de asistencias con ese estado
+         */
         @Override
         public List<AsistenciaSesionResponse> buscarPorEstadoAsistencia(Integer idEstadoAsistencia) {
 

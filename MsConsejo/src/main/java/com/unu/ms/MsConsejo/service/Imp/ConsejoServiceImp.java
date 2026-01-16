@@ -14,17 +14,39 @@ import com.unu.ms.MsConsejo.model.response.ConsejoResponse;
 import com.unu.ms.MsConsejo.repository.ConsejoRepository;
 import com.unu.ms.MsConsejo.service.ConsejoService;
 
+/**
+ * Implementación del servicio para la gestión de consejos.
+ * 
+ * Proporciona la lógica de negocio para las operaciones CRUD sobre consejos,
+ * incluyendo búsquedas por nombre y estado. Registra auditoría para todas
+ * las operaciones de creación, actualización y eliminación.
+ * 
+ * @author Microservicio de Consejo
+ * @version 1.0
+ * @since 2024
+ */
 @Slf4j
 @Service
 @AllArgsConstructor
 public class ConsejoServiceImp implements ConsejoService {
 
-    ConsejoRepository consejoRepository;
-    AuditoriaServiceImp auditoriaServiceImp;
-    ConsejoMapper mapper;
+    /** Repositorio para acceso a datos de consejos */
+    private ConsejoRepository consejoRepository;
+    
+    /** Servicio de auditoría para registrar cambios */
+    private AuditoriaServiceImp auditoriaServiceImp;
+    
+    /** Mapeador para convertir entre entidades y DTOs */
+    private ConsejoMapper mapper;
 
+    /** Nombre de la entidad para auditoría */
     private static final String NAME_ENTITY = "CONSEJO";
 
+    /**
+     * Lista todos los consejos disponibles en el sistema.
+     * 
+     * @return lista completa de consejos convertidos a ConsejoResponse
+     */
     @Override
     public List<ConsejoResponse> listar() {
 
@@ -41,6 +63,12 @@ public class ConsejoServiceImp implements ConsejoService {
         return resultado;
     }
 
+    /**
+     * Obtiene un consejo específico por su identificador.
+     * 
+     * @param id identificador del consejo a obtener
+     * @return el consejo encontrado, o null si no existe
+     */
     @Override
     public ConsejoResponse obtenerPorId(Integer id) {
 
@@ -62,6 +90,13 @@ public class ConsejoServiceImp implements ConsejoService {
         return response;
     }
 
+    /**
+     * Crea un nuevo consejo en el sistema.
+     * Registra la acción en la auditoría.
+     * 
+     * @param consejoRequest datos del consejo a crear
+     * @return el consejo creado con su identificador generado
+     */
     @Override
     public ConsejoResponse guardar(ConsejoRequest consejoRequest) {
 
@@ -88,6 +123,13 @@ public class ConsejoServiceImp implements ConsejoService {
         return mapper.toResponse(guardado);
     }
 
+    /**
+     * Elimina un consejo del sistema por su identificador.
+     * Registra la acción en la auditoría.
+     * 
+     * @param id identificador del consejo a eliminar
+     * @throws RuntimeException si el consejo no existe
+     */
     @Override
     public void eliminar(Integer id) {
 
@@ -115,6 +157,15 @@ public class ConsejoServiceImp implements ConsejoService {
         log.info("Fin servicio: eliminar consejo. Id eliminado: {}", id);
     }
 
+    /**
+     * Actualiza los datos de un consejo existente.
+     * Registra la acción en la auditoría con los datos antes y después.
+     * 
+     * @param id identificador del consejo a actualizar
+     * @param consejoActualizado nuevos datos del consejo
+     * @return el consejo actualizado
+     * @throws RuntimeException si el consejo no existe
+     */
     @Override
     public ConsejoResponse actualizar(Integer id, ConsejoRequest consejoActualizado) {
 
@@ -151,6 +202,12 @@ public class ConsejoServiceImp implements ConsejoService {
         return mapper.toResponse(actualizado);
     }
 
+    /**
+     * Verifica si un consejo existe en el sistema.
+     * 
+     * @param id identificador del consejo a verificar
+     * @return true si el consejo existe, false en caso contrario
+     */
     @Override
     public boolean existePorId(Integer id) {
 
@@ -163,6 +220,12 @@ public class ConsejoServiceImp implements ConsejoService {
         return existe;
     }
 
+    /**
+     * Busca un consejo específico por su nombre.
+     * 
+     * @param nombre el nombre del consejo a buscar
+     * @return el consejo encontrado, o null si no existe
+     */
     @Override
     public ConsejoResponse buscarPorNombre(String nombre) {
 
@@ -182,6 +245,12 @@ public class ConsejoServiceImp implements ConsejoService {
         return response;
     }
 
+    /**
+     * Busca todos los consejos que tengan un estado específico.
+     * 
+     * @param idEstado el identificador del estado a buscar
+     * @return lista de consejos con el estado especificado
+     */
     @Override
     public List<ConsejoResponse> buscarPorEstado(Integer idEstado) {
 

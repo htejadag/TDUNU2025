@@ -24,6 +24,26 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * Controlador REST para la gestión de consejos.
+ * 
+ * Proporciona endpoints para realizar operaciones CRUD sobre los consejos del sistema.
+ * Un consejo es una estructura organizacional compuesta por miembros que participan
+ * en sesiones periódicas.
+ * 
+ * Endpoints disponibles:
+ * - GET /consejo - Listar todos los consejos
+ * - GET /consejo?id={id} - Obtener consejo por ID
+ * - GET /consejo/nombre?nombre={nombre} - Buscar consejo por nombre
+ * - GET /consejo/estado?idEstado={idEstado} - Buscar consejos por estado
+ * - POST /consejo - Crear nuevo consejo
+ * - PUT /consejo?id={id} - Actualizar consejo
+ * - DELETE /consejo?id={id} - Eliminar consejo
+ * 
+ * @author Microservicio de Consejo
+ * @version 1.0
+ * @since 2024
+ */
 @Slf4j
 @RestController
 @AllArgsConstructor
@@ -31,8 +51,14 @@ import lombok.extern.slf4j.Slf4j;
 @Tag(name = "Consejo Controller")
 public class ConsejoController {
 
+    /** Servicio para la gestión de operaciones de consejos */
     private ConsejoService consejoService;
 
+    /**
+     * Lista todos los consejos disponibles en el sistema.
+     * 
+     * @return ResponseBase que contiene una lista de todos los consejos
+     */
     @GetMapping(value = ApiRoutes.Consejo.LISTAR)
     public ResponseBase<List<ConsejoResponse>> listar() {
 
@@ -45,6 +71,12 @@ public class ConsejoController {
         return ResponseBase.ok(Mensajes.LISTAR_OK, listaResponse);
     }
 
+    /**
+     * Crea un nuevo consejo en el sistema.
+     * 
+     * @param request objeto ConsejoRequest con los datos del consejo a crear
+     * @return ResponseBase que contiene el consejo creado con su ID generado
+     */
     @PostMapping(value = ApiRoutes.Consejo.GUARDAR)
     public ResponseBase<ConsejoResponse> guardar(@RequestBody ConsejoRequest request) {
 
@@ -58,6 +90,12 @@ public class ConsejoController {
         return ResponseBase.ok(Mensajes.CREADO_OK, response);
     }
 
+    /**
+     * Elimina un consejo del sistema por su identificador.
+     * 
+     * @param id identificador del consejo a eliminar
+     * @return ResponseBase con mensaje de confirmación de eliminación
+     */
     @DeleteMapping(value = ApiRoutes.Consejo.ELIMINAR)
     public ResponseBase<String> eliminar(@RequestParam(value = "id") Integer id) {
 
@@ -71,6 +109,13 @@ public class ConsejoController {
         return ResponseBase.ok(Mensajes.ELIMINADO_OK);
     }
 
+    /**
+     * Actualiza los datos de un consejo existente.
+     * 
+     * @param id identificador del consejo a actualizar
+     * @param request objeto ConsejoRequest con los nuevos datos
+     * @return ResponseBase que contiene el consejo actualizado
+     */
     @PutMapping(value = ApiRoutes.Consejo.ACTUALIZAR)
     public ResponseBase<ConsejoResponse> actualizar(
             @RequestParam(value = "id") Integer id,
@@ -87,6 +132,12 @@ public class ConsejoController {
         return ResponseBase.ok(Mensajes.ACTUALIZADO_OK, response);
     }
 
+    /**
+     * Obtiene un consejo específico por su identificador.
+     * 
+     * @param id identificador del consejo a recuperar
+     * @return ResponseBase que contiene el consejo solicitado
+     */
     @GetMapping(value = ApiRoutes.Consejo.OBTENER_POR_ID)
     public ResponseBase<ConsejoResponse> obtenerPorId(@RequestParam(value = "id") Integer id) {
 
@@ -100,6 +151,12 @@ public class ConsejoController {
         return ResponseBase.ok(Mensajes.OBTENER_POR_OK, response);
     }
 
+    /**
+     * Busca un consejo específico por su nombre.
+     * 
+     * @param nombre el nombre del consejo a buscar
+     * @return ResponseBase que contiene el consejo encontrado
+     */
     @GetMapping(value = ApiRoutes.Consejo.BUSCAR_POR_NOMBRE)
     public ResponseBase<ConsejoResponse> buscarPorNombre(@RequestParam String nombre) {
 
@@ -113,6 +170,12 @@ public class ConsejoController {
         return ResponseBase.ok(Mensajes.OBTENER_POR_OK, response);
     }
 
+    /**
+     * Busca todos los consejos que tengan un estado específico.
+     * 
+     * @param idEstado el identificador del estado a buscar
+     * @return ResponseBase que contiene una lista de consejos con el estado especificado
+     */
     @GetMapping(value = ApiRoutes.Consejo.BUSCAR_POR_ESTADO)
     public ResponseBase<List<ConsejoResponse>> buscarPorEstado(@RequestParam Integer idEstado) {
 
