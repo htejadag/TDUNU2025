@@ -50,4 +50,10 @@ public class PagoModel {
   @Column(name = "usuarioid")
   private Integer usuarioId;
 
+  @Column(name = "activo")
+  private Boolean activo;
+
+  @Column(name = "es_eliminado")
+  private Boolean esEliminado;
+
 }

@@ -62,7 +62,7 @@ public class PagoServiceImp implements PagoService {
 
   @Override
   public void eliminar(Integer id) {
-    pagoRepository.deleteById(id);
+    pagoRepository.eliminar(id);
   }
 
 }

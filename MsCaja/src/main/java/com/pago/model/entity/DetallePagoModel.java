@@ -39,4 +39,10 @@ public class DetallePagoModel {
   @Column(name = "pagoid")
   private Integer pagoId;
 
+  @Column(name = "activo")
+  private Boolean activo;
+
+  @Column(name = "es_eliminado")
+  private Boolean esEliminado;
+
 }

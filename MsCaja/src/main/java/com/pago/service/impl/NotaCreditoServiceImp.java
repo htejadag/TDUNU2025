@@ -56,6 +56,6 @@ public class NotaCreditoServiceImp implements NotaCreditoService {
 
     @Override
     public void eliminar(Integer id) {
-        notaCreditoRepository.deleteById(id);
+        notaCreditoRepository.eliminar(id);
     }
 }

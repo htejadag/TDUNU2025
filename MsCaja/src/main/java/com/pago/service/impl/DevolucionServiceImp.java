@@ -56,6 +56,6 @@ public class DevolucionServiceImp implements DevolucionService {
 
     @Override
     public void eliminar(Integer id) {
-        devolucionRepository.deleteById(id);
+        devolucionRepository.eliminar(id);
     }
 }

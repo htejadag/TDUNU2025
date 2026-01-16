@@ -63,7 +63,7 @@ public class DetallePagoServiceImp implements DetallePagoService {
 
   @Override
   public void eliminar(Integer id) {
-    detallePagoRepository.deleteById(id);
+    detallePagoRepository.eliminar(id);
   }
 
 }
