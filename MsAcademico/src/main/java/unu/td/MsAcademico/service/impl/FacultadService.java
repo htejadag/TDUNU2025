@@ -2,6 +2,9 @@ package unu.td.MsAcademico.service.impl;
 
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import unu.td.MsAcademico.model.entity.FacultadModel;
 import unu.td.MsAcademico.model.response.FacultadResponse;
@@ -23,6 +26,7 @@ public class FacultadService implements IFacultadService {
     private ModelMapper mapper;
 
     @Override
+    @Cacheable(value = "facultad", key = "'all'", cacheManager = "listCacheManager")
     public List<FacultadResponse> getAll() {
         return repository.findByEliminadoFalse()
                 .stream()
@@ -31,12 +35,15 @@ public class FacultadService implements IFacultadService {
     }
 
     @Override
+    @Cacheable(value = "facultadId", key = "#id", cacheManager = "objectCacheManager", unless = "#result == null")
     public FacultadResponse getById(Integer id) {
         FacultadModel facultad = checkExistsById(id);
         return mapper.map(facultad, FacultadResponse.class);
     }
 
     @Override
+    @CachePut(value = "facultadId", key = "#result.id", cacheManager = "objectCacheManager")
+    @CacheEvict(value = "facultad", allEntries = true)
     public FacultadResponse add(FacultadRequest request) {
         checkExistsByNombre(request.getNombre(), 0);
 
@@ -47,6 +54,8 @@ public class FacultadService implements IFacultadService {
     }
 
     @Override
+    @CachePut(value = "facultadId", key = "#id", cacheManager = "objectCacheManager")
+    @CacheEvict(value = "facultad", allEntries = true)
     public FacultadResponse update(Integer id, FacultadRequest request) {
         FacultadModel facultad = checkExistsById(id);
         checkExistsByNombre(request.getNombre(), facultad.getId());
@@ -58,18 +67,21 @@ public class FacultadService implements IFacultadService {
     }
 
     @Override
+    @CacheEvict(value = { "facultadId", "facultad" }, allEntries = true)
     public void delete(Integer id) {
         checkExistsById(id);
         repository.softDelete(id);
     }
 
     @Override
+    @CacheEvict(value = { "facultadId", "facultad" }, allEntries = true)
     public void activate(Integer id) {
         checkExistsById(id);
         repository.activate(id);
     }
 
     @Override
+    @CacheEvict(value = { "facultadId", "facultad" }, allEntries = true)
     public void deactivate(Integer id) {
         checkExistsById(id);
         repository.deactivate(id);

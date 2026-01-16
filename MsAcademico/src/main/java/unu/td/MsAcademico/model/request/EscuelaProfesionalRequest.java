@@ -2,9 +2,11 @@ package unu.td.MsAcademico.model.request;
 
 import jakarta.validation.constraints.*;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import unu.td.MsAcademico.utils.Messages;
 
 @Data
+@EqualsAndHashCode(callSuper=false)
 public class EscuelaProfesionalRequest extends EntidadAcademicaRequest{
 
     @NotNull(message = Messages.REQUIRED_ID_FACULTAD)

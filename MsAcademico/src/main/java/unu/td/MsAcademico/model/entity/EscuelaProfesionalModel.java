@@ -2,11 +2,12 @@ package unu.td.MsAcademico.model.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
 @Entity
 @Table(name = "escuelasProfesionales")
-//@EntityListeners(AuditingEntityListener.class)
+@EqualsAndHashCode(callSuper=false)
 public class EscuelaProfesionalModel extends EntidadAcademicaBaseModel {
 
     @ManyToOne()
