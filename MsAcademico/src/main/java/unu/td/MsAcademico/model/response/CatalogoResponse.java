@@ -13,4 +13,5 @@ public class CatalogoResponse implements Serializable {
     private String abreviatura;
     private Integer valor;
     private Integer orden;
+    private Boolean activo;
 }
