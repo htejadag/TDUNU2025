@@ -6,13 +6,14 @@ import jakarta.persistence.Table;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.JoinColumn;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.time.LocalDate;
 
 @Data
 @Entity
 @Table(name = "autoridades")
-//@EntityListeners(AuditingEntityListener.class)
+@EqualsAndHashCode(callSuper=false)
 public class AutoridadModel extends BaseModel{
 
     @Column(nullable = false)
