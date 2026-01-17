@@ -1,0 +1,34 @@
+package tdunu.MsTitulacion.model.entity;
+
+import java.time.LocalDateTime;
+
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@Entity
+@Table(name = "revision_borrador")
+@NoArgsConstructor
+@AllArgsConstructor
+public class RevisionBorrador {
+    
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_revision_borrador")
+    private int idRevisionBorrador;
+    @Column(name = "id_jurado")private int idJurado;
+    @Column(name = "id_tesis_borrador")private int idTesisBorrador;
+    @Column(name = "comentarios")private String comentarios;
+    @Column(name = "aprobado")private boolean aprobado;
+    @Column(name = "fecha_revision")private LocalDateTime fechaRevision;
+
+    @PrePersist
+    protected void onCreate() {this.fechaRevision = LocalDateTime.now();}
+
+    // Se ejecuta automáticamente al ACTUALIZAR un registro existente
+    @PreUpdate
+    protected void onUpdate() {this.fechaRevision = LocalDateTime.now();}
+
+}
