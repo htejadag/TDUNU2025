@@ -20,12 +20,6 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Object> handleGeneralException(Exception ex, WebRequest request) {
 
-        // String path = request.getDescription(false);
-        // // Ignorar errores de Swagger
-        // if (path.contains("swagger") || path.contains("api-docs")) {
-        // return null; // Permite que Spring maneje esta excepción
-        // }
-
         Map<String, Object> body = new HashMap<>();
         body.put("timestamp", LocalDateTime.now());
         body.put("message", ex.getMessage());
@@ -35,16 +29,5 @@ public class GlobalExceptionHandler {
 
         return new ResponseEntity<>(body, HttpStatus.INTERNAL_SERVER_ERROR);
     }
-
-    // // Manejo de excepciones personalizadas
-    // @ExceptionHandler(MiExcepcion.class)
-    // public ResponseEntity<Object> handleMiExcepcion(MiExcepcion ex, WebRequest
-    // request) {
-    // Map<String, Object> body = new HashMap<>();
-    // body.put("timestamp", LocalDateTime.now());
-    // body.put("message", ex.getMessage());
-
-    // return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
-    // }
 
 }
