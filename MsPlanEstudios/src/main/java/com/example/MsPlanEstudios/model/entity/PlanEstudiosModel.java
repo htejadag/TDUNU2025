@@ -7,11 +7,13 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
+@EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "plan_estudio")
-public class PlanEstudiosModel {
+public class PlanEstudiosModel extends AuditoriaModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -28,16 +30,4 @@ public class PlanEstudiosModel {
 
     @Column(name = "estado")
     private Boolean estado;
-
-    @Column(name = "usuarioCreacion")
-    private Integer usuarioCreacion;
-
-    @Column(name = "usuarioModificacion")
-    private Integer usuarioModificacion;
-
-    @Column(name = "fechaCreacion")
-    private String fechaCreacion;
-
-    @Column(name = "fechaModificacion")
-    private String fechaModificacion;
 }

@@ -1,19 +1,31 @@
 package com.example.MsPlanEstudios.service.Imp;
 
 import java.util.List;
+import java.util.Map;
+import java.util.LinkedHashMap;
+import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
+
+import com.example.MsPlanEstudios.model.response.MallaPlanResponse;
+import com.example.MsPlanEstudios.model.response.CicloMallaResponse;
+import com.example.MsPlanEstudios.model.response.CursoMallaResponse;
+import com.example.MsPlanEstudios.repository.PlanEstudiosRepository;
+import com.example.MsPlanEstudios.model.entity.PlanEstudiosModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.MsPlanEstudios.message.CursoDetallePublisher;
+import com.example.MsPlanEstudios.model.entity.CatalogoModel;
 import com.example.MsPlanEstudios.model.entity.PlanEstudiosDetalleModel;
 import com.example.MsPlanEstudios.model.entity.PlanEstudiosPrerequisitoModel;
+import com.example.MsPlanEstudios.model.events.cursoDetalleEvent;
 import com.example.MsPlanEstudios.model.request.PlanEstudiosDetalleRequest;
 import com.example.MsPlanEstudios.model.response.PlanEstudiosDetalleResponse;
+import com.example.MsPlanEstudios.repository.CatalogoRepository;
 import com.example.MsPlanEstudios.repository.PlanEstudiosDetalleRepository;
 import com.example.MsPlanEstudios.repository.PlanEstudiosPrerequisitoRepository;
 import com.example.MsPlanEstudios.service.PlanEstudiosDetalleService;
-
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -27,6 +39,15 @@ public class PlanEstudiosDetalleServiceImp implements PlanEstudiosDetalleService
 
     @Autowired
     private ModelMapper modelMapper;
+
+    @Autowired
+    private CatalogoRepository catalogoRepository;
+
+    @Autowired
+    private PlanEstudiosRepository planEstudiosRepository;
+
+    @Autowired
+    private CursoDetallePublisher cursoDetallePublisher;
 
     @Override
     public List<PlanEstudiosDetalleResponse> listar() {
@@ -45,18 +66,35 @@ public class PlanEstudiosDetalleServiceImp implements PlanEstudiosDetalleService
 
     @Override
     public PlanEstudiosDetalleResponse guardar(PlanEstudiosDetalleRequest request) {
-        // 1. Request -> Model
-        PlanEstudiosDetalleModel model = modelMapper.map(request, PlanEstudiosDetalleModel.class);
+        // 1️⃣ Obtener ciclo desde catálogo
+        CatalogoModel ciclo = catalogoRepository
+                .findByIdAndEstadoTrue(request.getIdCiclo())
+                .orElseThrow(() -> new RuntimeException("Ciclo no válido"));
 
-        model.setId(null);
+        // 2️⃣ Crear entity MANUALMENTE
+        PlanEstudiosDetalleModel model = new PlanEstudiosDetalleModel();
 
-        // 2. Guardar en BD
+        model.setIdPlanEstudio(request.getIdPlanEstudio());
+        model.setIdCurso(request.getIdCurso());
+        model.setCiclo(ciclo);
+        model.setEstado(request.getEstado());
+        model.setCreditos(request.getCreditos());
+        model.setHorasTeoricas(request.getHorasTeoricas());
+        model.setHorasPracticas(request.getHorasPracticas());
+        model.setOrdenEnCiclo(request.getOrdenEnCiclo());
+
+        // 3️⃣ Guardar
         PlanEstudiosDetalleModel saved = planestudiosdetalleRepository.save(model);
 
-        // 3. Model -> Response
-        PlanEstudiosDetalleResponse response = modelMapper.map(saved, PlanEstudiosDetalleResponse.class);
+        // 4.1 Enviar a Kafka
+        cursoDetalleEvent event = cursoDetalleEvent.builder()
+                .idDetalleCurso(saved.getId())
+                .cursoNombre(request.getCursoNombre())
+                .build();
+        cursoDetallePublisher.publish(event);
 
-        return response;
+        // 4️⃣ Response (AQUÍ SÍ PUEDE USARSE ModelMapper)
+        return modelMapper.map(saved, PlanEstudiosDetalleResponse.class);
     }
 
     @Override
@@ -84,7 +122,7 @@ public class PlanEstudiosDetalleServiceImp implements PlanEstudiosDetalleService
     @Override
     public List<PlanEstudiosDetalleResponse> listarMallaPorPlan(Integer idPlanEstudio) {
         List<PlanEstudiosDetalleModel> detalles = planestudiosdetalleRepository
-                .findByIdPlanEstudioAndEstadoTrueOrderByIdCicloAscOrdenEnCicloAsc(idPlanEstudio);
+                .findByIdPlanEstudioAndEstadoTrueOrderByCicloCodigoAscOrdenEnCicloAsc(idPlanEstudio);
 
         return detalles.stream().map(det -> {
 
@@ -99,7 +137,7 @@ public class PlanEstudiosDetalleServiceImp implements PlanEstudiosDetalleService
             resp.setId(det.getId());
             resp.setIdPlanEstudio(det.getIdPlanEstudio());
             resp.setIdCurso(det.getIdCurso());
-            resp.setIdCiclo(det.getIdCiclo());
+            resp.setIdCiclo(det.getCiclo().getId());
             resp.setCreditos(det.getCreditos());
             resp.setHorasTeoricas(det.getHorasTeoricas());
             resp.setHorasPracticas(det.getHorasPracticas());
@@ -109,6 +147,54 @@ public class PlanEstudiosDetalleServiceImp implements PlanEstudiosDetalleService
             return resp;
 
         }).toList();
+    }
+
+    @Override
+    public MallaPlanResponse obtenerMallaAnidadaPorPlan(Integer idPlanEstudio) {
+        PlanEstudiosModel plan = planEstudiosRepository.findById(idPlanEstudio)
+                .orElseThrow(() -> new RuntimeException("Plan de estudios no encontrado"));
+
+        List<PlanEstudiosDetalleModel> detalles = planestudiosdetalleRepository
+                .findByIdPlanEstudioAndEstadoTrueOrderByCicloCodigoAscOrdenEnCicloAsc(idPlanEstudio);
+
+        MallaPlanResponse malla = new MallaPlanResponse();
+        malla.setPlan(plan.getAño());
+
+        // Agrupar por id de ciclo manteniendo orden (LinkedHashMap)
+        Map<Integer, List<PlanEstudiosDetalleModel>> grouped = detalles.stream()
+                .collect(Collectors.groupingBy(det -> det.getCiclo().getId(), LinkedHashMap::new, Collectors.toList()));
+
+        List<CicloMallaResponse> ciclos = grouped.entrySet().stream().map(entry -> {
+            CatalogoModel cicloModel = entry.getValue().get(0).getCiclo();
+            CicloMallaResponse cicloResp = new CicloMallaResponse();
+            cicloResp.setId(cicloModel.getId());
+            cicloResp.setNombre(cicloModel.getDescripcion());
+
+            List<CursoMallaResponse> cursos = entry.getValue().stream().map(det -> {
+                CursoMallaResponse curso = new CursoMallaResponse();
+                curso.setId(det.getIdCurso());
+                curso.setCreditos(det.getCreditos());
+                curso.setHorasTeoricas(det.getHorasTeoricas());
+                curso.setHorasPracticas(det.getHorasPracticas());
+                curso.setOrdenEnCiclo(det.getOrdenEnCiclo());
+
+                List<Integer> prerequisitos = prerequisitoRepository
+                        .findByIdPlanEstudioDetalleAndEstadoTrue(det.getId())
+                        .stream()
+                        .map(PlanEstudiosPrerequisitoModel::getIdCursoPrerequisito)
+                        .toList();
+
+                curso.setPrerrequisitos(prerequisitos);
+                return curso;
+            }).toList();
+
+            cicloResp.setCursos(cursos);
+            return cicloResp;
+        }).toList();
+
+        malla.setCiclos(ciclos);
+
+        return malla;
     }
 
 }

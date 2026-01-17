@@ -7,24 +7,25 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 @Data
-@EqualsAndHashCode(callSuper = true)
 @Entity
-@Table(name = "plan_estudio_prerequisito")
-public class PlanEstudiosPrerequisitoModel extends AuditoriaModel {
-
+@Table(name = "catalogo")
+public class CatalogoModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column(nullable = false)
-    private Integer idPlanEstudioDetalle;
+    private String categoria;
 
     @Column(nullable = false)
-    private Integer idCursoPrerequisito;
+    private Integer codigo;
 
     @Column(nullable = false)
+    private String descripcion;
+
+    private String abreviatura;
+
     private Boolean estado = true;
 }
