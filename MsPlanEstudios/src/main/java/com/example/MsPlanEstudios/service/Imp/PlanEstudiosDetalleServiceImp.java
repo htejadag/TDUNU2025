@@ -99,19 +99,32 @@ public class PlanEstudiosDetalleServiceImp implements PlanEstudiosDetalleService
 
     @Override
     public PlanEstudiosDetalleResponse modificar(Integer id, PlanEstudiosDetalleRequest request) {
-        // 1. Request -> Model
-        PlanEstudiosDetalleModel model = modelMapper.map(request, PlanEstudiosDetalleModel.class);
+        // 1. Buscar el registro existente
+        PlanEstudiosDetalleModel existente = planestudiosdetalleRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Detalle de plan de estudios no encontrado"));
 
-        // 2. Asignar el id que viene por parámetro
-        model.setId(id);
+        // 2️. Obtener ciclo desde catálogo (igual que en guardar)
+        CatalogoModel ciclo = catalogoRepository
+                .findByIdAndEstadoTrue(request.getIdCiclo())
+                .orElseThrow(() -> new RuntimeException("Ciclo no válido"));
 
-        // 3. Guardar en BD (si el id existe, hace UPDATE; si no, INSERT)
-        PlanEstudiosDetalleModel saved = planestudiosdetalleRepository.save(model);
+        // 3. Actualizar los campos manualmente (NO usar ModelMapper para evitar el
+        // error de tipos)
+        existente.setIdPlanEstudio(request.getIdPlanEstudio());
+        existente.setIdCurso(request.getIdCurso());
+        existente.setCiclo(ciclo);
+        existente.setIdTipoCursoPlan(request.getIdTipoCursoPlan());
+        existente.setEstado(request.getEstado());
+        existente.setCreditos(request.getCreditos());
+        existente.setHorasTeoricas(request.getHorasTeoricas());
+        existente.setHorasPracticas(request.getHorasPracticas());
+        existente.setOrdenEnCiclo(request.getOrdenEnCiclo());
 
-        // 4. Model -> Response
-        PlanEstudiosDetalleResponse response = modelMapper.map(saved, PlanEstudiosDetalleResponse.class);
+        // 4️. Guardar en BD
+        PlanEstudiosDetalleModel saved = planestudiosdetalleRepository.save(existente);
 
-        return response;
+        // 5. Model -> Response
+        return modelMapper.map(saved, PlanEstudiosDetalleResponse.class);
     }
 
     @Override
