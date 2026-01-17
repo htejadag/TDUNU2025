@@ -1,0 +1,20 @@
+﻿[INFO] Scanning for projects...
+[INFO] 
+[INFO] ---------------------< com.service:MsTramiteTesis >---------------------
+[INFO] Building MsTramiteTesis 0.0.1-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ MsTramiteTesis ---
+[INFO] Copying 1 resource from src\main\resources to target\classes
+[INFO] Copying 1 resource from src\main\resources to target\classes
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ MsTramiteTesis ---
+[INFO] Recompiling the module because of added or removed source files.
+[INFO] Compiling 25 source files with javac [debug parameters release 25] to target\classes
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  16.439 s
+[INFO] Finished at: 2026-01-07T10:18:12-05:00
+[INFO] ------------------------------------------------------------------------

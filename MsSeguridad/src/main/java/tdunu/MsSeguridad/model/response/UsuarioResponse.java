@@ -26,7 +26,6 @@ public class UsuarioResponse {
     private String apellido;
     private String correo;
     private String celular;
-    private String contrasena;
     private Integer estado;
     private Set<String> roles;
     private Set<String> permisos;

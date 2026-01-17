@@ -13,6 +13,7 @@ import tdunu.MsSeguridad.repository.UsuarioRepository;
 import tdunu.MsSeguridad.service.UsuarioService;
 import jakarta.transaction.Transactional;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import tdunu.MsSeguridad.service.KafkaProducerService;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -23,6 +24,7 @@ public class UsuarioServiceimpl implements UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
     private final PasswordEncoder passwordEncoder;
+    private final KafkaProducerService kafkaProducerService;
 
     private void validarDatos(UsuarioRequest request, boolean esNuevo, UsuarioModel existente) {
 
@@ -67,6 +69,10 @@ public class UsuarioServiceimpl implements UsuarioService {
         user.setCorreo(request.getCorreo());
         user.setCelular(request.getCelular());
         UsuarioModel saved = usuarioRepository.save(user);
+
+        kafkaProducerService.enviarEventoUsuario(
+                "USUARIO_CREADO | codUsuario=" + saved.getCodUsuario());
+
         return toResponse(saved);
     }
 
@@ -125,6 +131,11 @@ public class UsuarioServiceimpl implements UsuarioService {
         }
 
         UsuarioModel updated = usuarioRepository.save(user);
+
+        kafkaProducerService.enviarEventoUsuario(
+                "USUARIO_EDITADO | codUsuario=" + updated.getCodUsuario()
+        );
+
         return toResponse(updated);
     }
 
@@ -137,6 +148,10 @@ public class UsuarioServiceimpl implements UsuarioService {
         user.setEstado(0);
 
         UsuarioModel updated = usuarioRepository.save(user);
+
+        kafkaProducerService.enviarEventoUsuario(
+                "USUARIO_ELIMINADO | codUsuario=" + updated.getCodUsuario()
+        );
 
         return toResponse(updated);
     }

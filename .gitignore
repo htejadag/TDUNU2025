@@ -1,10 +1,20 @@
-*.log
-*.log
-*.gz
-/logs
+
+# Logs
 *.log
 /logs
-/ms-simulacro/ms-simulacro/.gradle
-/ms-simulacro/ms-simulacro/build
-/MsEvaluacion/target
-/MsExpediente/target
+
+# Java/Maven
+**/target/
+*.class
+*.jar
+*.war
+*.ear
+
+# IDE
+.vscode/
+.idea/
+*.iml
+
+# Gradle
+.gradle/
+build/

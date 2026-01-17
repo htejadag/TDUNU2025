@@ -2,6 +2,9 @@ package unu.td.MsAcademico.service.impl;
 
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import unu.td.MsAcademico.model.entity.EscuelaProfesionalModel;
 import unu.td.MsAcademico.model.entity.FacultadModel;
@@ -26,6 +29,7 @@ public class EscuelaProfesionalService implements IEscuelaProfesionalService {
     private ModelMapper mapper;
 
     @Override
+    @Cacheable(value = "escuela", key = "'all'", cacheManager = "listCacheManager")
     public List<EscuelaProfesionalResponse> getAll() {
         return repository.findByEliminadoFalse()
                 .stream()
@@ -34,12 +38,15 @@ public class EscuelaProfesionalService implements IEscuelaProfesionalService {
     }
 
     @Override
+    @Cacheable(value = "escuelaId", key = "#id", cacheManager = "objectCacheManager", unless = "#result == null")
     public EscuelaProfesionalResponse getById(Integer id) {
         EscuelaProfesionalModel escuela = checkExistsById(id);
         return mapper.map(escuela, EscuelaProfesionalResponse.class);
     }
 
     @Override
+    @CachePut(value = "escuelaId", key = "#result.id", cacheManager = "objectCacheManager")
+    @CacheEvict(value = { "escuela", "escuelaByFacultad" }, allEntries = true)
     public EscuelaProfesionalResponse add(EscuelaProfesionalRequest request) {
         checkExistsByNombre(request.getNombre(), 0);
 
@@ -52,6 +59,8 @@ public class EscuelaProfesionalService implements IEscuelaProfesionalService {
     }
 
     @Override
+    @CachePut(value = "escuelaId", key = "#id", cacheManager = "objectCacheManager")
+    @CacheEvict(value = { "escuela", "escuelaByFacultad" }, allEntries = true)
     public EscuelaProfesionalResponse update(Integer id, EscuelaProfesionalRequest request) {
         checkExistsByNombre(request.getNombre(), id);
         EscuelaProfesionalModel escuela = checkExistsById(id);
@@ -64,24 +73,28 @@ public class EscuelaProfesionalService implements IEscuelaProfesionalService {
     }
 
     @Override
+    @CacheEvict(value = { "escuelaId", "escuela", "escuelaByFacultad" }, allEntries = true)
     public void delete(Integer id) {
         checkExistsById(id);
         repository.softDelete(id);
     }
 
     @Override
+    @CacheEvict(value = { "escuelaId", "escuela", "escuelaByFacultad" }, allEntries = true)
     public void activate(Integer id) {
         checkExistsById(id);
         repository.activate(id);
     }
 
     @Override
+    @CacheEvict(value = { "escuelaId", "escuela", "escuelaByFacultad" }, allEntries = true)
     public void deactivate(Integer id) {
         checkExistsById(id);
         repository.deactivate(id);
     }
 
     @Override
+    @Cacheable(value = "escuelaByFacultad", key = "#idFacultad", cacheManager = "listCacheManager")
     public List<EscuelaProfesionalResponse> getByIdFacultad(Integer idFacultad) {
         FacultadModel facultad = facultadRepository.findByIdAndEliminadoFalse(idFacultad).orElse(null);
         if (facultad == null) {

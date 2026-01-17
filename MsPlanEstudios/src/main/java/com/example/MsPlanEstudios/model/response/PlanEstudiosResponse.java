@@ -1,5 +1,7 @@
 package com.example.MsPlanEstudios.model.response;
 
+import java.time.LocalDateTime;
+
 import lombok.Data;
 
 @Data
@@ -9,8 +11,8 @@ public class PlanEstudiosResponse {
     private String nombre;
     private String año;
     private Boolean estado;
-    private Integer usuarioCreacion;
-    private Integer usuarioModificacion;
-    private String fechaCreacion;
-    private String fechaModificacion;
+    private String usuarioCreacion;
+    private String usuarioModificacion;
+    private LocalDateTime fechaCreacion;
+    private LocalDateTime fechaModificacion;
 }
