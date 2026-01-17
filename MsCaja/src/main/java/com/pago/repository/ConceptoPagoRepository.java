@@ -13,11 +13,11 @@ import com.pago.model.entity.ConceptoPagoModel;
 public interface ConceptoPagoRepository extends JpaRepository<ConceptoPagoModel, Serializable> {
     @Modifying
     @Transactional
-    @Query("UPDATE ConceptoPagoModel a SET a.activo = false WHERE a.concepto_pagoid = :id")
+    @Query("UPDATE ConceptoPagoModel a SET a.activo = false WHERE a.conceptopagoid = :id")
     public void desactivar(@Param("id") int id);
 
     @Modifying
     @Transactional
-    @Query("UPDATE ConceptoPagoModel a SET a.es_eliminado = true WHERE a.concepto_pagoid = :id")
+    @Query("UPDATE ConceptoPagoModel a SET a.es_eliminado = true WHERE a.conceptopagoid = :id")
     public void eliminar(@Param("id") int id);
 }

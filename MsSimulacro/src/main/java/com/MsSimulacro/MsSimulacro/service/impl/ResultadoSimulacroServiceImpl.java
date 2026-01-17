@@ -10,6 +10,9 @@ import com.MsSimulacro.MsSimulacro.entity.ResultadoSimulacro;
 import com.MsSimulacro.MsSimulacro.repository.ResultadoSimulacroRepository;
 import com.MsSimulacro.MsSimulacro.service.ResultadoSimulacroService;
 
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.CacheEvict;
+
 @Service
 public class ResultadoSimulacroServiceImpl implements ResultadoSimulacroService{
 
@@ -25,6 +28,7 @@ public class ResultadoSimulacroServiceImpl implements ResultadoSimulacroService{
     }
 
     @Override
+    @Cacheable(value = "resultadosPorSesion", key = "#sesionId")
     public List<ResultadoSimulacro> listarPorSesion(Long sesionId) {
         return resultadoSimulacroRepository.findAllBySesion_IdAndEsEliminadoFalse(sesionId);
     }
@@ -36,6 +40,7 @@ public class ResultadoSimulacroServiceImpl implements ResultadoSimulacroService{
     }
 
     @Override
+    @CacheEvict(value = "resultadosPorSesion", allEntries = true)
     public ResultadoSimulacro crear(ResultadoSimulacro resultado) {
         resultado.setActivo(true);
         resultado.setEsEliminado(false);
@@ -45,6 +50,7 @@ public class ResultadoSimulacroServiceImpl implements ResultadoSimulacroService{
     }
 
     @Override
+    @CacheEvict(value = "resultadosPorSesion", allEntries = true)
     public ResultadoSimulacro actualizar(Long id, ResultadoSimulacro resultado) {
         ResultadoSimulacro existente = resultadoSimulacroRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Resultado no encontrado"));
@@ -59,6 +65,7 @@ public class ResultadoSimulacroServiceImpl implements ResultadoSimulacroService{
     }
 
     @Override
+    @CacheEvict(value = "resultadosPorSesion", allEntries = true)
     public void eliminarLogico(Long id) {
         ResultadoSimulacro existente = resultadoSimulacroRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Resultado no encontrado"));

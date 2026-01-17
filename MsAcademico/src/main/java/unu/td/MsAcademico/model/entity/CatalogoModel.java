@@ -1,16 +1,15 @@
-package unu.td.msacademico.model.entity;
+package unu.td.MsAcademico.model.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EntityListeners;
 import jakarta.persistence.Table;
 import lombok.Data;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import lombok.EqualsAndHashCode;
 
 @Data
 @Entity
 @Table(name = "catalogo")
-@EntityListeners(AuditingEntityListener.class)
+@EqualsAndHashCode(callSuper=false)
 public class CatalogoModel extends BaseModel{
 
     @Column(nullable = false)

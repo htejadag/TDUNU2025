@@ -6,6 +6,20 @@
     "configurations": [
         {
             "type": "java",
+            "name": "MsTemplateApplication",
+            "request": "launch",
+            "mainClass": "tdunu.MsTemplate.MsTemplateApplication",
+            "projectName": "tdunu-MsTemplate"
+        },
+        {
+            "type": "java",
+            "name": "MsSesionSimulacroApplication",
+            "request": "launch",
+            "mainClass": "com.MsSimulacroExamen.ms_SesionSimulacro.MsSesionSimulacroApplication",
+            "projectName": "ms-SesionSimulacro"
+        },
+        {
+            "type": "java",
             "name": "MsGradosTitulosApplication",
             "request": "launch",
             "mainClass": "com.unu.ms.MsGradosTitulos.MsGradosTitulosApplication",

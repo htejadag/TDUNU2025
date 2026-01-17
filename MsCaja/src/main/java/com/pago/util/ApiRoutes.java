@@ -21,6 +21,11 @@ public class ApiRoutes {
     // CLASIFICADOR INGRESO - NO TOCAR
     public static final String CLA_INGRESO = "/ClasificadorIngreso";
 
+    // DEVOLUCION
+    public static final String DEVOLUCION = "/Devolucion";
+    // NOTA CREDITO
+    public static final String NOTA_CREDITO = "/NotaCredito";
+
   }
 
 }

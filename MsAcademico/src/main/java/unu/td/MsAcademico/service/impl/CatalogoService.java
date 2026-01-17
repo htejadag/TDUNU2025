@@ -1,18 +1,20 @@
-package unu.td.msacademico.service.impl;
+package unu.td.MsAcademico.service.impl;
 
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
-import unu.td.msacademico.model.entity.CatalogoModel;
-import unu.td.msacademico.model.request.CatalogoRequest;
-import unu.td.msacademico.model.response.CatalogoResponse;
-import unu.td.msacademico.repository.ICatalogoRepository;
-import unu.td.msacademico.service.ICatalogoService;
-import unu.td.msacademico.utils.CatalogoUtils;
-import unu.td.msacademico.utils.Mapper;
-import unu.td.msacademico.utils.Messages;
-import unu.td.msacademico.utils.exceptions.AlreadyExistsException;
-import unu.td.msacademico.utils.exceptions.NotFoundException;
+import unu.td.MsAcademico.model.entity.CatalogoModel;
+import unu.td.MsAcademico.model.request.CatalogoRequest;
+import unu.td.MsAcademico.model.response.CatalogoResponse;
+import unu.td.MsAcademico.repository.ICatalogoRepository;
+import unu.td.MsAcademico.service.ICatalogoService;
+import unu.td.MsAcademico.utils.Mapper;
+import unu.td.MsAcademico.utils.Messages;
+import unu.td.MsAcademico.utils.exceptions.AlreadyExistsException;
+import unu.td.MsAcademico.utils.exceptions.NotFoundException;
 
 import java.util.List;
 
@@ -24,6 +26,7 @@ public class CatalogoService implements ICatalogoService {
     private ModelMapper mapper;
 
     @Override
+    @Cacheable(value = "catalogoByCategoria", key = "#categoria", cacheManager = "listCacheManager")
     public List<CatalogoResponse> getAllByCategoria(String categoria) {
         return repository.findByCategoriaAndEliminadoFalse(categoria)
                 .stream()
@@ -32,6 +35,7 @@ public class CatalogoService implements ICatalogoService {
     }
 
     @Override
+    @Cacheable(value = "catalogo", key = "'all'", cacheManager = "listCacheManager")
     public List<CatalogoResponse> getAll() {
         return repository.findByEliminadoFalse()
                 .stream()
@@ -40,18 +44,20 @@ public class CatalogoService implements ICatalogoService {
     }
 
     @Override
+    @Cacheable(value = "catalogoId", key = "#id", cacheManager = "objectCacheManager", unless = "#result == null")
     public CatalogoResponse getById(Integer id) {
         CatalogoModel catalogo = checkExistsById(id);
         return mapper.map(catalogo, CatalogoResponse.class);
     }
 
     @Override
+    @CachePut(value = "catalogoId", key = "#result.id", cacheManager = "objectCacheManager")
+    @CacheEvict(value = { "catalogo", "catalogoByCategoria" }, allEntries = true)
     public CatalogoResponse add(CatalogoRequest request) {
         checkParameters(request, 0);
 
         CatalogoModel catalogo = mapper.map(request, CatalogoModel.class);
         Integer codigo = getLastCodigoByCategoria(request.getCategoria());
-        catalogo.setUsuarioCreacion(CatalogoUtils.IdUsuarioCreacion);
         catalogo.setCodigo(codigo);
         catalogo = repository.save(catalogo);
 
@@ -59,33 +65,37 @@ public class CatalogoService implements ICatalogoService {
     }
 
     @Override
+    @CachePut(value = "catalogoId", key = "#id", cacheManager = "objectCacheManager")
+    @CacheEvict(value = { "catalogo", "catalogoByCategoria" }, allEntries = true)
     public CatalogoResponse update(Integer id, CatalogoRequest request) {
         CatalogoModel catalogo = checkExistsById(id);
         checkParameters(request, catalogo.getId());
 
         catalogo = Mapper.Catalogo.requestToModel(catalogo, request);
-        catalogo.setUsuarioModificacion(CatalogoUtils.IdUsuarioModificacion);
         catalogo = repository.save(catalogo);
 
         return mapper.map(catalogo, CatalogoResponse.class);
     }
 
     @Override
+    @CacheEvict(value = { "catalogoId", "catalogo", "catalogoByCategoria" }, allEntries = true)
     public void delete(Integer id) {
         checkExistsById(id);
-        repository.softDelete(id, CatalogoUtils.IdUsuarioModificacion);
+        repository.softDelete(id);
     }
 
     @Override
+    @CacheEvict(value = { "catalogoId", "catalogo", "catalogoByCategoria" }, allEntries = true)
     public void activate(Integer id) {
         checkExistsById(id);
-        repository.activate(id, CatalogoUtils.IdUsuarioModificacion);
+        repository.activate(id);
     }
 
     @Override
+    @CacheEvict(value = { "catalogoId", "catalogo", "catalogoByCategoria" }, allEntries = true)
     public void deactivate(Integer id) {
         checkExistsById(id);
-        repository.deactivate(id, CatalogoUtils.IdUsuarioModificacion);
+        repository.deactivate(id);
     }
 
     private CatalogoModel checkExistsById(Integer id) {

@@ -10,6 +10,10 @@ import com.MsSimulacro.MsSimulacro.entity.SesionSimulacro;
 import com.MsSimulacro.MsSimulacro.repository.SesionSimulacroRepository;
 import com.MsSimulacro.MsSimulacro.service.SesionSimulacroService;
 
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.CacheEvict;
+
+
 @Service
 public class SesionSimulacroServiceImpl implements SesionSimulacroService{
     private final SesionSimulacroRepository sesionSimulacroRepository;
@@ -24,6 +28,7 @@ public class SesionSimulacroServiceImpl implements SesionSimulacroService{
     }
 
     @Override
+    @Cacheable(value = "sesionesPorSimulacro", key = "#simulacroId")
     public List<SesionSimulacro> listarPorSimulacro(Long simulacroId) {
         return sesionSimulacroRepository.findAllBySimulacro_IdAndEsEliminadoFalse(simulacroId);
     }
@@ -35,6 +40,7 @@ public class SesionSimulacroServiceImpl implements SesionSimulacroService{
     }
 
     @Override
+    @CacheEvict(value = "sesionesPorSimulacro", allEntries = true)
     public SesionSimulacro crear(SesionSimulacro sesion) {
         sesion.setActivo(true);
         sesion.setEsEliminado(false);
@@ -44,6 +50,7 @@ public class SesionSimulacroServiceImpl implements SesionSimulacroService{
     }
 
     @Override
+    @CacheEvict(value = "sesionesPorSimulacro", allEntries = true)
     public SesionSimulacro actualizar(Long id, SesionSimulacro sesion) {
         SesionSimulacro existente = sesionSimulacroRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Sesión de simulacro no encontrada"));
@@ -60,6 +67,7 @@ public class SesionSimulacroServiceImpl implements SesionSimulacroService{
     }
 
     @Override
+    @CacheEvict(value = "sesionesPorSimulacro", allEntries = true)
     public void eliminarLogico(Long id) {
         SesionSimulacro existente = sesionSimulacroRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Sesión de simulacro no encontrada"));

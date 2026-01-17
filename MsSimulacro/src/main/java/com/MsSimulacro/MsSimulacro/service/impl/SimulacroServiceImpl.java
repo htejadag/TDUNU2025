@@ -10,6 +10,11 @@ import com.MsSimulacro.MsSimulacro.entity.Simulacro;
 import com.MsSimulacro.MsSimulacro.repository.SimulacroRepository;
 import com.MsSimulacro.MsSimulacro.service.SimulacroService;
 
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.CacheEvict;
+
+
+
 @Service
 public class SimulacroServiceImpl implements SimulacroService{
     private final SimulacroRepository simulacroRepository;
@@ -19,6 +24,7 @@ public class SimulacroServiceImpl implements SimulacroService{
     }
 
     @Override
+    @Cacheable(value = "simulacros")
     public List<Simulacro> listarTodos() {
         return simulacroRepository.findAllByEsEliminadoFalse();
     }
@@ -30,6 +36,7 @@ public class SimulacroServiceImpl implements SimulacroService{
     }
 
     @Override
+    @CacheEvict(value = "simulacros", allEntries = true)
     public Simulacro crear(Simulacro simulacro) {
         simulacro.setActivo(true);
         simulacro.setEsEliminado(false);
@@ -39,6 +46,7 @@ public class SimulacroServiceImpl implements SimulacroService{
     }
 
     @Override
+    @CacheEvict(value = "simulacros", allEntries = true)
     public Simulacro actualizar(Long id, Simulacro simulacro) {
         Simulacro existente = simulacroRepository.findById(id).orElseThrow(()
         -> new RuntimeException("Simulacro no encontrado"));
@@ -50,6 +58,7 @@ public class SimulacroServiceImpl implements SimulacroService{
     }
 
     @Override
+    @CacheEvict(value = "simulacros", allEntries = true)
     public void eliminarLogico(Long id) {
         Simulacro existente = simulacroRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Simulacro no encontrado"));
