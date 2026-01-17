@@ -1,5 +1,7 @@
 package com.unu.MsDocumentos.model;
 
+import org.springframework.data.mongodb.core.mapping.Document;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,6 +11,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Document(collection = "archivos")
 public class Archivo extends AuditoriaEstado {
 
     private Integer version;

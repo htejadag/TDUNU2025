@@ -17,8 +17,8 @@ public class DocumentoRequest {
     private String correlativo;
     private LocalDateTime fechaEmision;
     private String expedienteId;
-    private Integer tipoDocumentoId;
-    private String oficinaOrigenId;
+    private String tipoDocumento;
+    private String oficinaOrigen;
     private String asunto;
     private String referencia;
 

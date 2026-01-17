@@ -29,11 +29,11 @@ public class Documento extends AuditoriaEstado {
     @Field("expediente_id")
     private String expedienteId;
 
-    @Field("tipo_documento_id")
-    private Integer tipoDocumentoId;
+    @Field("tipo_documento")
+    private String tipoDocumento;
 
     @Field("oficina_origen_id")
-    private String oficinaOrigenId;
+    private String oficinaOrigen;
 
     private String asunto;
 

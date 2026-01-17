@@ -2,7 +2,7 @@ package com.unu.MsDocumentos.service;
 
 import com.unu.MsDocumentos.model.Archivo;
 import com.unu.MsDocumentos.model.Documento;
-import com.unu.MsDocumentos.model.request.DocumentoRequest; // Solo si usas actualizarMetadatos
+import com.unu.MsDocumentos.model.request.DocumentoRequest;
 
 import java.util.List;
 
