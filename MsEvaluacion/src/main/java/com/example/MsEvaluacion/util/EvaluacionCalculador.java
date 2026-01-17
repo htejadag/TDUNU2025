@@ -8,20 +8,23 @@ public class EvaluacionCalculador {
         if (notasPracticas == null || notasPracticas.isEmpty()) {
             return null;
         }
-        
+
         double suma = notasPracticas.stream()
                 .mapToDouble(Double::doubleValue)
                 .sum();
-        
-        return suma / notasPracticas.size();
+
+        double promedio = suma / notasPracticas.size();
+        return Math.round(promedio * 100.0) / 100.0;
     }
 
-    public static Double calcularPromedioFinal(Double promedioPracticas, Double notaExamenParcial, Double notaExamenFinal) {
+    public static Double calcularPromedioFinal(Double promedioPracticas, Double notaExamenParcial,
+            Double notaExamenFinal) {
         if (promedioPracticas == null || notaExamenParcial == null || notaExamenFinal == null) {
             return null;
         }
-        
-        return (promedioPracticas + notaExamenParcial + notaExamenFinal) / 3.0;
+
+        double promedio = (promedioPracticas + notaExamenParcial + notaExamenFinal) / 3.0;
+        return Math.round(promedio * 100.0) / 100.0;
     }
 
     public static boolean esNotaValida(Double nota) {

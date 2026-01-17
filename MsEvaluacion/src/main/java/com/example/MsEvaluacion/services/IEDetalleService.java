@@ -6,14 +6,16 @@ import com.example.MsEvaluacion.model.request.EDetalleResquest;
 import com.example.MsEvaluacion.model.response.EDetalleResponse;
 
 public interface IEDetalleService {
-    
+
     List<EDetalleResponse> listar();
-    
+
     List<EDetalleResponse> listarPorEvaluacion(String evaluacion);
 
     EDetalleResponse obtenerPorId(String id);
 
-    EDetalleResponse guardar(EDetalleResquest eDetalleRequest);  
-    
+    EDetalleResponse guardar(EDetalleResquest eDetalleRequest);
+
+    EDetalleResponse actualizar(String id, EDetalleResquest eDetalleRequest);
+
     void eliminar(String id);
 }

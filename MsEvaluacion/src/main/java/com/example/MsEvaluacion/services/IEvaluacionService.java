@@ -11,8 +11,11 @@ public interface IEvaluacionService {
 
     EvaluacionResponse obtenerPorId(String id);
 
-    EvaluacionResponse guardar(EvaluacionRequest evaluacionRequest);  
-    
+    EvaluacionResponse guardar(EvaluacionRequest evaluacionRequest);
+
+    EvaluacionResponse actualizar(String id, EvaluacionRequest evaluacionRequest);
+
     void eliminar(String id);
 
+    void calcularPromedioFinal(String evaluacionId);
 }

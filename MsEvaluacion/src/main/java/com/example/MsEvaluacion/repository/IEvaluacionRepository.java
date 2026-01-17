@@ -7,5 +7,8 @@ import com.example.MsEvaluacion.model.entity.EvaluacionModel;
 
 @Repository
 public interface IEvaluacionRepository extends MongoRepository<EvaluacionModel, String> {
+    long countByIdCursoDetalle(String idCursoDetalle);
+
+    long countByIdCursoDetalleAndPromedioFinalNotNull(String idCursoDetalle);
 
 }

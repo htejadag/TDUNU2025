@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -38,13 +39,13 @@ public class EvaluacionController {
         return evaluacionService.guardar(evaluacion);
     }
 
-    
+    @PutMapping(Routes.evaluacion.ACTUALIZAR)
+    public EvaluacionResponse actualizar(@PathVariable String id, @RequestBody EvaluacionRequest evaluacion) {
+        return evaluacionService.actualizar(id, evaluacion);
+    }
+
     public void eliminar(String id) {
         evaluacionService.eliminar(id);
     }
 
-    
-
-    
-    
 }

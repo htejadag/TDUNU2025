@@ -7,11 +7,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.MsEvaluacion.services.IEDetalleService; 
+import com.example.MsEvaluacion.services.IEDetalleService;
 import com.example.MsEvaluacion.model.request.EDetalleResquest;
 import com.example.MsEvaluacion.model.response.EDetalleResponse;
 import com.example.MsEvaluacion.util.Routes;
@@ -21,10 +22,10 @@ import com.example.MsEvaluacion.util.Routes;
 public class EvaluacionDetalleController {
 
     @Autowired
-    private IEDetalleService eDetalleService; 
+    private IEDetalleService eDetalleService;
 
     @GetMapping(Routes.evaluacionDetalle.ELIMINAR)
-    public ResponseEntity<Void> eliminar(@PathVariable String id) { 
+    public ResponseEntity<Void> eliminar(@PathVariable String id) {
         eDetalleService.eliminar(id);
         return ResponseEntity.ok().build();
     }
@@ -32,6 +33,12 @@ public class EvaluacionDetalleController {
     @PostMapping(Routes.evaluacionDetalle.GUARDAR)
     public ResponseEntity<EDetalleResponse> guardar(@RequestBody EDetalleResquest eDetalleRequest) {
         return ResponseEntity.ok(eDetalleService.guardar(eDetalleRequest));
+    }
+
+    @PutMapping(Routes.evaluacionDetalle.ACTUALIZAR)
+    public ResponseEntity<EDetalleResponse> actualizar(@PathVariable String id,
+            @RequestBody EDetalleResquest eDetalleRequest) {
+        return ResponseEntity.ok(eDetalleService.actualizar(id, eDetalleRequest));
     }
 
     @GetMapping(Routes.evaluacionDetalle.LISTAR)
