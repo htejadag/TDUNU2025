@@ -1,4 +1,4 @@
-package com.example.mscursos.service.Imp;
+package com.example.mscursos.service.impl;
 
 import java.util.List;
 
@@ -119,4 +119,10 @@ public class CursoServiceImpl implements CursoService {
         cursoRepository.deleteById(id);
     }
 
+    @Override
+    public String obtenerNombreCursoPorId(Integer id) {
+        return cursoRepository.findById(id)
+                .map(CursoModel::getNombre)
+                .orElse(null);
+    }
 }

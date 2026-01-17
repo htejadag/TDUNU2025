@@ -49,9 +49,11 @@ public class CursoModel {
     @Column(name = "horasPracticas")
     private Integer horasPracticas;
 
+    @Builder.Default
     @Column(name = "estado", nullable = false)
     private Boolean estado = true;
 
+    @Builder.Default
     @Embedded
     private AuditoriaModel auditoria = new AuditoriaModel();
 }

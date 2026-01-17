@@ -66,10 +66,16 @@ public class CatalogoController {
         return (res == null) ? ResponseEntity.notFound().build() : ResponseEntity.ok(res);
     }
 
-    @PatchMapping(ApiRoutes.Catalogo.CAMBIAR_ESTADO)
-    public ResponseEntity<Void> cambiarEstado(@PathVariable Integer id, @RequestParam Boolean estado) {
-        catalogoService.cambiarEstado(id, estado);
-        return ResponseEntity.ok().build();
+    @PatchMapping(ApiRoutes.Catalogo.ACTIVAR)
+    public ResponseEntity<CatalogoResponse> activar(@PathVariable Integer id) {
+        CatalogoResponse res = catalogoService.activar(id);
+        return (res == null) ? ResponseEntity.notFound().build() : ResponseEntity.ok(res);
+    }
+
+    @PatchMapping(ApiRoutes.Catalogo.DESACTIVAR)
+    public ResponseEntity<CatalogoResponse> desactivar(@PathVariable Integer id) {
+        CatalogoResponse res = catalogoService.desactivar(id);
+        return (res == null) ? ResponseEntity.notFound().build() : ResponseEntity.ok(res);
     }
 
     @DeleteMapping(ApiRoutes.Catalogo.ELIMINAR)

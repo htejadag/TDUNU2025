@@ -24,7 +24,7 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 @EnableCaching
 public class CacheConfig {
 
-        @Bean//convertidor de objetos a json
+        @Bean // convertidor de objetos a json
         public ObjectMapper redisObjectMapper() {
                 ObjectMapper mapper = new ObjectMapper();
                 mapper.registerModule(new JavaTimeModule());
@@ -32,22 +32,23 @@ public class CacheConfig {
                 return mapper;
         }
 
-        @Bean//crud de cache que el spring usa
+        @Bean // crud de cache que el spring usa
         public CacheManager cacheManager(RedisConnectionFactory redisConnectionFactory,
                         ObjectMapper redisObjectMapper) {
 
-                var keySerializer = new StringRedisSerializer();//la clave en tipo texto
-                var valueSerializer = new GenericJackson2JsonRedisSerializer(redisObjectMapper);//el valor en json
+                var keySerializer = new StringRedisSerializer();// la clave en tipo texto
+                var valueSerializer = new GenericJackson2JsonRedisSerializer(redisObjectMapper);// el valor en json
 
                 RedisCacheConfiguration config = RedisCacheConfiguration.defaultCacheConfig()
-                                .entryTtl(Duration.ofMinutes(10))//tiempo de vida del cache
+                                .entryTtl(Duration.ofMinutes(10))// tiempo de vida del cache
                                 .serializeKeysWith(RedisSerializationContext.SerializationPair
-                                                .fromSerializer(keySerializer))//configuracion de serializacion de claves
+                                                .fromSerializer(keySerializer))// configuracion de serializacion de
+                                                                               // claves
                                 .serializeValuesWith(RedisSerializationContext.SerializationPair
-                                                .fromSerializer(valueSerializer));//configuracion de serializacion de valores
+                                                .fromSerializer(valueSerializer));
 
                 return RedisCacheManager.builder(redisConnectionFactory)
                                 .cacheDefaults(config)
-                                .build();//crea el administrador de cache con la configuracion dada
+                                .build();// crea el administrador de cache con la configuracion dada
         }
 }

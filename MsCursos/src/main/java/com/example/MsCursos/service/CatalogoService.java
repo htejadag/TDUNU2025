@@ -22,7 +22,10 @@ public interface CatalogoService {
 
     CatalogoResponse actualizar(Integer id, CatalogoRequest request);
 
-    void cambiarEstado(Integer id, Boolean estado);
 
     void eliminar(Integer id);
+
+    CatalogoResponse activar(Integer id);
+
+    CatalogoResponse desactivar(Integer id);
 }

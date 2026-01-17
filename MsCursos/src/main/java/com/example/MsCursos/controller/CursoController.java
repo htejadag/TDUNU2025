@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -66,4 +67,11 @@ public class CursoController {
         }
         return cursoService.listar();
     }
+
+    @GetMapping(ApiRoutes.Curso.NOMBRE_POR_ID)
+    public ResponseBase<String> obtenerNombreCursoPorId(@PathVariable Integer id) {
+        String nombre = cursoService.obtenerNombreCursoPorId(id);
+        return ResponseBase.ok(nombre);
+    }
+
 }

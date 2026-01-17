@@ -22,7 +22,7 @@ public class EvaluacionFinalConsumer {
 
         log.info("Evento EvaluacionFinal recibido correctamente: {}", event);
 
-        if (!"FINALIZADA".equals(event.getAction())) {
+        if (!"CURSO_COMPLETADO".equals(event.getAction())) {
             return;
         }
 

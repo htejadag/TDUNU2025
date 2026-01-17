@@ -11,7 +11,7 @@ public class CursoDetalleEvent {
     private Integer idDetalleCurso;
     private Integer idCurso;
     private Integer idSemestre;
-
+    private Integer idTipoCurso;
     private Boolean estado;
     private Long timestamp;
 }

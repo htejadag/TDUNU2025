@@ -24,6 +24,7 @@ public interface CursoService {
 
     void upsertDesdeKafka(CursoPayload payload);
 
-
     void deleteDesdeKafka(Integer id);
+    
+    String obtenerNombreCursoPorId(Integer id);
 }

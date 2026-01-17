@@ -1,4 +1,4 @@
-package com.example.mscursos.service.Imp;
+package com.example.mscursos.service.impl;
 
 import java.util.List;
 
@@ -102,22 +102,9 @@ public class CatalogoServiceImpl implements CatalogoService {
         model.setNombre(request.getNombre());
         model.setOrden(request.getOrden());
         model.setIdPadre(request.getIdPadre());
-        if (request.getEstado() != null)
-            model.setEstado(request.getEstado());
 
         CatalogoModel saved = catalogoRepository.save(model);
         return modelMapper.map(saved, CatalogoResponse.class);
-    }
-
-    @Override
-    @Transactional
-    @CacheEvict(cacheNames = "catalogo", allEntries = true)
-    public void cambiarEstado(Integer id, Boolean estado) {
-        CatalogoModel model = catalogoRepository.findById(id).orElse(null);
-        if (model == null)
-            return;
-        model.setEstado(estado);
-        catalogoRepository.save(model);
     }
 
     @Override
@@ -125,4 +112,31 @@ public class CatalogoServiceImpl implements CatalogoService {
     public void eliminar(Integer id) {
         catalogoRepository.deleteById(id);
     }
+
+    @Override
+    @Transactional
+    @CacheEvict(cacheNames = "catalogo", allEntries = true)
+    public CatalogoResponse activar(Integer id) {
+        CatalogoModel model = catalogoRepository.findById(id).orElse(null);
+        if (model == null)
+            return null;
+
+        model.setEstado(true);
+        CatalogoModel saved = catalogoRepository.save(model);
+        return modelMapper.map(saved, CatalogoResponse.class);
+    }
+
+    @Override
+    @Transactional
+    @CacheEvict(cacheNames = "catalogo", allEntries = true)
+    public CatalogoResponse desactivar(Integer id) {
+        CatalogoModel model = catalogoRepository.findById(id).orElse(null);
+        if (model == null)
+            return null;
+
+        model.setEstado(false);
+        CatalogoModel saved = catalogoRepository.save(model);
+        return modelMapper.map(saved, CatalogoResponse.class);
+    }
+
 }

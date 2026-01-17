@@ -8,7 +8,6 @@ import org.springframework.stereotype.Component;
 
 import com.example.mscursos.dto.CursoEvent;
 import com.example.mscursos.dto.CursoPayload;
-import com.example.mscursos.model.request.CursoRequest;
 import com.example.mscursos.service.CursoService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -33,7 +32,7 @@ public class CursosConsumerListener {
                     record.value(),
                     CursoEvent.class);
 
-            CursoPayload curso = event.getCurso(); // 👈 AQUÍ ESTÁ EL PAYLOAD REAL
+            CursoPayload curso = event.getCurso();
 
             if ("UPSERT".equals(event.getType())) {
                 cursoService.upsertDesdeKafka(curso);

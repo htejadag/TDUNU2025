@@ -1,6 +1,5 @@
 package com.example.mscursos.model.entity;
 
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
@@ -37,12 +36,14 @@ public class CatalogoModel {
     @Column(name = "orden")
     private Integer orden;
 
-    @Column(name = "idPadre", nullable = false)
-    private String idPadre;
+    @Column(name = "idPadre", nullable = true)
 
+    private Integer idPadre;
+    @Builder.Default
     @Column(name = "estado", nullable = false)
     private Boolean estado = true;
-    
+
+    @Builder.Default
     @Embedded
     private AuditoriaModel auditoria = new AuditoriaModel();
 }

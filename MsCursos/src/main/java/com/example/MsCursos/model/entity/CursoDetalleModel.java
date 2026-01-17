@@ -1,6 +1,5 @@
 package com.example.mscursos.model.entity;
 
-
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -35,9 +34,11 @@ public class CursoDetalleModel {
     @Column(name = "idSemestre")
     private Integer idSemestre;
 
+    @Builder.Default
     @Column(name = "estado", nullable = false)
     private Boolean estado = true;
 
+    @Builder.Default
     @Embedded
     private AuditoriaModel auditoria = new AuditoriaModel();
 }

@@ -22,7 +22,6 @@ public class CatalogoRequest {
     private Integer orden;
 
     @NotNull
-    private String idPadre;
+    private Integer idPadre;
 
-    private Boolean estado; 
 }

@@ -24,7 +24,7 @@ import com.example.mscursos.service.CursoDetalleService;
 @RequestMapping(ApiRoutes.CursoDetalle.BASE)
 @RequiredArgsConstructor
 public class CursoDetalleController {
-    // @Autowired
+
     public final CursoDetalleService cursoDetalleService;
 
     @GetMapping(value = ApiRoutes.CursoDetalle.LISTAR)
@@ -46,9 +46,9 @@ public class CursoDetalleController {
     }
 
     @DeleteMapping(value = ApiRoutes.CursoDetalle.ELIMINAR)
-    public CursoDetalleResponse eliminar(@RequestParam(value = "id") Integer id) {
+    public ResponseBase<Void> eliminar(@RequestParam(value = "id") Integer id) {
         cursoDetalleService.eliminar(id);
-        return null;
+        return ResponseBase.ok("Curso detalle eliminado correctamente", null);
     }
 
 }

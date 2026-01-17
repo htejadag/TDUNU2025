@@ -3,7 +3,7 @@ package com.example.mscursos.util;
 public final class ApiRoutes {
 
     private ApiRoutes() {
-       
+
     }
 
     public static final class Curso {
@@ -16,6 +16,8 @@ public final class ApiRoutes {
         public static final String GUARDAR = "/guardar";
         public static final String ELIMINAR = "/eliminar";
         public static final String BUSCAR = "/buscar";
+        public static final String NOMBRE_POR_ID = "/nombre/{id}";
+
     }
 
     public static final class CursoDetalle {
@@ -42,7 +44,8 @@ public final class ApiRoutes {
         public static final String POR_PADRE = "/padre/{idPadre}";
         public static final String GUARDAR = "/guardar";
         public static final String ACTUALIZAR = "/actualizar/{id}";
-        public static final String CAMBIAR_ESTADO = "/cambiar-estado/{id}";
+        public static final String ACTIVAR = "/activar/{id}";
+        public static final String DESACTIVAR = "/desactivar/{id}";
         public static final String ELIMINAR = "/eliminar/{id}";
     }
 }

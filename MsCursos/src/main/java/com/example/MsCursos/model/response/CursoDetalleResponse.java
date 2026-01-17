@@ -14,5 +14,6 @@ public class CursoDetalleResponse {
     private Integer idDocente;
     private Integer idCurso;
     private Integer idSemestre;
+    private Integer idTipoCurso;
     private Boolean estado;
 }

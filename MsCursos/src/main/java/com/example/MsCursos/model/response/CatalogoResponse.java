@@ -14,6 +14,6 @@ public class CatalogoResponse {
     private String categoria;
     private String nombre;
     private Integer orden;
-    private String idPadre;
+    private Integer idPadre;
     private Boolean estado;
 }

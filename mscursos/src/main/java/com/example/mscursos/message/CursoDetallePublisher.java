@@ -23,5 +23,6 @@ public class CursoDetallePublisher {
         String key = String.valueOf(event.getIdCurso());
         kafkaTemplate.send(topic, key, event);
         log.info("EVENTO ENVIADO A KAFKA [{}] -> {}", topic, event);
+        
     }
 }

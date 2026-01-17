@@ -31,6 +31,13 @@ public class ResponseBase<T> {
                 .build();
     }
 
+    public static ResponseBase<Void> ok() {
+        return ResponseBase.<Void>builder()
+                .success(true)
+                .message("Operación exitosa")
+                .build();
+    }
+
     public static <T> ResponseBase<T> error(String message) {
         return ResponseBase.<T>builder()
                 .success(false)
