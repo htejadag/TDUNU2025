@@ -28,9 +28,6 @@
 	</scm>
 	<properties>
 		<java.version>25</java.version>
-		<sonar.projectKey>MsGeneral</sonar.projectKey>
-		<sonar.host.url>http://localhost:9000</sonar.host.url>
-		<sonar.sourceEncoding>UTF-8</sonar.sourceEncoding>
 	</properties>
 
 	<dependencies>
@@ -128,11 +125,6 @@
 						</exclude>
 					</excludes>
 				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.sonarsource.scanner.maven</groupId>
-				<artifactId>sonar-maven-plugin</artifactId>
-				<version>4.0.0.4121</version>
 			</plugin>
 		</plugins>
 	</build>
