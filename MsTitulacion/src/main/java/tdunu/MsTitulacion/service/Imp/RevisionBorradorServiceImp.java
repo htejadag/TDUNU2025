@@ -8,6 +8,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import tdunu.MsTitulacion.helper.NotificacionHelper;
 import tdunu.MsTitulacion.model.entity.RevisionBorrador;
 import tdunu.MsTitulacion.model.request.RevisionBorradorRequest;
 import tdunu.MsTitulacion.model.response.RevisionBorradorResponse;
@@ -23,6 +24,9 @@ public class RevisionBorradorServiceImp implements RevisionBorradorService{
     @Autowired
     private ModelMapper modelMapper;
 
+    @Autowired
+    private NotificacionHelper notificacionHelper;
+
     @Override
     public List<RevisionBorradorResponse> listar(){
         return revisionBorradorRepository.findAll()
@@ -35,8 +39,12 @@ public class RevisionBorradorServiceImp implements RevisionBorradorService{
         RevisionBorrador model = modelMapper.map(request, RevisionBorrador.class);
         model.setIdRevisionBorrador(0);
         RevisionBorrador saved = revisionBorradorRepository.save(model);
+
+        notificacionHelper.notificarResultadoRevision(saved);
         return modelMapper.map(saved, RevisionBorradorResponse.class);
     }
+
+    //esto es extra
     @Override
     public RevisionBorradorResponse actualizar(int id,RevisionBorradorRequest request){
         RevisionBorrador modelActual = revisionBorradorRepository.findById(id).orElse(null);
