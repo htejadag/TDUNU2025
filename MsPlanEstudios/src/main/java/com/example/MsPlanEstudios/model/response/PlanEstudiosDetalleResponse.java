@@ -1,5 +1,6 @@
 package com.example.MsPlanEstudios.model.response;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import lombok.Data;
@@ -12,10 +13,10 @@ public class PlanEstudiosDetalleResponse {
     private Integer idCiclo;
     private Integer idTipoCursoPlan;
     private Boolean estado;
-    private Integer usuarioCreacion;
-    private Integer usuarioModificacion;
-    private String fechaCreacion;
-    private String fechaModificacion;
+    private String usuarioCreacion;
+    private String usuarioModificacion;
+    private LocalDateTime fechaCreacion;
+    private LocalDateTime fechaModificacion;
     private Integer creditos;
     private Integer horasTeoricas;
     private Integer horasPracticas;

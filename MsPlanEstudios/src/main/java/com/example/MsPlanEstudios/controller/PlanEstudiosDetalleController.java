@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.MsPlanEstudios.model.request.PlanEstudiosDetalleRequest;
 import com.example.MsPlanEstudios.model.response.PlanEstudiosDetalleResponse;
+import com.example.MsPlanEstudios.model.response.MallaPlanResponse;
 import com.example.MsPlanEstudios.service.PlanEstudiosDetalleService;
 import com.example.MsPlanEstudios.util.ApiRoutes;
 
@@ -58,9 +59,9 @@ public class PlanEstudiosDetalleController {
     }
 
     @GetMapping("/malla/{idPlanEstudio}")
-    public ResponseEntity<List<PlanEstudiosDetalleResponse>> obtenerMallaPorPlan(@PathVariable Integer idPlanEstudio) {
+    public ResponseEntity<MallaPlanResponse> obtenerMallaPorPlan(@PathVariable Integer idPlanEstudio) {
 
         return ResponseEntity.ok(
-                planestudiosdetalleService.listarMallaPorPlan(idPlanEstudio));
+                planestudiosdetalleService.obtenerMallaAnidadaPorPlan(idPlanEstudio));
     }
 }

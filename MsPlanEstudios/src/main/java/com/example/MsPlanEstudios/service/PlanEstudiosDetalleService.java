@@ -12,4 +12,7 @@ public interface PlanEstudiosDetalleService {
     PlanEstudiosDetalleResponse modificar(Integer id, PlanEstudiosDetalleRequest plan);
     void eliminar(Integer id);
     List<PlanEstudiosDetalleResponse> listarMallaPorPlan(Integer idPlanEstudio);
+
+    // Nuevo: retorna la malla anidada por ciclos y cursos (trabajando con ids)
+    com.example.MsPlanEstudios.model.response.MallaPlanResponse obtenerMallaAnidadaPorPlan(Integer idPlanEstudio);
 }

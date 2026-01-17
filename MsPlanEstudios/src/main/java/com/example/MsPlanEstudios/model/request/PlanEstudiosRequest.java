@@ -8,8 +8,4 @@ public class PlanEstudiosRequest {
     private String nombre;
     private String año;
     private Boolean estado;
-    private Integer usuarioCreacion;
-    private Integer usuarioModificacion;
-    private String fechaCreacion;
-    private String fechaModificacion;
 }
