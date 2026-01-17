@@ -14,8 +14,6 @@ public class JpaAuditingConfig {
     @Bean
     public AuditorAware<String> auditorAware() {
         // Retorna el usuario actual. Por ahora retorna "SYSTEM" como default
-        // Puede mejorarse integrando con SecurityContext para obtener usuario
-        // autenticado
         return () -> Optional.of("SYSTEM");
     }
 }

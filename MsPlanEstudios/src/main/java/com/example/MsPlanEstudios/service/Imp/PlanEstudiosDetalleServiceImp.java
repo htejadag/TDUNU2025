@@ -66,12 +66,12 @@ public class PlanEstudiosDetalleServiceImp implements PlanEstudiosDetalleService
 
     @Override
     public PlanEstudiosDetalleResponse guardar(PlanEstudiosDetalleRequest request) {
-        // 1️⃣ Obtener ciclo desde catálogo
+        // 1. Obtener ciclo desde catálogo
         CatalogoModel ciclo = catalogoRepository
                 .findByIdAndEstadoTrue(request.getIdCiclo())
                 .orElseThrow(() -> new RuntimeException("Ciclo no válido"));
 
-        // 2️⃣ Crear entity MANUALMENTE
+        // 2️. Crear entity MANUALMENTE
         PlanEstudiosDetalleModel model = new PlanEstudiosDetalleModel();
 
         model.setIdPlanEstudio(request.getIdPlanEstudio());
@@ -83,17 +83,17 @@ public class PlanEstudiosDetalleServiceImp implements PlanEstudiosDetalleService
         model.setHorasPracticas(request.getHorasPracticas());
         model.setOrdenEnCiclo(request.getOrdenEnCiclo());
 
-        // 3️⃣ Guardar
+        // 3️. Guardar
         PlanEstudiosDetalleModel saved = planestudiosdetalleRepository.save(model);
 
-        // 4.1 Enviar a Kafka
+        // 4. Enviar a Kafka
         cursoDetalleEvent event = cursoDetalleEvent.builder()
                 .idDetalleCurso(saved.getId())
                 .cursoNombre(request.getCursoNombre())
                 .build();
         cursoDetallePublisher.publish(event);
 
-        // 4️⃣ Response (AQUÍ SÍ PUEDE USARSE ModelMapper)
+        // 4️. Response (AQUÍ SÍ PUEDE USARSE ModelMapper)
         return modelMapper.map(saved, PlanEstudiosDetalleResponse.class);
     }
 
