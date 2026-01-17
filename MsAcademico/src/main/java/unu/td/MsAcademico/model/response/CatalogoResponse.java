@@ -2,8 +2,10 @@ package unu.td.MsAcademico.model.response;
 
 import lombok.Data;
 
+import java.io.Serializable;
+
 @Data
-public class CatalogoResponse {
+public class CatalogoResponse implements Serializable {
     private Integer id;
     private String categoria;
     private Integer codigo;
@@ -11,4 +13,5 @@ public class CatalogoResponse {
     private String abreviatura;
     private Integer valor;
     private Integer orden;
+    private Boolean activo;
 }
