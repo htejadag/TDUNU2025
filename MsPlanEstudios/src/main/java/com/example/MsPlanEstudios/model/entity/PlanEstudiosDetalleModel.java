@@ -10,11 +10,13 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
+@EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "plan_estudiodetalle")
-public class PlanEstudiosDetalleModel {
+public class PlanEstudiosDetalleModel extends AuditoriaModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -36,19 +38,7 @@ public class PlanEstudiosDetalleModel {
     @Column(name = "estado")
     private Boolean estado;
 
-    @Column(name = "usuarioCreacion")
-    private Integer usuarioCreacion;
-
-    @Column(name = "usuarioModificacion")
-    private Integer usuarioModificacion;
-
-    @Column(name = "fechaCreacion")
-    private String fechaCreacion;
-
-    @Column(name = "fechaModificacion")
-    private String fechaModificacion;
-
-    @Column(name = "creditos",nullable = false)
+    @Column(name = "creditos", nullable = false)
     private Integer creditos;
 
     @Column(nullable = false)

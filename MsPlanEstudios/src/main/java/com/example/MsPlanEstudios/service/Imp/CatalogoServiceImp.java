@@ -10,13 +10,16 @@ import com.example.MsPlanEstudios.model.request.CatalogoRequest;
 import com.example.MsPlanEstudios.model.response.CatalogoResponse;
 import com.example.MsPlanEstudios.repository.CatalogoRepository;
 import com.example.MsPlanEstudios.service.CatalogoService;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 
 @Service
-public class CatalogoServiceImp implements CatalogoService{
+public class CatalogoServiceImp implements CatalogoService {
     @Autowired
     private CatalogoRepository repository;
 
     @Override
+    @CacheEvict(value = "catalogos_por_categoria", allEntries = true)
     public CatalogoResponse guardar(CatalogoRequest r) {
         CatalogoModel c = new CatalogoModel();
         c.setCategoria(r.getCategoria());
@@ -31,7 +34,9 @@ public class CatalogoServiceImp implements CatalogoService{
     }
 
     @Override
+    @Cacheable(value = "catalogos_por_categoria", key = "#categoria")
     public List<CatalogoResponse> listarPorCategoria(Integer categoria) {
+        System.out.println("--> CONSULTANDO A POSTGRES (Listar por Categoria) <--");
         return repository.findByIdAndEstadoTrue(categoria)
                 .stream().map(this::map).toList();
     }

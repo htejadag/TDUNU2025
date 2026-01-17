@@ -1,7 +1,6 @@
 package com.example.MsPlanEstudios.service.Imp;
 
 import java.util.List;
-import java.util.ArrayList;
 import java.util.Map;
 import java.util.LinkedHashMap;
 import java.util.stream.Collectors;
@@ -16,17 +15,17 @@ import com.example.MsPlanEstudios.model.entity.PlanEstudiosModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.MsPlanEstudios.message.CursoDetallePublisher;
 import com.example.MsPlanEstudios.model.entity.CatalogoModel;
 import com.example.MsPlanEstudios.model.entity.PlanEstudiosDetalleModel;
 import com.example.MsPlanEstudios.model.entity.PlanEstudiosPrerequisitoModel;
+import com.example.MsPlanEstudios.model.events.cursoDetalleEvent;
 import com.example.MsPlanEstudios.model.request.PlanEstudiosDetalleRequest;
 import com.example.MsPlanEstudios.model.response.PlanEstudiosDetalleResponse;
 import com.example.MsPlanEstudios.repository.CatalogoRepository;
 import com.example.MsPlanEstudios.repository.PlanEstudiosDetalleRepository;
 import com.example.MsPlanEstudios.repository.PlanEstudiosPrerequisitoRepository;
-import com.example.MsPlanEstudios.service.CatalogoService;
 import com.example.MsPlanEstudios.service.PlanEstudiosDetalleService;
-
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -42,13 +41,13 @@ public class PlanEstudiosDetalleServiceImp implements PlanEstudiosDetalleService
     private ModelMapper modelMapper;
 
     @Autowired
-    private CatalogoService catalogoService;
-
-    @Autowired
     private CatalogoRepository catalogoRepository;
 
     @Autowired
     private PlanEstudiosRepository planEstudiosRepository;
+
+    @Autowired
+    private CursoDetallePublisher cursoDetallePublisher;
 
     @Override
     public List<PlanEstudiosDetalleResponse> listar() {
@@ -69,8 +68,8 @@ public class PlanEstudiosDetalleServiceImp implements PlanEstudiosDetalleService
     public PlanEstudiosDetalleResponse guardar(PlanEstudiosDetalleRequest request) {
         // 1️⃣ Obtener ciclo desde catálogo
         CatalogoModel ciclo = catalogoRepository
-        .findByIdAndEstadoTrue(request.getIdCiclo())
-        .orElseThrow(() -> new RuntimeException("Ciclo no válido"));
+                .findByIdAndEstadoTrue(request.getIdCiclo())
+                .orElseThrow(() -> new RuntimeException("Ciclo no válido"));
 
         // 2️⃣ Crear entity MANUALMENTE
         PlanEstudiosDetalleModel model = new PlanEstudiosDetalleModel();
@@ -86,6 +85,13 @@ public class PlanEstudiosDetalleServiceImp implements PlanEstudiosDetalleService
 
         // 3️⃣ Guardar
         PlanEstudiosDetalleModel saved = planestudiosdetalleRepository.save(model);
+
+        // 4.1 Enviar a Kafka
+        cursoDetalleEvent event = cursoDetalleEvent.builder()
+                .idDetalleCurso(saved.getId())
+                .cursoNombre(request.getCursoNombre())
+                .build();
+        cursoDetallePublisher.publish(event);
 
         // 4️⃣ Response (AQUÍ SÍ PUEDE USARSE ModelMapper)
         return modelMapper.map(saved, PlanEstudiosDetalleResponse.class);
@@ -172,7 +178,8 @@ public class PlanEstudiosDetalleServiceImp implements PlanEstudiosDetalleService
                 curso.setHorasPracticas(det.getHorasPracticas());
                 curso.setOrdenEnCiclo(det.getOrdenEnCiclo());
 
-                List<Integer> prerequisitos = prerequisitoRepository.findByIdPlanEstudioDetalleAndEstadoTrue(det.getId())
+                List<Integer> prerequisitos = prerequisitoRepository
+                        .findByIdPlanEstudioDetalleAndEstadoTrue(det.getId())
                         .stream()
                         .map(PlanEstudiosPrerequisitoModel::getIdCursoPrerequisito)
                         .toList();
