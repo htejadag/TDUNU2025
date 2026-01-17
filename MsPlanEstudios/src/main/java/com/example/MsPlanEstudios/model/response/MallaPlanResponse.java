@@ -6,6 +6,6 @@ import lombok.Data;
 
 @Data
 public class MallaPlanResponse {
-    private String plan; // e.g. año o código del plan
+    private String plan; // año o nombre del plan
     private List<CicloMallaResponse> ciclos;
 }

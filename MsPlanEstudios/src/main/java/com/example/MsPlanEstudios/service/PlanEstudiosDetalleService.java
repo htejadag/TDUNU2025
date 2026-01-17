@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.example.MsPlanEstudios.model.request.PlanEstudiosDetalleRequest;
 import com.example.MsPlanEstudios.model.response.PlanEstudiosDetalleResponse;
+import com.example.MsPlanEstudios.model.response.MallaPlanResponse;
 
 public interface PlanEstudiosDetalleService {
     List<PlanEstudiosDetalleResponse> listar();
@@ -13,6 +14,6 @@ public interface PlanEstudiosDetalleService {
     void eliminar(Integer id);
     List<PlanEstudiosDetalleResponse> listarMallaPorPlan(Integer idPlanEstudio);
 
-    // Nuevo: retorna la malla anidada por ciclos y cursos (trabajando con ids)
-    com.example.MsPlanEstudios.model.response.MallaPlanResponse obtenerMallaAnidadaPorPlan(Integer idPlanEstudio);
+    //retorna la malla anidada por ciclos y cursos (trabajando con ids)
+    MallaPlanResponse obtenerMallaAnidadaPorPlan(Integer idPlanEstudio);
 }
